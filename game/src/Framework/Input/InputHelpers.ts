@@ -2,105 +2,105 @@ import { Key as KeyboardKey } from 'ts-keycode-enum';
 
 import { InputMouseButtonEnum } from './InputMouse';
 import {
-    InputGamepadAxisEnum,
-    InputGamepadButtonEnum
+  InputGamepadAxisEnum,
+  InputGamepadButtonEnum,
 } from './InputGamepad';
 
 /********** Bindings **********/
 
 export class AbstractInputBindings {
-    axes: { [key: string]: Array<InputMappingInterface> } = {};
-    actions: { [key: string]: Array<InputMappingInterface> } = {};
+  axes: { [key: string]: Array<InputMappingInterface> } = {};
+  actions: { [key: string]: Array<InputMappingInterface> } = {};
 }
 
 export interface InputBindingsInterface {
-    axes: { [key: string]: Array<InputMappingInterface> };
-    actions: { [key: string]: Array<InputMappingInterface> };
+  axes: { [key: string]: Array<InputMappingInterface> };
+  actions: { [key: string]: Array<InputMappingInterface> };
 }
 
 /********** Mapping **********/
 
 export interface InputMappingInterface {
-    device: InputDeviceEnum;
-    data: any;
+  device: InputDeviceEnum;
+  data: any;
 }
 
 export interface InputMappingDataInterface {}
 
 export interface InputMappingAxisKeyboardDataInterface extends InputMappingDataInterface {
-    keyCode: KeyboardKey;
-    scale: number;
+  keyCode: KeyboardKey;
+  scale: number;
 }
 
 export interface InputMappingAxisKeyboardInterface extends InputMappingInterface {
-    device: InputDeviceEnum;
-    data: InputMappingAxisKeyboardDataInterface;
+  device: InputDeviceEnum;
+  data: InputMappingAxisKeyboardDataInterface;
 }
 
 export interface InputMappingAxisGamepadDataInterface extends InputMappingDataInterface {
-    axis: InputGamepadAxisEnum;
-    scale: number;
+  axis: InputGamepadAxisEnum;
+  scale: number;
 }
 
 export interface InputMappingAxisGamepadInterface extends InputMappingInterface {
-    device: InputDeviceEnum;
-    data: InputMappingAxisGamepadDataInterface;
+  device: InputDeviceEnum;
+  data: InputMappingAxisGamepadDataInterface;
 }
 
 export interface InputMappingAxisMouseDataInterface extends InputMappingDataInterface {
-    axis: InputAxisEnum;
-    scale: number;
+  axis: InputAxisEnum;
+  scale: number;
 }
 
 export interface InputMappingAxisMouseInterface extends InputMappingInterface {
-    device: InputDeviceEnum;
-    data: InputMappingAxisMouseDataInterface;
+  device: InputDeviceEnum;
+  data: InputMappingAxisMouseDataInterface;
 }
 
 export interface InputMappingActionKeyboardDataInterface extends InputMappingDataInterface {
-    keyCode: KeyboardKey;
+  keyCode: KeyboardKey;
 }
 
 export interface InputMappingActionKeyboardInterface extends InputMappingInterface {
-    device: InputDeviceEnum;
-    data: InputMappingActionKeyboardDataInterface;
+  device: InputDeviceEnum;
+  data: InputMappingActionKeyboardDataInterface;
 }
 
 export interface InputMappingActionMouseDataInterface extends InputMappingDataInterface {
-    button: InputMouseButtonEnum;
+  button: InputMouseButtonEnum;
 }
 
 export interface InputMappingActionMouseInterface extends InputMappingInterface {
-    device: InputDeviceEnum;
-    data: InputMappingActionMouseDataInterface;
+  device: InputDeviceEnum;
+  data: InputMappingActionMouseDataInterface;
 }
 
 export interface InputMappingActionGamepadDataInterface extends InputMappingDataInterface {
-    button: InputGamepadButtonEnum;
+  button: InputGamepadButtonEnum;
 }
 
 export interface InputMappingActionGamepadInterface extends InputMappingInterface {
-    device: InputDeviceEnum;
-    data: InputMappingActionGamepadDataInterface;
+  device: InputDeviceEnum;
+  data: InputMappingActionGamepadDataInterface;
 }
 
 /********** Enums **********/
 
 export enum InputAxisEnum {
-    X,
-    Y
+  X,
+  Y,
 }
 
 export enum InputModeEnum {
-    KeyboardAndMouse,
-    Gamepad,
-    VR
+  KeyboardAndMouse,
+  Gamepad,
+  VR,
 }
 
 export enum InputDeviceEnum {
-    Keyboard,
-    Mouse,
-    Gamepad,
-    Touch,
-    DeviceOrientation
+  Keyboard,
+  Mouse,
+  Gamepad,
+  Touch,
+  DeviceOrientation,
 }

@@ -1,5 +1,5 @@
 export enum InputMouseButtonEnum {
-    Left,
-    Middle,
-    Right
+  Left,
+  Middle,
+  Right,
 }

@@ -10,8 +10,8 @@ import '../public/css/app.css';
 
 // Boot up the game!
 GameManager.boot({
-    debug: DEBUG,
-    startupLevel: HelloWorldLevel,
-    inputBindings: InputBindingsDefault,
-    controller: PlayerController,
+  debug: DEBUG,
+  startupLevel: HelloWorldLevel,
+  inputBindings: InputBindingsDefault,
+  controller: PlayerController,
 });

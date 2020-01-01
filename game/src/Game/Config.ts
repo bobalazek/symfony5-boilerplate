@@ -4,8 +4,8 @@ const GAME_SERVER_HOST = process.env.GAME_SERVER_HOST || typeof window !== 'unde
 const GAME_SERVER_UPDATE_RATE = Number(process.env.SERVER_UPDATE_RATE || 10); // how many times per second should we send the updates to the server?
 
 export {
-    DEBUG,
-    GAME_SERVER_PORT,
-    GAME_SERVER_HOST,
-    GAME_SERVER_UPDATE_RATE,
+  DEBUG,
+  GAME_SERVER_PORT,
+  GAME_SERVER_HOST,
+  GAME_SERVER_UPDATE_RATE,
 }

@@ -1,11 +1,10 @@
 import { Room } from 'colyseus.js';
 
 export class Entity {
-
     constructor (private _mesh: BABYLON.AbstractMesh) {}
 
     public getMesh(): BABYLON.AbstractMesh {
-        return this._mesh;
+      return this._mesh;
     }
 
     public syncWithServer(
@@ -13,67 +12,67 @@ export class Entity {
         serverTransformUpdateTolerance: number,
         serverUpdateInterval: number
     ) {
-        let lastMeshTransform = null;
-        setInterval(() => {
-            if (
-                lastMeshTransform === null ||
-                !this.isMeshTransformSameAs(
-                    lastMeshTransform,
-                    serverTransformUpdateTolerance
-                )
-            ) {
-                const meshTransform = this.getMeshTransform();
-                const meshId = this._mesh.id;
+      let lastMeshTransform = null;
+      setInterval(() => {
+          if (
+              lastMeshTransform === null ||
+              !this.isMeshTransformSameAs(
+                  lastMeshTransform,
+                  serverTransformUpdateTolerance
+              )
+          ) {
+              const meshTransform = this.getMeshTransform();
+              const meshId = this._mesh.id;
 
-                let detail: any = {
-                    transformMatrix: Entity.serializeMeshTransformMatrix(meshTransform),
-                };
-                if (
-                    this._mesh.metadata === null ||
-                    !this._mesh.metadata.serverReplicated
-                ) {
-                    detail.id = meshId;
-                    detail.mesh = meshId.split('_')[0];
-                }
-                
-                serverRoom.send({
-                    action: 'entity:transform:update',
-                    detail: detail,
-                });
-                lastMeshTransform = meshTransform;
-            }
-        }, serverUpdateInterval);
+              let detail: any = {
+                  transformMatrix: Entity.serializeMeshTransformMatrix(meshTransform),
+              };
+              if (
+                  this._mesh.metadata === null ||
+                  !this._mesh.metadata.serverReplicated
+              ) {
+                  detail.id = meshId;
+                  detail.mesh = meshId.split('_')[0];
+              }
+
+              serverRoom.send({
+                  action: 'entity:transform:update',
+                  detail: detail,
+              });
+              lastMeshTransform = meshTransform;
+          }
+      }, serverUpdateInterval);
     }
 
     public getMeshTransform() {
-        const mesh = this.getMesh();
-        // const meshLinearVelocity = mesh.physicsImpostor.getLinearVelocity();
-        // const meshAngularVelocity = mesh.physicsImpostor.getAngularVelocity();
+      const mesh = this.getMesh();
+      // const meshLinearVelocity = mesh.physicsImpostor.getLinearVelocity();
+      // const meshAngularVelocity = mesh.physicsImpostor.getAngularVelocity();
 
-        const position = {
-            x: mesh.position.x,
-            y: mesh.position.y,
-            z: mesh.position.z,
-        };
-        const rotation = {
-            x: mesh.rotationQuaternion.x,
-            y: mesh.rotationQuaternion.y,
-            z: mesh.rotationQuaternion.z,
-            w: mesh.rotationQuaternion.w,
-        };
-        // const scale = { x: mesh.scaling.x, y: mesh.scaling.y, z: mesh.scaling.z };
-        // const linearVelocity = { x: meshLinearVelocity.x, y: meshLinearVelocity.y, z: meshLinearVelocity.z };
-        // const angularVelocity = { x: meshAngularVelocity.x, y: meshAngularVelocity.y, z: meshAngularVelocity.z };
+      const position = {
+          x: mesh.position.x,
+          y: mesh.position.y,
+          z: mesh.position.z,
+      };
+      const rotation = {
+          x: mesh.rotationQuaternion.x,
+          y: mesh.rotationQuaternion.y,
+          z: mesh.rotationQuaternion.z,
+          w: mesh.rotationQuaternion.w,
+      };
+      // const scale = { x: mesh.scaling.x, y: mesh.scaling.y, z: mesh.scaling.z };
+      // const linearVelocity = { x: meshLinearVelocity.x, y: meshLinearVelocity.y, z: meshLinearVelocity.z };
+      // const angularVelocity = { x: meshAngularVelocity.x, y: meshAngularVelocity.y, z: meshAngularVelocity.z };
 
-        let transform = {
-            position: position,
-            rotation: rotation,
-            // scale: scale,
-            // linearVelocity: linearVelocity,
-            // angularVelocity: angularVelocity,
-        };
+      let transform = {
+          position: position,
+          rotation: rotation,
+          // scale: scale,
+          // linearVelocity: linearVelocity,
+          // angularVelocity: angularVelocity,
+      };
 
-        return transform;
+      return transform;
     }
 
     public isMeshTransformSameAs(lastTransform?, tolerance?: number): boolean {

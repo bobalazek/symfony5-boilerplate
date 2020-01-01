@@ -1,0 +1,7 @@
+FROM node:12
+
+WORKDIR /var/www/web
+
+RUN npm install yarn pm2 -g
+
+EXPOSE 8080

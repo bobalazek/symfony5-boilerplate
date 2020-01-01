@@ -18,8 +18,8 @@ The The Wall project
     * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:update --force`
     * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:fixtures:load`
   * Frontend:
-    * Run: `docker exec -ti tw_node yarn install`
-    * Run: `docker exec -ti tw_node yarn run build`
+    * Run: `docker exec -ti tw_node_web yarn install`
+    * Run: `docker exec -ti tw_node_web yarn run build`
 * You are ready to go!
 
 
@@ -27,11 +27,17 @@ The The Wall project
 
 ### Web
 
-* Watch & build static assets (CSS & JS) for development: `docker exec -ti tw_node yarn run watch`
-* Build static assets (CSS & JS) for production: `docker exec -ti tw_node yarn run build`
+* Watch & build static assets (CSS & JS) for development: `docker exec -ti tw_node_web yarn run watch`
+* Build static assets (CSS & JS) for production: `docker exec -ti tw_node_web yarn run build`
 * Run tests: `docker exec -ti tw_phpfpm php bin/phpunit`
 * Make translations: `docker exec -ti tw_phpfpm php bin/console translation:update --dump-messages en --force`
 * PHP-CS-Fixer: `docker exec -ti tw_phpfpm php-cs-fixer fix`
 * Drop schema: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:drop --force`
 * Messenger - consume: `docker exec -ti tw_phpfpm php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger - stop workers: `docker exec -ti tw_phpfpm php bin/console messenger:stop-workers`
+
+
+### Game
+
+* Watch & build for development: `docker exec -ti tw_node_game npm run dev`
+* Build for production: `docker exec -ti tw_node_game npm run build`

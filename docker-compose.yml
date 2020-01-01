@@ -71,11 +71,25 @@ services:
     networks:
       - app-network
     restart: always
-  node:
-    container_name: tw_node
-    image: node
+  node_web:
+    container_name: tw_node_web
+    build: ./docker/node-web
     volumes:
       - ./web:/usr/src/app
+    networks:
+      - app-network
+    command: tail -f /dev/null
+    working_dir: /usr/src/app
+    restart: always
+  node_game:
+    container_name: tw_node_game
+    build: ./docker/node-game
+    env_file:
+      - .env
+    ports:
+      - '${GAME_DEV_CLIENT_PORT_8080:-8081}:8080'
+    volumes:
+      - ./game:/usr/src/app
     networks:
       - app-network
     command: tail -f /dev/null

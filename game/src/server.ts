@@ -6,7 +6,7 @@ import { monitor } from '@colyseus/monitor';
 
 import { LobbyRoom } from './Game/Network/Rooms/LobbyRoom';
 
-const GAME_SERVER_PORT = Number(process.env.GAME_SERVER_PORT_1242 || 1242);
+import { GAME_SERVER_PORT } from './Game/Config';
 
 const app = express();
 

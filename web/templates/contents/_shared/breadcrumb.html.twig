@@ -1,0 +1,17 @@
+{% if breadcrumb is defined %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    {% for single in breadcrumb %}
+      <li class="breadcrumb-item {{ loop.last ? 'active' : '' }}">
+        {% if loop.last and not loop.first %}
+          {{ single.label }}
+        {% else %}
+          <a href="{{ single.url }}">
+            {{ single.label }}
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</nav>
+{% endif %}

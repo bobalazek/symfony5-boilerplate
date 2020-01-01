@@ -1,0 +1,12 @@
+{% trans_default_domain 'emails' %}
+
+{% set new_email_confirm_url = url('settings', {
+    new_email_confirm_code: user.getNewEmailConfirmCode(),
+}) %}
+
+{{ 'greeting' | trans({
+  '%user_username%': user.getUsername(),
+}) }}
+
+{{ 'new_email_confirm.content' | trans }}
+{{ new_email_confirm_url | raw }}

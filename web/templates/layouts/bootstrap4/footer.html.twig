@@ -1,0 +1,79 @@
+<footer class="page-footer">
+  <div class="container">
+    <div class="page-footer-content">
+      <div class="row">
+        <div class="col-md-6">
+          <ul class="list-unstyled list-inline text-small">
+            <li class="list-inline-item">
+              <a class="text-muted" href="{{ url('privacy') }}">
+              {{ 'Privacy' | trans }}
+            </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="{{ url('terms') }}">
+                {{ 'Terms' | trans }}
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="{{ url('about') }}">
+                {{ 'About' | trans }}
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="{{ url('help') }}">
+                {{ 'Help' | trans }}
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="{{ url('contact') }}">
+                {{ 'Contact' | trans }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6 text-right">
+          <small class="d-block text-muted">
+            <div class="d-inline-block">
+              &copy; 2019 {{ app_name }}. {{ 'All rights reserved.' | trans }}
+            </div>
+            <div class="d-inline-block dropdown">
+              &bull;
+              <a class="dropdown-toggle"
+                href="#"
+                role="button"
+                data-toggle="dropdown"
+                data-boundary="window"
+                aria-haspopup="true"
+                aria-expanded="false">
+                {% if user_locale in app_locales %}
+                  {{ app_locales_full[user_locale].label }}
+                {% else %}
+                  {{ 'Unknown' | trans }}
+                {% endif %}
+              </a>
+              <div class="dropdown-menu">
+                {% for key, locale_data in app_locales_full %}
+                  <a
+                    class="dropdown-item {{ user_locale == key ? 'active' : '' }}"
+                    href="{{ url('session.locale', {
+                      locale: key,
+                    }) }}"
+                  >
+                    <img
+                      class="mr-1"
+                      alt="{{ locale_data.label }}"
+                      width="32"
+                      height="16"
+                      src="{{ url('home') }}/assets/images/flags/{{ locale_data.flag }}"
+                    >
+                    {{ locale_data.label }}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          </small>
+        </div>
+      </div>
+    </div> <!-- /.page-footer-content -->
+  </div>
+</footer>

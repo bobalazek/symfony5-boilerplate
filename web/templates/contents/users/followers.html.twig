@@ -1,0 +1,33 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Followers' | trans }} | {{ user.getUsername() }} | {{ 'Users' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>
+      <a href="{{ url('users.detail', {
+          username: user.getUsername(),
+        }) }}">
+        {{ user.getName() }}
+        <small>({{ user.getUsername() }})</small>
+      </a>
+    </h1>
+    <h2>{{ 'Followers' | trans }}</h2>
+    {% if pagination.getTotalItemCount() %}
+      <div class="row">
+        {% for user_follower in pagination.getItems() %}
+          <div class="col-md-4 mb-4">
+            {% include 'contents/_shared/user/user_card.html.twig' with {
+              user: user_follower.getUserFollowing(),
+            } %}
+          </div>
+        {% endfor %}
+      </div>
+      {{ knp_pagination_render(pagination) }}
+    {% else %}
+      <div class="alert alert-info">
+        {{ 'followers.no_users_yet' | trans([], 'users') }}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

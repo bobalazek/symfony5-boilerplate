@@ -1,0 +1,14 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Reset password' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="text-center">
+      {{ 'Reset password' | trans }}
+    </h1>
+    <div class="alert alert-success" role="alert">
+      {{ 'alert.success' | trans([], 'password_reset') }}
+    </div>
+  </div>
+{% endblock %}

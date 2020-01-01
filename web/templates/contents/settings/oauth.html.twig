@@ -1,0 +1,34 @@
+{% extends 'contents/settings/_layout.html.twig' %}
+
+{% block main %}
+  <h2>{{ 'Facebook' | trans }}</h2>
+  {% if app.user.getOauthFacebookId() %}
+    <a href="{{ url('settings.oauth', {
+      action: 'facebook_unlink',
+    }) }}" class="btn btn-danger">
+     {{ 'oauth.unlink_facebook' | trans([], 'settings') }}
+    </a>
+  {% else %}
+    <a href="{{ url('oauth.facebook', {
+      type: 'link',
+    }) }}"
+      class="btn btn-primary">
+     {{ 'oauth.link_facebook' | trans([], 'settings') }}
+    </a>
+  {% endif %}
+  <hr />
+  <h2>{{ 'Google' | trans }}</h2>
+  {% if app.user.getOauthGoogleId() %}
+    <a href="{{ url('settings.oauth', {
+      action: 'google_unlink',
+    }) }}" class="btn btn-danger">
+     {{ 'oauth.unlink_google' | trans([], 'settings') }}
+    </a>
+  {% else %}
+    <a href="{{ url('oauth.google', {
+      type: 'link',
+    }) }}" class="btn btn-primary">
+     {{ 'oauth.link_google' | trans([], 'settings') }}
+    </a>
+  {% endif %}
+{% endblock %}

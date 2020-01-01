@@ -1,0 +1,103 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Signup' | trans }} | {{ parent() }}{% endblock %}
+
+{% form_theme form _self %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="text-center">
+      {{ 'Signup' | trans }}
+    </h1>
+    <p>
+      {{ 'Already have an account?' | trans }}
+      <a href="{{ path('login') }}">
+        {{ 'Login' | trans }}
+      </a>
+    </p>
+    {% if oauth == 'facebook' %}
+      <div class="alert alert-info">
+        {{ 'alert.linked_with_facebook' | trans([], 'register') }}
+      </div>
+    {% elseif oauth == 'google' %}
+      <div class="alert alert-info">
+        {{ 'alert.linked_with_google' | trans([], 'register') }}
+      </div>
+    {% endif %}
+    {{ form_start(form) }}
+      {{ form_row(form.name) }}
+      {{ form_row(form.username) }}
+      {{ form_row(form.email) }}
+      {{ form_row(form.plainPassword) }}
+      {{ form_row(form.termsAgree, {
+        label: 'terms.label' | trans({
+          '%terms_link_start%': '<a target="_blank" href="' ~ url('terms') ~ '">',
+          '%terms_link_end%': '</a>',
+          '%privacy_link_start%': '<a target="_blank" href="' ~ url('privacy') ~ '">',
+          '%privacy_link_end%': '</a>',
+        }, 'register'),
+      }) }}
+      {{ form_row(form.recaptcha) }}
+      <button class="btn btn-lg btn-block btn-primary" type="submit">
+        {{ 'Signup' | trans }}
+      </button>
+    {{ form_end(form) }}
+    {% if not oauth %}
+      <hr />
+      <div class="text-center mb-2">
+        {{ 'or_register_with' | trans([], 'register') }}
+      </div>
+      <a href="{{ url('oauth.facebook', {
+        type: 'register',
+      }) }}" class="btn btn-lg btn-block btn-block btn-primary">
+        <i class="fab fa-facebook"></i>
+        {{ 'Facebook' | trans }}
+      </a>
+      <a href="{{ url('oauth.google', {
+        type: 'register',
+      }) }}" class="btn btn-lg btn-block btn-block btn-primary">
+        <i class="fab fa-google"></i>
+        {{ 'Google' | trans }}
+      </a>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block checkbox_radio_label -%}
+  {# https://github.com/symfony/twig-bridge/blob/master/Resources/views/Form/bootstrap_4_layout.html.twig #}
+  {# Hack around the issue with the label, so it allows raw html #}
+  {#- Do not display the label if widget is not defined in order to prevent double label rendering -#}
+  {%- if widget is defined -%}
+    {% set is_parent_custom = parent_label_class is defined and ('checkbox-custom' in parent_label_class or 'radio-custom' in parent_label_class) %}
+    {% set is_custom = label_attr.class is defined and ('checkbox-custom' in label_attr.class or 'radio-custom' in label_attr.class) %}
+    {%- if is_parent_custom or is_custom -%}
+      {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' custom-control-label')|trim}) -%}
+    {%- else %}
+      {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' form-check-label')|trim}) -%}
+    {%- endif %}
+    {%- if not compound -%}
+      {% set label_attr = label_attr|merge({'for': id}) %}
+    {%- endif -%}
+    {%- if required -%}
+      {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) -%}
+    {%- endif -%}
+    {%- if parent_label_class is defined -%}
+      {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|replace({'checkbox-inline': '', 'radio-inline': '', 'checkbox-custom': '', 'radio-custom': ''})|trim}) -%}
+    {%- endif -%}
+    {%- if label is not same as(false) and label is empty -%}
+      {%- if label_format is not empty -%}
+        {%- set label = label_format|replace({
+          '%name%': name,
+          '%id%': id,
+        }) -%}
+      {%- else -%}
+        {%- set label = name|humanize -%}
+      {%- endif -%}
+    {%- endif -%}
+    {{ widget|raw }}
+    <label{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+      {{- label is not same as(false) ? (translation_domain is same as(false) ? label|raw : label|trans(label_translation_parameters, translation_domain))|raw -}}
+      {{- form_errors(form) -}}
+    </label>
+  {%- endif -%}
+{%- endblock checkbox_radio_label %}

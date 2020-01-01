@@ -1,0 +1,65 @@
+{% set actions = actions is defined
+  ? actions
+  : [] %}
+{% set show_moderator_actions = show_moderator_actions is defined
+  ? show_moderator_actions and is_granted('ROLE_USER_MODERATOR')
+  : false %}
+{% if actions %}
+  <div class="mt-4">
+    <div class="btn-group btn-group-sm" role="group">
+      {% for action in actions %}
+        <a href="{{ action.href }}"
+          class="{{ action.class }}">
+          {{ action.text }}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+{% if show_moderator_actions %}
+  <div class="mt-4">
+    <h5>
+      {{ 'Actions' | trans }}
+      <small>(
+        {{ 'Status' | trans }}:
+        {% if user.isDeleted() %}
+          {{ 'deleted' | trans }}
+        {% elseif user.getLocked() %}
+          {{ 'locked' | trans }}
+        {% else %}
+          {{ 'active' | trans }}
+        {% endif %}
+      )</small>
+    </h5>
+    <div class="btn-group btn-group-sm" role="group">
+      {% if show_moderator_actions %}
+        {% if not user.isDeleted() %}
+          {% if user.getLocked() %}
+            <a href="{{ url('users.unlock', {
+              username: user.getUsername(),
+            }) }}" class="btn btn-warning">
+              {{ 'Unlock' | trans }}
+            </a>
+          {% else %}
+            <a href="{{ url('users.lock', {
+              username: user.getUsername(),
+            }) }}" class="btn btn-warning">
+              {{ 'Lock' | trans }}
+            </a>
+          {% endif %}
+          <a href="{{ url('users.delete', {
+            username: user.getUsername(),
+          }) }}" class="btn btn-danger">
+            {{ 'Delete' | trans }}
+          </a>
+        {% else %}
+          <a href="{{ url('users.undelete', {
+            username: user.getUsername(),
+          }) }}" class="btn btn-warning">
+            {{ 'Undelete' | trans }}
+          </a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

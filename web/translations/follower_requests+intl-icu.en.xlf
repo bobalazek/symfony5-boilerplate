@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="UX0tbUG" resname="status_not_found">
+        <source>status_not_found</source>
+        <target state="translated">Status not found</target>
+      </trans-unit>
+      <trans-unit id="0HI4lcw" resname="user_follower_not_found">
+        <source>user_follower_not_found</source>
+        <target state="translated">User follower not found</target>
+      </trans-unit>
+      <trans-unit id="52irAYj" resname="delete.flash.success">
+        <source>delete.flash.success</source>
+        <target state="translated">You have successfully deleted the follower request</target>
+      </trans-unit>
+      <trans-unit id="5ZbMTUx" resname="approve.flash.success">
+        <source>approve.flash.success</source>
+        <target state="translated">You have successfully approved the follower request</target>
+      </trans-unit>
+      <trans-unit id="n4YBJfb" resname="ignore.flash.success">
+        <source>ignore.flash.success</source>
+        <target state="translated">You have successfully ignored the follower request</target>
+      </trans-unit>
+      <trans-unit id="JcNsR4u" resname="alert.no_follower_requests_yet">
+        <source>alert.no_follower_requests_yet</source>
+        <target state="translated">No follower requests yet</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

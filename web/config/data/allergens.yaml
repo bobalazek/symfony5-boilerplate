@@ -1,0 +1,14 @@
+parameters:
+    app.allergens:
+        gluten: Gluten
+        lupin: Lupin
+        celery: Celery
+        sesame: Sesame
+        mustard: Mustard
+        peanuts: Peanuts
+        nuts: Nuts
+        sulphite: Sulphite
+        coconut: Coconut
+        soy: Soy
+        milk: Milk
+        eggs: Eggs

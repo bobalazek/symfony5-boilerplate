@@ -1,0 +1,134 @@
+/********** Bootstrap **********/
+$input-btn-focus-box-shadow: none !important;
+@import "~bootstrap/scss/bootstrap";
+
+/********** General **********/
+label.required:before {
+    content: "* ";
+}
+
+.avatar-image {
+  border-radius: 50%;
+}
+
+div.avatar-image {
+  color: #fff;
+  background-color: #008542;
+  display: inline-block;
+  line-height: 1;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+  max-width: 24px;
+  max-height: 24px;
+  text-transform: capitalize;
+  text-align: center;
+
+  > div {
+    position: relative;
+    top: -1px;
+  }
+}
+
+/***** Select2 *****/
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/********** Header **********/
+.page-header .user-dropdown .avatar-image {
+  margin-right: 8px;
+  max-height: 24px;
+  width: 24px;
+  vertical-align: bottom;
+}
+
+/********** Content **********/
+/***** Avatar *****/
+.users-detail-page .page-content-wrapper div.avatar-image,
+.card div.avatar-image {
+  font-size: 240px;
+  max-width: 240px;
+  max-height: 240px;
+}
+.users-detail-page .page-content-wrapper div.avatar-image > div,
+.card div.avatar-image > div {
+  top: -10px;
+}
+
+.avatars-selector {
+  .single-avatar-image {
+    cursor: pointer;
+    border: 3px solid transparent;
+  }
+  .single-avatar-image:hover {
+    border-color: #e1e1e1;
+  }
+  .single-avatar-image.selected {
+    border-color: #d1d1d1;
+  }
+}
+
+/***** Card image wrapper *****/
+.card-img-wrapper {
+  overflow-y: hidden;
+  height: 240px;
+  text-align: center;
+  margin: 8px 8px 0;
+
+  img {
+    width: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+/***** Media comment *****/
+.media-comment {
+  border-left: 6px solid transparent;
+  padding: 10px 20px;
+
+  &.media-comment--status-pending {
+    border-color: #ffeeba;
+    background-color: #fff3cd;
+  }
+
+  &.media-comment--status-ignored,
+  &.media-comment--status-deleted {
+    border-color: #f5c6cb;
+    background-color: #f8d7da;
+  }
+
+  .avatar-image {
+    max-width: 64px;
+    max-height: 64px;
+  }
+  div.avatar-image {
+    font-size: 64px;
+  }
+  div.avatar-image > div {
+    position: relative;
+    top: -3px;
+  }
+}
+
+/***** Tab content *****/
+.tab-content {
+  border-bottom: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+}
+
+/********** Footer **********/
+.page-footer {
+  padding-top: 2rem;
+
+  .page-footer-content {
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+  }
+}

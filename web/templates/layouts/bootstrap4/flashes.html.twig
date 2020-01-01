@@ -1,0 +1,16 @@
+{% if app.request.hasPreviousSession %}
+  {% set flashes = app.flashes %}
+  {% if flashes %}
+    <div class="page-flashes">
+      <div class="container mt-4 mb-4">
+        {% for key, messages in flashes %}
+          {% for message in messages %}
+            <div class="alert alert-{{ key }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endif %}

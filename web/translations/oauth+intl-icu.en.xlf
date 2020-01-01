@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="ZvPA4vQ" resname="flash.facebook_linked_success">
+        <source>flash.facebook_linked_success</source>
+        <target state="translated">You facebook account was linked successfully</target>
+      </trans-unit>
+      <trans-unit id=".DWSIGe" resname="flash.user_with_this_facebook_id_already_exists">
+        <source>flash.user_with_this_facebook_id_already_exists</source>
+        <target state="translated">A user with this facebook id already exists</target>
+      </trans-unit>
+      <trans-unit id="2gPpbj2" resname="facebook.flash.success">
+        <source>facebook.flash.success</source>
+        <target state="translated">Facebook OAuth was successful</target>
+      </trans-unit>
+      <trans-unit id="b9umT7s" resname="flash.google_linked_success">
+        <source>flash.google_linked_success</source>
+        <target state="translated">You google account was linked successfully</target>
+      </trans-unit>
+      <trans-unit id="MCvpfGw" resname="flash.user_with_this_google_id_already_exists">
+        <source>flash.user_with_this_google_id_already_exists</source>
+        <target state="translated">A user with this google id already exists</target>
+      </trans-unit>
+      <trans-unit id="A8bOlPv" resname="google.flash.success">
+        <source>google.flash.success</source>
+        <target state="translated">Google OAuth was successful</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

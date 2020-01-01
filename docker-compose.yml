@@ -1,0 +1,91 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: tw_mysql
+    build: ./docker/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-password}
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    networks:
+      - app-network
+    restart: always
+  # A temporary workaround for the testdb,
+  #   as the created DB in entrypoints doesn't work
+  mysql-test:
+    container_name: tw_mysql_test
+    build: ./docker/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-password}
+    volumes:
+      - mysql-test-volume:/var/lib/mysql
+    networks:
+      - app-network
+    restart: always
+  nginx:
+    container_name: tw_nginx
+    build: ./docker/nginx
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+      - ./docker/nginx/certs/:/etc/ssl/certs
+    ports:
+      - '${NGINX_PORT_80:-81}:80'
+      - '${NGINX_PORT_443:-444}:443'
+    links:
+      - php-fpm
+    depends_on:
+      - php-fpm
+    networks:
+      - app-network
+    restart: always
+  php-fpm:
+    container_name: tw_phpfpm
+    build: ./docker/php-fpm
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+    restart: always
+  redis:
+    container_name: tw_redis
+    image: redis
+    volumes:
+      - redis-volume:/data
+    networks:
+      - app-network
+    restart: always
+  node:
+    container_name: tw_node
+    image: node
+    volumes:
+      - ./web:/usr/src/app
+    networks:
+      - app-network
+    command: tail -f /dev/null
+    working_dir: /usr/src/app
+    restart: always
+networks:
+  app-network:
+    name: tw_app_network
+    driver: bridge
+volumes:
+  mysql-volume:
+  mysql-test-volume:
+  redis-volume:

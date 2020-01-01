@@ -1,0 +1,27 @@
+{% extends 'contents/settings/_layout.html.twig' %}
+
+{% block main %}
+  {% if app.user.getDeletionConfirmCode() %}
+    <div class="alert alert-info">
+      {{ 'deletion.alert.confirmation_sent' | trans({
+        '%resend_link_start%': '<a href="' ~ url('settings.deletion', {
+          action: 'resend_deletion',
+        }) ~ '">',
+        '%resend_link_end%': '</a>',
+        '%cancel_link_start%': '<a href="' ~ url('settings.deletion', {
+          action: 'cancel_deletion',
+        }) ~ '">',
+        '%cancel_link_end%': '</a>',
+      }, 'settings') | raw }}
+    </div>
+  {% else %}
+    {{ form_start(form) }}
+      <div class="alert alert-danger">
+        {{ 'deletion.alert.warning' | trans([], 'settings') }}
+      </div>
+      <button class="btn btn-lg btn-block btn-danger" type="submit">
+        {{ 'Confirm' | trans }}
+      </button>
+      {{ form_end(form) }}
+  {% endif %}
+{% endblock %}

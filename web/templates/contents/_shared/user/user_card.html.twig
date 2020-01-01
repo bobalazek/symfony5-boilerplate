@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-img-wrapper">
+    {% include 'contents/_shared/user/user_avatar.html.twig' %}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ user.getName() }}
+      <small>({{ user.getUsername() }})</small>
+    </h5>
+    {% if user.getBio() %}
+      <p class="card-text">
+        {{ user.getBio() }}
+      </p>
+    {% endif %}
+    <a href="{{ url('users.detail', {
+      username: user.getUsername(),
+    }) }}" class="btn btn-primary">
+      {{ 'View' | trans }}
+    </a>
+    {% include 'contents/_shared/user/_user_action_buttons.html.twig' %}
+  </div>
+</div>

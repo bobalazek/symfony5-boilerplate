@@ -1,0 +1,72 @@
+<header class="page-header">
+  <div class="bg-white border-bottom shadow-sm">
+    <div class="container d-flex flex-column flex-md-row align-items-center p-3 px-md-4">
+      <h5 class="my-0 mr-md-auto font-weight-normal">
+        <a class="navbar-brand d-flex" href="{{ url('home') }}">
+          {{ app_name }}
+        </a>
+      </h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="{{ url('home') }}">
+          {{ 'Home' | trans }}
+        </a>
+      </nav>
+      {% if app.user %}
+        {% set image_url = app.user.getImageFileUrl() %}
+        <div class="dropdown user-dropdown">
+          <a class="btn btn-outline-primary dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">
+            {% include 'contents/_shared/user/user_avatar.html.twig' with { user: app.user } %}
+            {{ app.user.getUsername() }}
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url('users.detail', {
+              username: app.user.getUsername(),
+            }) }}">
+              {{ 'Profile' | trans }}
+            </a>
+            <a class="dropdown-item" href="{{ url('notifications') }}">
+              {{ 'Notifications' | trans }}
+            </a>
+            <a class="dropdown-item" href="{{ url('follower_requests') }}">
+              {{ 'Follower requests' | trans }}
+            </a>
+            <a class="dropdown-item" href="{{ url('settings') }}">
+              {{ 'Settings' | trans }}
+            </a>
+            {% if is_granted('ROLE_MODERATOR') or is_granted('ROLE_ADMIN') %}
+              <div class="dropdown-divider"></div>
+            {% endif %}
+            {% if is_granted('ROLE_MODERATOR') %}
+              <a class="dropdown-item" href="{{ url('moderator') }}">
+                {{ 'Moderator' | trans }}
+              </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+              <a class="dropdown-item" href="{{ url('easyadmin') }}">
+                {{ 'Admin' | trans }}
+              </a>
+              {% if app_environment == 'dev' %}
+                <a class="dropdown-item" href="{{ url('translation_index') }}">
+                  {{ 'Admin - Translations' | trans }}
+                </a>
+              {% endif %}
+            {% endif %}
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url('logout') }}">
+              {{ 'Logout' | trans }}
+            </a>
+          </div>
+        </div>
+      {% else %}
+        <a class="btn btn-outline-primary" href="{{ url('login') }}">
+          {{ 'Login / join' | trans }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</header>

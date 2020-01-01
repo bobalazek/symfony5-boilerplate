@@ -1,0 +1,12 @@
+{% trans_default_domain 'emails' %}
+
+{% set deletion_confirm_url = url('settings.deletion', {
+    deletion_confirm_code: user.getDeletionConfirmCode(),
+}) %}
+
+{{ 'greeting' | trans({
+  '%user_username%': user.getUsername(),
+}) }}
+
+{{ 'deletion_confirm.content' | trans }}
+{{ deletion_confirm_url | raw }}

@@ -1,0 +1,27 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Reset password' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="text-center">
+      {{ 'Reset password' | trans }}
+    </h1>
+    <p>
+      <a href="{{ path('login') }}">
+          {{ 'Back to login' | trans }}
+      </a>
+    </p>
+    {{ form_start(form) }}
+      {% if form.email is defined %}
+        {{ form_row(form.email) }}
+      {% endif %}
+      {% if form.plainPassword is defined %}
+        {{ form_row(form.plainPassword) }}
+      {% endif %}
+      <button class="btn btn-lg btn-block btn-primary" type="submit">
+        {{ 'Reset password' | trans }}
+      </button>
+    {{ form_end(form) }}
+  </div>
+{% endblock %}

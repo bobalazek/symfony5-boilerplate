@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\UserAction;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
+/**
+ * @method UserAction|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserAction|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserAction[]    findAll()
+ * @method UserAction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class UserActionRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, UserAction::class);
+    }
+}

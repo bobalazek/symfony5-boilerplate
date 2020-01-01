@@ -1,0 +1,7 @@
+{% trans_default_domain 'emails' %}
+
+{{ 'greeting' | trans({
+  '%user_username%': user.getUsername(),
+}, 'emails') }}
+
+{{ 'deletion_confirm_success.content' | trans }}

@@ -1,0 +1,128 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ user.getUsername() }} | {{ 'Users' | trans }} | {{ parent() }}{% endblock %}
+
+{% set meta = {
+  description: user.getBio(),
+  image: get_user_avatar_url(user),
+} %}
+
+{% block body_class %}users-detail-page{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-4 text-center mb-4">
+        {% include 'contents/_shared/user/user_avatar.html.twig' %}
+        {% if can_follow or can_unfollow or can_block or can_unblock %}
+          <div class="mt-4">
+            <div class="btn-group btn-group-lg" role="group">
+              {% if can_follow and not is_blocked_by_user %}
+                <a class="btn btn-success"
+                  href="{{ url('users.follow', {
+                    username: user.getUsername(),
+                  }) }}">
+                  {{ 'Follow' | trans }}
+                </a>
+              {% endif %}
+              {% if can_unfollow %}
+                {% if user_follower and not user_follower.isStatusApproved() %}
+                  <a class="btn btn-danger"
+                    href="{{ url('users.unfollow', {
+                      username: user.getUsername(),
+                    }) }}">
+                    {{ 'Requested' | trans }}
+                  </a>
+                {% else %}
+                  <a class="btn btn-danger"
+                    href="{{ url('users.unfollow', {
+                      username: user.getUsername(),
+                    }) }}">
+                    {{ 'Unfollow' | trans }}
+                  </a>
+                {% endif %}
+              {% endif %}
+              {% if can_block %}
+                <a class="btn btn-danger"
+                  href="{{ url('users.block', {
+                    username: user.getUsername(),
+                  }) }}">
+                  {{ 'Block' | trans }}
+                </a>
+              {% endif %}
+              {% if can_unblock %}
+                <a class="btn btn-danger"
+                  href="{{ url('users.unblock', {
+                    username: user.getUsername(),
+                  }) }}">
+                  {{ 'Unblock' | trans }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        {% if is_blocked_by_user %}
+          <div class="alert alert-danger">
+            {{ 'users.detail.blocked_by_user' | trans([], 'users') }}
+          </div>
+        {% endif %}
+        <div class="card text-center">
+          <div class="card-body">
+            <h3>
+              {{ user.getName() }}
+              <small>({{ user.getUsername() }})</small>
+            </h3>
+            {% if user.getCity() or user.getCountryCode() %}
+              <h4 class="text-muted">
+                {{ user.getCity() }}{% if user.getCity() and user.getCountryCode() %},{% endif %}
+                {{ user.getCountryCode() ? user.getCountryCode() | country_name(app.request.locale) : '' }}
+              </h4>
+            {% endif %}
+            {% if user.getBio() %}
+              <p class="text-muted mb-0">
+                {{ user.getBio() }}
+              </p>
+            {% endif %}
+            <hr />
+            <div class="row text-center">
+              <div class="col">
+                <div class="h3">{{ points }}</div>
+                <div class="h4 text-muted">{{ 'Points' | trans }}</div>
+              </div>
+              <div class="col">
+                <div class="h3">
+                  {% if can_view_details %}
+                    <a href="{{ url('users.followers', {
+                      username: user.getUsername(),
+                    }) }}">
+                      {{ followers_count }}
+                    </a>
+                  {% else %}
+                    <div class="h4 text-muted">{{ followers_count }}</div>
+                  {% endif %}
+                </div>
+                <div class="h4 text-muted">{{ 'Followers' | trans }}</div>
+              </div>
+              <div class="col">
+                <div class="h3">
+                  {% if can_view_details %}
+                    <a href="{{ url('users.following', {
+                      username: user.getUsername(),
+                    }) }}">
+                      {{ following_count }}
+                    </a>
+                  {% else %}
+                    <div class="h4 text-muted">{{ following_count }}</div>
+                  {% endif %}
+                </div>
+                <div class="h4 text-muted">{{ 'Following' | trans }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

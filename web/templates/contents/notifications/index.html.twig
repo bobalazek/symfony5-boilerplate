@@ -1,0 +1,52 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Notifications' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ 'Notifications' | trans }}</h1>
+    {% if pagination.getTotalItemCount() %}
+      <div class="list-group">
+        {% for user_notification in pagination.getItems() %}
+          {% set notification_information = get_notification_information(user_notification) %}
+          <div class="
+            list-group-item
+            list-group-item-action
+            {{ user_notification.isRead() ? '' : 'list-group-item-info' }}
+            clearfix
+          ">
+            <div class="float-left">
+              <div>{{ notification_information.text | raw }}</div>
+              <div class="text-muted"><small>{{ user_notification.getCreatedAt() | date }}</small></div>
+            </div>
+            <div class="float-right">
+              <div class="btn-group btn-group-sm mr-2" role="group" aria-label="First group">
+                {% if user_notification.isRead() %}
+                  <a href="{{ url('notifications.unread', {
+                    id: user_notification.getId(),
+                  }) }}" class="btn btn-light">
+                    {{ 'Mark as unread' }}
+                  </a>
+                {% else %}
+                  <a href="{{ url('notifications.read', {
+                    id: user_notification.getId(),
+                  }) }}" class="btn btn-light">
+                    {{ 'Mark as read' }}
+                  </a>
+                {% endif %}
+                <a href="{{ notification_information.link }}" class="btn btn-light">
+                  {{ 'View' }}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {{ knp_pagination_render(pagination) }}
+    {% else %}
+      <div class="alert alert-info">
+        {{ 'alert.no_notifications_yet' | trans([], 'notifications') }}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

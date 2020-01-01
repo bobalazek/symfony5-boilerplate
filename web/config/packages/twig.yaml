@@ -1,0 +1,19 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    exception_controller: null
+    form_themes:
+        - 'bootstrap_4_layout.html.twig'
+        - 'form/fields.html.twig'
+    globals:
+        app_environment: '%kernel.environment%'
+        app_name: '%app.name%'
+        app_twitter_handle: '%app.twitter_handle%'
+        app_description: '%app.description%'
+        app_keywords: '%app.keywords%'
+        app_locales: '%app.locales%'
+        app_locales_full: '%app.locales.full%'
+        app_google_recaptcha_site_key: '%app.google.recaptcha.site_key%'
+        app_allergens: '%app.allergens%'
+        app_nutrients: '%app.nutrients%'

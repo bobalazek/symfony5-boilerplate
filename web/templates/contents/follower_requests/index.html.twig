@@ -1,0 +1,69 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Follower requests' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>
+      <a href="{{ url('users.detail', {
+          username: app.user.getUsername(),
+        }) }}">
+        {{ app.user.getName() }}
+        <small>({{ app.user.getUsername() }})</small>
+      </a>
+    </h1>
+    <h2>{{ 'Follower requests' | trans }}</h2>
+    <div class="list-group list-group-horizontal text-center mb-4">
+      <a href="{{ url('follower_requests', {
+        status: 'pending',
+      }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'pending' ? 'active' : '' }}">
+        {{ 'Pending' | trans }}
+      </a>
+      <a href="{{ url('follower_requests', {
+        status: 'ignored',
+      }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'ignored' ? 'active' : '' }}">
+        {{ 'Ignored' | trans }}
+      </a>
+    </div>
+    {% if pagination.getTotalItemCount() %}
+      <div class="row">
+        {% for user_follower in pagination.getItems() %}
+          {% set action_approve = {
+            href: url('follower_requests.approve', {
+              id: user_follower.getId(),
+            }),
+            class: 'btn btn-success',
+            text: 'Approve' | trans,
+          } %}
+          {% set action_ignore = {
+            href: url('follower_requests.ignore', {
+              id: user_follower.getId(),
+            }),
+            class: 'btn btn-warning',
+            text: 'Ignore' | trans,
+          } %}
+          {% set action_delete = {
+            href: url('follower_requests.delete', {
+              id: user_follower.getId(),
+            }),
+            class: 'btn btn-danger',
+            text: 'Delete' | trans,
+          } %}
+          <div class="col-md-4 mb-4">
+            {% include 'contents/_shared/user/user_card.html.twig' with {
+              user: user_follower.getUserFollowing(),
+              actions: user_follower.getStatus() == constant('App\\Entity\\UserFollower::STATUS_IGNORED')
+                ? [action_approve, action_delete]
+                : [action_approve, action_ignore, action_delete]
+            } %}
+          </div>
+        {% endfor %}
+      </div>
+      {{ knp_pagination_render(pagination) }}
+    {% else %}
+      <div class="alert alert-info">
+        {{ 'alert.no_follower_requests_yet' | trans([], 'follower_requests') }}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

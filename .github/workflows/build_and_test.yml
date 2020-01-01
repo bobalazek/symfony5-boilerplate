@@ -1,0 +1,24 @@
+name: Project build & test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Prepare docker-compose's .env file
+      run: cp -b .env.ci .env
+    - name: Run docker-compose
+      run: docker-compose up -d
+    - name: Prepare backend
+      run: |
+        docker exec -i tw_phpfpm composer install
+        docker exec -i tw_phpfpm php bin/console doctrine:schema:update --force
+        docker exec -i tw_phpfpm php bin/console doctrine:fixtures:load
+    - name: Prepare frontend
+      run: |
+        docker exec -i tw_node yarn install
+        docker exec -i tw_node yarn run build
+    - name: Run tests
+      run: docker exec -i tw_phpfpm php bin/phpunit

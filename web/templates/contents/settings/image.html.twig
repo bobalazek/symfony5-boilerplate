@@ -1,0 +1,63 @@
+{% extends 'contents/settings/_layout.html.twig' %}
+
+{% block main %}
+  {{ form_start(form) }}
+    <div class="custom-file-wrapper">
+      {% if app.user.getImageFileUrl() %}
+        <div class="text-center">
+          {% include 'contents/_shared/user/user_avatar.html.twig' with {
+            user: app.user,
+            ignore_avatar: true
+          } %}
+        </div>
+        <a class="btn btn-danger btn-sm btn-block mt-3 mb-3 text-center"
+          href="{{ url('settings.image', {
+            action: 'clear_image_file',
+          }) }}">
+          {{ 'Clear image' | trans }}
+        </a>
+        <p class="text-center or-text">{{ 'or select a new one below, to replace the existing image' | trans }}</p>
+      {% else %}
+        <img src="" class="img-fluid" />
+      {% endif %}
+      {{ form_row(form.imageFile) }}
+    </div>
+    <div>
+      <p class="text-center">{{ 'or select an existing avatar below' | trans }}</p>
+      <div class="avatars-selector row">
+        {% if app.user.getImageFileUrl() %}
+          <div class="col-md-2 mb-4">
+            <div
+              class="single-avatar-image {{ app.user.getAvatarImage() == null ? 'selected' : '' }}"
+              data-name=""
+            >
+              <img
+                class="img-fluid"
+                src="{{ app.user.getImageFileUrl() }}"
+              />
+            </div>
+          </div>
+        {% endif %}
+        {% for avatar_image in avatar_images %}
+          <div class="col-md-2 mb-4">
+            <div
+              class="single-avatar-image {{ app.user.getAvatarImage() == avatar_image ? 'selected' : '' }}"
+              data-name="{{ avatar_image }}"
+            >
+              <img
+                class="img-fluid"
+                src="{{ path('home') ~ 'assets/images/avatars/' ~ avatar_image }}"
+              />
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="btn btn-lg btn-block btn-primary" type="submit">
+      {{ 'Save' | trans }}
+    </button>
+    <div class="d-none">
+      {{ form_row(form.avatarImage) }}
+    </div>
+  {{ form_end(form) }}
+{% endblock %}

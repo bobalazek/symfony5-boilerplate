@@ -1,0 +1,32 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Contact' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="text-center">
+      {{ 'Contact' | trans }}
+    </h1>
+    <h4 class="text-center mb-4">
+      Is there something you want to tell us?
+      If so, you are on the right spot!
+      Just fill in the form below and we will get to you back as soon as possible!
+    </h4>
+    {{ form_start(form) }}
+      <div class="row">
+        <div class="col-md-6">
+          {{ form_row(form.name) }}
+        </div>
+        <div class="col-md-6">
+          {{ form_row(form.email) }}
+        </div>
+      </div>
+      {{ form_row(form.subject) }}
+      {{ form_row(form.message) }}
+      {{ form_row(form.recaptcha) }}
+      <button class="btn btn-lg btn-block btn-primary" type="submit">
+        {{ 'Send' | trans }}
+      </button>
+    {{ form_end(form) }}
+  </div>
+{% endblock %}

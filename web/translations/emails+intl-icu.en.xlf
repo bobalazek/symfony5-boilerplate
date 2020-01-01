@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="M0Heh8N" resname="contact.subject">
+        <source>contact.subject</source>
+        <target state="translated">%app_name% | Contact</target>
+      </trans-unit>
+      <trans-unit id="Faqgv47" resname="password_reset_success.subject">
+        <source>password_reset_success.subject</source>
+        <target state="translated">%app_name% | Reset password success</target>
+      </trans-unit>
+      <trans-unit id="t0jsmWP" resname="password_reset.subject">
+        <source>password_reset.subject</source>
+        <target state="translated">%app_name% | Reset password</target>
+      </trans-unit>
+      <trans-unit id="elqewkD" resname="email_confirm.subject">
+        <source>email_confirm.subject</source>
+        <target state="translated">%app_name% | Email confirmation</target>
+      </trans-unit>
+      <trans-unit id="jGN8Qri" resname="email_confirm_success.subject">
+        <source>email_confirm_success.subject</source>
+        <target state="translated">%app_name% | Email confirmation success</target>
+      </trans-unit>
+      <trans-unit id="K33rmFD" resname="new_email_confirm_success.subject">
+        <source>new_email_confirm_success.subject</source>
+        <target state="translated">%app_name% | New email confirmation success</target>
+      </trans-unit>
+      <trans-unit id="5BETPbN" resname="new_email_confirm.subject">
+        <source>new_email_confirm.subject</source>
+        <target state="translated">%app_name% | New email confirmation</target>
+      </trans-unit>
+      <trans-unit id="kGYSYuq" resname="deletion_confirm_success.subject">
+        <source>deletion_confirm_success.subject</source>
+        <target state="translated">%app_name% | Account deletion successful</target>
+      </trans-unit>
+      <trans-unit id="9YZ6Nq2" resname="deletion_confirm.subject">
+        <source>deletion_confirm.subject</source>
+        <target state="translated">%app_name% | Account deletion</target>
+      </trans-unit>
+      <trans-unit id="GPawIAt" resname="greeting">
+        <source>greeting</source>
+        <target state="translated">Hello %user_username%</target>
+      </trans-unit>
+      <trans-unit id="1I5pZCp" resname="deletion_confirm.content">
+        <source>deletion_confirm.content</source>
+        <target state="translated">To confirm the deletion of your account, please click the link below</target>
+      </trans-unit>
+      <trans-unit id="dPX2_OT" resname="deletion_confirm_success.content">
+        <source>deletion_confirm_success.content</source>
+        <target state="translated">You account has been successfully deleted</target>
+      </trans-unit>
+      <trans-unit id="GxIc_V1" resname="email_confirm.content">
+        <source>email_confirm.content</source>
+        <target state="translated">Please confirm your email by pressing the link below</target>
+      </trans-unit>
+      <trans-unit id="A1ubW4o" resname="email_confirm_success.content">
+        <source>email_confirm_success.content</source>
+        <target state="translated">You have successfully confirmed your email</target>
+      </trans-unit>
+      <trans-unit id="Kn4BH_H" resname="new_email_confirm.content">
+        <source>new_email_confirm.content</source>
+        <target state="translated">Please confirm your new email by pressing the link below</target>
+      </trans-unit>
+      <trans-unit id="eui5d2f" resname="new_email_confirm_success.content">
+        <source>new_email_confirm_success.content</source>
+        <target state="translated">You have successfully confirmed your new email</target>
+      </trans-unit>
+      <trans-unit id="xmnkvMS" resname="password_reset.content">
+        <source>password_reset.content</source>
+        <target state="translated">To reset your password, please visit the link below</target>
+      </trans-unit>
+      <trans-unit id="Z4bZSJV" resname="password_reset_success.content">
+        <source>password_reset_success.content</source>
+        <target state="translated">You have successfully reset your passwor</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

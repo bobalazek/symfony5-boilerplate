@@ -1,0 +1,76 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Settings' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-9 offset-md-3">
+        <h1>{{ 'Settings' | trans }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="list-group">
+          <a href="{{ url('settings') }}"
+            class="list-group-item list-group-item-action {{ 'settings' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'General' | trans }}
+          </a>
+          <a href="{{ url('settings.image') }}"
+            class="list-group-item list-group-item-action {{ 'settings.image' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Image' | trans }}
+          </a>
+          <a href="{{ url('settings.password') }}"
+            class="list-group-item list-group-item-action {{ 'settings.password' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Password' | trans }}
+          </a>
+          <a href="{{ url('settings.privacy') }}"
+            class="list-group-item list-group-item-action {{ 'settings.privacy' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Privacy' | trans }}
+          </a>
+          <a href="{{ url('settings.oauth') }}"
+            class="list-group-item list-group-item-action {{ 'settings.oauth' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'OAuth' | trans }}
+          </a>
+          <a href="{{ url('settings.blocks') }}"
+            class="list-group-item list-group-item-action {{ 'settings.blocks' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Blocks' | trans }}
+          </a>
+          <a href="{{ url('settings.actions') }}"
+            class="list-group-item list-group-item-action {{ 'settings.actions' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Actions' | trans }}
+          </a>
+          <a href="{{ url('settings.export') }}"
+            class="list-group-item list-group-item-action {{ 'settings.export' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Export' | trans }}
+          </a>
+          <a href="{{ url('settings.deletion') }}"
+            class="list-group-item list-group-item-action {{ 'settings.deletion' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Deletion' | trans }}
+          </a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        {% block main %}{% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

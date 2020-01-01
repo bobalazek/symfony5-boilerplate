@@ -1,0 +1,12 @@
+parameters:
+    app.locales: ['en', 'de', 'sl']
+    app.locales.full:
+        en:
+            label: 'English'
+            flag: 'gb.png'
+        de:
+            label: 'Deutsch'
+            flag: 'de.png'
+        sl:
+            label: 'Slovenščina'
+            flag: 'si.png'

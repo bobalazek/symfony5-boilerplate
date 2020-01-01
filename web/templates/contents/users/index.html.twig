@@ -1,0 +1,42 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Users' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ 'Users' | trans }}</h1>
+    <div class="list-group list-group-horizontal text-center mb-4">
+      <a href="{{ url('users', {
+        status: 'active',
+      }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'active' ? 'active' : '' }}">
+        {{ 'Active' | trans }}
+      </a>
+      <a href="{{ url('users', {
+        status: 'locked',
+      }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'locked' ? 'active' : '' }}">
+        {{ 'Locked' | trans }}
+      </a>
+      <a href="{{ url('users', {
+        status: 'deleted',
+      }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'deleted' ? 'active' : '' }}">
+        {{ 'Deleted' | trans }}
+      </a>
+    </div>
+    {% if pagination.getTotalItemCount() %}
+      <div class="row mt-4">
+        {% for user in pagination.getItems() %}
+          <div class="col-md-4 mb-4">
+            {% include 'contents/_shared/user/user_card.html.twig' with {
+              show_moderator_actions: true,
+            } %}
+          </div>
+        {% endfor %}
+      </div>
+      {{ knp_pagination_render(pagination) }}
+    {% else %}
+      <div class="alert alert-info">
+        {{ 'alert.no_users_yet' | trans([], 'users') }}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

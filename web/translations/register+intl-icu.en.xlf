@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="xvmAD4V" resname="alert.linked_with_facebook">
+        <source>alert.linked_with_facebook</source>
+        <target state="translated">Your account has been linked to facebook. Please finish the signup below</target>
+      </trans-unit>
+      <trans-unit id="3gIYfk6" resname="alert.linked_with_google">
+        <source>alert.linked_with_google</source>
+        <target state="translated">Your account has been linked to google. Please finish the signup below</target>
+      </trans-unit>
+      <trans-unit id="u9FPEb4" resname="terms.label">
+        <source>terms.label</source>
+        <target state="translated">I agree to the %terms_link_start%Terms%terms_link_end% and %privacy_link_start%Privacy%privacy_link_end% and default notification settings. I am 13+ years old</target>
+      </trans-unit>
+      <trans-unit id="9LM28x." resname="or_register_with">
+        <source>or_register_with</source>
+        <target state="translated">or register with</target>
+      </trans-unit>
+      <trans-unit id="j4wU4IH" resname="alert.success">
+        <source>alert.success</source>
+        <target state="translated">You have successfully been registered. Before you can login, please confirm your email, by clicking the link we just sent you on your email</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,16 @@
+{% set class = class is defined ? class : '' %}
+{% set ignore_avatar = ignore_avatar is defined ? ignore_avatar : false %}
+
+{% if user.getAvatarImage() and not ignore_avatar %}
+  <img src="{{ get_user_avatar_url(user) }}"
+    class="avatar-image img-fluid {{ class }}" />
+{% elseif user.getImageFileUrl() %}
+  <img src="{{ user.getImageFileUrl() }}"
+    class="avatar-image img-fluid {{ class }}" />
+{% else %}
+  <div class="avatar-image {{ class }}">
+    <div>
+      {{ user.getUsername() | first }}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,91 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    # General
+    app.name: 'The Wall'
+    app.twitter_handle: 'thewall'
+    app.description: 'It is going to be HUUUGE!'
+    app.keywords: 'health'
+    app.mailer_from:
+        'mailer@corcosoft.com': 'Drumpf'
+    app.mailer_to:
+        'bobalazek124@gmail.com': 'Borut'
+    app.google.recaptcha.site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    # Credentials
+    app.aws:
+        key: '%env(AWS_KEY)%'
+        secret: '%env(AWS_SECRET)%'
+    app.aws.s3:
+        version: '%env(AWS_S3_VERSION)%'
+        region: '%env(AWS_S3_REGION)%'
+        bucket: '%env(AWS_S3_BUCKET)%'
+    app.oauth.facebook:
+        id: '%env(OAUTH_FACEBOOK_ID)%'
+        secret: '%env(OAUTH_FACEBOOK_SECRET)%'
+        version: '%env(OAUTH_FACEBOOK_VERSION)%'
+    app.oauth.google:
+        id: '%env(OAUTH_GOOGLE_ID)%'
+        secret: '%env(OAUTH_GOOGLE_SECRET)%'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Redis
+    Redis:
+        class: Redis
+        calls:
+            - method: connect
+              arguments:
+                  - '%env(REDIS_HOST)%'
+                  - '%env(int:REDIS_PORT)%'
+
+    # Symfony
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+
+    # App
+    App\:
+        resource: '../src/*'
+        exclude:
+            - '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+            - '../src/DataFixtures/data/**/*.php'
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+
+    App\EventSubscriber\ImageUploadSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    # Gedmo
+    Gedmo\Timestampable\TimestampableListener:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Gedmo\Tree\TreeListener:
+        class: Gedmo\Tree\TreeListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Gedmo\SoftDeleteable\SoftDeleteableListener:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]

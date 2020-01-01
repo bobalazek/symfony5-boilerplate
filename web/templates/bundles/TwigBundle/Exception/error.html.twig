@@ -1,0 +1,13 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Error' | trans }} {{ status_code }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ 'Error' | trans }} {{ status_code }}</h1>
+    <h2>{{ status_text }}</h1>
+    <div>
+      <a href="{{ url('home') }}">{{ 'Go back to homepage' | trans }}</a>
+    </div>
+  </div>
+{% endblock %}

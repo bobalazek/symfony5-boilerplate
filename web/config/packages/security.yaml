@@ -1,0 +1,40 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+
+    providers:
+        user_provider:
+            entity:
+                class: App\Entity\User
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            pattern: ^/
+            user_checker: App\Security\User\UserChecker
+            switch_user: true
+            guard:
+                authenticators:
+                    - App\Security\Guard\Authenticator\LoginFormAuthenticator
+            logout:
+                path: logout
+                target: login
+            remember_me:
+                secret: '%kernel.secret%'
+
+    role_hierarchy:
+        ROLE_USER_MODERATOR:
+            - ROLE_MODERATOR
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_USER_MODERATOR
+        ROLE_SUPER_ADMIN:
+            - ROLE_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }

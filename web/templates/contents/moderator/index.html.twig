@@ -1,0 +1,21 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Moderator' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ 'Moderator' | trans }}</h1>
+    <div class="row">
+      {% if is_granted('ROLE_USER_MODERATOR') %}
+        <div class="col-md-4 mb-4">
+          <div class="list-group">
+            <a class="list-group-item list-group-item-action"
+              href="{{ url('users') }}">
+              {{ 'Users' | trans }}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

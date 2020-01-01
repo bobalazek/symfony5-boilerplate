@@ -1,0 +1,30 @@
+{% block collection_widget %}
+  {% if prototype is defined %}
+    {% set attr = attr|merge({'data-prototype': form_row(prototype)}) %}
+    {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+  {% endif %}
+  {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+  {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+  {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+  {{ block('form_widget') }}
+{% endblock collection_widget %}
+
+{% block collectionEntry_row %}
+  <div class="col-md-4 collection-entry mb-4">
+    {{ form_row(form) }}
+  </div>
+{% endblock %}
+
+{% block nutritionFacts_row %}
+  {{ form_label(form) }}
+  {{ form_errors(form) }}
+  <div class="px-4">
+    {{ form_widget(form) }}
+  </div>
+{% endblock %}
+
+{% block nutritionFacts_nutrient_row %}
+  <div class="col-md-4 collection-entry">
+    {{ form_row(form) }}
+  </div>
+{% endblock %}

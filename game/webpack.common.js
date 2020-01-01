@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -18,11 +19,15 @@ module.exports = {
     poll: 250,
   },
   devtool: 'source-map',
+  context: __dirname,
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html'),
     }),
     new MiniCssExtractPlugin(),
+      new webpack.ProvidePlugin({
+        'ammo': 'ammo',
+    }),
   ],
   module: {
     rules: [
@@ -44,6 +49,11 @@ module.exports = {
         ],
       },
     ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   node: {
     fs: 'empty',

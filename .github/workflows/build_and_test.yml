@@ -18,7 +18,7 @@ jobs:
         docker exec -i tw_phpfpm php bin/console doctrine:fixtures:load
     - name: Prepare frontend
       run: |
-        docker exec -i tw_node yarn install
-        docker exec -i tw_node yarn run build
+        docker exec -i tw_node_web yarn install
+        docker exec -i tw_node_web yarn run build
     - name: Run tests
       run: docker exec -i tw_phpfpm php bin/phpunit

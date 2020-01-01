@@ -8,15 +8,20 @@ module.exports = {
     app: path.resolve(__dirname, 'src', 'index.ts'),
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },
+  watchOptions: {
+    poll: 250,
+  },
   devtool: 'source-map',
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public', 'index.html'),
+    }),
     new MiniCssExtractPlugin(),
   ],
   module: {

@@ -11,5 +11,7 @@ module.exports = merge(common, {
     port: 8080,
     host: '0.0.0.0',
     hot: true,
+    sockPort: process.env.GAME_CLIENT_PORT_8080 || 8080,
+    sockHost: 'localhost',
   },
 });

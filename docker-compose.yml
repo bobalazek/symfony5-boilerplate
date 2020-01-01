@@ -87,7 +87,7 @@ services:
     env_file:
       - .env
     ports:
-      - '${GAME_DEV_CLIENT_PORT_8080:-8081}:8080'
+      - '${GAME_CLIENT_PORT_8080:-8081}:8080'
     volumes:
       - ./game:/usr/src/app
     networks:

@@ -1,4 +1,5 @@
 import 'babylonjs-materials';
+import * as Ammo from 'ammo.js';
 
 import { AbstractNetworkLevel } from '../../Framework/Level/AbstractNetworkLevel';
 
@@ -12,6 +13,10 @@ export class AbstractBaseLevel extends AbstractNetworkLevel {
     super.start();
 
     this.getScene().collisionsEnabled = true;
+    this.getScene().enablePhysics(
+      new BABYLON.Vector3(0, -9.82, 0),
+      new BABYLON.AmmoJSPlugin(true, Ammo)
+    );
 
     this._prepareSkybox(this._worldSize);
     this._prepareGround(this._worldSize / 16);

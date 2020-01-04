@@ -37,5 +37,5 @@ export interface GameConfigInterface {
 }
 
 export interface SceneInterface {
-    load?: () => void;
+    load: () => void;
 }

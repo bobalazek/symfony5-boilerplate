@@ -7,11 +7,22 @@ import {
 
 export class DefaultScene implements SceneInterface {
   load() {
+    GameManager.engine.displayLoadingUI();
+
     let scene = new BABYLON.Scene(GameManager.engine);
 
-    scene.createDefaultCamera(true, true, true);
+    scene.createDefaultCameraOrLight(true, true, true);
     scene.createDefaultEnvironment();
 
+    let camera = <BABYLON.ArcRotateCamera> scene.activeCamera;
+    camera.alpha = Math.PI / 3;
+    camera.beta = Math.PI / 3;
+    camera.radius = 5;
+
+    var box = BABYLON.MeshBuilder.CreateBox('box', {});
+
     GameManager.setScene(scene);
+
+    GameManager.engine.hideLoadingUI();
   }
 }

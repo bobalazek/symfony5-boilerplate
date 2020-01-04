@@ -19,7 +19,7 @@ export class DefaultScene implements SceneInterface {
     camera.beta = Math.PI / 3;
     camera.radius = 5;
 
-    var box = BABYLON.MeshBuilder.CreateBox('box', {});
+    let box = BABYLON.MeshBuilder.CreateBox('box', {});
 
     GameManager.setScene(scene);
 

@@ -1,17 +1,11 @@
-import { GameManager } from './Framework/Core/GameManager';
-import { InputBindingsDefault } from './Framework/Input/Bindings/InputBindingsDefault';
-import { PlayerController } from './Framework/Gameplay/Controller/PlayerController';
+import { GameManager } from './Game/Core/GameManager';
 
-import { DEBUG } from './Game/Config';
-import { HelloWorldLevel } from './Game/Levels/HelloWorldLevel';
+import { DefaultScene } from './Game/Scenes/DefaultScene';
 
 // CSS
 import '../public/css/app.css';
 
 // Boot up the game!
 GameManager.boot({
-  debug: DEBUG,
-  startupLevel: HelloWorldLevel,
-  inputBindings: InputBindingsDefault,
-  controller: PlayerController,
+  defaultScene: new DefaultScene(),
 });

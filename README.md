@@ -13,12 +13,14 @@ The Wall project game
 * Build the app
   * Docker (compose):
     * Run: `docker-compose up -d`
-  * Backend:
+  * Web - Backend:
     * Run: `docker exec -ti tw_phpfpm composer install`
     * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:update --force`
     * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:fixtures:load`
-  * Frontend:
+  * Web - Frontend:
     * Run: `docker exec -ti tw_node_web yarn install`
+  * Game:
+    * Run: `docker exec -ti tw_node_game npm install`
 * You are ready to go to the next step - `Development`!
 
 

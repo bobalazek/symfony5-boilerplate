@@ -5,11 +5,11 @@ import {
 
 export class Vector3 extends Schema {
   @type("int32")
-  x: number;
+  x: number = 0;
 
   @type("int32")
-  y: number;
+  y: number = 0;
 
   @type("int32")
-  z: number;
+  z: number = 0;
 }

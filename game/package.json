@@ -1,7 +1,7 @@
 {
     "private": true,
     "dependencies": {
-        "@colyseus/monitor": "^0.11.9",
+        "@colyseus/monitor": "^0.11.11",
         "ammo.js": "github:kripken/ammo.js#master",
         "babylonjs": "^4.1.0-beta.18",
         "babylonjs-gui": "^4.1.0-beta.18",

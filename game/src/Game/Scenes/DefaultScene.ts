@@ -1,25 +1,19 @@
 import * as BABYLON from 'babylonjs';
-import  * as Colyseus from 'colyseus.js';
 
-import {
-  GAME_SERVER_HOST,
-  GAME_SERVER_PORT,
-} from '../Config';
+import { GameManager } from '../Core/GameManager';
+import { AbstractScene } from './AbstractScene';
 
-import {
-  GameManager,
-  SceneInterface,
-} from '../Core/GameManager';
-
-export class DefaultScene implements SceneInterface {
+export class DefaultScene extends AbstractScene {
   load() {
     GameManager.engine.displayLoadingUI();
-
-    this.prepareClient();
 
     GameManager.setScene(
       this.prepareScene()
     );
+
+    this.prepareNetworkClientAndJoinRoom('lobby').then(() => {
+        this.prepareNetworkReplication();
+    });
 
     GameManager.engine.hideLoadingUI();
   }
@@ -36,20 +30,19 @@ export class DefaultScene implements SceneInterface {
     camera.radius = 5;
 
     // Create a box
-    BABYLON.MeshBuilder.CreateBox('box', {});
+    var box = BABYLON.MeshBuilder.CreateBox('box', {});
+
+    this.replicate('box', box);
+
+    scene.onBeforeRenderObservable.add(() => {
+      const now = (new Date()).getTime() / 10000;
+      box.rotation = new BABYLON.Vector3(
+        Math.sin(now),
+        Math.cos(now),
+        Math.atan(now)
+      );
+    });
 
     return scene;
-  }
-
-  prepareClient() {
-    let client = new Colyseus.Client(
-      'ws://' + GAME_SERVER_HOST + ':' + GAME_SERVER_PORT
-    );
-
-    client.joinOrCreate('lobby', {}).then(room => {
-      console.log(room);
-    }).catch(e => {
-      console.error(e);
-    });
   }
 }

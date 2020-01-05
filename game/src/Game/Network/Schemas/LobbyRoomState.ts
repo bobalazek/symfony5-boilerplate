@@ -15,11 +15,11 @@ export class LobbyRoomState extends Schema {
   @type([ ChatMessage ])
   chatMessages = new ArraySchema<ChatMessage>();
 
-  createPlayer (id: string) {
+  createPlayer(id: string) {
     this.players[id] = new Player();
   }
 
-  removePlayer (id: string) {
+  removePlayer(id: string) {
     delete this.players[id];
   }
 }

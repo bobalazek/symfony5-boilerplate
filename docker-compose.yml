@@ -39,8 +39,8 @@ services:
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d
       - ./docker/nginx/certs/:/etc/ssl/certs
     ports:
-      - '${NGINX_PORT_80:-81}:80'
-      - '${NGINX_PORT_443:-444}:443'
+      - '${NGINX_PORT_80:-80}:80'
+      - '${NGINX_PORT_443:-443}:443'
     links:
       - php-fpm
     depends_on:
@@ -87,7 +87,8 @@ services:
     env_file:
       - .env
     ports:
-      - '${GAME_CLIENT_PORT_8080:-8081}:8080'
+      - '${GAME_CLIENT_PORT_8080:-8080}:8080'
+      - '${GAME_SERVER_PORT_1242:-1242}:1242'
     volumes:
       - ./game:/usr/src/app
     networks:

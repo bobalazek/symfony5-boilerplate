@@ -6,7 +6,10 @@ import { monitor } from '@colyseus/monitor';
 
 import { LobbyRoom } from './Game/Network/Rooms/LobbyRoom';
 
-import { GAME_SERVER_PORT } from './Game/Config';
+import {
+  GAME_SERVER_HOST,
+  GAME_SERVER_PORT,
+} from './Game/Config';
 
 const app = express();
 
@@ -22,4 +25,4 @@ app.use('/colyseus', monitor(gameServer));
 
 gameServer.listen(GAME_SERVER_PORT);
 
-console.log(`Game server is listening on http://localhost:${ GAME_SERVER_PORT }`);
+console.log(`Game server is listening on http://${GAME_SERVER_HOST}:${GAME_SERVER_PORT}`);

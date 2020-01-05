@@ -25,11 +25,11 @@ export class LobbyRoomState extends Schema {
 
   setPlayerData(id: string, data: any) {
     if (data.position) {
-      this.players[id].position = data.position;
+      this.players[id].position.set(data.position);
     }
 
     if (data.rotation) {
-      this.players[id].rotation = data.rotation;
+      this.players[id].rotation.set(data.rotation);
     }
   }
 }

@@ -12,4 +12,10 @@ export class Vector3 extends Schema {
 
   @type("int32")
   z: number = 0;
+
+  set(object: any) {
+    this.x = object.x;
+    this.y = object.y;
+    this.z = object.z;
+  }
 }

@@ -1,1 +1,1 @@
-export const TRANSFORM_UPDATE: number = 1;
+export const PLAYER_TRANSFORM_UPDATE: number = 1;

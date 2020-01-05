@@ -29,19 +29,9 @@ export class DefaultScene extends AbstractScene {
     camera.beta = Math.PI / 3;
     camera.radius = 5;
 
-    // Create a box
-    var box = BABYLON.MeshBuilder.CreateBox('box', {});
-
-    this.replicate('box', box);
-
-    scene.onBeforeRenderObservable.add(() => {
-      const now = (new Date()).getTime() / 10000;
-      box.rotation = new BABYLON.Vector3(
-        Math.sin(now),
-        Math.cos(now),
-        Math.atan(now)
-      );
-    });
+    // Create player
+    var player = BABYLON.MeshBuilder.CreateCylinder('box', {});
+    this.replicatePlayer(player);
 
     return scene;
   }

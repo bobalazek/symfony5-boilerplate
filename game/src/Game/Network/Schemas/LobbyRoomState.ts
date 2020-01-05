@@ -22,4 +22,14 @@ export class LobbyRoomState extends Schema {
   removePlayer(id: string) {
     delete this.players[id];
   }
+
+  setPlayerData(id: string, data: any) {
+    if (data.position) {
+      this.players[id].position = data.position;
+    }
+
+    if (data.rotation) {
+      this.players[id].rotation = data.rotation;
+    }
+  }
 }

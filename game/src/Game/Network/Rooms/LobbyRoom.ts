@@ -1,28 +1,35 @@
 import * as http from 'http';
 import { Room, Client } from 'colyseus';
 
+import { Serializer } from '../Serializer';
+import { PLAYER_TRANSFORM_UPDATE } from '../Constants';
 import { LobbyRoomState } from '../Schemas/LobbyRoomState';
 
 export class LobbyRoom extends Room {
-  onCreate (options: any) {
+  onCreate(options: any) {
     console.log('LobbyRoom created!', options);
 
     this.setState(new LobbyRoomState());
   }
 
-  onJoin (client: Client, options: any, auth: any) {
+  onJoin(client: Client, options: any, auth: any) {
     this.state.createPlayer(client.sessionId);
   }
 
-  onLeave (client: Client, consented: boolean) {
+  onLeave(client: Client, consented: boolean) {
     this.state.removePlayer(client.sessionId);
   }
 
-  onMessage (client: Client, message: any) {
-    console.log('LobbyRoom received message from', client.sessionId, ':', message);
+  onMessage(client: Client, message: any) {
+    if (message[0] === PLAYER_TRANSFORM_UPDATE) {
+      this.state.setPlayerData(
+        client.sessionId,
+        Serializer.deserializeTransformNode(message[1])
+      );
+    }
   }
 
-  onDispose () {
+  onDispose() {
     console.log('Dispose LobbyRoom');
   }
 }

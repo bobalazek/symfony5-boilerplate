@@ -6,9 +6,7 @@ import {
   SceneInterface,
 } from '../Core/GameManager';
 import { Serializer } from '../Network/Serializer';
-import {
-  TRANSFORM_UPDATE,
-} from '../Network/Constants';
+import { PLAYER_TRANSFORM_UPDATE } from '../Network/Constants';
 import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
@@ -69,24 +67,23 @@ export class AbstractScene implements SceneInterface {
     });
   }
 
-  replicate(id: string, transformNode: BABYLON.TransformNode) {
+  replicatePlayer(transformNode: BABYLON.TransformNode) {
     transformNode.metadata = {
       serverReplicated: true,
       clientLastUpdate: (new Date()).getTime(),
     };
 
     let lastTransformNodeMatrix = null;
-
     setInterval(() => {
       const transformMatrix = Serializer.serializeTransformNode(transformNode);
-      if (lastTransformNodeMatrix !== transformMatrix) {
-        this.networkRoom.send({
-          a: TRANSFORM_UPDATE,
-          d: {
-            id,
-            transformMatrix,
-          },
-        });
+      if (
+        this.networkRoom &&
+        lastTransformNodeMatrix !== transformMatrix
+      ) {
+        this.networkRoom.send([
+          PLAYER_TRANSFORM_UPDATE,
+          transformMatrix
+        ]);
         lastTransformNodeMatrix = transformMatrix;
       }
     }, 1000 / GAME_SERVER_TICK_RATE);

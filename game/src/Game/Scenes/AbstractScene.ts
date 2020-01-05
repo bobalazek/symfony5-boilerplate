@@ -7,6 +7,9 @@ import {
 } from '../Core/GameManager';
 import { Serializer } from '../Network/Serializer';
 import {
+  TRANSFORM_UPDATE,
+} from '../Network/Constants';
+import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
   GAME_SERVER_TICK_RATE,
@@ -78,8 +81,8 @@ export class AbstractScene implements SceneInterface {
       const transformMatrix = Serializer.serializeTransformNode(transformNode);
       if (lastTransformNodeMatrix !== transformMatrix) {
         this.networkRoom.send({
-          action: 'transform:update',
-          detail: {
+          a: TRANSFORM_UPDATE,
+          d: {
             id,
             transformMatrix,
           },

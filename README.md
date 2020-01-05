@@ -1,6 +1,6 @@
 # The Wall
 
-The The Wall project
+The Wall project game
 
 
 ## Setup
@@ -19,16 +19,31 @@ The The Wall project
     * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:fixtures:load`
   * Frontend:
     * Run: `docker exec -ti tw_node_web yarn install`
-    * Run: `docker exec -ti tw_node_web yarn run build`
-* You are ready to go!
+* You are ready to go to the next step - `Development`!
+
+
+## Development
+
+### Web - Frontend
+
+* Before you start working on the web frontend run: `docker exec -ti tw_node_web yarn run watch`
+* Go to your browser and open http://localhost:81 (or whichever port you set in `.env` for the `NGINX_PORT_80` variable)
+
+### Game
+
+* Before you start working on the game run: `docker exec -ti tw_node_game npm run dev`
+* Go to your browser and open http://localhost:8081 (or whichever port you set in `.env` for the `GAME_CLIENT_PORT_8080` variable)
 
 
 ## Commands
 
 ### Web
 
-* Watch & build static assets (CSS & JS) for development: `docker exec -ti tw_node_web yarn run watch`
-* Build static assets (CSS & JS) for production: `docker exec -ti tw_node_web yarn run build`
+#### PHP-FPM
+
+* Install composer dependencies: `docker exec -ti tw_phpfpm composer install`
+* Run schema update: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:update --force`
+* Load fixtures: `docker exec -ti tw_phpfpm php bin/console doctrine:fixtures:load`
 * Run tests: `docker exec -ti tw_phpfpm php bin/phpunit`
 * Make translations: `docker exec -ti tw_phpfpm php bin/console translation:update --dump-messages en --force`
 * PHP-CS-Fixer: `docker exec -ti tw_phpfpm php-cs-fixer fix`
@@ -36,6 +51,11 @@ The The Wall project
 * Messenger - consume: `docker exec -ti tw_phpfpm php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger - stop workers: `docker exec -ti tw_phpfpm php bin/console messenger:stop-workers`
 
+#### Node
+
+* Install JS dependencies: `docker exec -ti tw_node_web yarn install`
+* Watch & build static assets (CSS & JS) for development: `docker exec -ti tw_node_web yarn run watch`
+* Build static assets (CSS & JS) for production: `docker exec -ti tw_node_web yarn run build`
 
 ### Game
 

@@ -4,23 +4,25 @@ import { Room, Client } from 'colyseus';
 import { LobbyRoomState } from '../Schemas/LobbyRoomState';
 
 export class LobbyRoom extends Room {
-  constructor() {
-    super();
+  onCreate (options: any) {
+    console.log('LobbyRoom created!', options);
 
     this.setState(new LobbyRoomState());
   }
 
-  onCreate (options: any) {}
-
-  onAuth (client: Client, options: any, request: http.IncomingMessage) { }
-
   onJoin (client: Client, options: any, auth: any) {
-    console.log(client)
+    this.state.createPlayer(client.sessionId);
   }
 
-  onMessage (client: Client, message: any) {}
+  onLeave (client: Client, consented: boolean) {
+    this.state.removePlayer(client.sessionId);
+  }
 
-  onLeave (client: Client, consented: boolean) {}
+  onMessage (client: Client, message: any) {
+    console.log('LobbyRoom received message from', client.sessionId, ':', message);
+  }
 
-  onDispose () {}
+  onDispose () {
+    console.log('Dispose LobbyRoom');
+  }
 }

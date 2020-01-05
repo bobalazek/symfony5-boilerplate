@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2016",
         "module": "commonjs",
         "noResolve": false,
         "noImplicitAny": false,
@@ -13,7 +13,8 @@
         "lib": [
             "dom",
             "es2015.promise",
-            "es5"
+            "es5",
+            "es6",
         ],
         "declaration": true,
         "outDir": "dist"

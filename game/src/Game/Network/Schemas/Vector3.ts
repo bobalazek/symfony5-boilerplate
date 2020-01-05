@@ -1,4 +1,7 @@
-import { Schema, type } from '@colyseus/schema';
+import {
+  Schema,
+  type,
+} from '@colyseus/schema';
 
 export class Vector3 extends Schema {
   @type("int32")

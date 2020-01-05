@@ -1,4 +1,7 @@
-import { Schema, type } from '@colyseus/schema';
+import {
+  Schema,
+  type,
+} from '@colyseus/schema';
 
 export class ChatMessage extends Schema {
   @type("string")

@@ -16,8 +16,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const server = createServer(app);
-const gameServer = new Server({ server: server });
+const gameServer = new Server({
+  server: createServer(app),
+});
 
 gameServer.define('lobby', LobbyRoom);
 

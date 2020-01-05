@@ -1,4 +1,7 @@
-import { Schema, type } from '@colyseus/schema';
+import {
+  Schema,
+  type,
+} from '@colyseus/schema';
 import { Vector3 } from './Vector3';
 
 export class Player extends Schema {

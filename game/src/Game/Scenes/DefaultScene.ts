@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 
-import { GameManager } from '../Core/GameManager';
-import { AbstractScene } from './AbstractScene';
+import { GameManager } from '../../Framework/Core/GameManager';
+import { AbstractScene } from '../../Framework/Scenes/AbstractScene';
 
 export class DefaultScene extends AbstractScene {
   load() {
@@ -14,9 +14,10 @@ export class DefaultScene extends AbstractScene {
     this.prepareLights();
     this.prepareEnvironment();
     this.preparePlayer();
-    this.prepareNetworkClientAndJoinRoom('lobby').then(() => {
-        this.prepareNetworkReplication();
-    });
+    this.prepareNetworkClientAndJoinRoom('lobby')
+      .then(() => {
+          this.prepareNetworkReplication();
+      });
 
     // Inspector
     this.scene.debugLayer.show();

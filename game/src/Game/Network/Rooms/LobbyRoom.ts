@@ -1,8 +1,8 @@
 import * as http from 'http';
 import { Room, Client } from 'colyseus';
 
-import { Serializer } from '../Serializer';
-import { PLAYER_TRANSFORM_UPDATE } from '../Constants';
+import { Serializer } from '../../../Framework/Network/Serializer';
+import { PLAYER_TRANSFORM_UPDATE } from '../../../Framework/Network/Constants';
 import { LobbyRoomState } from '../Schemas/LobbyRoomState';
 
 export class LobbyRoom extends Room {

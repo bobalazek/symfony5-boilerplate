@@ -11,7 +11,7 @@ import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
   GAME_SERVER_TICK_RATE,
-} from '../Config';
+} from '../../Game/Config';
 
 export class AbstractScene implements SceneInterface {
   public scene: BABYLON.Scene;

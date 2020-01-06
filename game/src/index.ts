@@ -1,4 +1,4 @@
-import { GameManager } from './Game/Core/GameManager';
+import { GameManager } from './Framework/Core/GameManager';
 
 import { DefaultScene } from './Game/Scenes/DefaultScene';
 

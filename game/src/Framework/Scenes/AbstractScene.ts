@@ -7,7 +7,6 @@ import { NetworkConstants } from '../Network/NetworkConstants';
 import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
-  GAME_SERVER_TICK_RATE,
 } from '../../Config';
 
 export interface SceneInterface {
@@ -45,6 +44,7 @@ export abstract class AbstractScene implements SceneInterface {
     camera.alpha = Math.PI / 3;
     camera.beta = Math.PI / 3;
     camera.radius = 10;
+    camera.upperBetaLimit = Math.PI / 2;
 
     BABYLON.MeshBuilder.CreateBox('box', {});
   }
@@ -98,14 +98,14 @@ export abstract class AbstractScene implements SceneInterface {
     });
   }
 
-  replicatePlayer(transformNode: BABYLON.TransformNode) {
+  replicatePlayer(transformNode: BABYLON.TransformNode, updateFrequency: number = 100) {
     transformNode.metadata = {
       serverReplicated: true,
       clientLastUpdate: (new Date()).getTime(),
     };
 
     let lastTransformNodeMatrix = null;
-    setInterval(() => {
+    return setInterval(() => {
       const transformMatrix = NetworkSerializer.serializeTransformNode(transformNode);
       if (
         this.networkRoom &&
@@ -117,6 +117,6 @@ export abstract class AbstractScene implements SceneInterface {
         ]);
         lastTransformNodeMatrix = transformMatrix;
       }
-    }, 1000 / GAME_SERVER_TICK_RATE);
+    }, updateFrequency);
   }
 }

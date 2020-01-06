@@ -35,6 +35,7 @@ export class DefaultScene extends AbstractScene {
     camera.alpha = Math.PI / 3;
     camera.beta = Math.PI / 3;
     camera.radius = 10;
+    camera.upperBetaLimit = Math.PI / 2;
   }
 
   prepareLights() {

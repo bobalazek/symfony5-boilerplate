@@ -14,13 +14,39 @@ import {
 } from '../Config';
 
 export class AbstractScene implements SceneInterface {
+  public scene: BABYLON.Scene;
+
   // Network
   public networkClient: Colyseus.Client;
   public networkRoom: Colyseus.Room;
   public networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
   public networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
 
-  load() {}
+  load() {
+    // Show preloader
+    GameManager.engine.displayLoadingUI();
+
+    // Prepare scene
+    this.prepareScene();
+
+    // Set scene & hide preloader
+    GameManager.setScene(this.scene);
+    GameManager.engine.hideLoadingUI();
+  }
+
+  prepareScene() {
+    this.scene = new BABYLON.Scene(GameManager.engine);
+    this.scene.createDefaultCameraOrLight(true, true, true);
+    this.scene.createDefaultEnvironment();
+
+    let camera = <BABYLON.ArcRotateCamera>this.scene.activeCamera;
+
+    camera.alpha = Math.PI / 3;
+    camera.beta = Math.PI / 3;
+    camera.radius = 10;
+
+    BABYLON.MeshBuilder.CreateBox('box', {});
+  }
 
   prepareNetworkClientAndJoinRoom(roomName: string, roomOptions = {}): Promise<any> {
     this.networkClient = new Colyseus.Client(

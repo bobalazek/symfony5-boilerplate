@@ -7,5 +7,5 @@ import '../static/css/app.css';
 
 // Boot up the game!
 GameManager.boot({
-  defaultScene: new DefaultScene(),
+  defaultScene: DefaultScene,
 });

@@ -1,8 +1,8 @@
 import * as http from 'http';
 import { Room, Client } from 'colyseus';
 
-import { Serializer } from '../../../Framework/Network/Serializer';
-import { PLAYER_TRANSFORM_UPDATE } from '../../../Framework/Network/Constants';
+import { NetworkSerializer } from '../../../Framework/Network/NetworkSerializer';
+import { NetworkConstants } from '../../../Framework/Network/NetworkConstants';
 import { LobbyRoomState } from '../Schemas/LobbyRoomState';
 
 export class LobbyRoom extends Room {
@@ -21,10 +21,10 @@ export class LobbyRoom extends Room {
   }
 
   onMessage(client: Client, message: any) {
-    if (message[0] === PLAYER_TRANSFORM_UPDATE) {
+    if (message[0] === NetworkConstants.PLAYER_TRANSFORM_UPDATE) {
       this.state.setPlayerData(
         client.sessionId,
-        Serializer.deserializeTransformNode(message[1])
+        NetworkSerializer.deserializeTransformNode(message[1])
       );
     }
   }

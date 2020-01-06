@@ -1,6 +1,7 @@
 import * as BABYLON from 'babylonjs';
 
 import { PlayerController } from './PlayerController';
+import { AbstractScene } from '../Scenes/AbstractScene';
 
 export class GameManager {
   public static canvas: HTMLCanvasElement;
@@ -14,7 +15,8 @@ export class GameManager {
     this.playerController = new PlayerController();
 
     // Load default scene
-    config.defaultScene.load();
+    let defaultScene = new config.defaultScene();
+    defaultScene.load();
 
     // Main render loop
     this.engine.runRenderLoop(() => {
@@ -35,9 +37,5 @@ export class GameManager {
 }
 
 export interface GameConfigInterface {
-    defaultScene: SceneInterface;
-}
-
-export interface SceneInterface {
-    load: () => void;
+  defaultScene: new () => AbstractScene;
 }

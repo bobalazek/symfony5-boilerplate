@@ -1,19 +1,20 @@
 import * as BABYLON from 'babylonjs';
 import  * as Colyseus from 'colyseus.js';
 
-import {
-  GameManager,
-  SceneInterface,
-} from '../Core/GameManager';
-import { Serializer } from '../Network/Serializer';
-import { PLAYER_TRANSFORM_UPDATE } from '../Network/Constants';
+import { GameManager } from '../Core/GameManager';
+import { NetworkSerializer } from '../Network/NetworkSerializer';
+import { NetworkConstants } from '../Network/NetworkConstants';
 import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
   GAME_SERVER_TICK_RATE,
-} from '../../Game/Config';
+} from '../../Config';
 
-export class AbstractScene implements SceneInterface {
+export interface SceneInterface {
+    load: () => void;
+}
+
+export abstract class AbstractScene implements SceneInterface {
   public scene: BABYLON.Scene;
 
   // Network
@@ -101,13 +102,13 @@ export class AbstractScene implements SceneInterface {
 
     let lastTransformNodeMatrix = null;
     setInterval(() => {
-      const transformMatrix = Serializer.serializeTransformNode(transformNode);
+      const transformMatrix = NetworkSerializer.serializeTransformNode(transformNode);
       if (
         this.networkRoom &&
         lastTransformNodeMatrix !== transformMatrix
       ) {
         this.networkRoom.send([
-          PLAYER_TRANSFORM_UPDATE,
+          NetworkConstants.PLAYER_TRANSFORM_UPDATE,
           transformMatrix
         ]);
         lastTransformNodeMatrix = transformMatrix;

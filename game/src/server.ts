@@ -9,7 +9,7 @@ import { LobbyRoom } from './Game/Network/Rooms/LobbyRoom';
 import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
-} from './Game/Config';
+} from './Config';
 
 const app = express();
 

@@ -1,14 +1,14 @@
 import * as BABYLON from 'babylonjs';
 
 export class NetworkSerializer {
-  public static serializeTransformNode(transformNode: BABYLON.TransformNode): string {
+  public static serializeTransformNode(transformNode: BABYLON.TransformNode, precision: number = 5): string {
     return [
-      parseFloat(transformNode.position.x.toFixed(5)),
-      parseFloat(transformNode.position.y.toFixed(5)),
-      parseFloat(transformNode.position.z.toFixed(5)),
-      parseFloat(transformNode.rotation.x.toFixed(5)),
-      parseFloat(transformNode.rotation.y.toFixed(5)),
-      parseFloat(transformNode.rotation.z.toFixed(5)),
+      parseFloat(transformNode.position.x.toFixed(precision)),
+      parseFloat(transformNode.position.y.toFixed(precision)),
+      parseFloat(transformNode.position.z.toFixed(precision)),
+      parseFloat(transformNode.rotation.x.toFixed(precision)),
+      parseFloat(transformNode.rotation.y.toFixed(precision)),
+      parseFloat(transformNode.rotation.z.toFixed(precision)),
     ].join('|');
   }
 

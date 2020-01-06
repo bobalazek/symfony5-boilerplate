@@ -1,3 +1,4 @@
+const VERSION = '0.1.0';
 let GAME_SERVER_HOST = 'localhost';
 let GAME_SERVER_PORT = 1242;
 let GAME_SERVER_TICK_RATE = 10; // How many times in a seconds we send the updates to the server?
@@ -11,6 +12,7 @@ if (process.env.GAME_SERVER_PORT) {
 }
 
 export {
+  VERSION,
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
   GAME_SERVER_TICK_RATE,

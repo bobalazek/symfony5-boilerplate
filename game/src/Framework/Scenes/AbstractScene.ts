@@ -49,10 +49,14 @@ export abstract class AbstractScene implements SceneInterface {
     BABYLON.MeshBuilder.CreateBox('box', {});
   }
 
-  prepareNetworkClientAndJoinRoom(roomName: string, roomOptions = {}): Promise<any> {
+  prepareNetworkClient() {
     this.networkClient = new Colyseus.Client(
       'ws://' + GAME_SERVER_HOST + ':' + GAME_SERVER_PORT
     );
+  }
+
+  prepareNetworkClientAndJoinRoom(roomName: string, roomOptions = {}): Promise<any> {
+    this.prepareNetworkClient();
 
     return new Promise((resolve, reject) => {
       this.networkClient.joinOrCreate(roomName, roomOptions).then(room => {

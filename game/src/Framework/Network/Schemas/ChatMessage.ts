@@ -5,8 +5,8 @@ import {
 
 export class ChatMessage extends Schema {
   @type("string")
-  sender: string;
+  playerSessionId: string;
 
   @type("string")
-  text: number;
+  text: string;
 }

@@ -22,7 +22,7 @@ export class LobbyRoom extends Room {
 
   onMessage(client: Client, message: any) {
     if (message[0] === NetworkConstants.PLAYER_TRANSFORM_UPDATE) {
-      this.state.setPlayerData(
+      this.state.setPlayerCharacterData(
         client.sessionId,
         NetworkSerializer.deserializeTransformNode(message[1])
       );
@@ -30,6 +30,6 @@ export class LobbyRoom extends Room {
   }
 
   onDispose() {
-    console.log('Dispose LobbyRoom');
+    console.log('Dispose LobbyRoom.');
   }
 }

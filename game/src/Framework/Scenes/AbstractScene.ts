@@ -98,7 +98,7 @@ export abstract class AbstractScene implements SceneInterface {
     });
   }
 
-  replicatePlayer(transformNode: BABYLON.TransformNode, updateFrequency: number = 100) {
+  replicate(transformNode: BABYLON.TransformNode, updateFrequency: number = 100) {
     transformNode.metadata = {
       serverReplicated: true,
       clientLastUpdate: (new Date()).getTime(),
@@ -112,8 +112,8 @@ export abstract class AbstractScene implements SceneInterface {
         lastTransformNodeMatrix !== transformMatrix
       ) {
         this.networkRoom.send([
-          NetworkConstants.PLAYER_TRANSFORM_UPDATE,
-          transformMatrix
+          NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
+          [transformNode.id, transformMatrix]
         ]);
         lastTransformNodeMatrix = transformMatrix;
       }

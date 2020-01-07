@@ -1,12 +1,11 @@
 import {
   Schema,
   MapSchema,
-  ArraySchema,
   type,
 } from '@colyseus/schema';
 
+import { Transform } from './Transform';
 import { Player } from './Player';
-import { ChatMessage } from './ChatMessage';
 
 export enum RoomStateStatus {
   PENDING,
@@ -21,24 +20,41 @@ export class RoomState extends Schema {
   @type({ map: Player })
   players = new MapSchema<Player>();
 
-  @type([ ChatMessage ])
-  chatMessages = new ArraySchema<ChatMessage>();
+  @type({ map: Transform })
+  transforms = new MapSchema<Transform>();
 
-  createPlayer(id: string) {
-    this.players[id] = new Player();
+  addPlayer(id: string, name: string) {
+    let player = new Player();
+    player.set({
+      sessionId: id,
+      name: name,
+      ready: false,
+      ping: 0,
+      posessedTransformNodeId: null,
+    });
+
+    this.players[id] = player;
   }
 
   removePlayer(id: string) {
     delete this.players[id];
   }
 
-  setPlayerCharacterData(id: string, data: any) {
-    if (data.position) {
-      this.players[id].character.position.set(data.position);
-    }
+  addTransform(id: string, transformMatrix: any) {
+    let transform = new Transform();
+    transform.id = id;
+    transform.position.set(transformMatrix.position);
+    transform.rotation.set(transformMatrix.rotation);
 
-    if (data.rotation) {
-      this.players[id].character.rotation.set(data.rotation);
-    }
+    this.transforms[id] = transform;
+  }
+
+  setTransform(id: string, transformMatrix: any) {
+    this.transforms[id].position.set(transformMatrix.position);
+    this.transforms[id].rotation.set(transformMatrix.rotation);
+  }
+
+  removeTransform(id: string) {
+    delete this.transforms[id];
   }
 }

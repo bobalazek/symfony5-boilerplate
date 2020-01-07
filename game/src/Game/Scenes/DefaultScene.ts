@@ -2,6 +2,7 @@ import * as BABYLON from 'babylonjs';
 
 import { GameManager } from '../../Framework/Core/GameManager';
 import { AbstractScene } from '../../Framework/Scenes/AbstractScene';
+import { NetworkConstants } from '../../Framework/Network/NetworkConstants';
 
 export class DefaultScene extends AbstractScene {
   load() {
@@ -13,10 +14,10 @@ export class DefaultScene extends AbstractScene {
     this.prepareCamera();
     this.prepareLights();
     this.prepareEnvironment();
-    this.preparePlayer();
     this.prepareNetworkClientAndJoinRoom('lobby')
       .then(() => {
           this.prepareNetworkReplication();
+          this.preparePlayer();
       });
 
     // Inspector
@@ -47,26 +48,32 @@ export class DefaultScene extends AbstractScene {
       width: 128,
       height: 128,
     });
-
     let groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
-
     let groundTexture = new BABYLON.Texture('/static/images/game/ground.jpg', this.scene);
-
     groundTexture.uScale = groundTexture.vScale = 16;
-
     groundMaterial.diffuseTexture = groundTexture;
-
     ground.material = groundMaterial;
   }
 
   preparePlayer() {
-    let player = BABYLON.MeshBuilder.CreateCylinder('player', {
+    if (!this.networkRoom) {
+      throw new Error('Not yet connected to the network room.');
+    }
+
+    var playerCharacterId = 'player_' + this.networkRoom.sessionId;
+    let playerCharacter = BABYLON.MeshBuilder.CreateCylinder(playerCharacterId, {
       height: 2,
     });
-    player.position.y = 1;
+    playerCharacter.position.y = 1;
 
-    this.replicatePlayer(player);
+    // Set the player transform node id
+    this.networkRoom.send([
+      NetworkConstants.PLAYER_TRANSFORM_NODE_SET,
+      playerCharacterId
+    ]);
 
-    GameManager.playerController.posessTransformNode(player);
+    this.replicate(playerCharacter);
+
+    GameManager.playerController.posessTransformNode(playerCharacter);
   }
 }

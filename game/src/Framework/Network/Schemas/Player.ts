@@ -2,9 +2,8 @@ import {
   Schema,
   type,
 } from '@colyseus/schema';
-import { Transform } from './Transform';
 
-export class Player extends Transform {
+export class Player extends Schema {
   @type("string")
   sessionId: string;
 
@@ -17,6 +16,14 @@ export class Player extends Transform {
   @type("uint16")
   ping: number = 0;
 
-  @type(Transform)
-  character: Transform = new Transform();
+  @type("string")
+  posessedTransformNodeId: string;
+
+  set(player: any) {
+    this.sessionId = player.sessionId;
+    this.name = player.name;
+    this.ready = player.ready;
+    this.ping = player.ping;
+    this.posessedTransformNodeId = player.posessedTransformNodeId;
+  }
 }

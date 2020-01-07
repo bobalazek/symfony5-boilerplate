@@ -16,8 +16,10 @@ export class DefaultScene extends AbstractScene {
     this.prepareEnvironment();
     this.prepareNetworkClientAndJoinRoom('lobby')
       .then(() => {
-          this.prepareNetworkReplication();
-          this.preparePlayer();
+        const playerCharacterId = 'player_' + this.networkRoom.sessionId;
+          this.prepareNetworkSync();
+          this.preparePlayer(playerCharacterId);
+          this.preparePlayerNetworkSync(playerCharacterId);
       });
 
     // Inspector
@@ -55,25 +57,23 @@ export class DefaultScene extends AbstractScene {
     ground.material = groundMaterial;
   }
 
-  preparePlayer() {
-    if (!this.networkRoom) {
-      throw new Error('Not yet connected to the network room.');
-    }
-
-    var playerCharacterId = 'player_' + this.networkRoom.sessionId;
+  preparePlayer(playerCharacterId: string = 'player') {
     let playerCharacter = BABYLON.MeshBuilder.CreateCylinder(playerCharacterId, {
       height: 2,
     });
     playerCharacter.position.y = 1;
 
-    // Set the player transform node id
+    GameManager.playerController.posessTransformNode(playerCharacter);
+  }
+
+  preparePlayerNetworkSync(playerCharacterId: string) {
     this.networkRoom.send([
       NetworkConstants.PLAYER_TRANSFORM_NODE_SET,
       playerCharacterId
     ]);
 
-    this.replicate(playerCharacter);
-
-    GameManager.playerController.posessTransformNode(playerCharacter);
+    this.replicate(
+      GameManager.scene.getMeshByID(playerCharacterId)
+    );
   }
 }

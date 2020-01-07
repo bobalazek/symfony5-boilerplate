@@ -71,26 +71,40 @@ export abstract class AbstractScene implements SceneInterface {
     });
   }
 
-  prepareNetworkReplication() {
+  prepareNetworkSync() {
     GameManager.scene.onBeforeRenderObservable.add(() => {
       const now = (new Date()).getTime();
-      const meshes = GameManager.scene.meshes;
+      const meshes = GameManager.scene.meshes; // TODO: optimize
       for (let i = 0; i < meshes.length; i++) {
         let mesh = meshes[i];
+        const meshMetadataNetwork = mesh.metadata && mesh.metadata.network
+          ? mesh.metadata.network
+          : false;
+
         if (
-          mesh.metadata !== null &&
-          mesh.metadata.serverReplicated === true &&
-          now - mesh.metadata.serverLastUpdate < this.networkInterpolationLastUpdateTolerance
+          meshMetadataNetwork !== false &&
+          meshMetadataNetwork.serverReplicate === true &&
+          meshMetadataNetwork.serverLastUpdate !== null &&
+          now - meshMetadataNetwork.serverLastUpdate < this.networkInterpolationLastUpdateTolerance
         ) {
-          mesh.metadata.clientLastUpdate = now;
+          mesh.metadata.network.clientLastUpdate = now;
+
           mesh.position = BABYLON.Vector3.Lerp(
             mesh.position,
-            mesh.metadata.serverPosition,
+            mesh.metadata.serverData.position,
             this.networkInterpolationSmooting
           );
+
+          const serverDataRotation = mesh.metadata.serverData.rotation;
+          const rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(
+            serverDataRotation.y,
+            serverDataRotation.x,
+            serverDataRotation.z
+          );
+
           mesh.rotationQuaternion = BABYLON.Quaternion.Slerp(
             mesh.rotationQuaternion,
-            mesh.metadata.serverRotation,
+            rotationQuaternion,
             this.networkInterpolationSmooting
           );
         }
@@ -99,9 +113,15 @@ export abstract class AbstractScene implements SceneInterface {
   }
 
   replicate(transformNode: BABYLON.TransformNode, updateFrequency: number = 100) {
-    transformNode.metadata = {
-      serverReplicated: true,
-      clientLastUpdate: (new Date()).getTime(),
+    if (!transformNode.metadata) {
+      transformNode.metadata = {}
+    }
+
+    transformNode.metadata.network = {
+      serverReplicate: true,
+      serverData: null,
+      serverLastUpdate: null,
+      clientLastUpdate: null,
     };
 
     let lastTransformNodeMatrix = null;

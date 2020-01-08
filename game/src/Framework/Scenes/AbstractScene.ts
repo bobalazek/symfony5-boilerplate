@@ -1,5 +1,4 @@
 import * as BABYLON from 'babylonjs';
-import  * as Colyseus from 'colyseus.js';
 
 import { GameManager } from '../Core/GameManager';
 
@@ -24,8 +23,9 @@ export abstract class AbstractScene implements SceneInterface {
 
   prepareScene() {
     this.scene = new BABYLON.Scene(GameManager.engine);
-    this.scene.createDefaultCameraOrLight(true, true, true);
-    this.scene.createDefaultEnvironment();
+    this.prepareCamera();
+    this.prepareLights();
+    this.prepareEnvironment();
 
     let camera = <BABYLON.ArcRotateCamera>this.scene.activeCamera;
 
@@ -35,5 +35,42 @@ export abstract class AbstractScene implements SceneInterface {
     camera.upperBetaLimit = Math.PI / 2;
 
     BABYLON.MeshBuilder.CreateBox('box', {});
+  }
+
+  prepareCamera() {
+    let camera = new BABYLON.ArcRotateCamera(
+      'camera',
+      Math.PI / 3,
+      Math.PI / 3,
+      10,
+      BABYLON.Vector3.Zero(),
+      this.scene
+    );
+
+    camera.upperBetaLimit = Math.PI / 2;
+
+    this.scene.activeCamera = camera
+
+    camera.attachControl(GameManager.canvas);
+  }
+
+  prepareLights() {
+    new BABYLON.HemisphericLight(
+      'light',
+      new BABYLON.Vector3(0, 1, 0),
+      this.scene
+    );
+  }
+
+  prepareEnvironment() {
+    let ground = BABYLON.MeshBuilder.CreateGround('ground', {
+      width: 128,
+      height: 128,
+    });
+    let groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
+    let groundTexture = new BABYLON.Texture('/static/images/game/ground.jpg', this.scene);
+    groundTexture.uScale = groundTexture.vScale = 16;
+    groundMaterial.diffuseTexture = groundTexture;
+    ground.material = groundMaterial;
   }
 }

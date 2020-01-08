@@ -1,10 +1,10 @@
 import * as BABYLON from 'babylonjs';
 
 import { GameManager } from '../../Framework/Core/GameManager';
-import { AbstractScene } from '../../Framework/Scenes/AbstractScene';
+import { AbstractNetworkScene } from '../../Framework/Scenes/AbstractNetworkScene';
 import { NetworkConstants } from '../../Framework/Network/NetworkConstants';
 
-export class DefaultScene extends AbstractScene {
+export class DefaultScene extends AbstractNetworkScene {
   load() {
     // Show preloader
     GameManager.engine.displayLoadingUI();
@@ -31,18 +31,28 @@ export class DefaultScene extends AbstractScene {
   }
 
   prepareCamera() {
-    this.scene.createDefaultCamera(true, true, true);
+    let camera = new BABYLON.ArcRotateCamera(
+      'camera',
+      Math.PI / 3,
+      Math.PI / 3,
+      10,
+      BABYLON.Vector3.Zero(),
+      this.scene
+    );
 
-    let camera = <BABYLON.ArcRotateCamera>this.scene.activeCamera;
-
-    camera.alpha = Math.PI / 3;
-    camera.beta = Math.PI / 3;
-    camera.radius = 10;
     camera.upperBetaLimit = Math.PI / 2;
+
+    this.scene.activeCamera = camera
+
+    camera.attachControl(GameManager.canvas);
   }
 
   prepareLights() {
-    this.scene.createDefaultLight(true);
+    let light = new BABYLON.HemisphericLight(
+      'light',
+      new BABYLON.Vector3(0, 1, 0),
+      this.scene
+    );
   }
 
   prepareEnvironment() {
@@ -72,7 +82,7 @@ export class DefaultScene extends AbstractScene {
       playerCharacterId
     ]);
 
-    this.replicate(
+    this.networkReplicate(
       GameManager.scene.getMeshByID(playerCharacterId)
     );
   }

@@ -32,7 +32,7 @@ export abstract class AbstractRoom extends Room {
       } else {
         this.state.setTransform(id, transformMatrix);
       }
-    } else if (action === NetworkConstants.PLAYER_TRANSFORM_NODE_SET) {
+    } else if (action === NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET) {
       const id = message[1];
 
       this.state.players[sessionId].posessedTransformNodeId = id;

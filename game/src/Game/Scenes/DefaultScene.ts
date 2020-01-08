@@ -41,7 +41,7 @@ export class DefaultScene extends AbstractNetworkScene {
 
   preparePlayerNetworkSync(playerCharacterId: string) {
     this.networkRoom.send([
-      NetworkConstants.PLAYER_TRANSFORM_NODE_SET,
+      NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET,
       playerCharacterId
     ]);
 

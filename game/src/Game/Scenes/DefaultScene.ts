@@ -2,7 +2,7 @@ import * as BABYLON from 'babylonjs';
 import * as Ammo from 'ammo.js';
 
 import { GameManager } from '../../Framework/Core/GameManager';
-import { AbstractNetworkScene } from '../../Framework/Scenes/AbstractNetworkScene';
+import { AbstractNetworkScene } from '../../Framework/Scenes/NetworkScene';
 import { NetworkConstants } from '../../Framework/Network/NetworkConstants';
 
 export class DefaultScene extends AbstractNetworkScene {

@@ -2,7 +2,7 @@ import * as BABYLON from 'babylonjs';
 import  * as Colyseus from 'colyseus.js';
 
 import { GameManager } from '../Core/GameManager';
-import { AbstractScene } from './AbstractScene';
+import { AbstractScene } from './Scene';
 import { NetworkSerializer } from '../Network/NetworkSerializer';
 import { NetworkConstants } from '../Network/NetworkConstants';
 import {

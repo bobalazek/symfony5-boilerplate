@@ -2,6 +2,7 @@ import * as BABYLON from 'babylonjs';
 
 import { AbstractPlayerController } from '../Gameplay/PlayerController';
 import { AbstractPlayerInput } from '../Gameplay/PlayerInput';
+import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 import { AbstractScene } from '../Scenes/Scene';
 
 export class GameManager {
@@ -19,7 +20,9 @@ export class GameManager {
     this.playerController = new config.playerController();
 
     // Set player input
-    this.playerInput = new config.playerInput();
+    this.playerInput = new config.playerInput(
+      new config.playerInputBindings()
+    );
 
     // Load default scene
     let defaultScene = new config.defaultScene();
@@ -46,5 +49,6 @@ export class GameManager {
 export interface GameConfigInterface {
   defaultScene: new () => AbstractScene;
   playerController: new () => AbstractPlayerController;
-  playerInput: new () => AbstractPlayerInput;
+  playerInput: new (bindings: AbstractPlayerInputBindings) => AbstractPlayerInput;
+  playerInputBindings: new () => AbstractPlayerInputBindings;
 }

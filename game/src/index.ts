@@ -3,6 +3,7 @@ import { GameManager } from './Framework/Core/GameManager';
 import { DefaultScene } from './Game/Scenes/DefaultScene';
 import { PlayerController } from './Game/Gameplay/PlayerController';
 import { PlayerInput } from './Game/Gameplay/PlayerInput';
+import { PlayerInputBindings } from './Game/Gameplay/PlayerInputBindings';
 
 // CSS
 import '../static/css/app.css';
@@ -12,4 +13,5 @@ GameManager.boot({
   defaultScene: DefaultScene,
   playerController: PlayerController,
   playerInput: PlayerInput,
+  playerInputBindings: PlayerInputBindings,
 });

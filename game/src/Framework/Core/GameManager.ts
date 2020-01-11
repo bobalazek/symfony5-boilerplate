@@ -31,6 +31,7 @@ export class GameManager {
     // Main render loop
     this.engine.runRenderLoop(() => {
       if (this.scene) {
+        this.playerInput.update();
         this.scene.render();
       }
     });

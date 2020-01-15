@@ -13,7 +13,7 @@ export class GameManager {
   public static playerInput: AbstractPlayerInput;
 
   public static boot(config: GameConfigInterface) {
-    this.canvas = document.getElementById('game') as HTMLCanvasElement;
+    this.canvas = <HTMLCanvasElement>document.getElementById('game');
     this.engine = new BABYLON.Engine(this.canvas, true);
 
     // Set player controller

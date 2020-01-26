@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 
+import { InputManager } from './InputManager';
 import { AbstractPlayerController } from '../Gameplay/PlayerController';
-import { AbstractPlayerInput } from '../Gameplay/PlayerInput';
 import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 import { AbstractScene } from '../Scenes/Scene';
 
@@ -9,20 +9,23 @@ export class GameManager {
   public static canvas: HTMLCanvasElement;
   public static engine: BABYLON.Engine;
   public static scene: BABYLON.Scene;
+  public static inputManager: InputManager;
+
   public static playerController: AbstractPlayerController;
-  public static playerInput: AbstractPlayerInput;
 
   public static boot(config: GameConfigInterface) {
     this.canvas = <HTMLCanvasElement>document.getElementById('game');
     this.engine = new BABYLON.Engine(this.canvas, true);
 
-    // Set player controller
-    this.playerController = new config.playerController();
-
-    // Set player input
-    this.playerInput = new config.playerInput(
+    // Input manager
+    this.inputManager = new InputManager();
+    this.inputManager.setBindings(
       new config.playerInputBindings()
     );
+    this.inputManager.bindEvents();
+
+    // Set player controller
+    this.playerController = new config.playerController();
 
     // Load default scene
     let defaultScene = new config.defaultScene();
@@ -31,7 +34,7 @@ export class GameManager {
     // Main render loop
     this.engine.runRenderLoop(() => {
       if (this.scene) {
-        this.playerInput.update();
+        this.inputManager.update();
         this.scene.render();
       }
     });
@@ -39,6 +42,11 @@ export class GameManager {
     // Resize event
     window.addEventListener('resize', () => {
       this.engine.resize();
+    });
+
+    // Blur event
+    window.addEventListener('blur', () => {
+      this.inputManager.unbindEvents();
     });
   }
 
@@ -50,6 +58,5 @@ export class GameManager {
 export interface GameConfigInterface {
   defaultScene: new () => AbstractScene;
   playerController: new () => AbstractPlayerController;
-  playerInput: new (bindings: AbstractPlayerInputBindings) => AbstractPlayerInput;
   playerInputBindings: new () => AbstractPlayerInputBindings;
 }

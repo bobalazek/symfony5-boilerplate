@@ -53,6 +53,15 @@ export class InputManager {
 
   public setBindings(bindings: InputBindingsInterface) {
     this.bindings = bindings;
+
+    if (this.keyboard) {
+      this.keyboard.setBindings(bindings);
+    }
+
+    if (this.mouse) {
+      this.mouse.setBindings(bindings);
+    }
+
     this.reset();
   }
 

@@ -5,6 +5,8 @@ import {
   InputDeviceEnum,
   InputAxisEnum,
   InputMouseButtonEnum,
+  InputGamepadAxisEnum,
+  InputGamepadButtonEnum,
 } from '../Input/InputConstants';
 
 export abstract class AbstractPlayerInputBindings implements InputBindingsInterface {
@@ -38,6 +40,13 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
           scale: -1.0,
         },
       },
+      {
+        device: InputDeviceEnum.Gamepad,
+        data: {
+          axis: InputGamepadAxisEnum.LeftStickY,
+          scale: 1.0,
+        },
+      },
     ],
     moveRight: [
       {
@@ -68,12 +77,26 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
           scale: -1.0,
         },
       },
+      {
+        device: InputDeviceEnum.Gamepad,
+        data: {
+          axis: InputGamepadAxisEnum.LeftStickX,
+          scale: 1.0,
+        },
+      },
     ],
     lookUp: [
       {
         device: InputDeviceEnum.Mouse,
         data: {
           axis:  InputAxisEnum.Y,
+          scale: 1.0,
+        },
+      },
+      {
+        device: InputDeviceEnum.Gamepad,
+        data: {
+          axis: InputGamepadAxisEnum.RightStickY,
           scale: 1.0,
         },
       },
@@ -86,21 +109,34 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
           scale: 1.0,
         },
       },
+      {
+        device: InputDeviceEnum.Gamepad,
+        data: {
+          axis: InputGamepadAxisEnum.RightStickX,
+          scale: 1.0,
+        },
+      },
     ],
   };
   actions = {
     interact: [
       {
-          device: InputDeviceEnum.Keyboard,
-          data: {
-              keyCode: KeyboardKey.F,
-          },
+        device: InputDeviceEnum.Keyboard,
+        data: {
+          keyCode: KeyboardKey.F,
+        },
       },
       {
-          device: InputDeviceEnum.Mouse,
-          data: {
-              button: InputMouseButtonEnum.Left,
-          },
+        device: InputDeviceEnum.Mouse,
+        data: {
+          button: InputMouseButtonEnum.Left,
+        },
+      },
+      {
+        device: InputDeviceEnum.Gamepad,
+        data: {
+          button: InputGamepadButtonEnum.A,
+        },
       },
     ],
   };

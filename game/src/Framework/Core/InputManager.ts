@@ -4,10 +4,8 @@ import {
 } from '../Input/InputConstants';
 import { InputKeyboard } from '../Input/InputKeyboard';
 import { InputMouse } from '../Input/InputMouse';
-import {
-  InputGamepad,
-  InputGamepadManager,
-} from '../Input/InputGamepad';
+import { InputGamepad } from '../Input/InputGamepad';
+import { InputGamepadManager } from '../Input/InputGamepadManager';
 
 export class InputManager {
   public bindings: InputBindingsInterface;
@@ -55,6 +53,7 @@ export class InputManager {
 
   public setMode(mode: InputModeEnum) {
     this.mode = mode;
+
     this.reset();
   }
 

@@ -87,36 +87,7 @@ export class InputGamepadManager implements InputDeviceInterface {
     if (gamepads.length) {
       for (const index in gamepads) {
         const gamepad = gamepads[index];
-
-        // Axes
-        for (const axis in this._bindings.axes) {
-          const axisData = this._axesMap[axis];
-          let value: number = 0;
-
-          if (axisData) {
-            const actionAxis = axisData.axis;
-            const actionScale = axisData.scale;
-            value = gamepad[
-              InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
-            ] * actionScale;
-          }
-
-          GameManager.inputManager.setAxis(axis, value);
-       }
-
-        // Actions
-        for (const action in this._bindings.actions) {
-          const actionEnum = this._actionsInversedMap[action];
-          let value: boolean = false;
-
-          if (actionEnum) {
-            value = gamepad[
-              InputGamepadButtonPropertyEnum[InputGamepadButtonEnum[actionEnum]]
-            ];
-          }
-
-          GameManager.inputManager.setAction(action, value);
-        }
+        gamepad.update();
 
         if (
           GameManager.inputManager.mode !== InputModeEnum.Gamepad &&
@@ -130,6 +101,38 @@ export class InputGamepadManager implements InputDeviceInterface {
           GameManager.inputManager.setMode(
             InputModeEnum.Gamepad
           );
+        }
+
+        if (GameManager.inputManager.mode === InputModeEnum.Gamepad) {
+          // Axes
+          for (const axis in this._bindings.axes) {
+            const axisData = this._axesMap[axis];
+            let value: number = 0;
+
+            if (axisData) {
+              const actionAxis = axisData.axis;
+              const actionScale = axisData.scale;
+              value = gamepad[
+              InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
+              ] * actionScale;
+            }
+
+            GameManager.inputManager.setAxis(axis, value);
+          }
+
+          // Actions
+          for (const action in this._bindings.actions) {
+            const actionEnum = this._actionsInversedMap[action];
+            let value: boolean = false;
+
+            if (actionEnum) {
+              value = gamepad[
+                InputGamepadButtonPropertyEnum[InputGamepadButtonEnum[actionEnum]]
+              ];
+            }
+
+            GameManager.inputManager.setAction(action, value);
+          }
         }
       }
     }

@@ -6,7 +6,7 @@ import {
   InputMappingActionMouseDataInterface,
   InputDeviceEnum,
   InputModeEnum,
-  InputAxisEnum,
+  InputMouseAxisEnum,
   InputMouseButtonEnum,
 } from './InputConstants';
 
@@ -15,8 +15,6 @@ export class InputMouse implements InputDeviceInterface {
   private _axesMap: { [key: string]: InputMappingAxisMouseDataInterface } = {}; // ex.: [ moveForward: { axis: 0, scale: 1.0 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: [ 0: interact ]; 0 = InputMouseButtonEnum.Left
   private _buttonsPressed: Array<number> = [];
-  private _interval: any; // ex.: [ 0: 1 ] // 1 = InputMouseButtonEnum.Middle
-  private _intervalTime: number = 50; // after how many miliseconds it should clear the values?
 
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
@@ -76,6 +74,11 @@ export class InputMouse implements InputDeviceInterface {
       this._onHandleUpDown.bind(this),
       false
     );
+    GameManager.canvas.addEventListener(
+      'wheel',
+      this._onHandleWheel.bind(this),
+      false
+    );
   }
 
   public unbindEvents() {
@@ -109,6 +112,11 @@ export class InputMouse implements InputDeviceInterface {
       this._onHandleUpDown.bind(this),
       false
     );
+    GameManager.canvas.removeEventListener(
+      'wheel',
+      this._onHandleWheel.bind(this),
+      false
+    );
   }
 
   public update() {}
@@ -122,24 +130,16 @@ export class InputMouse implements InputDeviceInterface {
 
       if (
         deltaX !== 0 &&
-        mouseAction.axis === InputAxisEnum.X
+        mouseAction.axis === InputMouseAxisEnum.X
       ) {
         GameManager.inputManager.setAxis(axis, deltaX * mouseAction.scale);
       } else if (
         deltaY !== 0 &&
-        mouseAction.axis === InputAxisEnum.Y
+        mouseAction.axis === InputMouseAxisEnum.Y
       ) {
         GameManager.inputManager.setAxis(axis, deltaY * mouseAction.scale);
       }
     }
-
-    // Clear the position after a few miliseconds
-    clearTimeout(this._interval);
-    this._interval = setTimeout(() => {
-      for (const axis in this._axesMap) {
-        GameManager.inputManager.setAxis(axis, 0);
-      }
-    }, this._intervalTime);
   }
 
   private _onHandleUpDown(e: MouseEvent) {
@@ -185,6 +185,21 @@ export class InputMouse implements InputDeviceInterface {
       var index = this._buttonsPressed.indexOf(button);
       if (index > -1) {
         this._buttonsPressed.splice(index, 1);
+      }
+    }
+  }
+
+  private _onHandleWheel(e: MouseWheelEvent) {
+    const deltaY = e.deltaY;
+
+    for (const axis in this._axesMap) {
+      const mouseAction = this._axesMap[axis];
+
+      if (
+        deltaY !== 0 &&
+        mouseAction.axis === InputMouseAxisEnum.Wheel
+      ) {
+        GameManager.inputManager.setAxis(axis, deltaY * mouseAction.scale);
       }
     }
   }

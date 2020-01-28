@@ -23,6 +23,16 @@ export class InputManager {
     this.gamepadManager = new InputGamepadManager();
   }
 
+  public setBindings(bindings: InputBindingsInterface) {
+    this.bindings = bindings;
+
+    this.keyboard.setBindings(bindings);
+    this.mouse.setBindings(bindings);
+    this.gamepadManager.setBindings(bindings);
+
+    this.reset();
+  }
+
   public bindEvents() {
     this.keyboard.bindEvents();
     this.mouse.bindEvents();
@@ -41,13 +51,8 @@ export class InputManager {
     this.gamepadManager.update();
   }
 
-  public setBindings(bindings: InputBindingsInterface) {
-    this.bindings = bindings;
-
-    this.keyboard.setBindings(bindings);
-    this.mouse.setBindings(bindings);
-    this.gamepadManager.setBindings(bindings);
-
+  public afterUpdate() {
+    // After the frame has ended - clear up the set values
     this.reset();
   }
 

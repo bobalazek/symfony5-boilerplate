@@ -46,7 +46,7 @@ export interface InputMappingAxisGamepadInterface extends InputMappingInterface 
 }
 
 export interface InputMappingAxisMouseDataInterface extends InputMappingDataInterface {
-  axis: InputAxisEnum;
+  axis: InputMouseAxisEnum;
   scale: number;
 }
 
@@ -100,6 +100,12 @@ export enum InputDeviceEnum {
   Gamepad,
   Touch,
   DeviceOrientation,
+}
+
+export enum InputMouseAxisEnum {
+  X,
+  Y,
+  Wheel,
 }
 
 export enum InputMouseButtonEnum {

@@ -4,6 +4,7 @@ import {
   InputBindingsInterface,
   InputDeviceEnum,
   InputAxisEnum,
+  InputMouseAxisEnum,
   InputMouseButtonEnum,
   InputGamepadAxisEnum,
   InputGamepadButtonEnum,
@@ -105,7 +106,7 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
       {
         device: InputDeviceEnum.Mouse,
         data: {
-          axis:  InputAxisEnum.X,
+          axis:  InputMouseAxisEnum.X,
           scale: 1.0,
         },
       },
@@ -113,6 +114,15 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
         device: InputDeviceEnum.Gamepad,
         data: {
           axis: InputGamepadAxisEnum.RightStickX,
+          scale: 1.0,
+        },
+      },
+    ],
+    lookZoom: [
+      {
+        device: InputDeviceEnum.Mouse,
+        data: {
+          axis:  InputMouseAxisEnum.X,
           scale: 1.0,
         },
       },

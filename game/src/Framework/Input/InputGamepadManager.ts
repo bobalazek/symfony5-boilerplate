@@ -39,8 +39,6 @@ export class InputGamepadManager implements InputDeviceInterface {
       }
     }
 
-    console.log(this._actionsMap)
-
     // Attach axes
     this._axesMap = {};
     for (const axis in this._bindings.axes) {
@@ -51,8 +49,6 @@ export class InputGamepadManager implements InputDeviceInterface {
         }
       }
     }
-
-    console.log(this._axesMap)
   }
 
   public bindEvents() {

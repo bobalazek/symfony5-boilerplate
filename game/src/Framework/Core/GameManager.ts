@@ -33,8 +33,12 @@ export class GameManager {
 
     // Main render loop
     this.engine.runRenderLoop(() => {
+      this.inputManager.update();
+      setTimeout(() => { // TODO: any better solution?
+        this.inputManager.afterUpdate();
+      });
+
       if (this.scene) {
-        this.inputManager.update();
         this.scene.render();
       }
     });

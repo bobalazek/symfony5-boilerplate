@@ -1,3 +1,5 @@
+import { Key as KeyboardKey } from 'ts-keycode-enum';
+
 import { GameManager } from '../Core/GameManager';
 import {
   InputBindingsInterface,
@@ -108,6 +110,10 @@ export class InputKeyboard implements InputDeviceInterface {
 
       GameManager.inputManager.setAxis(axis, value);
     }
+  }
+
+  public isKeyPressed(keyCode: number) {
+    return typeof this._keysPressed[keyCode] !== 'undefined';
   }
 
   private _onHandle(e: KeyboardEvent) {

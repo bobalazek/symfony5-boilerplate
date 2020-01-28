@@ -2,10 +2,10 @@ import { GameManager } from '../Core/GameManager';
 import {
   InputBindingsInterface,
   InputDeviceInterface,
-  InputModeEnum,
-  InputDeviceEnum,
   InputMappingAxisKeyboardDataInterface,
   InputMappingActionKeyboardDataInterface,
+  InputModeEnum,
+  InputDeviceEnum,
 } from './InputConstants';
 
 export class InputKeyboard implements InputDeviceInterface {

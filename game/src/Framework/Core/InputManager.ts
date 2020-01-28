@@ -4,7 +4,10 @@ import {
 } from '../Input/InputConstants';
 import { InputKeyboard } from '../Input/InputKeyboard';
 import { InputMouse } from '../Input/InputMouse';
-import { InputGamepad } from '../Input/InputGamepad';
+import {
+  InputGamepad,
+  InputGamepadManager,
+} from '../Input/InputGamepad';
 
 export class InputManager {
   public bindings: InputBindingsInterface;
@@ -13,54 +16,39 @@ export class InputManager {
   public actions: { [key: string]: boolean } = {};
   public keyboard: InputKeyboard;
   public mouse: InputMouse;
-  public gamepads: Array<InputGamepad>;
+  public gamepadManager: InputGamepadManager;
+  public gamepads: Array<InputGamepad> = [];
 
   constructor() {
     this.keyboard = new InputKeyboard();
     this.mouse = new InputMouse();
-    // TODO: gamepads
+    this.gamepadManager = new InputGamepadManager();
   }
 
   public bindEvents() {
-    if (this.keyboard) {
-      this.keyboard.bindEvents();
-    }
-
-    if (this.mouse) {
-      this.mouse.bindEvents();
-    }
+    this.keyboard.bindEvents();
+    this.mouse.bindEvents();
+    this.gamepadManager.bindEvents();
   }
 
   public unbindEvents() {
-    if (this.keyboard) {
-      this.keyboard.unbindEvents();
-    }
-
-    if (this.mouse) {
-      this.mouse.unbindEvents();
-    }
+    this.keyboard.unbindEvents();
+    this.mouse.unbindEvents();
+    this.gamepadManager.unbindEvents();
   }
 
   public update() {
-    if (this.keyboard) {
-      this.keyboard.update();
-    }
-
-    if (this.mouse) {
-      this.mouse.update();
-    }
+    this.keyboard.update();
+    this.mouse.update();
+    this.gamepadManager.update();
   }
 
   public setBindings(bindings: InputBindingsInterface) {
     this.bindings = bindings;
 
-    if (this.keyboard) {
-      this.keyboard.setBindings(bindings);
-    }
-
-    if (this.mouse) {
-      this.mouse.setBindings(bindings);
-    }
+    this.keyboard.setBindings(bindings);
+    this.mouse.setBindings(bindings);
+    this.gamepadManager.setBindings(bindings);
 
     this.reset();
   }
@@ -76,6 +64,10 @@ export class InputManager {
 
   public setAction(action: string, value: boolean) {
     this.actions[action] = value;
+  }
+
+  public setGamepad(index: number, gamepad: InputGamepad) {
+    this.gamepads[index] = gamepad;
   }
 
   public reset() {

@@ -113,12 +113,6 @@ export interface InputEnumStickValues {
   y: number;
 }
 
-export enum InputGamepadTypeEnum {
-  Generic,
-  Xbox360,
-  XboxOne,
-}
-
 export enum InputGamepadAxisEnum {
   LeftStickX,
   LeftStickY,

@@ -16,11 +16,36 @@ export class InputKeyboard implements InputDeviceInterface {
 
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
+
+    // Attach actions
+    this._actionsMap = {};
+    for (const action in this._bindings.actions) {
+      const mappings = this._bindings.actions[action];
+      for (let i = 0; i < mappings.length; i++) {
+        if (mappings[i].device === InputDeviceEnum.Keyboard) {
+          const mappingData = <InputMappingActionKeyboardDataInterface>mappings[i].data;
+          this._actionsMap[mappingData.keyCode] = action;
+        }
+      }
+    }
+
+    // Attach axes
+    this._axesKeyScaleMap = {};
+    for (const axis in this._bindings.axes) {
+      const mappings = this._bindings.axes[axis];
+      for (let i = 0; i < mappings.length; i++) {
+        if (mappings[i].device === InputDeviceEnum.Keyboard) {
+          const mappingData = <InputMappingAxisKeyboardDataInterface>mappings[i].data;
+          this._axesKeyScaleMap[mappingData.keyCode] = {
+            axis: axis,
+            scale: mappingData.scale,
+          };
+        }
+      }
+    }
   }
 
   public bindEvents() {
-    this.setActionsAndAxes();
-
     GameManager.canvas.addEventListener(
       'keydown',
       this._onHandle.bind(this),
@@ -82,33 +107,6 @@ export class InputKeyboard implements InputDeviceInterface {
       }
 
       GameManager.inputManager.setAxis(axis, value);
-    }
-  }
-
-  public setActionsAndAxes() {
-    // Attach actions
-    for (const action in this._bindings.actions) {
-      const mappings = this._bindings.actions[action];
-      for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Keyboard) {
-          const mappingData = <InputMappingActionKeyboardDataInterface>mappings[i].data;
-          this._actionsMap[mappingData.keyCode] = action;
-        }
-      }
-    }
-
-    // Attach axes
-    for (const axis in this._bindings.axes) {
-      const mappings = this._bindings.axes[axis];
-      for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Keyboard) {
-          const mappingData = <InputMappingAxisKeyboardDataInterface>mappings[i].data;
-          this._axesKeyScaleMap[mappingData.keyCode] = {
-            axis: axis,
-            scale: mappingData.scale,
-          };
-        }
-      }
     }
   }
 

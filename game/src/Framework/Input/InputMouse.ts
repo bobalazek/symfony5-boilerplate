@@ -20,11 +20,32 @@ export class InputMouse implements InputDeviceInterface {
 
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
+
+    // Attach actions
+    this._actionsMap = {}
+    for (const action in this._bindings.actions) {
+      const mappings = this._bindings.actions[action];
+      for (let i = 0; i < mappings.length; i++) {
+        if (mappings[i].device === InputDeviceEnum.Mouse) {
+          const mappingData = <InputMappingActionMouseDataInterface>mappings[i].data;
+          this._actionsMap[mappingData.button] = action;
+        }
+      }
+    }
+
+    // Attach axes
+    this._axesMap = {};
+    for (const axis in this._bindings.axes) {
+      const mappings = this._bindings.axes[axis];
+      for (let i = 0; i < mappings.length; i++) {
+        if (mappings[i].device === InputDeviceEnum.Mouse) {
+          this._axesMap[axis] = <InputMappingAxisMouseDataInterface>mappings[i].data;
+        }
+      }
+    }
   }
 
   public bindEvents() {
-    this.setActionsAndAxes();
-
     GameManager.canvas.addEventListener(
       'mousemove',
       this._onHandleMove.bind(this),
@@ -91,29 +112,6 @@ export class InputMouse implements InputDeviceInterface {
   }
 
   public update() {}
-
-  public setActionsAndAxes() {
-    // Attach actions
-    for (const action in this._bindings.actions) {
-      const mappings = this._bindings.actions[action];
-      for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Mouse) {
-          const mappingData = <InputMappingActionMouseDataInterface>mappings[i].data;
-          this._actionsMap[mappingData.button] = action;
-        }
-      }
-    }
-
-    // Attach axes
-    for (const axis in this._bindings.axes) {
-      const mappings = this._bindings.axes[axis];
-      for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Mouse) {
-          this._axesMap[axis] = <InputMappingAxisMouseDataInterface>mappings[i].data;
-        }
-      }
-    }
-  }
 
   private _onHandleMove(e: MouseEvent) {
     const deltaX = e.movementX;

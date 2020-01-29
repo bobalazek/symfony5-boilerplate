@@ -113,7 +113,7 @@ export class InputGamepadManager implements InputDeviceInterface {
               ] * actionScale;
             }
 
-            GameManager.inputManager.setAxis(axis, value);
+            GameManager.inputManager.addToAxis(axis, value);
           }
 
           // Actions

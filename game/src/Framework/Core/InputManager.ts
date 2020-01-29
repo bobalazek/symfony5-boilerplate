@@ -51,8 +51,7 @@ export class InputManager {
     this.gamepadManager.update();
   }
 
-  public afterUpdate() {
-    // After the frame has ended - clear up the set values
+  public afterRender() {
     this.reset();
   }
 
@@ -64,6 +63,10 @@ export class InputManager {
 
   public setAxis(axis: string, scale: number) {
     this.axes[axis] = scale;
+  }
+
+  public addToAxis(axis: string, value: number) {
+    this.axes[axis] += value;
   }
 
   public setAction(action: string, value: boolean) {

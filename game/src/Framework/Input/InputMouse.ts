@@ -132,12 +132,12 @@ export class InputMouse implements InputDeviceInterface {
         deltaX !== 0 &&
         mouseAction.axis === InputMouseAxisEnum.X
       ) {
-        GameManager.inputManager.setAxis(axis, deltaX * mouseAction.scale);
+        GameManager.inputManager.addToAxis(axis, deltaX * mouseAction.scale);
       } else if (
         deltaY !== 0 &&
         mouseAction.axis === InputMouseAxisEnum.Y
       ) {
-        GameManager.inputManager.setAxis(axis, deltaY * mouseAction.scale);
+        GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
       }
     }
   }
@@ -199,7 +199,7 @@ export class InputMouse implements InputDeviceInterface {
         deltaY !== 0 &&
         mouseAction.axis === InputMouseAxisEnum.Wheel
       ) {
-        GameManager.inputManager.setAxis(axis, deltaY * mouseAction.scale);
+        GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
       }
     }
   }

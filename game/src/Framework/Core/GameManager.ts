@@ -24,22 +24,23 @@ export class GameManager {
     );
     this.inputManager.bindEvents();
 
-    // Load default scene
-    let defaultScene = new config.defaultScene();
-    defaultScene.load();
-
     // Set player controller
     this.playerController = new config.playerController();
     this.playerController.start();
+
+    // Load default scene
+    let defaultScene = new config.defaultScene();
+    defaultScene.load();
 
     // Main render loop
     this.engine.runRenderLoop(() => {
       if (this.scene) {
         this.inputManager.update();
         this.playerController.update();
-        this.inputManager.afterUpdate();
 
         this.scene.render();
+
+        this.inputManager.afterRender();
       }
     });
 

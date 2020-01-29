@@ -72,36 +72,12 @@ export class InputKeyboard implements InputDeviceInterface {
   }
 
   public update() {
-    let affectedAxes = {};
     for (let keyCode in this._keysPressed) {
       if (this._axesKeyScaleMap[keyCode]) {
         const axis = this._axesKeyScaleMap[keyCode].axis;
         const scale = this._axesKeyScaleMap[keyCode].scale;
 
-        if (typeof affectedAxes[axis] === 'undefined') {
-          affectedAxes[axis] = { min: 0, max: 0 };
-        }
-
-        if (scale < affectedAxes[axis].min) {
-          affectedAxes[axis].min = scale;
-        }
-        if (scale > affectedAxes[axis].max) {
-          affectedAxes[axis].max = scale;
-        }
-      }
-    }
-
-    for (const axis in this._bindings.axes) {
-      if (typeof affectedAxes[axis] !== 'undefined') {
-        const affectedAxis = affectedAxes[axis];
-
-        if (affectedAxis.min !== 0 || affectedAxis.max !== 0) {
-          if (affectedAxis.min !== 0 && affectedAxis.max === 0) {
-            GameManager.inputManager.setAxis(axis, affectedAxis.min);
-          } else if (affectedAxis.min === 0 && affectedAxis.max !== 0) {
-            GameManager.inputManager.setAxis(axis, affectedAxis.max);
-          }
-        }
+        GameManager.inputManager.addToAxis(axis, scale);
       }
     }
   }

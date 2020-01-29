@@ -48,8 +48,8 @@ export abstract class AbstractPlayerController {
       const camera = <BABYLON.ArcRotateCamera>GameManager.scene.activeCamera;
 
       if (inputRotation !== BABYLON.Vector2.Zero()) {
-        camera.alpha += inputRotation.x * -0.02;
-        camera.beta += inputRotation.y * -0.02;
+        camera.alpha += inputRotation.x * -0.002;
+        camera.beta += inputRotation.y * -0.001;
       }
 
       if (inputLocation !== BABYLON.Vector2.Zero()) {
@@ -65,12 +65,13 @@ export abstract class AbstractPlayerController {
           BABYLON.Space.LOCAL
         );
       }
-
-      camera.setTarget(this.posessedTransformNode.position);
     }
   }
 
   public posessTransformNode(transformNode: BABYLON.TransformNode) {
     this.posessedTransformNode = transformNode;
+
+    const camera = <BABYLON.ArcRotateCamera>GameManager.scene.activeCamera;
+    camera.lockedTarget = this.posessedTransformNode;
   }
 }

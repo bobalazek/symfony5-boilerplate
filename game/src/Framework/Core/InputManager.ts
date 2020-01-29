@@ -16,6 +16,7 @@ export class InputManager {
   public mouse: InputMouse;
   public gamepadManager: InputGamepadManager;
   public gamepads: Array<InputGamepad> = [];
+  public forcePointerLock: boolean = false;
 
   constructor() {
     this.keyboard = new InputKeyboard();
@@ -75,6 +76,10 @@ export class InputManager {
 
   public setGamepad(index: number, gamepad: InputGamepad) {
     this.gamepads[index] = gamepad;
+  }
+
+  public setForcePointerLock(value: boolean) {
+    this.forcePointerLock = value;
   }
 
   public reset() {

@@ -125,25 +125,28 @@ export class InputMouse implements InputDeviceInterface {
     const deltaX = e.movementX;
     const deltaY = e.movementY;
 
-    for (const axis in this._axesMap) {
-      const mouseAction = this._axesMap[axis];
+    if (GameManager.engine.isPointerLock) {
+      for (const axis in this._axesMap) {
+        const mouseAction = this._axesMap[axis];
 
-      if (
-        deltaX !== 0 &&
-        mouseAction.axis === InputMouseAxisEnum.X
-      ) {
-        GameManager.inputManager.addToAxis(axis, deltaX * mouseAction.scale);
-      } else if (
-        deltaY !== 0 &&
-        mouseAction.axis === InputMouseAxisEnum.Y
-      ) {
-        GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
+        if (
+          deltaX !== 0 &&
+          mouseAction.axis === InputMouseAxisEnum.X
+        ) {
+          GameManager.inputManager.addToAxis(axis, deltaX * mouseAction.scale);
+        } else if (
+          deltaY !== 0 &&
+          mouseAction.axis === InputMouseAxisEnum.Y
+        ) {
+          GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
+        }
       }
     }
   }
 
   private _onHandleUpDown(e: MouseEvent) {
     const isPressed = e.type === 'mousedown' || e.type === 'pointerdown';
+
     // TODO: make sure those bindings are correct, especially in IE
     const button = e.which === 3
       ? InputMouseButtonEnum.Right
@@ -157,6 +160,14 @@ export class InputMouse implements InputDeviceInterface {
 
     if (button === null) {
       return;
+    }
+
+    if (
+      isPressed &&
+      !GameManager.engine.isPointerLock &&
+      GameManager.inputManager.forcePointerLock
+    ) {
+      GameManager.engine.enterPointerlock();
     }
 
     const action = typeof this._actionsMap[button] !== 'undefined'

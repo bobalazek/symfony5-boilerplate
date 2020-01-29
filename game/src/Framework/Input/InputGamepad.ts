@@ -1,6 +1,8 @@
 export class InputGamepad {
+  public index: number;
   public data: Gamepad;
   public isConnected: boolean = false;
+  public isXbox: boolean = false;
   public isXboxOne: boolean = false;
 
   // Buttons
@@ -31,6 +33,9 @@ export class InputGamepad {
 
   constructor(data: Gamepad) {
     this.data = data;
+    this.index = data.index;
+    this.isXbox = data.id.indexOf('Xbox') !== -1;
+    this.isXboxOne = data.id.indexOf('Xbox One') !== -1;
   }
 
   public update() {
@@ -56,7 +61,7 @@ export class InputGamepad {
       this.buttonDPadDown = this.data.buttons[12].pressed;
       this.buttonDPadLeft = this.data.buttons[13].pressed;
       this.buttonDPadRight = this.data.buttons[14].pressed;
-    } else {
+    } else if (this.isXbox) {
       this.leftStickX = this.data.axes[0];
       this.leftStickY = this.data.axes[1];
       this.rightStickX = this.data.axes[2];
@@ -78,6 +83,8 @@ export class InputGamepad {
       this.buttonDPadDown = this.data.buttons[13].pressed;
       this.buttonDPadLeft = this.data.buttons[14].pressed;
       this.buttonDPadRight = this.data.buttons[15].pressed;
+    } else {
+      // TODO
     }
   }
 }

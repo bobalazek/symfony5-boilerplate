@@ -52,29 +52,41 @@ export class InputGamepadManager implements InputDeviceInterface {
   }
 
   public bindEvents() {
-    window.addEventListener(
+    if (this.hasSupport) {
+      const hostWindow = GameManager.scene
+        ? GameManager.engine.getHostWindow()
+        : window;
+
+      hostWindow.addEventListener(
         'gamepadconnected',
         this._onHandle.bind(this),
         false
-    );
-    window.addEventListener(
+      );
+      hostWindow.addEventListener(
         'gamepaddisconnected',
         this._onHandle.bind(this),
         false
-    );
+      );
+    }
   }
 
   public unbindEvents() {
-    window.removeEventListener(
+    if (this.hasSupport) {
+    const hostWindow = GameManager.scene
+      ? GameManager.engine.getHostWindow()
+      : window;
+
+      hostWindow.removeEventListener(
         'gamepadconnected',
         this._onHandle.bind(this),
         false
-    );
-    window.removeEventListener(
+      );
+      hostWindow.removeEventListener(
         'gamepaddisconnected',
         this._onHandle.bind(this),
         false
-    );
+      );
+    }
   }
 
   public update() {
@@ -82,7 +94,15 @@ export class InputGamepadManager implements InputDeviceInterface {
 
     if (gamepads.length) {
       for (const index in gamepads) {
+        if (index !== '0') {
+          break; // TODO
+        }
+
         const gamepad = gamepads[index];
+        if (!gamepad.isConnected) {
+          continue;
+        }
+
         gamepad.update();
 
         if (
@@ -103,17 +123,17 @@ export class InputGamepadManager implements InputDeviceInterface {
           // Axes
           for (const axis in this._bindings.axes) {
             const axisData = this._axesMap[axis];
-            let value: number = 0;
-
             if (axisData) {
               const actionAxis = axisData.axis;
               const actionScale = axisData.scale;
-              value = gamepad[
-              InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
+              const value = gamepad[
+                InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
               ] * actionScale;
-            }
 
-            GameManager.inputManager.addToAxis(axis, value);
+              if (value > 0.1) { // TODO: implement deadzone
+                GameManager.inputManager.addToAxis(axis, value);
+              }
+            }
           }
 
           // Actions

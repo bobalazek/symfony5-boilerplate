@@ -6,7 +6,7 @@ export abstract class AbstractPlayerController {
   public posessedTransformNode: BABYLON.TransformNode;
 
   public start() {
-    GameManager.engine.enterPointerlock();
+    GameManager.inputManager.setForcePointerLock(true);
   }
 
   public update() {
@@ -49,7 +49,7 @@ export abstract class AbstractPlayerController {
 
       if (inputRotation !== BABYLON.Vector2.Zero()) {
         camera.alpha += inputRotation.x * -0.002;
-        camera.beta += inputRotation.y * -0.001;
+        camera.beta += inputRotation.y * -0.0005;
       }
 
       if (inputLocation !== BABYLON.Vector2.Zero()) {

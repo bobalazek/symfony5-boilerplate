@@ -1,5 +1,3 @@
-import { Key as KeyboardKey } from 'ts-keycode-enum';
-
 import { GameManager } from '../Core/GameManager';
 import {
   InputBindingsInterface,
@@ -94,21 +92,17 @@ export class InputKeyboard implements InputDeviceInterface {
     }
 
     for (const axis in this._bindings.axes) {
-      let value = 0.0;
-
       if (typeof affectedAxes[axis] !== 'undefined') {
         const affectedAxis = affectedAxes[axis];
 
         if (affectedAxis.min !== 0 || affectedAxis.max !== 0) {
           if (affectedAxis.min !== 0 && affectedAxis.max === 0) {
-            value = affectedAxis.min;
+            GameManager.inputManager.setAxis(axis, affectedAxis.min);
           } else if (affectedAxis.min === 0 && affectedAxis.max !== 0) {
-            value = affectedAxis.max;
+            GameManager.inputManager.setAxis(axis, affectedAxis.max);
           }
         }
       }
-
-      GameManager.inputManager.setAxis(axis, value);
     }
   }
 

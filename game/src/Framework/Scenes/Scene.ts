@@ -40,7 +40,7 @@ export abstract class AbstractScene implements SceneInterface {
   prepareCamera() {
     let camera = new BABYLON.ArcRotateCamera(
       'camera',
-      Math.PI / 3,
+      Math.PI / -2,
       Math.PI / 3,
       10,
       BABYLON.Vector3.Zero(),
@@ -49,9 +49,7 @@ export abstract class AbstractScene implements SceneInterface {
 
     camera.upperBetaLimit = Math.PI / 2;
 
-    this.scene.activeCamera = camera
-
-    camera.attachControl(GameManager.canvas);
+    this.scene.activeCamera = camera;
   }
 
   prepareLights() {

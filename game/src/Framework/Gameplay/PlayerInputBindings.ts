@@ -122,7 +122,7 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
       {
         device: InputDeviceEnum.Mouse,
         data: {
-          axis:  InputMouseAxisEnum.X,
+          axis:  InputMouseAxisEnum.Wheel,
           scale: 1.0,
         },
       },

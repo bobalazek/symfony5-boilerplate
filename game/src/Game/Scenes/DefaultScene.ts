@@ -29,7 +29,7 @@ export class DefaultScene extends AbstractNetworkScene {
       });
 
     // Inspector
-    this.scene.debugLayer.show();
+    // this.scene.debugLayer.show();
 
     // Set scene & hide preloader
     GameManager.setScene(this.scene);

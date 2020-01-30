@@ -53,6 +53,9 @@ export abstract class AbstractPlayerController {
       }
 
       if (inputLocation !== BABYLON.Vector2.Zero()) {
+        // TODO: walk forward in the direction of the camera
+        // const cameraForward = camera.getFrontPosition(1);
+
         const direction = new BABYLON.Vector3(
           inputLocation.x,
           0,

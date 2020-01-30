@@ -133,7 +133,6 @@ export class InputGamepadManager implements InputDeviceInterface {
               ];
 
               if (Math.abs(value) > 0.1) { // TODO: implement deadzone
-                console.log(axis, value)
                 GameManager.inputManager.addToAxis(axis, value * actionScale);
               }
             }

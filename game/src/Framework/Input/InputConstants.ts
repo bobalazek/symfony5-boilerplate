@@ -139,7 +139,6 @@ export enum InputGamepadAxisPropertyEnum {
   RightStickY = 'rightStickY',
   LeftTrigger = 'leftTrigger',
   RightTrigger  = 'rightTrigger',
-  Triggers  = 'triggers', // A special, virtual field. If left trigger is pressed, the value is negative. If right trigger is pressed, it's positive.
 }
 
 export enum InputGamepadButtonEnum {

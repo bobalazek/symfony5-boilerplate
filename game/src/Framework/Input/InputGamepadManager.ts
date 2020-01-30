@@ -57,42 +57,44 @@ export class InputGamepadManager implements InputDeviceInterface {
         ? GameManager.engine.getHostWindow()
         : window;
 
-      hostWindow.addEventListener(
-        'gamepadconnected',
-        this._onHandle.bind(this),
-        false
-      );
-      hostWindow.addEventListener(
-        'gamepaddisconnected',
-        this._onHandle.bind(this),
-        false
-      );
+        hostWindow.addEventListener(
+          'gamepadconnected',
+          this._onHandle.bind(this),
+          false
+        );
+        hostWindow.addEventListener(
+          'gamepaddisconnected',
+          this._onHandle.bind(this),
+          false
+        );
     }
   }
 
   public unbindEvents() {
     if (this.hasSupport) {
-    const hostWindow = GameManager.scene
-      ? GameManager.engine.getHostWindow()
-      : window;
+      const hostWindow = GameManager.scene
+        ? GameManager.engine.getHostWindow()
+        : window;
 
-      hostWindow.removeEventListener(
-        'gamepadconnected',
-        this._onHandle.bind(this),
-        false
-      );
-      hostWindow.removeEventListener(
-        'gamepaddisconnected',
-        this._onHandle.bind(this),
-        false
-      );
+        hostWindow.removeEventListener(
+          'gamepadconnected',
+          this._onHandle.bind(this),
+          false
+        );
+        hostWindow.removeEventListener(
+          'gamepaddisconnected',
+          this._onHandle.bind(this),
+          false
+        );
     }
   }
 
   public update() {
-    const gamepads = GameManager.inputManager.gamepads;
+    this._updateGamepads();
 
+    const gamepads = GameManager.inputManager.gamepads;
     if (gamepads.length) {
+
       for (const index in gamepads) {
         if (index !== '0') {
           break; // TODO
@@ -128,10 +130,11 @@ export class InputGamepadManager implements InputDeviceInterface {
               const actionScale = axisData.scale;
               const value = gamepad[
                 InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
-              ] * actionScale;
+              ];
 
-              if (value > 0.1) { // TODO: implement deadzone
-                GameManager.inputManager.addToAxis(axis, value);
+              if (Math.abs(value) > 0.1) { // TODO: implement deadzone
+                console.log(axis, value)
+                GameManager.inputManager.addToAxis(axis, value * actionScale);
               }
             }
           }
@@ -168,12 +171,41 @@ export class InputGamepadManager implements InputDeviceInterface {
       gamepad
     );
 
+    this.isAnyConnected = false;
     for (const index in GameManager.inputManager.gamepads) {
       const gamepad = GameManager.inputManager.gamepads[index];
       if (gamepad.isConnected) {
         this.isAnyConnected = true;
         break;
       }
+    }
+  }
+
+  private _updateGamepads() {
+    const browserGamepads = navigator.getGamepads
+      ? navigator.getGamepads()
+      : (navigator.webkitGetGamepads
+        ? navigator.webkitGetGamepads()
+        : []
+      );
+    for (let index = 0; index < browserGamepads.length; index++) {
+      const browserGamepad = browserGamepads[index];
+
+      if (!browserGamepad) {
+        continue;
+      }
+
+      let gamepad = GameManager.inputManager.gamepads[index];
+      if (!gamepad) {
+        gamepad = new InputGamepad(browserGamepad);
+      }
+
+      gamepad.data = browserGamepad;
+
+      GameManager.inputManager.setGamepad(
+        index,
+        gamepad
+      );
     }
   }
 }

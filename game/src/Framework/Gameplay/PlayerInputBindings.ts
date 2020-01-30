@@ -45,7 +45,7 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
         device: InputDeviceEnum.Gamepad,
         data: {
           axis: InputGamepadAxisEnum.LeftStickY,
-          scale: 1.0,
+          scale: -1.0,
         },
       },
     ],
@@ -98,7 +98,7 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
         device: InputDeviceEnum.Gamepad,
         data: {
           axis: InputGamepadAxisEnum.RightStickY,
-          scale: 1.0,
+          scale: 20.0,
         },
       },
     ],
@@ -114,7 +114,7 @@ export abstract class AbstractPlayerInputBindings implements InputBindingsInterf
         device: InputDeviceEnum.Gamepad,
         data: {
           axis: InputGamepadAxisEnum.RightStickX,
-          scale: 1.0,
+          scale: 20.0,
         },
       },
     ],

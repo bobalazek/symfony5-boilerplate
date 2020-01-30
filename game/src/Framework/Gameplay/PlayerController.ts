@@ -5,6 +5,11 @@ import { GameManager } from '../Core/GameManager';
 export abstract class AbstractPlayerController {
   public posessedTransformNode: BABYLON.TransformNode;
 
+  private _forward = new BABYLON.Vector3(0, 0, 1);
+  private _forwardInverted = new BABYLON.Vector3(0, 0, -1);
+  private _right = new BABYLON.Vector3(1, 0, 0);
+  private _rightInverted = new BABYLON.Vector3(-1, 0, 0);
+
   public start() {
     GameManager.inputManager.setForcePointerLock(true);
   }
@@ -47,25 +52,34 @@ export abstract class AbstractPlayerController {
     if (this.posessedTransformNode) {
       const camera = <BABYLON.ArcRotateCamera>GameManager.scene.activeCamera;
 
-      if (inputRotation !== BABYLON.Vector2.Zero()) {
+      if (
+        inputRotation.x !== 0 ||
+        inputRotation.y !== 0
+      ) {
         camera.alpha += inputRotation.x * -0.002;
         camera.beta += inputRotation.y * -0.0005;
       }
 
-      if (inputLocation !== BABYLON.Vector2.Zero()) {
-        // TODO: walk forward in the direction of the camera
-        // const cameraForward = camera.getFrontPosition(1);
+      if (
+        inputLocation.x !== 0 ||
+        inputLocation.y !== 0
+      ) {
+        let cameraRight = BABYLON.Vector3.Normalize(BABYLON.Vector3.TransformNormal(
+            GameManager.scene.useRightHandedSystem ? this._rightInverted : this._right,
+            camera.getWorldMatrix()
+        ));
+        cameraRight.normalize().scaleInPlace(inputLocation.x);
 
-        const direction = new BABYLON.Vector3(
-          inputLocation.x,
+        let cameraForward = BABYLON.Vector3.Normalize(BABYLON.Vector3.TransformNormal(
+            GameManager.scene.useRightHandedSystem ? this._forwardInverted : this._forward,
+            camera.getWorldMatrix()
+        ));
+        cameraForward.normalize().scaleInPlace(inputLocation.y);
+
+        this.posessedTransformNode.position.addInPlaceFromFloats(
+          cameraRight.x + cameraForward.x,
           0,
-          inputLocation.y,
-        ).normalize();
-
-        this.posessedTransformNode.translate(
-          direction,
-          0.1,
-          BABYLON.Space.LOCAL
+          cameraRight.z + cameraForward.z
         );
       }
     }

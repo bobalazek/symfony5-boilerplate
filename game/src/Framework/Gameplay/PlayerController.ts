@@ -65,14 +65,14 @@ export abstract class AbstractPlayerController {
         inputLocation.y !== 0
       ) {
         let cameraRight = BABYLON.Vector3.Normalize(BABYLON.Vector3.TransformNormal(
-            GameManager.scene.useRightHandedSystem ? this._rightInverted : this._right,
-            camera.getWorldMatrix()
+          GameManager.scene.useRightHandedSystem ? this._rightInverted : this._right,
+          camera.getWorldMatrix()
         ));
         cameraRight.normalize().scaleInPlace(inputLocation.x);
 
         let cameraForward = BABYLON.Vector3.Normalize(BABYLON.Vector3.TransformNormal(
-            GameManager.scene.useRightHandedSystem ? this._forwardInverted : this._forward,
-            camera.getWorldMatrix()
+          GameManager.scene.useRightHandedSystem ? this._forwardInverted : this._forward,
+          camera.getWorldMatrix()
         ));
         cameraForward.normalize().scaleInPlace(inputLocation.y);
 

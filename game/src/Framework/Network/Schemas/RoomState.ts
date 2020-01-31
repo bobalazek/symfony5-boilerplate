@@ -37,7 +37,7 @@ export class RoomState extends Schema {
   }
 
   removePlayer(id: string) {
-    delete this.players[id];
+    delete this.players[id]; // TODO: set to undefined, as it's faster?
   }
 
   addTransform(id: string, transformMatrix: any) {
@@ -55,6 +55,6 @@ export class RoomState extends Schema {
   }
 
   removeTransform(id: string) {
-    delete this.transforms[id];
+    delete this.transforms[id]; // TODO: set to undefined, as it's faster?
   }
 }

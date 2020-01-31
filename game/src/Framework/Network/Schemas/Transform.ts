@@ -14,7 +14,6 @@ export class Transform extends Schema {
   @type(Vector3)
   rotation: Vector3 = new Vector3();
 
-  /*
   @type(Vector3)
   scale: Vector3 = new Vector3({
     x: 1,
@@ -26,6 +25,5 @@ export class Transform extends Schema {
   velocity: Vector3 = new Vector3();
 
   @type(Vector3)
-  angularVelocity: angularVelocity = new Vector3();
-  */
+  angularVelocity: Vector3 = new Vector3();
 }

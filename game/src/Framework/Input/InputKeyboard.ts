@@ -12,7 +12,7 @@ export class InputKeyboard implements InputDeviceInterface {
   private _bindings: InputBindingsInterface;
   private _axesKeyScaleMap: { [key: number]: { axis: string, scale: number } } = {}; // ex.: [ 68: { axis: 'moveForward', scale: 1 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: { 68: moveForward }
-  private _keysPressed: { [key: number]: number } = {}; // ex.: { 68: 123456789 /* unix time */ }
+  private _keysPressed: { [key: number]: number | undefined } = {}; // ex.: { 68: 123456789 /* unix time */ }
 
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
@@ -72,7 +72,11 @@ export class InputKeyboard implements InputDeviceInterface {
   }
 
   public update() {
-    for (let keyCode in this._keysPressed) {
+    for (const keyCode in this._keysPressed) {
+      if (!this._keysPressed[keyCode]) {
+        continue;
+      }
+
       if (this._axesKeyScaleMap[keyCode]) {
         const axis = this._axesKeyScaleMap[keyCode].axis;
         const scale = this._axesKeyScaleMap[keyCode].scale;
@@ -83,7 +87,21 @@ export class InputKeyboard implements InputDeviceInterface {
   }
 
   public isKeyPressed(keyCode: number) {
-    return typeof this._keysPressed[keyCode] !== 'undefined';
+    return typeof this._keysPressed[keyCode] === 'number';
+  }
+
+  public getKeysPressed() {
+    let keysPressed = [];
+
+    for (const keyCode in this._keysPressed) {
+      if (!this._keysPressed[keyCode]) {
+        continue;
+      }
+
+      keysPressed.push(keyCode);
+    }
+
+    return keysPressed;
   }
 
   private _onHandle(e: KeyboardEvent) {
@@ -110,7 +128,7 @@ export class InputKeyboard implements InputDeviceInterface {
       this._keysPressed[keyCode] = (new Date()).getTime();
     } else {
       if (typeof this._keysPressed[keyCode] !== 'undefined') {
-        delete this._keysPressed[keyCode];
+        this._keysPressed[keyCode] = undefined; // faster than just deleting
       }
     }
   }

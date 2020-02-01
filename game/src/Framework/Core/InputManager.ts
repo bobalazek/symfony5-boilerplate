@@ -4,6 +4,7 @@ import {
 } from '../Input/InputConstants';
 import { InputKeyboard } from '../Input/InputKeyboard';
 import { InputMouse } from '../Input/InputMouse';
+import { InputDeviceOrientation } from '../Input/InputDeviceOrientation';
 import { InputGamepad } from '../Input/InputGamepad';
 import { InputGamepadManager } from '../Input/InputGamepadManager';
 
@@ -14,6 +15,7 @@ export class InputManager {
   public actions: { [key: string]: boolean } = {};
   public keyboard: InputKeyboard;
   public mouse: InputMouse;
+  public deviceOrientation: InputDeviceOrientation;
   public gamepadManager: InputGamepadManager;
   public gamepads: Array<InputGamepad> = [];
   public forcePointerLock: boolean = false;
@@ -21,6 +23,7 @@ export class InputManager {
   constructor() {
     this.keyboard = new InputKeyboard();
     this.mouse = new InputMouse();
+    this.deviceOrientation = new InputDeviceOrientation();
     this.gamepadManager = new InputGamepadManager();
   }
 
@@ -29,6 +32,7 @@ export class InputManager {
 
     this.keyboard.setBindings(bindings);
     this.mouse.setBindings(bindings);
+    this.deviceOrientation.setBindings(bindings);
     this.gamepadManager.setBindings(bindings);
 
     this.reset();
@@ -37,18 +41,21 @@ export class InputManager {
   public bindEvents() {
     this.keyboard.bindEvents();
     this.mouse.bindEvents();
+    this.deviceOrientation.bindEvents();
     this.gamepadManager.bindEvents();
   }
 
   public unbindEvents() {
     this.keyboard.unbindEvents();
     this.mouse.unbindEvents();
+    this.deviceOrientation.unbindEvents();
     this.gamepadManager.unbindEvents();
   }
 
   public update() {
     this.keyboard.update();
     this.mouse.update();
+    this.deviceOrientation.update();
     this.gamepadManager.update();
   }
 

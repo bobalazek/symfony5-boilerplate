@@ -14,13 +14,13 @@ import {
 import { InputGamepad } from './InputGamepad';
 
 export class InputGamepadManager implements InputDeviceInterface {
-  public hasSupport: boolean = 'GamepadEvent' in window;
-  public isAnyConnected: boolean = false;
-
   private _bindings: InputBindingsInterface;
   private _axesMap: { [key: string]: InputMappingAxisGamepadDataInterface } = {};
   private _actionsMap: { [key: string]: string } = {};
   private _actionsInversedMap: { [key: string]: number } = {}; // have the actions on the left & button on the right
+
+  public hasSupport: boolean = 'GamepadEvent' in window;
+  public isAnyConnected: boolean = false;
 
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
@@ -53,39 +53,31 @@ export class InputGamepadManager implements InputDeviceInterface {
 
   public bindEvents() {
     if (this.hasSupport) {
-      const hostWindow = GameManager.scene
-        ? GameManager.engine.getHostWindow()
-        : window;
-
-        hostWindow.addEventListener(
-          'gamepadconnected',
-          this._onHandle.bind(this),
-          false
-        );
-        hostWindow.addEventListener(
-          'gamepaddisconnected',
-          this._onHandle.bind(this),
-          false
-        );
+      window.addEventListener(
+        'gamepadconnected',
+        this._onHandle.bind(this),
+        false
+      );
+      window.addEventListener(
+        'gamepaddisconnected',
+        this._onHandle.bind(this),
+        false
+      );
     }
   }
 
   public unbindEvents() {
     if (this.hasSupport) {
-      const hostWindow = GameManager.scene
-        ? GameManager.engine.getHostWindow()
-        : window;
-
-        hostWindow.removeEventListener(
-          'gamepadconnected',
-          this._onHandle.bind(this),
-          false
-        );
-        hostWindow.removeEventListener(
-          'gamepaddisconnected',
-          this._onHandle.bind(this),
-          false
-        );
+      window.removeEventListener(
+        'gamepadconnected',
+        this._onHandle.bind(this),
+        false
+      );
+      window.removeEventListener(
+        'gamepaddisconnected',
+        this._onHandle.bind(this),
+        false
+      );
     }
   }
 

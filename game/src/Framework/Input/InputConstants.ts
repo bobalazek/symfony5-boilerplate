@@ -1,15 +1,15 @@
 import { Key as KeyboardKey } from 'ts-keycode-enum';
 
 /********** Interfaces **********/
-export interface InputBindingsInterface {
-  axisMappings: { [key: string]: Array<InputMappingInterface> };
-  actionMappings: { [key: string]: Array<InputMappingInterface> };
-}
-
 export interface InputDeviceInterface {
   bindEvents(): void;
   unbindEvents(): void;
   update(): void;
+}
+
+export interface InputBindingsInterface {
+  axisMappings: { [key: string]: Array<InputMappingInterface> };
+  actionMappings: { [key: string]: Array<InputMappingInterface> };
 }
 
 export interface InputMappingInterface {
@@ -76,6 +76,11 @@ export interface InputMappingActionGamepadInterface extends InputMappingInterfac
   data: InputMappingActionGamepadDataInterface;
 }
 
+export interface InputEnumStickValues {
+  x: number;
+  y: number;
+}
+
 /********** Enums **********/
 export enum InputAxisEnum {
   X,
@@ -108,11 +113,6 @@ export enum InputMouseButtonEnum {
   Right,
 }
 
-export interface InputEnumStickValues {
-  x: number;
-  y: number;
-}
-
 export enum InputGamepadAxisEnum {
   LeftStickX,
   LeftStickY,
@@ -120,12 +120,8 @@ export enum InputGamepadAxisEnum {
   RightStickY,
   LeftTrigger,
   RightTrigger,
-  Triggers,
 }
 
-/**
- * Directly related to the InputGamepadAxisEnum enum and the InputGamepad class.
- */
 export enum InputGamepadAxisPropertyEnum {
   LeftStickX = 'leftStickX',
   LeftStickY = 'leftStickY',
@@ -234,7 +230,7 @@ export enum InputEnum {
   MouseButtonMiddle,
   MouseButtonRight,
   MouseWheel,
-
+  // TODO
   /***** Gamepad *****/
   GamepadButtonA,
   GamepadButtonB,
@@ -258,4 +254,5 @@ export enum InputEnum {
   GamepadRightStickY,
   GamepadLeftTrigger,
   GamepadRightTrigger,
+  // TODO
 }

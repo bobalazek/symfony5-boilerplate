@@ -17,10 +17,14 @@ export class AbstractPlayerController implements PlayerControllerInterface {
 export class ThirdPersonPlayerController extends AbstractPlayerController {
   public posessedTransformNode: BABYLON.TransformNode;
 
-  private _forward = new BABYLON.Vector3(0, 0, 1);
-  private _forwardInverted = new BABYLON.Vector3(0, 0, -1);
-  private _right = new BABYLON.Vector3(1, 0, 0);
-  private _rightInverted = new BABYLON.Vector3(-1, 0, 0);
+  private readonly _forward = new BABYLON.Vector3(0, 0, 1);
+  private readonly _forwardInverted = new BABYLON.Vector3(0, 0, -1);
+  private readonly _right = new BABYLON.Vector3(1, 0, 0);
+  private readonly _rightInverted = new BABYLON.Vector3(-1, 0, 0);
+
+  private readonly _cameraAlphaMultiplier: number = -0.002;
+  private readonly _cameraBetaMultiplier: number = -0.0005;
+  private readonly _cameraRadiusMultiplier: number = 0.01;
 
   public start() {
     GameManager.inputManager.setForcePointerLock(true);
@@ -64,12 +68,16 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
     if (this.posessedTransformNode) {
       const camera = <BABYLON.ArcRotateCamera>GameManager.scene.activeCamera;
 
+      if (inputAxes['lookZoom']) {
+        camera.radius = camera.radius + (inputAxes['lookZoom'] * this._cameraRadiusMultiplier);
+      }
+
       if (
         inputRotation.x !== 0 ||
         inputRotation.y !== 0
       ) {
-        camera.alpha += inputRotation.x * -0.003;
-        camera.beta += inputRotation.y * -0.0005;
+        camera.alpha += inputRotation.x * this._cameraAlphaMultiplier;
+        camera.beta += inputRotation.y * this._cameraBetaMultiplier;
       }
 
       // TODO: rotate posessedTransformNode towards the direction it's moving

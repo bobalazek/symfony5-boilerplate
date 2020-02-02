@@ -15,7 +15,12 @@ export class GameManager {
 
   public static boot(config: GameConfigInterface) {
     this.canvas = <HTMLCanvasElement>document.getElementById('game');
-    this.engine = new BABYLON.Engine(this.canvas, true, config.engineOptions, true);
+    this.engine = new BABYLON.Engine(
+      this.canvas,
+      true,
+      config.engineOptions,
+      true
+    );
 
     // Input manager
     this.inputManager = new InputManager();
@@ -44,12 +49,11 @@ export class GameManager {
       }
     });
 
-    // Resize event
+    /***** Events *****/
     window.addEventListener('resize', () => {
       this.engine.resize();
     });
 
-    // Blur event
     window.addEventListener('blur', () => {
       this.inputManager.unbindEvents();
     });

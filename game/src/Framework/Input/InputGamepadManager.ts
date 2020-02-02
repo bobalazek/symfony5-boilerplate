@@ -19,7 +19,7 @@ export class InputGamepadManager implements InputDeviceInterface {
   private _actionsMap: { [key: string]: string } = {};
   private _actionsInversedMap: { [key: string]: number } = {}; // have the actions on the left & button on the right
 
-  public hasSupport: boolean = 'GamepadEvent' in window;
+  public readonly hasSupport: boolean = 'GamepadEvent' in window;
   public isAnyConnected: boolean = false;
 
   public setBindings(bindings: InputBindingsInterface) {

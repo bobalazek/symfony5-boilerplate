@@ -3,7 +3,6 @@ import { DefaultScene } from './Scenes/DefaultScene';
 import { PlayerController } from './Gameplay/PlayerController';
 import { PlayerInputBindings } from './Gameplay/PlayerInputBindings';
 
-// Boot up the game!
 GameManager.boot({
   engineOptions: {
     stencil: true,

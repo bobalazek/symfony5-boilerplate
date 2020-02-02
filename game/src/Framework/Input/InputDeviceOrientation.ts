@@ -6,8 +6,8 @@ import {
 export class InputDeviceOrientation implements InputDeviceInterface {
   private _bindings: InputBindingsInterface;
 
-  public hasOrientationSupport: boolean = 'DeviceOrientationEvent' in window;
-  public hasMotionSupport: boolean = 'DeviceMotionEvent' in window;
+  public readonly hasOrientationSupport: boolean = 'DeviceOrientationEvent' in window;
+  public readonly hasMotionSupport: boolean = 'DeviceMotionEvent' in window;
   public absolute: boolean;
   public alpha: number;
   public beta: number;

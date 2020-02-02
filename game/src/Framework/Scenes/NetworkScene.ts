@@ -11,8 +11,8 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   public networkPort: number;
   public networkClient: Colyseus.Client;
   public networkRoom: Colyseus.Room;
-  public networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
-  public networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
+  public readonly networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
+  public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
 
   prepareNetworkClient() {
     if (!this.networkHost && !this.networkPort) {

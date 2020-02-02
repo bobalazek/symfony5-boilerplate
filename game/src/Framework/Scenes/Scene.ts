@@ -26,15 +26,6 @@ export abstract class AbstractScene implements SceneInterface {
     this.prepareCamera();
     this.prepareLights();
     this.prepareEnvironment();
-
-    let camera = <BABYLON.ArcRotateCamera>this.scene.activeCamera;
-
-    camera.alpha = Math.PI / 3;
-    camera.beta = Math.PI / 3;
-    camera.radius = 10;
-    camera.upperBetaLimit = Math.PI / 2;
-
-    BABYLON.MeshBuilder.CreateBox('box', {});
   }
 
   prepareCamera() {
@@ -48,6 +39,8 @@ export abstract class AbstractScene implements SceneInterface {
     );
 
     camera.upperBetaLimit = Math.PI / 2;
+    camera.lowerRadiusLimit = 10;
+    camera.upperRadiusLimit = 20;
 
     this.scene.activeCamera = camera;
   }

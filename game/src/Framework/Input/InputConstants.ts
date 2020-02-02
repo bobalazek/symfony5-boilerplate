@@ -5,6 +5,7 @@ export interface InputDeviceInterface {
   bindEvents(): void;
   unbindEvents(): void;
   update(): void;
+  reset(): void;
 }
 
 export interface InputBindingsInterface {

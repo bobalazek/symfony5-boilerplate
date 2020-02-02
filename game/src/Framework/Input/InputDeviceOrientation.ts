@@ -50,6 +50,17 @@ export class InputDeviceOrientation implements InputDeviceInterface {
 
   public update() {}
 
+  public reset() {
+    this.absolute = undefined;
+    this.alpha = undefined;
+    this.beta = undefined;
+    this.gamma = undefined;
+    this.acceleration = undefined;
+    this.accelerationIncludingGravity = undefined;
+    this.rotationRate = undefined;
+    this.interval = undefined;
+  }
+
   private _onHandleOrientation(e: DeviceOrientationEvent) {
     this.absolute = e.absolute;
     this.alpha = e.alpha;

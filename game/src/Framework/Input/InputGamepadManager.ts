@@ -149,6 +149,14 @@ export class InputGamepadManager implements InputDeviceInterface {
     }
   }
 
+  public reset() {
+    const gamepads = GameManager.inputManager.gamepads;
+    for (let i = 0; i < gamepads.length; i++) {
+      const gamepad = gamepads[i];
+      gamepad.reset();
+    }
+  }
+
   private _onHandle(e: GamepadEvent) {
     const gamepads = GameManager.inputManager.gamepads;
     const gamepadIndex = e.gamepad.index;

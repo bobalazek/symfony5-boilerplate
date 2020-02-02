@@ -38,10 +38,21 @@ export class InputManager {
     this._deviceOrientation.setBindings(bindings);
     this._gamepadManager.setBindings(bindings);
 
-    this.reset();
+    this.reset(true);
   }
 
   public bindEvents() {
+    document.addEventListener(
+      'pointerlockchange',
+      this._onPointerLockChange.bind(this),
+      false
+    );
+    document.addEventListener(
+      'mozpointerlockchange',
+      this._onPointerLockChange.bind(this),
+      false
+    );
+
     this._keyboard.bindEvents();
     this._mouse.bindEvents();
     this._deviceOrientation.bindEvents();
@@ -49,6 +60,17 @@ export class InputManager {
   }
 
   public unbindEvents() {
+    document.removeEventListener(
+      'pointerlockchange',
+      this._onPointerLockChange.bind(this),
+      false
+    );
+    document.removeEventListener(
+      'mozpointerlockchange',
+      this._onPointerLockChange.bind(this),
+      false
+    );
+
     this._keyboard.unbindEvents();
     this._mouse.unbindEvents();
     this._deviceOrientation.unbindEvents();
@@ -69,7 +91,7 @@ export class InputManager {
   public setMode(mode: InputModeEnum) {
     this._mode = mode;
 
-    this.reset();
+    this.reset(true);
   }
 
   public setAxis(axis: string, scale: number) {
@@ -92,7 +114,7 @@ export class InputManager {
     this._forcePointerLock = value;
   }
 
-  public reset() {
+  public reset(resetDevices: boolean = false) {
     this._axes = {};
     const axesKeys = Object.keys(this._bindings.axisMappings);
     for (let i = 0; i < axesKeys.length; i++) {
@@ -103,6 +125,13 @@ export class InputManager {
     const actionsKeys = Object.keys(this._bindings.actionMappings);
     for (let i = 0; i < actionsKeys.length; i++) {
       this._actions[actionsKeys[i]] = false;
+    }
+
+    if (resetDevices) {
+      this._keyboard.reset();
+      this._mouse.reset();
+      this._deviceOrientation.reset();
+      this._gamepadManager.reset();
     }
   }
 
@@ -144,5 +173,9 @@ export class InputManager {
 
   public get forcePointerLock() {
     return this._forcePointerLock;
+  }
+
+  private _onPointerLockChange() {
+    this.reset(true);
   }
 }

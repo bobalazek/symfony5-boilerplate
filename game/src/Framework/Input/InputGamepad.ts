@@ -118,6 +118,39 @@ export class InputGamepad {
     }
   }
 
+  public reset() {
+    this._setFaceButtons(
+      false,
+      false,
+      false,
+      false
+    );
+    this._setStartBackButtons(
+      false,
+      false
+    );
+    this._setButtonLeftStick(false);
+    this._setButtonRightStick(false);
+    this._setButtonLeftBumper(false);
+    this._setButtonRightBumper(false);
+    this._setDPadButtons(
+      false,
+      false,
+      false,
+      false
+    );
+    this._setLeftStick(
+      0,
+      0
+    );
+    this._setRightStick(
+      0,
+      0
+    );
+    this._setLeftTrigger(0);
+    this._setRightTrigger(0);
+  }
+
   private _setFaceButtons(a: boolean, b: boolean, x: boolean, y: boolean) {
     if (
       this._buttonA !== a ||

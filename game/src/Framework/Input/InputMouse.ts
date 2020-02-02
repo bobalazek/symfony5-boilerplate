@@ -132,6 +132,10 @@ export class InputMouse implements InputDeviceInterface {
 
   public update() {}
 
+  public reset() {
+    this._buttonsPressed = [];
+  }
+
   private _onHandleMove(e: MouseEvent | PointerEvent) {
     if (GameManager.engine.isPointerLock) {
       const deltaX = e.movementX ||
@@ -150,16 +154,19 @@ export class InputMouse implements InputDeviceInterface {
         const axis = axisKeys[i];
         const mouseAction = this._axesMap[axis];
 
-        if (
-          deltaX !== 0 &&
-          mouseAction.axis === InputMouseAxisEnum.X
-        ) {
-          GameManager.inputManager.addToAxis(axis, deltaX * mouseAction.scale);
-        } else if (
-          deltaY !== 0 &&
-          mouseAction.axis === InputMouseAxisEnum.Y
-        ) {
-          GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
+        switch (mouseAction.axis) {
+          case InputMouseAxisEnum.X: {
+            if (deltaX !== 0) {
+              GameManager.inputManager.addToAxis(axis, deltaX * mouseAction.scale);
+            }
+            break;
+          }
+          case InputMouseAxisEnum.Y: {
+            if (deltaY !== 0) {
+              GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
+            }
+            break;
+          }
         }
       }
     }

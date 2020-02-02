@@ -95,6 +95,12 @@ export class InputKeyboard implements InputDeviceInterface {
     }
   }
 
+  public reset() {
+    for (const keyCode in this._keysPressed) {
+      this._keysPressed[keyCode] = undefined;
+    }
+  }
+
   public isKeyPressed(keyCode: number) {
     return typeof this._keysPressed[keyCode] === 'number';
   }

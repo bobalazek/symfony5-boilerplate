@@ -66,7 +66,7 @@ export abstract class AbstractScene implements SceneInterface {
       height: 128,
     });
     let groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
-    let groundTexture = new BABYLON.Texture('/static/images/game/ground.jpg', this.scene);
+    let groundTexture = new BABYLON.Texture('/static/textures/ground_diffuse.jpg', this.scene);
     groundTexture.uScale = groundTexture.vScale = 16;
     groundMaterial.diffuseTexture = groundTexture;
     ground.material = groundMaterial;

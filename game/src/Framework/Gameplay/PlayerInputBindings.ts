@@ -10,7 +10,12 @@ import {
   InputGamepadButtonEnum,
 } from '../Input/InputConstants';
 
-export abstract class AbstractPlayerInputBindings implements InputBindingsInterface {
+export class AbstractPlayerInputBindings implements InputBindingsInterface {
+  axes = {};
+  actions = {};
+}
+
+export abstract class ThirdPersonPlayerInputBindings extends AbstractPlayerInputBindings {
   axes = {
     moveForward: [
       {

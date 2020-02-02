@@ -4,8 +4,15 @@ import * as Ammo from 'ammo.js';
 import { GameManager } from '../../Framework/Core/GameManager';
 import { AbstractNetworkScene } from '../../Framework/Scenes/NetworkScene';
 import { NetworkConstants } from '../../Framework/Network/NetworkConstants';
+import {
+  GAME_SERVER_HOST,
+  GAME_SERVER_PORT,
+} from '../Config';
 
 export class DefaultScene extends AbstractNetworkScene {
+  public networkHost: string = GAME_SERVER_HOST;
+  public networkPort: number = GAME_SERVER_PORT;
+
   load() {
     // Show preloader
     GameManager.engine.displayLoadingUI();

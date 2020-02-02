@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'colyseus';
 import { monitor } from '@colyseus/monitor';
 
-import { LobbyRoom } from './Game/Network/Rooms/LobbyRoom';
+import { LobbyRoom } from './Network/Rooms/LobbyRoom';
 
 import {
   GAME_SERVER_HOST,

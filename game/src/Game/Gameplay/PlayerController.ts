@@ -1,3 +1,3 @@
-import { AbstractPlayerController } from '../../Framework/Gameplay/PlayerController';
+import { ThirdPersonPlayerController } from '../../Framework/Gameplay/PlayerController';
 
-export class PlayerController extends AbstractPlayerController {}
+export class PlayerController extends ThirdPersonPlayerController {}

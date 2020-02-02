@@ -2,7 +2,19 @@ import * as BABYLON from 'babylonjs';
 
 import { GameManager } from '../Core/GameManager';
 
-export abstract class AbstractPlayerController {
+export interface PlayerControllerInterface {
+  start(): void;
+  update(): void;
+  posessTransformNode(transformNode: BABYLON.TransformNode): void;
+}
+
+export class AbstractPlayerController implements PlayerControllerInterface {
+  public start() {}
+  public update() {}
+  public posessTransformNode(transformNode: BABYLON.TransformNode) {}
+}
+
+export class ThirdPersonPlayerController extends AbstractPlayerController {
   public posessedTransformNode: BABYLON.TransformNode;
 
   private _forward = new BABYLON.Vector3(0, 0, 1);

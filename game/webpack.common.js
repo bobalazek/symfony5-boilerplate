@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, 'src', 'index.ts'),
+    app: path.resolve(__dirname, 'src', 'Game', 'index.ts'),
   },
   output: {
     filename: '[name].[hash].js',
@@ -23,19 +23,18 @@ module.exports = {
   context: __dirname,
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'static', 'index.html'),
+      template: path.resolve(__dirname, 'src', 'Game', 'Resources', 'index.html'),
     }),
     new MiniCssExtractPlugin(),
     new webpack.ProvidePlugin({
-        'ammo': 'ammo',
+      'ammo': 'ammo',
     }),
     new CopyWebpackPlugin([
       {
-          from: 'static',
+          from: path.resolve(__dirname, 'src', 'Game', 'Resources'),
           to: 'static',
           ignore: [
             'index.html', // already handled by HtmlWebpackPlugin
-            '*.css', // already handled by the MiniCssExtractPlugin
           ],
       },
     ], {

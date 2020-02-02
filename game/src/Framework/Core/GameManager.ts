@@ -15,7 +15,7 @@ export class GameManager {
 
   public static boot(config: GameConfigInterface) {
     this.canvas = <HTMLCanvasElement>document.getElementById('game');
-    this.engine = new BABYLON.Engine(this.canvas, true);
+    this.engine = new BABYLON.Engine(this.canvas, true, config.engineOptions, true);
 
     // Input manager
     this.inputManager = new InputManager();
@@ -61,6 +61,7 @@ export class GameManager {
 }
 
 export interface GameConfigInterface {
+  engineOptions: BABYLON.EngineOptions;
   defaultScene: new () => AbstractScene;
   playerController: new () => AbstractPlayerController;
   playerInputBindings: new () => AbstractPlayerInputBindings;

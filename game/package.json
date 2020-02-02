@@ -36,7 +36,7 @@
     },
     "scripts": {
         "dev-client": "webpack-dev-server --config webpack.dev.js --inline --progress",
-        "dev-server": "nodemon --ext ts --watch src/Game/Network/Rooms --exec DEBUG=colyseus:* ts-node src/server.ts",
+        "dev-server": "nodemon --ext ts --watch src/Game/Network/Rooms --exec DEBUG=colyseus:* ts-node src/Game/server.ts",
         "dev": "concurrently --kill-others \"npm run dev-client\" \"npm run dev-server\"",
         "build": "webpack --config webpack.prod.js --progress"
     }

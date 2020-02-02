@@ -20,7 +20,7 @@
         "outDir": "dist"
     },
     "files": [
-        "./src/index.ts"
+        "./src/Game/index.ts"
     ],
     "types": [
         "babylonjs",

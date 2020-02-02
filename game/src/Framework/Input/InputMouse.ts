@@ -1,3 +1,5 @@
+import * as BABYLON from 'babylonjs';
+
 import { GameManager } from '../Core/GameManager';
 import {
   InputBindingsInterface,
@@ -12,6 +14,10 @@ import {
 import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputMouse implements InputDeviceInterface {
+  public moveObservable = new BABYLON.Observable<MouseEvent | PointerEvent>();
+  public upDownObservable = new BABYLON.Observable<MouseEvent | PointerEvent>();
+  public wheelObservable = new BABYLON.Observable<MouseWheelEvent>();
+
   private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisMouseDataInterface } = {}; // ex.: [ moveForward: { axis: 0, scale: 1.0 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: [ 0: interact ]; 0 = InputMouseButtonEnum.Left
@@ -156,9 +162,11 @@ export class InputMouse implements InputDeviceInterface {
         }
       }
     }
+
+    this.moveObservable.notifyObservers(e);
   }
 
-  private _onHandleUpDown(e: MouseEvent) {
+  private _onHandleUpDown(e: MouseEvent | PointerEvent) {
     const isPressed = e.type === 'mousedown' || e.type === 'pointerdown';
 
     // TODO: make sure those bindings are correct, especially in IE
@@ -212,6 +220,8 @@ export class InputMouse implements InputDeviceInterface {
         this._buttonsPressed.splice(index, 1);
       }
     }
+
+    this.upDownObservable.notifyObservers(e);
   }
 
   private _onHandleWheel(e: MouseWheelEvent) {
@@ -229,5 +239,7 @@ export class InputMouse implements InputDeviceInterface {
         GameManager.inputManager.addToAxis(axis, deltaY * mouseAction.scale);
       }
     }
+
+    this.wheelObservable.notifyObservers(e);
   }
 }

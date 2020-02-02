@@ -1,3 +1,5 @@
+import * as BABYLON from 'babylonjs';
+
 import { GameManager } from '../Core/GameManager';
 import {
   InputBindingsInterface,
@@ -10,6 +12,8 @@ import {
 import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputKeyboard implements InputDeviceInterface {
+  public keyUpDownObservable = new BABYLON.Observable<KeyboardEvent>();
+
   private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesKeyScaleMap: { [key: number]: { axis: string, scale: number } } = {}; // ex.: [ 68: { axis: 'moveForward', scale: 1 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: { 68: moveForward }
@@ -136,5 +140,7 @@ export class InputKeyboard implements InputDeviceInterface {
         this._keysPressed[keyCode] = undefined; // faster than just deleting
       }
     }
+
+    this.keyUpDownObservable.notifyObservers(e);
   }
 }

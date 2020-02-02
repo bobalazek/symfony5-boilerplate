@@ -30,7 +30,7 @@ export class GameManager {
       );
     }
     this.inputManager.bindEvents();
-    const inputManagerEnabled = this.inputManager.enabled;
+    const inputManagerBindingsEnabled = this.inputManager.bindingsEnabled;
 
     // Set player controller
     this.playerController = new config.playerController();
@@ -46,7 +46,7 @@ export class GameManager {
         return;
       }
 
-      if (inputManagerEnabled) {
+      if (inputManagerBindingsEnabled) {
         this.inputManager.update();
       }
 
@@ -54,7 +54,7 @@ export class GameManager {
 
       this.scene.render();
 
-      if (inputManagerEnabled) {
+      if (inputManagerBindingsEnabled) {
         this.inputManager.afterRender();
       }
     });
@@ -64,10 +64,12 @@ export class GameManager {
       this.engine.resize();
     });
 
+    window.addEventListener('focus', () => {
+      this.inputManager.bindEvents();
+    });
+
     window.addEventListener('blur', () => {
-      if (inputManagerEnabled) {
-        this.inputManager.unbindEvents();
-      }
+      this.inputManager.unbindEvents();
     });
   }
 

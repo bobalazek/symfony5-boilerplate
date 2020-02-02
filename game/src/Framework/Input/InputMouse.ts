@@ -133,17 +133,18 @@ export class InputMouse implements InputDeviceInterface {
   public update() {}
 
   private _onHandleMove(e: MouseEvent | PointerEvent) {
-    const deltaX = e.movementX ||
-      e.mozMovementX ||
-      e.webkitMovementX ||
-      e.msMovementX ||
-      0;
-    const deltaY = e.movementY ||
-      e.mozMovementY ||
-      e.webkitMovementY ||
-      e.msMovementY || 0;
-
     if (GameManager.engine.isPointerLock) {
+      const deltaX = e.movementX ||
+        e.mozMovementX ||
+        e.webkitMovementX ||
+        e.msMovementX ||
+        0;
+      const deltaY = e.movementY ||
+        e.mozMovementY ||
+        e.webkitMovementY ||
+        e.msMovementY ||
+        0;
+
       const axisKeys = Object.keys(this._axesMap);
       for (let i = 0; i < axisKeys.length; i++) {
         const axis = axisKeys[i];

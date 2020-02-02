@@ -1,4 +1,5 @@
 import * as BABYLON from 'babylonjs';
+import * as BABYLONMATERIALS from 'babylonjs-materials';
 
 import { GameManager } from '../Core/GameManager';
 
@@ -54,6 +55,15 @@ export abstract class AbstractScene implements SceneInterface {
   }
 
   prepareEnvironment() {
+    // Skybox
+    let skybox = BABYLON.Mesh.CreateBox('skybox', 1024, this.scene);
+    var skyboxMaterial = new BABYLONMATERIALS.SkyMaterial('skyboxMaterial', this.scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.useSunPosition = true;
+    skyboxMaterial.sunPosition = new BABYLON.Vector3(0, 100, 0);
+    skybox.material = skyboxMaterial;
+
+    // Ground
     let ground = BABYLON.MeshBuilder.CreateGround('ground', {
       width: 1024,
       height: 1024,

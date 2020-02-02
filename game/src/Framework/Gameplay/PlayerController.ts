@@ -68,30 +68,34 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
         inputRotation.x !== 0 ||
         inputRotation.y !== 0
       ) {
-        camera.alpha += inputRotation.x * -0.002;
+        camera.alpha += inputRotation.x * -0.003;
         camera.beta += inputRotation.y * -0.0005;
       }
+
+      // TODO: rotate posessedTransformNode towards the direction it's moving
 
       if (
         inputLocation.x !== 0 ||
         inputLocation.y !== 0
       ) {
-        let cameraRight = BABYLON.Vector3.Normalize(BABYLON.Vector3.TransformNormal(
+        const cameraRight = BABYLON.Vector3.TransformNormal(
           GameManager.scene.useRightHandedSystem ? this._rightInverted : this._right,
           camera.getWorldMatrix()
-        ));
-        cameraRight.normalize().scaleInPlace(inputLocation.x);
-
-        let cameraForward = BABYLON.Vector3.Normalize(BABYLON.Vector3.TransformNormal(
+        ).normalize().scaleInPlace(inputLocation.x);
+        const cameraForward = BABYLON.Vector3.TransformNormal(
           GameManager.scene.useRightHandedSystem ? this._forwardInverted : this._forward,
           camera.getWorldMatrix()
-        ));
-        cameraForward.normalize().scaleInPlace(inputLocation.y);
-
-        this.posessedTransformNode.position.addInPlaceFromFloats(
+        ).normalize().scaleInPlace(inputLocation.y);
+        const direction = new BABYLON.Vector3(
           cameraRight.x + cameraForward.x,
           0,
           cameraRight.z + cameraForward.z
+        ).normalize();
+
+        this.posessedTransformNode.position.addInPlaceFromFloats(
+          direction.x,
+          0,
+          direction.z
         );
       }
     }

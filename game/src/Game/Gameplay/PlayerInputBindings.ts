@@ -1,3 +1,3 @@
-import { AbstractPlayerInputBindings } from '../../Framework/Gameplay/PlayerInputBindings';
+import { ThirdPersonPlayerInputBindings } from '../../Framework/Gameplay/PlayerInputBindings';
 
-export class PlayerInputBindings extends AbstractPlayerInputBindings {}
+export class PlayerInputBindings extends ThirdPersonPlayerInputBindings {}

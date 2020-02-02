@@ -28,25 +28,29 @@ export class InputGamepadManager implements InputDeviceInterface {
     // Attach actions
     this._actionsMap = {};
     this._actionsInversedMap = {};
-    for (const action in this._bindings.actions) {
-      const mappings = this._bindings.actions[action];
+    for (const action in this._bindings.actionMappings) {
+      const mappings = this._bindings.actionMappings[action];
       for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Gamepad) {
-          let mappingData = <InputMappingActionGamepadDataInterface>mappings[i].data;
-          this._actionsMap[mappingData.button] = action;
-          this._actionsInversedMap[action] = mappingData.button;
+        if (mappings[i].device !== InputDeviceEnum.Gamepad) {
+          continue;
         }
+
+        let mappingData = <InputMappingActionGamepadDataInterface>mappings[i].data;
+        this._actionsMap[mappingData.button] = action;
+        this._actionsInversedMap[action] = mappingData.button;
       }
     }
 
     // Attach axes
     this._axesMap = {};
-    for (const axis in this._bindings.axes) {
-      const mappings = this._bindings.axes[axis];
+    for (const axis in this._bindings.axisMappings) {
+      const mappings = this._bindings.axisMappings[axis];
       for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Gamepad) {
-          this._axesMap[axis] = <InputMappingAxisGamepadDataInterface>mappings[i].data;
+        if (mappings[i].device !== InputDeviceEnum.Gamepad) {
+          continue;
         }
+
+        this._axesMap[axis] = <InputMappingAxisGamepadDataInterface>mappings[i].data;
       }
     }
   }
@@ -85,62 +89,57 @@ export class InputGamepadManager implements InputDeviceInterface {
     this._updateGamepads();
 
     const gamepads = GameManager.inputManager.gamepads;
-    if (gamepads.length) {
+    for (let i = 0; i < gamepads.length; i++) {
+      const gamepad = gamepads[i];
+      if (!gamepad.isConnected) {
+        continue;
+      }
 
-      for (const index in gamepads) {
-        if (index !== '0') {
-          break; // TODO
-        }
+      gamepad.update();
 
-        const gamepad = gamepads[index];
-        if (!gamepad.isConnected) {
-          continue;
-        }
+      if (
+        GameManager.inputManager.mode !== InputModeEnum.Gamepad &&
+        (
+          gamepad.buttonA ||
+          gamepad.buttonB ||
+          gamepad.buttonX ||
+          gamepad.buttonY
+        )
+      ) {
+        GameManager.inputManager.setMode(
+          InputModeEnum.Gamepad
+        );
+      }
 
-        gamepad.update();
+      if (GameManager.inputManager.mode === InputModeEnum.Gamepad) {
+        // Axes
+        for (const axis in this._bindings.axisMappings) {
+          const axisData = this._axesMap[axis];
+          if (axisData) {
+            const actionAxis = axisData.axis;
+            const actionScale = axisData.scale;
+            const value = gamepad[
+              InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
+            ];
 
-        if (
-          GameManager.inputManager.mode !== InputModeEnum.Gamepad &&
-          (
-            gamepad.buttonA ||
-            gamepad.buttonB ||
-            gamepad.buttonX ||
-            gamepad.buttonY
-          )
-        ) {
-          GameManager.inputManager.setMode(
-            InputModeEnum.Gamepad
-          );
-        }
-
-        if (GameManager.inputManager.mode === InputModeEnum.Gamepad) {
-          // Axes
-          for (const axis in this._bindings.axes) {
-            const axisData = this._axesMap[axis];
-            if (axisData) {
-              const actionAxis = axisData.axis;
-              const actionScale = axisData.scale;
-              const value = gamepad[
-                InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
-              ];
-
-              if (Math.abs(value) > 0.1) { // TODO: implement deadzone
-                GameManager.inputManager.addToAxis(axis, value * actionScale);
-              }
+            if (Math.abs(value) > 0.1) { // TODO: implement deadzone
+              GameManager.inputManager.addToAxis(axis, value * actionScale);
             }
           }
+        }
 
-          // Actions
-          for (const action in this._bindings.actions) {
-            const actionEnum = this._actionsInversedMap[action];
-            let value: boolean = false;
+        // Actions
+        for (const action in this._bindings.actionMappings) {
+          const actionEnum = this._actionsInversedMap[action];
+          if (!actionEnum) {
+            continue;
+          }
 
-            if (actionEnum) {
-              value = gamepad[
-                InputGamepadButtonPropertyEnum[InputGamepadButtonEnum[actionEnum]]
-              ];
-            }
+          const value = gamepad[
+            InputGamepadButtonPropertyEnum[InputGamepadButtonEnum[actionEnum]]
+          ];
 
+          if (value) {
             GameManager.inputManager.setAction(action, value);
           }
         }
@@ -149,8 +148,9 @@ export class InputGamepadManager implements InputDeviceInterface {
   }
 
   private _onHandle(e: GamepadEvent) {
+    const gamepads = GameManager.inputManager.gamepads;
     const gamepadIndex = e.gamepad.index;
-    let gamepad = GameManager.inputManager.gamepads[gamepadIndex];
+    let gamepad = gamepads[gamepadIndex];
     if (!gamepad) {
       gamepad = new InputGamepad(e.gamepad);
     }
@@ -163,8 +163,8 @@ export class InputGamepadManager implements InputDeviceInterface {
     );
 
     this.isAnyConnected = false;
-    for (const index in GameManager.inputManager.gamepads) {
-      const gamepad = GameManager.inputManager.gamepads[index];
+    for (let i = 0; i < gamepads.length; i++) {
+      const gamepad = gamepads[i];
       if (gamepad.isConnected) {
         this.isAnyConnected = true;
         break;
@@ -179,14 +179,13 @@ export class InputGamepadManager implements InputDeviceInterface {
         ? navigator.webkitGetGamepads()
         : []
       );
-    for (let index = 0; index < browserGamepads.length; index++) {
-      const browserGamepad = browserGamepads[index];
-
+    for (let i = 0; i < browserGamepads.length; i++) {
+      const browserGamepad = browserGamepads[i];
       if (!browserGamepad) {
         continue;
       }
 
-      let gamepad = GameManager.inputManager.gamepads[index];
+      let gamepad = GameManager.inputManager.gamepads[i];
       if (!gamepad) {
         gamepad = new InputGamepad(browserGamepad);
       }
@@ -194,7 +193,7 @@ export class InputGamepadManager implements InputDeviceInterface {
       gamepad.data = browserGamepad;
 
       GameManager.inputManager.setGamepad(
-        index,
+        i,
         gamepad
       );
     }

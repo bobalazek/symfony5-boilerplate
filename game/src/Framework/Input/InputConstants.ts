@@ -1,17 +1,11 @@
 import { Key as KeyboardKey } from 'ts-keycode-enum';
 
-/********** Bindings **********/
-export class AbstractInputBindings {
-  axes: { [key: string]: Array<InputMappingInterface> } = {};
-  actions: { [key: string]: Array<InputMappingInterface> } = {};
-}
-
-export interface InputBindingsInterface {
-  axes: { [key: string]: Array<InputMappingInterface> };
-  actions: { [key: string]: Array<InputMappingInterface> };
-}
-
 /********** Interfaces **********/
+export interface InputBindingsInterface {
+  axisMappings: { [key: string]: Array<InputMappingInterface> };
+  actionMappings: { [key: string]: Array<InputMappingInterface> };
+}
+
 export interface InputDeviceInterface {
   bindEvents(): void;
   unbindEvents(): void;

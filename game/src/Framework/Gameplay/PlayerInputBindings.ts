@@ -11,12 +11,12 @@ import {
 } from '../Input/InputConstants';
 
 export class AbstractPlayerInputBindings implements InputBindingsInterface {
-  axes = {};
-  actions = {};
+  public axisMappings = {};
+  public actionMappings = {};
 }
 
-export abstract class ThirdPersonPlayerInputBindings extends AbstractPlayerInputBindings {
-  axes = {
+export class ThirdPersonPlayerInputBindings extends AbstractPlayerInputBindings {
+  public axisMappings = {
     moveForward: [
       {
         device: InputDeviceEnum.Keyboard,
@@ -103,7 +103,7 @@ export abstract class ThirdPersonPlayerInputBindings extends AbstractPlayerInput
         device: InputDeviceEnum.Gamepad,
         data: {
           axis: InputGamepadAxisEnum.RightStickY,
-          scale: 20.0,
+          scale: 50.0,
         },
       },
     ],
@@ -133,7 +133,7 @@ export abstract class ThirdPersonPlayerInputBindings extends AbstractPlayerInput
       },
     ],
   };
-  actions = {
+  public actionMappings = {
     interact: [
       {
         device: InputDeviceEnum.Keyboard,

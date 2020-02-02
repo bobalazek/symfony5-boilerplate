@@ -21,24 +21,28 @@ export class InputMouse implements InputDeviceInterface {
 
     // Attach actions
     this._actionsMap = {}
-    for (const action in this._bindings.actions) {
-      const mappings = this._bindings.actions[action];
+    for (const action in this._bindings.actionMappings) {
+      const mappings = this._bindings.actionMappings[action];
       for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Mouse) {
-          const mappingData = <InputMappingActionMouseDataInterface>mappings[i].data;
-          this._actionsMap[mappingData.button] = action;
+        if (mappings[i].device !== InputDeviceEnum.Mouse) {
+          continue;
         }
+
+        const mappingData = <InputMappingActionMouseDataInterface>mappings[i].data;
+        this._actionsMap[mappingData.button] = action;
       }
     }
 
     // Attach axes
     this._axesMap = {};
-    for (const axis in this._bindings.axes) {
-      const mappings = this._bindings.axes[axis];
+    for (const axis in this._bindings.axisMappings) {
+      const mappings = this._bindings.axisMappings[axis];
       for (let i = 0; i < mappings.length; i++) {
-        if (mappings[i].device === InputDeviceEnum.Mouse) {
-          this._axesMap[axis] = <InputMappingAxisMouseDataInterface>mappings[i].data;
+        if (mappings[i].device !== InputDeviceEnum.Mouse) {
+          continue;
         }
+
+        this._axesMap[axis] = <InputMappingAxisMouseDataInterface>mappings[i].data;
       }
     }
   }

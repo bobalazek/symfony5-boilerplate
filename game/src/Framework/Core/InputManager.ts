@@ -91,13 +91,13 @@ export class InputManager {
 
   public reset() {
     this.axes = {};
-    const axesKeys = Object.keys(this.bindings.axes);
+    const axesKeys = Object.keys(this.bindings.axisMappings);
     for (let i = 0; i < axesKeys.length; i++) {
       this.axes[axesKeys[i]] = 0;
     }
 
     this.actions = {};
-    const actionsKeys = Object.keys(this.bindings.actions);
+    const actionsKeys = Object.keys(this.bindings.actionMappings);
     for (let i = 0; i < actionsKeys.length; i++) {
       this.actions[actionsKeys[i]] = false;
     }

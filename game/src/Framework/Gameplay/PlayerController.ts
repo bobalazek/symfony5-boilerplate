@@ -23,7 +23,7 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
   private readonly _rightInverted = new BABYLON.Vector3(-1, 0, 0);
 
   private readonly _cameraAlphaMultiplier: number = -0.002;
-  private readonly _cameraBetaMultiplier: number = -0.0005;
+  private readonly _cameraBetaMultiplier: number = -0.0003;
   private readonly _cameraRadiusMultiplier: number = 0.01;
 
   public start() {

@@ -1,3 +1,5 @@
+import * as BABYLON from 'babylonjs';
+
 export class InputGamepad {
   public index: number;
   public data: Gamepad;
@@ -5,7 +7,13 @@ export class InputGamepad {
   public isXbox: boolean = false;
   public isXboxOne: boolean = false;
 
-  // TODO: implement observables here
+  public buttonLeftBumperObservable = new BABYLON.Observable<boolean>();
+  public buttonRightBumperObservable = new BABYLON.Observable<boolean>();
+  public dPadButtonsObservable = new BABYLON.Observable<{ up: boolean, down: boolean, left: boolean, right: boolean }>();
+  public leftStickObservable = new BABYLON.Observable<{ x: number, y: number }>();
+  public rightStickObservable = new BABYLON.Observable<{ x: number, y: number }>();
+  public leftTriggerObservable = new BABYLON.Observable<number>();
+  public rightTriggerObservable = new BABYLON.Observable<number>();
 
   // Buttons
   public _buttonA: boolean = false;
@@ -16,10 +24,8 @@ export class InputGamepad {
   public _buttonBack: boolean = false;
   public _buttonLeftStick: boolean = false;
   public _buttonRightStick: boolean = false;
-  public _buttonLB: boolean = false;
-  public _buttonRB: boolean = false;
-  public _buttonLT: boolean = false;
-  public _buttonRT: boolean = false;
+  public _buttonLeftBumper: boolean = false;
+  public _buttonRightBumper: boolean = false;
   public _buttonDPadUp: boolean = false;
   public _buttonDPadDown: boolean = false;
   public _buttonDPadLeft: boolean = false;
@@ -42,51 +48,135 @@ export class InputGamepad {
 
   public update() {
     if (this.isXboxOne) {
-      this._leftStickX = this.data.axes[0];
-      this._leftStickY = this.data.axes[1];
-      this._rightStickX = this.data.axes[3];
-      this._rightStickY = this.data.axes[4];
-      this._leftTrigger = this.data.axes[2];
-      this._rightTrigger = this.data.axes[5];
-
       this._buttonA = this.data.buttons[0].pressed;
       this._buttonB = this.data.buttons[1].pressed;
       this._buttonX = this.data.buttons[2].pressed;
       this._buttonY = this.data.buttons[3].pressed;
-      this._buttonLB = this.data.buttons[4].pressed;
-      this._buttonRB = this.data.buttons[5].pressed;
       this._buttonBack = this.data.buttons[9].pressed;
       this._buttonStart = this.data.buttons[8].pressed;
       this._buttonLeftStick = this.data.buttons[6].pressed;
       this._buttonRightStick = this.data.buttons[7].pressed;
-      this._buttonDPadUp = this.data.buttons[11].pressed;
-      this._buttonDPadDown = this.data.buttons[12].pressed;
-      this._buttonDPadLeft = this.data.buttons[13].pressed;
-      this._buttonDPadRight = this.data.buttons[14].pressed;
-    } else if (this.isXbox) {
-      this._leftStickX = this.data.axes[0];
-      this._leftStickY = this.data.axes[1];
-      this._rightStickX = this.data.axes[2];
-      this._rightStickY = this.data.axes[3];
-      this._leftTrigger = this.data.buttons[6].value;
-      this._rightTrigger = this.data.buttons[7].value;
 
+      this._setButtonLeftBumper(this.data.buttons[4].pressed);
+      this._setButtonRightBumper(this.data.buttons[5].pressed);
+      this._setDPadButtons(
+        this.data.buttons[11].pressed,
+        this.data.buttons[12].pressed,
+        this.data.buttons[13].pressed,
+        this.data.buttons[14].pressed
+      );
+      this._setLeftStick(
+        this.data.axes[0],
+        this.data.axes[1]
+      );
+      this._setRightStick(
+        this.data.axes[3],
+        this.data.axes[4]
+      );
+      this._setLeftTrigger(this.data.axes[2]);
+      this._setRightTrigger(this.data.axes[5]);
+    } else if (this.isXbox) {
       this._buttonA = this.data.buttons[0].pressed;
       this._buttonB = this.data.buttons[1].pressed;
       this._buttonX = this.data.buttons[2].pressed;
       this._buttonY = this.data.buttons[3].pressed;
-      this._buttonLB = this.data.buttons[4].pressed;
-      this._buttonRB = this.data.buttons[5].pressed;
       this._buttonBack = this.data.buttons[8].pressed;
       this._buttonStart = this.data.buttons[9].pressed;
       this._buttonLeftStick = this.data.buttons[10].pressed;
       this._buttonRightStick = this.data.buttons[11].pressed;
-      this._buttonDPadUp = this.data.buttons[12].pressed;
-      this._buttonDPadDown = this.data.buttons[13].pressed;
-      this._buttonDPadLeft = this.data.buttons[14].pressed;
-      this._buttonDPadRight = this.data.buttons[15].pressed;
+
+      this._setButtonLeftBumper(this.data.buttons[4].pressed);
+      this._setButtonRightBumper(this.data.buttons[5].pressed);
+      this._setDPadButtons(
+        this.data.buttons[12].pressed,
+        this.data.buttons[13].pressed,
+        this.data.buttons[14].pressed,
+        this.data.buttons[15].pressed
+      );
+      this._setLeftStick(
+        this.data.axes[0],
+        this.data.axes[1]
+      );
+      this._setRightStick(
+        this.data.axes[2],
+        this.data.axes[3]
+      );
+      this._setLeftTrigger(this.data.buttons[6].value);
+      this._setRightTrigger(this.data.buttons[7].value);
     } else {
       // TODO
+    }
+  }
+
+  private _setButtonLeftBumper(value: boolean) {
+    if (this._buttonLeftBumper !== value) {
+      this._buttonLeftBumper = value;
+
+      this.buttonLeftBumperObservable.notifyObservers(value);
+    }
+  }
+
+  private _setButtonRightBumper(value: boolean) {
+    if (this._buttonRightBumper !== value) {
+      this._buttonRightBumper = value;
+
+      this.buttonRightBumperObservable.notifyObservers(value);
+    }
+  }
+
+  private _setDPadButtons(up: boolean, down: boolean, left: boolean, right: boolean) {
+    if (
+      this._buttonDPadUp !== up ||
+      this._buttonDPadDown !== down ||
+      this._buttonDPadLeft !== left ||
+      this._buttonDPadRight !== right
+    ) {
+      this._buttonDPadUp = up;
+      this._buttonDPadDown = down;
+      this._buttonDPadLeft = left;
+      this._buttonDPadRight = right;
+
+      this.dPadButtonsObservable.notifyObservers({ up, down, left, right });
+    }
+  }
+
+  private _setLeftStick(x: number, y: number) {
+    if (
+      this._leftStickX !== x ||
+      this._leftStickY !== y
+    ) {
+      this._leftStickX = x;
+      this._leftStickY = y;
+
+      this.leftStickObservable.notifyObservers({ x, y });
+    }
+  }
+
+  private _setRightStick(x: number, y: number) {
+    if (
+      this._rightStickX !== x ||
+      this._rightStickY !== y
+    ) {
+      this._rightStickX = x;
+      this._rightStickY = y;
+
+      this.rightStickObservable.notifyObservers({ x, y });
+    }
+  }
+
+  private _setLeftTrigger(value: number) {
+    if (this._leftTrigger !== value) {
+      this._leftTrigger = value;
+
+      this.leftTriggerObservable.notifyObservers(value);
+    }
+  }
+
+  private _setRightTrigger(value: number) {
+    if (this._rightTrigger !== value) {
+      this._rightTrigger = value;
+
+      this.rightTriggerObservable.notifyObservers(value);
     }
   }
 
@@ -123,20 +213,12 @@ export class InputGamepad {
     return this._buttonRightStick;
   }
 
-  public get buttonLB() {
-    return this._buttonLB;
+  public get buttonLeftBumper() {
+    return this._buttonLeftBumper;
   }
 
-  public get buttonRB() {
-    return this._buttonRB;
-  }
-
-  public get buttonLT() {
-    return this._buttonLT;
-  }
-
-  public get buttonRT() {
-    return this._buttonRT;
+  public get buttonRightBumper() {
+    return this._buttonRightBumper;
   }
 
   public get buttonDPadUp() {

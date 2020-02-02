@@ -7,6 +7,10 @@ export class InputGamepad {
   public isXbox: boolean = false;
   public isXboxOne: boolean = false;
 
+  public faceButtonsObservable = new BABYLON.Observable<{ a: boolean, b: boolean, x: boolean, y: boolean }>();
+  public startBackButtonsObservable = new BABYLON.Observable<{ start: boolean, back: boolean }>();
+  public buttonLeftStickObservable = new BABYLON.Observable<boolean>();
+  public buttonRightStickObservable = new BABYLON.Observable<boolean>();
   public buttonLeftBumperObservable = new BABYLON.Observable<boolean>();
   public buttonRightBumperObservable = new BABYLON.Observable<boolean>();
   public dPadButtonsObservable = new BABYLON.Observable<{ up: boolean, down: boolean, left: boolean, right: boolean }>();
@@ -48,15 +52,18 @@ export class InputGamepad {
 
   public update() {
     if (this.isXboxOne) {
-      this._buttonA = this.data.buttons[0].pressed;
-      this._buttonB = this.data.buttons[1].pressed;
-      this._buttonX = this.data.buttons[2].pressed;
-      this._buttonY = this.data.buttons[3].pressed;
-      this._buttonBack = this.data.buttons[9].pressed;
-      this._buttonStart = this.data.buttons[8].pressed;
-      this._buttonLeftStick = this.data.buttons[6].pressed;
-      this._buttonRightStick = this.data.buttons[7].pressed;
-
+      this._setFaceButtons(
+        this.data.buttons[0].pressed,
+        this.data.buttons[1].pressed,
+        this.data.buttons[2].pressed,
+        this.data.buttons[4].pressed
+      );
+      this._setStartBackButtons(
+        this.data.buttons[8].pressed,
+        this.data.buttons[9].pressed
+      );
+      this._setButtonLeftStick(this.data.buttons[6].pressed);
+      this._setButtonRightStick(this.data.buttons[7].pressed);
       this._setButtonLeftBumper(this.data.buttons[4].pressed);
       this._setButtonRightBumper(this.data.buttons[5].pressed);
       this._setDPadButtons(
@@ -76,15 +83,18 @@ export class InputGamepad {
       this._setLeftTrigger(this.data.axes[2]);
       this._setRightTrigger(this.data.axes[5]);
     } else if (this.isXbox) {
-      this._buttonA = this.data.buttons[0].pressed;
-      this._buttonB = this.data.buttons[1].pressed;
-      this._buttonX = this.data.buttons[2].pressed;
-      this._buttonY = this.data.buttons[3].pressed;
-      this._buttonBack = this.data.buttons[8].pressed;
-      this._buttonStart = this.data.buttons[9].pressed;
-      this._buttonLeftStick = this.data.buttons[10].pressed;
-      this._buttonRightStick = this.data.buttons[11].pressed;
-
+      this._setFaceButtons(
+        this.data.buttons[0].pressed,
+        this.data.buttons[1].pressed,
+        this.data.buttons[2].pressed,
+        this.data.buttons[4].pressed
+      );
+      this._setStartBackButtons(
+        this.data.buttons[9].pressed,
+        this.data.buttons[8].pressed
+      );
+      this._setButtonLeftStick(this.data.buttons[10].pressed);
+      this._setButtonRightStick(this.data.buttons[11].pressed);
       this._setButtonLeftBumper(this.data.buttons[4].pressed);
       this._setButtonRightBumper(this.data.buttons[5].pressed);
       this._setDPadButtons(
@@ -105,6 +115,50 @@ export class InputGamepad {
       this._setRightTrigger(this.data.buttons[7].value);
     } else {
       // TODO
+    }
+  }
+
+  private _setFaceButtons(a: boolean, b: boolean, x: boolean, y: boolean) {
+    if (
+      this._buttonA !== a ||
+      this._buttonB !== b ||
+      this._buttonX !== x ||
+      this._buttonY !== y
+    ) {
+      this._buttonA = a;
+      this._buttonB = b;
+      this._buttonX = x;
+      this._buttonY = y;
+
+      this.faceButtonsObservable.notifyObservers({ a, b, x, y });
+    }
+  }
+
+  private _setStartBackButtons(start: boolean, back: boolean) {
+    if (
+      this._buttonStart !== start ||
+      this._buttonBack !== back
+    ) {
+      this._buttonStart = start;
+      this._buttonBack = back;
+
+      this.startBackButtonsObservable.notifyObservers({ start, back });
+    }
+  }
+
+  private _setButtonLeftStick(value: boolean) {
+    if (this._buttonLeftStick !== value) {
+      this._buttonLeftStick = value;
+
+      this.buttonLeftStickObservable.notifyObservers(value);
+    }
+  }
+
+  private _setButtonRightStick(value: boolean) {
+    if (this._buttonRightStick !== value) {
+      this._buttonRightStick = value;
+
+      this.buttonRightStickObservable.notifyObservers(value);
     }
   }
 

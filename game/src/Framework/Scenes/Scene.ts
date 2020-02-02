@@ -55,12 +55,12 @@ export abstract class AbstractScene implements SceneInterface {
 
   prepareEnvironment() {
     let ground = BABYLON.MeshBuilder.CreateGround('ground', {
-      width: 128,
-      height: 128,
+      width: 1024,
+      height: 1024,
     });
     let groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
     let groundTexture = new BABYLON.Texture('/static/textures/ground_diffuse.jpg', this.scene);
-    groundTexture.uScale = groundTexture.vScale = 16;
+    groundTexture.uScale = groundTexture.vScale = 128;
     groundMaterial.diffuseTexture = groundTexture;
     ground.material = groundMaterial;
   }

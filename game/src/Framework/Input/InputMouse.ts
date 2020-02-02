@@ -9,9 +9,10 @@ import {
   InputMouseAxisEnum,
   InputMouseButtonEnum,
 } from './InputConstants';
+import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputMouse implements InputDeviceInterface {
-  private _bindings: InputBindingsInterface;
+  private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisMouseDataInterface } = {}; // ex.: [ moveForward: { axis: 0, scale: 1.0 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: [ 0: interact ]; 0 = InputMouseButtonEnum.Left
   private _buttonsPressed: Array<number> = [];
@@ -125,12 +126,21 @@ export class InputMouse implements InputDeviceInterface {
 
   public update() {}
 
-  private _onHandleMove(e: MouseEvent) {
-    const deltaX = e.movementX;
-    const deltaY = e.movementY;
+  private _onHandleMove(e: MouseEvent | PointerEvent) {
+    const deltaX = e.movementX ||
+      e.mozMovementX ||
+      e.webkitMovementX ||
+      e.msMovementX ||
+      0;
+    const deltaY = e.movementY ||
+      e.mozMovementY ||
+      e.webkitMovementY ||
+      e.msMovementY || 0;
 
     if (GameManager.engine.isPointerLock) {
-      for (const axis in this._axesMap) {
+      const axisKeys = Object.keys(this._axesMap);
+      for (let i = 0; i < axisKeys.length; i++) {
+        const axis = axisKeys[i];
         const mouseAction = this._axesMap[axis];
 
         if (
@@ -207,7 +217,9 @@ export class InputMouse implements InputDeviceInterface {
   private _onHandleWheel(e: MouseWheelEvent) {
     const deltaY = e.deltaY;
 
-    for (const axis in this._axesMap) {
+    const axisKeys = Object.keys(this._axesMap);
+    for (let i = 0; i < axisKeys.length; i++) {
+      const axis = axisKeys[i];
       const mouseAction = this._axesMap[axis];
 
       if (

@@ -154,5 +154,19 @@ export class ThirdPersonPlayerInputBindings extends AbstractPlayerInputBindings 
         },
       },
     ],
+    jump: [
+      {
+        device: InputDeviceEnum.Keyboard,
+        data: {
+          keyCode: KeyboardKey.Space,
+        },
+      },
+      {
+        device: InputDeviceEnum.Gamepad,
+        data: {
+          button: InputGamepadButtonEnum.B,
+        },
+      },
+    ],
   };
 }

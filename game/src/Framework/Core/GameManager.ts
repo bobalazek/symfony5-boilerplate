@@ -24,10 +24,13 @@ export class GameManager {
 
     // Input manager
     this.inputManager = new InputManager();
-    this.inputManager.setBindings(
-      new config.playerInputBindings()
-    );
+    if (config.playerInputBindings) {
+      this.inputManager.setBindings(
+        new config.playerInputBindings()
+      );
+    }
     this.inputManager.bindEvents();
+    const inputManagerEnabled = this.inputManager.enabled;
 
     // Set player controller
     this.playerController = new config.playerController();
@@ -39,12 +42,19 @@ export class GameManager {
 
     // Main render loop
     this.engine.runRenderLoop(() => {
-      if (this.scene) {
+      if (!this.scene) {
+        return;
+      }
+
+      if (inputManagerEnabled) {
         this.inputManager.update();
-        this.playerController.update();
+      }
 
-        this.scene.render();
+      this.playerController.update();
 
+      this.scene.render();
+
+      if (inputManagerEnabled) {
         this.inputManager.afterRender();
       }
     });
@@ -55,7 +65,9 @@ export class GameManager {
     });
 
     window.addEventListener('blur', () => {
-      this.inputManager.unbindEvents();
+      if (inputManagerEnabled) {
+        this.inputManager.unbindEvents();
+      }
     });
   }
 
@@ -68,5 +80,5 @@ export interface GameConfigInterface {
   engineOptions: BABYLON.EngineOptions;
   defaultScene: new () => AbstractScene;
   playerController: new () => AbstractPlayerController;
-  playerInputBindings: new () => AbstractPlayerInputBindings;
+  playerInputBindings?: new () => AbstractPlayerInputBindings;
 }

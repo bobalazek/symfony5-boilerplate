@@ -7,9 +7,10 @@ import {
   InputModeEnum,
   InputDeviceEnum,
 } from './InputConstants';
+import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputKeyboard implements InputDeviceInterface {
-  private _bindings: InputBindingsInterface;
+  private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesKeyScaleMap: { [key: number]: { axis: string, scale: number } } = {}; // ex.: [ 68: { axis: 'moveForward', scale: 1 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: { 68: moveForward }
   private _keysPressed: { [key: number]: number | undefined } = {}; // ex.: { 68: 123456789 /* unix time */ }

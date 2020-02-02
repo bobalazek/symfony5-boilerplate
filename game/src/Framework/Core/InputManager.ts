@@ -9,6 +9,7 @@ import { InputGamepad } from '../Input/InputGamepad';
 import { InputGamepadManager } from '../Input/InputGamepadManager';
 
 export class InputManager {
+  private _enabled: boolean = false;
   private _bindings: InputBindingsInterface;
   private _mode: InputModeEnum = InputModeEnum.KeyboardAndMouse;
   private _axes: { [key: string]: number } = {};
@@ -28,6 +29,7 @@ export class InputManager {
   }
 
   public setBindings(bindings: InputBindingsInterface) {
+    this._enabled = true;
     this._bindings = bindings;
 
     this._keyboard.setBindings(bindings);
@@ -101,6 +103,10 @@ export class InputManager {
     for (let i = 0; i < actionsKeys.length; i++) {
       this._actions[actionsKeys[i]] = false;
     }
+  }
+
+  public get enabled() {
+    return this._enabled;
   }
 
   public get bindings() {

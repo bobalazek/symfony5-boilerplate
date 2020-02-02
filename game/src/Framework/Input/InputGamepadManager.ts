@@ -18,6 +18,7 @@ export class InputGamepadManager implements InputDeviceInterface {
   private _axesMap: { [key: string]: InputMappingAxisGamepadDataInterface } = {};
   private _actionsMap: { [key: string]: string } = {};
   private _actionsInversedMap: { [key: string]: number } = {}; // have the actions on the left & button on the right
+  private readonly _axisDeadZone: number = 0.1;
 
   public readonly hasSupport: boolean = 'GamepadEvent' in window;
   public isAnyConnected: boolean = false;
@@ -122,7 +123,7 @@ export class InputGamepadManager implements InputDeviceInterface {
               InputGamepadAxisPropertyEnum[InputGamepadAxisEnum[actionAxis]]
             ];
 
-            if (Math.abs(value) > 0.1) { // TODO: implement deadzone
+            if (Math.abs(value) > this._axisDeadZone) {
               GameManager.inputManager.addToAxis(axis, value * actionScale);
             }
           }

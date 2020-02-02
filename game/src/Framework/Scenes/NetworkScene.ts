@@ -17,7 +17,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   prepareNetworkClient() {
     if (!this.networkHost && !this.networkPort) {
       throw new Error(
-        'A networked room requires you to have `networkHost` and `networkPort` set in your class.'
+        'A networked room requires you to have `networkHost` and `networkPort` set in your scene class.'
       );
     }
 
@@ -35,8 +35,6 @@ export abstract class AbstractNetworkScene extends AbstractScene {
 
         resolve(room);
       }).catch(e => {
-        console.error(e);
-
         reject(e);
       });
     });

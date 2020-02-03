@@ -16,9 +16,13 @@ jobs:
         docker exec -i tw_phpfpm composer install
         docker exec -i tw_phpfpm php bin/console doctrine:schema:update --force
         docker exec -i tw_phpfpm php bin/console doctrine:fixtures:load
-    - name: Prepare frontend
+    - name: Prepare web frontend
       run: |
         docker exec -i tw_node_web yarn install
         docker exec -i tw_node_web yarn run build
+    - name: Prepare game frontend
+      run: |
+        docker exec -i tw_node_game npm install
+        docker exec -i tw_node_game npm run build
     - name: Run tests
       run: docker exec -i tw_phpfpm php bin/phpunit

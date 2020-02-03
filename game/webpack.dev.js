@@ -6,6 +6,12 @@ const common = require('./webpack.common.js');
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 500,
+    poll: 500,
+    ignored: ['node_modules/**'],
+  },
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
     port: 8080,

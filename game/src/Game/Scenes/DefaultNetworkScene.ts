@@ -13,29 +13,29 @@ export class DefaultScene extends AbstractNetworkScene {
   public networkPort: number = GAME_SERVER_PORT;
 
   load() {
-    // Show preloader
-    GameManager.engine.displayLoadingUI();
+    return new Promise((resolve) => {
+      // Show preloader
+      GameManager.engine.displayLoadingUI();
 
-    // Prepare scene
-    this.scene = new BABYLON.Scene(GameManager.engine);
+      this.prepareCamera();
+      this.prepareLights();
+      this.prepareEnvironment();
+      this.prepareNetworkClientAndJoinRoom('lobby')
+        .then(() => {
+          const playerCharacterId = 'player_' + this.networkRoom.sessionId;
+          this.prepareNetworkSync();
+          this.preparePlayer(playerCharacterId);
+          this.preparePlayerNetworkSync(playerCharacterId);
+        });
 
-    this.prepareCamera();
-    this.prepareLights();
-    this.prepareEnvironment();
-    this.prepareNetworkClientAndJoinRoom('lobby')
-      .then(() => {
-        const playerCharacterId = 'player_' + this.networkRoom.sessionId;
-        this.prepareNetworkSync();
-        this.preparePlayer(playerCharacterId);
-        this.preparePlayerNetworkSync(playerCharacterId);
-      });
+      // Inspector
+      this.scene.debugLayer.show();
 
-    // Inspector
-    this.scene.debugLayer.show();
+      // Hide preloader
+      GameManager.engine.hideLoadingUI();
 
-    // Set scene & hide preloader
-    GameManager.setScene(this.scene);
-    GameManager.engine.hideLoadingUI();
+      resolve(this);
+    });
   }
 
   preparePlayer(playerCharacterId: string = 'player') {

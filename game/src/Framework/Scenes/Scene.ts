@@ -4,26 +4,36 @@ import * as BABYLONMATERIALS from 'babylonjs-materials';
 import { GameManager } from '../Core/GameManager';
 
 export interface SceneInterface {
-    load: () => void;
+  scene: BABYLON.Scene;
+  afterLoadObservable: BABYLON.Observable<SceneInterface>;
+  start(): void;
+  load(): Promise<any>;
 }
 
 export abstract class AbstractScene implements SceneInterface {
+  public afterLoadObservable = new BABYLON.Observable<SceneInterface>();
   public scene: BABYLON.Scene;
 
+  start() {
+    this.scene = new BABYLON.Scene(GameManager.engine);
+  }
+
   load() {
-    // Show preloader
-    GameManager.engine.displayLoadingUI();
+    return new Promise((resolve) => {
+      // Show preloader
+      GameManager.engine.displayLoadingUI();
 
-    // Prepare scene
-    this.prepareScene();
+      // Prepare scene
+      this.prepareScene();
 
-    // Set scene & hide preloader
-    GameManager.setScene(this.scene);
-    GameManager.engine.hideLoadingUI();
+      // Hide preloader
+      GameManager.engine.hideLoadingUI();
+
+      resolve(this);
+    });
   }
 
   prepareScene() {
-    this.scene = new BABYLON.Scene(GameManager.engine);
     this.prepareCamera();
     this.prepareLights();
     this.prepareEnvironment();

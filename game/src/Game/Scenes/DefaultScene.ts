@@ -5,23 +5,31 @@ import { AbstractScene } from '../../Framework/Scenes/Scene';
 
 export class DefaultScene extends AbstractScene {
   load() {
-    // Show preloader
-    GameManager.engine.displayLoadingUI();
+    const playerCharacterId = 'player';
 
-    // Prepare scene
-    this.scene = new BABYLON.Scene(GameManager.engine);
+    this.afterLoadObservable.add(() => {
+      GameManager.playerController.posessTransformNode(
+        GameManager.scene.getMeshByID(playerCharacterId)
+      );
+    })
 
-    this.prepareCamera();
-    this.prepareLights();
-    this.prepareEnvironment();
-    this.preparePlayer();
+    return new Promise((resolve) => {
+      // Show preloader
+      GameManager.engine.displayLoadingUI();
 
-    // Inspector
-    this.scene.debugLayer.show();
+      this.prepareCamera();
+      this.prepareLights();
+      this.prepareEnvironment();
+      this.preparePlayer(playerCharacterId);
 
-    // Set scene & hide preloader
-    GameManager.setScene(this.scene);
-    GameManager.engine.hideLoadingUI();
+      // Inspector
+      this.scene.debugLayer.show();
+
+      // Hide preloader
+      GameManager.engine.hideLoadingUI();
+
+      resolve(this);
+    });
   }
 
   preparePlayer(playerCharacterId: string = 'player') {
@@ -29,7 +37,5 @@ export class DefaultScene extends AbstractScene {
       height: 2,
     });
     playerCharacter.position.y = 1;
-
-    GameManager.playerController.posessTransformNode(playerCharacter);
   }
 }

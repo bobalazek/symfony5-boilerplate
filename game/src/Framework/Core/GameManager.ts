@@ -3,14 +3,15 @@ import * as BABYLON from 'babylonjs';
 import { InputManager } from './InputManager';
 import { AbstractPlayerController } from '../Gameplay/PlayerController';
 import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
-import { AbstractScene } from '../Scenes/Scene';
+import { AbstractScene, SceneInterface } from '../Scenes/Scene';
 
 export class GameManager {
   public static canvas: HTMLCanvasElement;
   public static engine: BABYLON.Engine;
   public static scene: BABYLON.Scene;
-  public static inputManager: InputManager;
 
+  public static gameScene: SceneInterface;
+  public static inputManager: InputManager;
   public static playerController: AbstractPlayerController;
 
   public static boot(config: GameConfigInterface) {
@@ -32,13 +33,21 @@ export class GameManager {
     this.inputManager.bindEvents();
     const inputManagerBindingsEnabled = this.inputManager.bindingsEnabled;
 
-    // Set player controller
+    // Player controller
     this.playerController = new config.playerController();
     this.playerController.start();
 
-    // Load default scene
-    let defaultScene = new config.defaultScene();
-    defaultScene.load();
+    // Game scene
+    this.gameScene = new config.defaultScene();
+    this.gameScene.start();
+    this.gameScene.load()
+      .then((gameScene) => {
+        if (gameScene.afterLoadObservable) {
+          gameScene.afterLoadObservable.notifyObservers(gameScene);
+        }
+
+        this.setScene(gameScene.scene);
+      });
 
     // Main render loop
     this.engine.runRenderLoop(() => {

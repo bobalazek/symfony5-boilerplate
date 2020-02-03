@@ -24,7 +24,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
     new webpack.ProvidePlugin({
-      'ammo': 'ammo',
+      // external deps here
     }),
     new CopyWebpackPlugin([
       {

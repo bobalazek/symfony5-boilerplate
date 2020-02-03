@@ -22,7 +22,7 @@ const gameServer = new Server({
 
 gameServer.define('lobby', LobbyRoom);
 
-app.use('/colyseus', monitor(gameServer));
+app.use('/colyseus', monitor());
 
 gameServer.listen(GAME_SERVER_PORT);
 

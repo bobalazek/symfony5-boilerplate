@@ -1,8 +1,8 @@
 FROM node:12
 
-WORKDIR /var/www/web
+WORKDIR /usr/src/app
 
 RUN npm install pm2 -g
 
-EXPOSE 1242
+EXPOSE 1248
 EXPOSE 8080

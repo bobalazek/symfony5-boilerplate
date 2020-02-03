@@ -79,7 +79,6 @@ services:
     networks:
       - app-network
     command: tail -f /dev/null
-    working_dir: /usr/src/app
     restart: always
   node-game:
     container_name: tw_node_game
@@ -88,13 +87,12 @@ services:
       - .env
     ports:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
-      - '${GAME_SERVER_PORT_1242:-1242}:1242'
+      - '${GAME_SERVER_PORT_1248:-1248}:1248'
     volumes:
       - ./game:/usr/src/app
     networks:
       - app-network
     command: tail -f /dev/null
-    working_dir: /usr/src/app
     restart: always
 networks:
   app-network:

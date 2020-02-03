@@ -1,3 +1,3 @@
 FROM node:12
 
-WORKDIR /var/www/web
+WORKDIR /usr/src/app

@@ -9,7 +9,7 @@ export class DefaultScene extends AbstractScene {
 
     this.afterLoadObservable.add(() => {
       GameManager.playerController.posessTransformNode(
-        GameManager.scene.getMeshByID(playerCharacterId)
+        this.scene.getMeshByID(playerCharacterId)
       );
     })
 

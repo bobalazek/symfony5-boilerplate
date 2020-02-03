@@ -76,6 +76,7 @@ services:
     build: ./docker/node-web
     volumes:
       - ./web:/usr/src/app
+    working_dir: /usr/src/app
     networks:
       - app-network
     command: tail -f /dev/null
@@ -90,6 +91,7 @@ services:
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
     volumes:
       - ./game:/usr/src/app
+    working_dir: /usr/src/app
     networks:
       - app-network
     command: tail -f /dev/null

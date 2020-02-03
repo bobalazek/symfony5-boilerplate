@@ -1,6 +1,5 @@
 FROM node:12
 
-RUN npm update -g npm
 RUN npm install -g pm2
 
 RUN mkdir -p /usr/src/app

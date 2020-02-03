@@ -1,8 +1,11 @@
 FROM node:12
 
-WORKDIR /usr/src/app
+RUN npm update -g npm
+RUN npm install -g pm2
 
-RUN npm install pm2 -g
+RUN mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
 
 EXPOSE 1248
 EXPOSE 8080

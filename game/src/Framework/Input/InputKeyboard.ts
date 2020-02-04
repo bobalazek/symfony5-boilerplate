@@ -1,4 +1,4 @@
-import * as BABYLON from 'babylonjs';
+import { Observable } from 'babylonjs';
 
 import { GameManager } from '../Core/GameManager';
 import {
@@ -12,7 +12,7 @@ import {
 import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputKeyboard implements InputDeviceInterface {
-  public keyUpDownObservable = new BABYLON.Observable<KeyboardEvent>();
+  public keyUpDownObservable = new Observable<KeyboardEvent>();
 
   private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesKeyScaleMap: { [key: number]: { axis: string, scale: number } } = {}; // ex.: [ 68: { axis: 'moveForward', scale: 1 } ]

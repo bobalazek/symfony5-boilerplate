@@ -78,10 +78,12 @@ export class InputManager {
   }
 
   public update() {
-    this._keyboard.update();
-    this._mouse.update();
-    this._deviceOrientation.update();
-    this._gamepadManager.update();
+    if (this._bindingsEnabled) {
+      this._keyboard.update();
+      this._mouse.update();
+      this._deviceOrientation.update();
+      this._gamepadManager.update();
+    }
   }
 
   public afterRender() {

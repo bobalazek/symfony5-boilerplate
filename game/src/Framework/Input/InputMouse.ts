@@ -1,4 +1,4 @@
-import * as BABYLON from 'babylonjs';
+import { Observable } from 'babylonjs';
 
 import { GameManager } from '../Core/GameManager';
 import {
@@ -14,9 +14,9 @@ import {
 import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputMouse implements InputDeviceInterface {
-  public moveObservable = new BABYLON.Observable<MouseEvent | PointerEvent>();
-  public upDownObservable = new BABYLON.Observable<MouseEvent | PointerEvent>();
-  public wheelObservable = new BABYLON.Observable<MouseWheelEvent>();
+  public moveObservable = new Observable<MouseEvent | PointerEvent>();
+  public upDownObservable = new Observable<MouseEvent | PointerEvent>();
+  public wheelObservable = new Observable<MouseWheelEvent>();
 
   private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisMouseDataInterface } = {}; // ex.: [ moveForward: { axis: 0, scale: 1.0 } ]

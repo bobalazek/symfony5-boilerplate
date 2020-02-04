@@ -1,4 +1,4 @@
-import * as BABYLON from 'babylonjs';
+import { Observable } from 'babylonjs';
 
 export class InputGamepad {
   public index: number;
@@ -7,17 +7,17 @@ export class InputGamepad {
   public isXbox: boolean = false;
   public isXboxOne: boolean = false;
 
-  public faceButtonsObservable = new BABYLON.Observable<{ a: boolean, b: boolean, x: boolean, y: boolean }>();
-  public startBackButtonsObservable = new BABYLON.Observable<{ start: boolean, back: boolean }>();
-  public buttonLeftStickObservable = new BABYLON.Observable<boolean>();
-  public buttonRightStickObservable = new BABYLON.Observable<boolean>();
-  public buttonLeftBumperObservable = new BABYLON.Observable<boolean>();
-  public buttonRightBumperObservable = new BABYLON.Observable<boolean>();
-  public dPadButtonsObservable = new BABYLON.Observable<{ up: boolean, down: boolean, left: boolean, right: boolean }>();
-  public leftStickObservable = new BABYLON.Observable<{ x: number, y: number }>();
-  public rightStickObservable = new BABYLON.Observable<{ x: number, y: number }>();
-  public leftTriggerObservable = new BABYLON.Observable<number>();
-  public rightTriggerObservable = new BABYLON.Observable<number>();
+  public faceButtonsObservable = new Observable<{ a: boolean, b: boolean, x: boolean, y: boolean }>();
+  public startBackButtonsObservable = new Observable<{ start: boolean, back: boolean }>();
+  public buttonLeftStickObservable = new Observable<boolean>();
+  public buttonRightStickObservable = new Observable<boolean>();
+  public buttonLeftBumperObservable = new Observable<boolean>();
+  public buttonRightBumperObservable = new Observable<boolean>();
+  public dPadButtonsObservable = new Observable<{ up: boolean, down: boolean, left: boolean, right: boolean }>();
+  public leftStickObservable = new Observable<{ x: number, y: number }>();
+  public rightStickObservable = new Observable<{ x: number, y: number }>();
+  public leftTriggerObservable = new Observable<number>();
+  public rightTriggerObservable = new Observable<number>();
 
   // Buttons
   public _buttonA: boolean = false;

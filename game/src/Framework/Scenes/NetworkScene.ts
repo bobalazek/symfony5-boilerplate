@@ -1,5 +1,12 @@
-import * as BABYLON from 'babylonjs';
-import  * as Colyseus from 'colyseus.js';
+import {
+  TransformNode,
+  Vector3,
+  Quaternion,
+} from 'babylonjs';
+import {
+  Client,
+  Room,
+} from 'colyseus.js';
 
 import { GameManager } from '../Core/GameManager';
 import { AbstractScene } from './Scene';
@@ -9,8 +16,8 @@ import { NetworkConstants } from '../Network/NetworkConstants';
 export abstract class AbstractNetworkScene extends AbstractScene {
   public networkHost: string;
   public networkPort: number;
-  public networkClient: Colyseus.Client;
-  public networkRoom: Colyseus.Room;
+  public networkClient: Client;
+  public networkRoom: Room;
   public readonly networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
   public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
 
@@ -21,7 +28,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
       );
     }
 
-    this.networkClient = new Colyseus.Client(
+    this.networkClient = new Client(
       'ws://' + this.networkHost + ':' + this.networkPort
     );
   }
@@ -58,20 +65,20 @@ export abstract class AbstractNetworkScene extends AbstractScene {
         ) {
           mesh.metadata.network.clientLastUpdate = now;
 
-          mesh.position = BABYLON.Vector3.Lerp(
+          mesh.position = Vector3.Lerp(
             mesh.position,
             mesh.metadata.serverData.position,
             this.networkInterpolationSmooting
           );
 
           const serverDataRotation = mesh.metadata.serverData.rotation;
-          const rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(
+          const rotationQuaternion = Quaternion.RotationYawPitchRoll(
             serverDataRotation.y,
             serverDataRotation.x,
             serverDataRotation.z
           );
 
-          mesh.rotationQuaternion = BABYLON.Quaternion.Slerp(
+          mesh.rotationQuaternion = Quaternion.Slerp(
             mesh.rotationQuaternion,
             rotationQuaternion,
             this.networkInterpolationSmooting
@@ -81,7 +88,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     });
   }
 
-  networkReplicate(transformNode: BABYLON.TransformNode, updateFrequency: number = 100) {
+  networkReplicate(transformNode: TransformNode, updateFrequency: number = 100) {
     if (!transformNode.metadata) {
       transformNode.metadata = {}
     }

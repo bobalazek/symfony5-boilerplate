@@ -1,26 +1,25 @@
-import * as BABYLON from 'babylonjs';
+import { MeshBuilder } from 'babylonjs';
 
 import { GameManager } from '../../Framework/Core/GameManager';
 import { AbstractScene } from '../../Framework/Scenes/Scene';
 
 export class DefaultScene extends AbstractScene {
   load() {
-    const playerCharacterId = 'player';
 
-    this.afterLoadObservable.add(() => {
-      GameManager.playerController.posessTransformNode(
-        this.scene.getMeshByID(playerCharacterId)
-      );
-    })
 
     return new Promise((resolve) => {
       // Show preloader
       GameManager.engine.displayLoadingUI();
 
+      const playerCharacterId = 'player';
+
       this.prepareCamera();
       this.prepareLights();
       this.prepareEnvironment();
       this.preparePlayer(playerCharacterId);
+      GameManager.playerController.posessTransformNode(
+        this.scene.getMeshByID(playerCharacterId)
+      );
 
       // Inspector
       this.scene.debugLayer.show();
@@ -33,7 +32,7 @@ export class DefaultScene extends AbstractScene {
   }
 
   preparePlayer(playerCharacterId: string = 'player') {
-    let playerCharacter = BABYLON.MeshBuilder.CreateCylinder(playerCharacterId, {
+    let playerCharacter = MeshBuilder.CreateCylinder(playerCharacterId, {
       height: 2,
     });
     playerCharacter.position.y = 1;

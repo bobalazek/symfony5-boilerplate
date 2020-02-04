@@ -1,4 +1,4 @@
-import * as BABYLON from 'babylonjs';
+import { MeshBuilder } from 'babylonjs';
 
 import { GameManager } from '../../Framework/Core/GameManager';
 import { AbstractNetworkScene } from '../../Framework/Scenes/NetworkScene';
@@ -39,7 +39,7 @@ export class DefaultScene extends AbstractNetworkScene {
   }
 
   preparePlayer(playerCharacterId: string = 'player') {
-    let playerCharacter = BABYLON.MeshBuilder.CreateCylinder(playerCharacterId, {
+    let playerCharacter = MeshBuilder.CreateCylinder(playerCharacterId, {
       height: 2,
     });
     playerCharacter.position.y = 1;

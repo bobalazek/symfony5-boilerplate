@@ -1,4 +1,8 @@
-import * as BABYLON from 'babylonjs';
+import {
+  Engine,
+  EngineOptions,
+  Scene,
+} from 'babylonjs';
 
 import { InputManager } from './InputManager';
 import { AbstractPlayerController } from '../Gameplay/PlayerController';
@@ -7,8 +11,8 @@ import { AbstractScene, SceneInterface } from '../Scenes/Scene';
 
 export class GameManager {
   public static canvas: HTMLCanvasElement;
-  public static engine: BABYLON.Engine;
-  public static scene: BABYLON.Scene;
+  public static engine: Engine;
+  public static scene: Scene;
 
   public static gameScene: SceneInterface;
   public static inputManager: InputManager;
@@ -16,7 +20,7 @@ export class GameManager {
 
   public static boot(config: GameConfigInterface) {
     this.canvas = <HTMLCanvasElement>document.getElementById('game');
-    this.engine = new BABYLON.Engine(
+    this.engine = new Engine(
       this.canvas,
       true,
       config.engineOptions,
@@ -31,22 +35,23 @@ export class GameManager {
       );
     }
     this.inputManager.bindEvents();
-    const inputManagerBindingsEnabled = this.inputManager.bindingsEnabled;
 
     // Player controller
     this.playerController = new config.playerController();
-    this.playerController.start();
 
     // Game scene
     this.gameScene = new config.defaultScene();
+
+    // Prepare game scene & controller
     this.gameScene.start();
+    this.playerController.start();
+
+    // Start game scene loading
     this.gameScene.load()
       .then((gameScene) => {
         this.setScene(gameScene.scene);
 
-        if (gameScene.afterLoadObservable) {
-          gameScene.afterLoadObservable.notifyObservers(gameScene);
-        }
+        gameScene.afterLoadObservable.notifyObservers(gameScene);
       });
 
     // Main render loop
@@ -55,17 +60,10 @@ export class GameManager {
         return;
       }
 
-      if (inputManagerBindingsEnabled) {
-        this.inputManager.update();
-      }
-
+      this.inputManager.update();
       this.playerController.update();
-
       this.scene.render();
-
-      if (inputManagerBindingsEnabled) {
-        this.inputManager.afterRender();
-      }
+      this.inputManager.afterRender();
     });
 
     /***** Events *****/
@@ -82,13 +80,13 @@ export class GameManager {
     });
   }
 
-  public static setScene(scene: BABYLON.Scene) {
+  public static setScene(scene: Scene) {
     this.scene = scene;
   }
 }
 
 export interface GameConfigInterface {
-  engineOptions: BABYLON.EngineOptions;
+  engineOptions: EngineOptions;
   defaultScene: new () => AbstractScene;
   playerController: new () => AbstractPlayerController;
   playerInputBindings?: new () => AbstractPlayerInputBindings;

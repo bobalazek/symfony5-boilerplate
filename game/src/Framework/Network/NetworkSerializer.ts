@@ -1,7 +1,7 @@
-import * as BABYLON from 'babylonjs';
+import { TransformNode } from 'babylonjs';
 
 export class NetworkSerializer {
-  public static serializeTransformNode(transformNode: BABYLON.TransformNode, precision: number = 5): string {
+  public static serializeTransformNode(transformNode: TransformNode, precision: number = 5): string {
     return [
       parseFloat(transformNode.position.x.toFixed(precision)),
       parseFloat(transformNode.position.y.toFixed(precision)),

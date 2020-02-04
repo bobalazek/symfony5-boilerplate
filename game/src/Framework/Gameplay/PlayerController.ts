@@ -1,26 +1,31 @@
-import * as BABYLON from 'babylonjs';
+import {
+  TransformNode,
+  Vector2,
+  Vector3,
+  ArcRotateCamera,
+} from 'babylonjs';
 
 import { GameManager } from '../Core/GameManager';
 
 export interface PlayerControllerInterface {
   start(): void;
   update(): void;
-  posessTransformNode(transformNode: BABYLON.TransformNode): void;
+  posessTransformNode(transformNode: TransformNode): void;
 }
 
 export class AbstractPlayerController implements PlayerControllerInterface {
   public start() {}
   public update() {}
-  public posessTransformNode(transformNode: BABYLON.TransformNode) {}
+  public posessTransformNode(transformNode: TransformNode) {}
 }
 
 export class ThirdPersonPlayerController extends AbstractPlayerController {
-  public posessedTransformNode: BABYLON.TransformNode;
+  public posessedTransformNode: TransformNode;
 
-  private readonly _forward = new BABYLON.Vector3(0, 0, 1);
-  private readonly _forwardInverted = new BABYLON.Vector3(0, 0, -1);
-  private readonly _right = new BABYLON.Vector3(1, 0, 0);
-  private readonly _rightInverted = new BABYLON.Vector3(-1, 0, 0);
+  private readonly _forward = new Vector3(0, 0, 1);
+  private readonly _forwardInverted = new Vector3(0, 0, -1);
+  private readonly _right = new Vector3(1, 0, 0);
+  private readonly _rightInverted = new Vector3(-1, 0, 0);
 
   private readonly _cameraAlphaMultiplier: number = -0.002;
   private readonly _cameraBetaMultiplier: number = -0.0003;
@@ -35,38 +40,38 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
     const inputAxes = GameManager.inputManager.axes;
 
     // Location
-    let inputLocation = BABYLON.Vector2.Zero();
+    let inputLocation = Vector2.Zero();
 
     if (inputAxes['moveForward'] !== 0) {
       inputLocation.addInPlace(
-        new BABYLON.Vector2(0, inputAxes['moveForward'])
+        new Vector2(0, inputAxes['moveForward'])
       );
     }
 
     if (inputAxes['moveRight'] !== 0) {
       inputLocation.addInPlace(
-        new BABYLON.Vector2(inputAxes['moveRight'], 0)
+        new Vector2(inputAxes['moveRight'], 0)
       );
     }
 
     // Rotation
-    let inputRotation = BABYLON.Vector2.Zero();
+    let inputRotation = Vector2.Zero();
 
     if (inputAxes['lookRight'] !== 0) {
       inputRotation.addInPlace(
-        new BABYLON.Vector2(inputAxes['lookRight'], 0)
+        new Vector2(inputAxes['lookRight'], 0)
       );
     }
 
     if (inputAxes['lookUp'] !== 0) {
       inputRotation.addInPlace(
-        new BABYLON.Vector2(0, inputAxes['lookUp'])
+        new Vector2(0, inputAxes['lookUp'])
       );
     }
 
     /***** Mesh & camera update *****/
     if (this.posessedTransformNode) {
-      const camera = <BABYLON.ArcRotateCamera>GameManager.scene.activeCamera;
+      const camera = <ArcRotateCamera>GameManager.gameScene.scene.activeCamera;
 
       if (inputAxes['lookZoom']) {
         camera.radius = camera.radius + (inputAxes['lookZoom'] * this._cameraRadiusMultiplier);
@@ -86,15 +91,15 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
         inputLocation.x !== 0 ||
         inputLocation.y !== 0
       ) {
-        const cameraRight = BABYLON.Vector3.TransformNormal(
-          GameManager.scene.useRightHandedSystem ? this._rightInverted : this._right,
+        const cameraRight = Vector3.TransformNormal(
+          GameManager.gameScene.scene.useRightHandedSystem ? this._rightInverted : this._right,
           camera.getWorldMatrix()
         ).normalize().scaleInPlace(inputLocation.x);
-        const cameraForward = BABYLON.Vector3.TransformNormal(
-          GameManager.scene.useRightHandedSystem ? this._forwardInverted : this._forward,
+        const cameraForward = Vector3.TransformNormal(
+          GameManager.gameScene.scene.useRightHandedSystem ? this._forwardInverted : this._forward,
           camera.getWorldMatrix()
         ).normalize().scaleInPlace(inputLocation.y);
-        const direction = new BABYLON.Vector3(
+        const direction = new Vector3(
           cameraRight.x + cameraForward.x,
           0,
           cameraRight.z + cameraForward.z
@@ -109,10 +114,10 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
     }
   }
 
-  public posessTransformNode(transformNode: BABYLON.TransformNode) {
+  public posessTransformNode(transformNode: TransformNode) {
     this.posessedTransformNode = transformNode;
 
-    const camera = <BABYLON.ArcRotateCamera>GameManager.scene.activeCamera;
+    const camera = <ArcRotateCamera>GameManager.gameScene.scene.activeCamera;
     camera.lockedTarget = this.posessedTransformNode;
   }
 }

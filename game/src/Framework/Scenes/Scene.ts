@@ -1,21 +1,31 @@
-import * as BABYLON from 'babylonjs';
-import * as BABYLONMATERIALS from 'babylonjs-materials';
+import {
+  Scene,
+  Observable,
+  ArcRotateCamera,
+  Vector3,
+  HemisphericLight,
+  Mesh,
+  MeshBuilder,
+  StandardMaterial,
+  Texture,
+} from 'babylonjs';
+import { SkyMaterial } from 'babylonjs-materials';
 
 import { GameManager } from '../Core/GameManager';
 
 export interface SceneInterface {
-  scene: BABYLON.Scene;
-  afterLoadObservable: BABYLON.Observable<SceneInterface>;
+  scene: Scene;
+  afterLoadObservable: Observable<SceneInterface>;
   start(): void;
   load(): Promise<any>;
 }
 
 export abstract class AbstractScene implements SceneInterface {
-  public afterLoadObservable = new BABYLON.Observable<SceneInterface>();
-  public scene: BABYLON.Scene;
+  public afterLoadObservable = new Observable<SceneInterface>();
+  public scene: Scene;
 
   start() {
-    this.scene = new BABYLON.Scene(GameManager.engine);
+    this.scene = new Scene(GameManager.engine);
   }
 
   load() {
@@ -40,12 +50,12 @@ export abstract class AbstractScene implements SceneInterface {
   }
 
   prepareCamera() {
-    let camera = new BABYLON.ArcRotateCamera(
+    let camera = new ArcRotateCamera(
       'camera',
       Math.PI / -2,
       Math.PI / 3,
       10,
-      BABYLON.Vector3.Zero(),
+      Vector3.Zero(),
       this.scene
     );
 
@@ -57,29 +67,29 @@ export abstract class AbstractScene implements SceneInterface {
   }
 
   prepareLights() {
-    new BABYLON.HemisphericLight(
+    new HemisphericLight(
       'light',
-      new BABYLON.Vector3(0, 1, 0),
+      new Vector3(0, 1, 0),
       this.scene
     );
   }
 
   prepareEnvironment() {
     // Skybox
-    let skybox = BABYLON.Mesh.CreateBox('skybox', 1024, this.scene);
-    var skyboxMaterial = new BABYLONMATERIALS.SkyMaterial('skyboxMaterial', this.scene);
+    let skybox = Mesh.CreateBox('skybox', 1024, this.scene);
+    var skyboxMaterial = new SkyMaterial('skyboxMaterial', this.scene);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.useSunPosition = true;
-    skyboxMaterial.sunPosition = new BABYLON.Vector3(0, 100, 0);
+    skyboxMaterial.sunPosition = new Vector3(0, 100, 0);
     skybox.material = skyboxMaterial;
 
     // Ground
-    let ground = BABYLON.MeshBuilder.CreateGround('ground', {
+    let ground = MeshBuilder.CreateGround('ground', {
       width: 1024,
       height: 1024,
     });
-    let groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
-    let groundTexture = new BABYLON.Texture('/static/textures/ground_diffuse.jpg', this.scene);
+    let groundMaterial = new StandardMaterial('groundMaterial', this.scene);
+    let groundTexture = new Texture('/static/textures/ground_diffuse.jpg', this.scene);
     groundTexture.uScale = groundTexture.vScale = 128;
     groundMaterial.diffuseTexture = groundTexture;
     ground.material = groundMaterial;

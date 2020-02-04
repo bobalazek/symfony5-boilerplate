@@ -42,11 +42,11 @@ export class GameManager {
     this.gameScene.start();
     this.gameScene.load()
       .then((gameScene) => {
+        this.setScene(gameScene.scene);
+
         if (gameScene.afterLoadObservable) {
           gameScene.afterLoadObservable.notifyObservers(gameScene);
         }
-
-        this.setScene(gameScene.scene);
       });
 
     // Main render loop

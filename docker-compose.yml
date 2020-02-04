@@ -14,8 +14,6 @@ services:
     networks:
       - app-network
     restart: always
-  # A temporary workaround for the testdb,
-  #   as the created DB in entrypoints doesn't work
   mysql-test:
     container_name: tw_mysql_test
     build: ./docker/mysql
@@ -38,15 +36,15 @@ services:
       - ./docker/nginx/sites/:/etc/nginx/sites-available
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d
       - ./docker/nginx/certs/:/etc/ssl/certs
-    ports:
-      - '${NGINX_PORT_80:-80}:80'
-      - '${NGINX_PORT_443:-443}:443'
     links:
       - php-fpm
     depends_on:
       - php-fpm
     networks:
       - app-network
+    ports:
+      - '${NGINX_PORT_80:-80}:80'
+      - '${NGINX_PORT_443:-443}:443'
     restart: always
   php-fpm:
     container_name: tw_phpfpm
@@ -74,9 +72,10 @@ services:
   node-web:
     container_name: tw_node_web
     build: ./docker/node-web
+    env_file:
+      - .env
     volumes:
       - ./web:/usr/src/app
-    working_dir: /usr/src/app
     networks:
       - app-network
     command: tail -f /dev/null
@@ -86,14 +85,13 @@ services:
     build: ./docker/node-game
     env_file:
       - .env
+    volumes:
+      - ./game:/usr/src/app
+    networks:
+      - app-network
     ports:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
-    volumes:
-      - ./game:/usr/src/app
-    working_dir: /usr/src/app
-    networks:
-      - app-network
     command: tail -f /dev/null
     restart: always
 networks:

@@ -1,6 +1,4 @@
-FROM node:12
-
-RUN npm install -g pm2
+FROM node:13
 
 RUN mkdir -p /usr/src/app
 

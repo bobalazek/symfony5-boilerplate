@@ -59,7 +59,7 @@ export class GameManager {
       }
 
       this.inputManager.update();
-      this.scene.playerController.update();
+      this.scene.update();
       this.babylonScene.render();
       this.inputManager.afterRender();
     });

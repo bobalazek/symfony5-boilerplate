@@ -21,6 +21,7 @@ export interface SceneInterface {
   setPlayerController(playerController: PlayerControllerInterface): void;
   start(): void;
   load(): Promise<any>;
+  update(): void;
 }
 
 export abstract class AbstractScene implements SceneInterface {
@@ -53,6 +54,11 @@ export abstract class AbstractScene implements SceneInterface {
     });
   }
 
+  update() {
+    this.playerController.update();
+  }
+
+  /***** Helpers *****/
   prepareScene() {
     this.prepareCamera();
     this.prepareLights();

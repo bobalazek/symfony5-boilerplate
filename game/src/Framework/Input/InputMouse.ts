@@ -2,7 +2,6 @@ import { Observable } from 'babylonjs';
 
 import { GameManager } from '../Core/GameManager';
 import {
-  InputBindingsInterface,
   InputDeviceInterface,
   InputMappingAxisMouseDataInterface,
   InputMappingActionMouseDataInterface,
@@ -11,19 +10,22 @@ import {
   InputMouseAxisEnum,
   InputMouseButtonEnum,
 } from './InputConstants';
-import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
+import {
+  PlayerInputBindingsInterface,
+  AbstractPlayerInputBindings,
+} from '../Gameplay/PlayerInputBindings';
 
 export class InputMouse implements InputDeviceInterface {
   public moveObservable = new Observable<MouseEvent | PointerEvent>();
   public upDownObservable = new Observable<MouseEvent | PointerEvent>();
   public wheelObservable = new Observable<MouseWheelEvent>();
 
-  private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisMouseDataInterface } = {}; // ex.: [ moveForward: { axis: 0, scale: 1.0 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: [ 0: interact ]; 0 = InputMouseButtonEnum.Left
   private _buttonsPressed: Array<number> = [];
 
-  public setBindings(bindings: InputBindingsInterface) {
+  public setBindings(bindings: PlayerInputBindingsInterface) {
     this._bindings = bindings;
 
     // Attach actions

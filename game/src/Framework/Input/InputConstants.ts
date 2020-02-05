@@ -8,11 +8,6 @@ export interface InputDeviceInterface {
   reset(): void;
 }
 
-export interface InputBindingsInterface {
-  axisMappings: { [key: string]: Array<InputMappingInterface> };
-  actionMappings: { [key: string]: Array<InputMappingInterface> };
-}
-
 export interface InputMappingInterface {
   device: InputDeviceEnum;
   data: any;

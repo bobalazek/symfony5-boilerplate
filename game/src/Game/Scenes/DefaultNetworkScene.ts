@@ -29,7 +29,7 @@ export class DefaultScene extends AbstractNetworkScene {
         });
 
       // Inspector
-      this.scene.debugLayer.show();
+      this.babylonScene.debugLayer.show();
 
       // Hide preloader
       GameManager.engine.hideLoadingUI();
@@ -44,7 +44,7 @@ export class DefaultScene extends AbstractNetworkScene {
     });
     playerCharacter.position.y = 1;
 
-    GameManager.playerController.posessTransformNode(playerCharacter);
+    this.playerController.posessTransformNode(playerCharacter);
   }
 
   preparePlayerNetworkSync(playerCharacterId: string) {
@@ -54,7 +54,7 @@ export class DefaultScene extends AbstractNetworkScene {
     ]);
 
     this.networkReplicate(
-      GameManager.scene.getMeshByID(playerCharacterId)
+      GameManager.babylonScene.getMeshByID(playerCharacterId)
     );
   }
 }

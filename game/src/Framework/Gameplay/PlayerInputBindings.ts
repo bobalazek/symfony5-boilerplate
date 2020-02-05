@@ -1,16 +1,21 @@
 import { Key as KeyboardKey } from 'ts-keycode-enum';
 
 import {
-  InputBindingsInterface,
   InputDeviceEnum,
   InputAxisEnum,
   InputMouseAxisEnum,
   InputMouseButtonEnum,
   InputGamepadAxisEnum,
   InputGamepadButtonEnum,
+  InputMappingInterface,
 } from '../Input/InputConstants';
 
-export class AbstractPlayerInputBindings implements InputBindingsInterface {
+export interface PlayerInputBindingsInterface {
+  axisMappings: { [key: string]: Array<InputMappingInterface> };
+  actionMappings: { [key: string]: Array<InputMappingInterface> };
+}
+
+export class AbstractPlayerInputBindings implements PlayerInputBindingsInterface {
   public axisMappings = {};
   public actionMappings = {};
 }

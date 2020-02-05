@@ -2,24 +2,26 @@ import { Observable } from 'babylonjs';
 
 import { GameManager } from '../Core/GameManager';
 import {
-  InputBindingsInterface,
   InputDeviceInterface,
   InputMappingAxisKeyboardDataInterface,
   InputMappingActionKeyboardDataInterface,
   InputModeEnum,
   InputDeviceEnum,
 } from './InputConstants';
-import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
+import {
+  PlayerInputBindingsInterface,
+  AbstractPlayerInputBindings,
+} from '../Gameplay/PlayerInputBindings';
 
 export class InputKeyboard implements InputDeviceInterface {
   public keyUpDownObservable = new Observable<KeyboardEvent>();
 
-  private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesKeyScaleMap: { [key: number]: { axis: string, scale: number } } = {}; // ex.: [ 68: { axis: 'moveForward', scale: 1 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: { 68: moveForward }
   private _keysPressed: { [key: number]: number | undefined } = {}; // ex.: { 68: 123456789 /* unix time */ }
 
-  public setBindings(bindings: InputBindingsInterface) {
+  public setBindings(bindings: PlayerInputBindingsInterface) {
     this._bindings = bindings;
 
     // Attach actions

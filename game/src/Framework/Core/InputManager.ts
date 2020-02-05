@@ -1,7 +1,5 @@
-import {
-  InputModeEnum,
-  InputBindingsInterface,
-} from '../Input/InputConstants';
+import { PlayerInputBindingsInterface } from '../Gameplay/PlayerInputBindings';
+import { InputModeEnum } from '../Input/InputConstants';
 import { InputKeyboard } from '../Input/InputKeyboard';
 import { InputMouse } from '../Input/InputMouse';
 import { InputDeviceOrientation } from '../Input/InputDeviceOrientation';
@@ -11,7 +9,7 @@ import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
 
 export class InputManager {
   private _bindingsEnabled: boolean = false;
-  private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
   private _mode: InputModeEnum = InputModeEnum.KeyboardAndMouse;
   private _axes: { [key: string]: number } = {};
   private _actions: { [key: string]: boolean } = {};
@@ -29,7 +27,7 @@ export class InputManager {
     this._gamepadManager = new InputGamepadManager();
   }
 
-  public setBindings(bindings: InputBindingsInterface) {
+  public setBindings(bindings: PlayerInputBindingsInterface) {
     this._bindingsEnabled = true;
     this._bindings = bindings;
 

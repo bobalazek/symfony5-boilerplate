@@ -18,11 +18,11 @@ export class DefaultScene extends AbstractScene {
       this.prepareEnvironment();
       this.preparePlayer(playerCharacterId);
       GameManager.playerController.posessTransformNode(
-        this.scene.getMeshByID(playerCharacterId)
+        this.babylonScene.getMeshByID(playerCharacterId)
       );
 
       // Inspector
-      this.scene.debugLayer.show();
+      this.babylonScene.debugLayer.show();
 
       // Hide preloader
       GameManager.engine.hideLoadingUI();

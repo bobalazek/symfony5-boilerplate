@@ -1,11 +1,11 @@
+import { InputDeviceInterface } from './InputConstants';
 import {
-  InputBindingsInterface,
-  InputDeviceInterface,
-} from './InputConstants';
-import { AbstractPlayerInputBindings } from '../Gameplay/PlayerInputBindings';
+  PlayerInputBindingsInterface,
+  AbstractPlayerInputBindings,
+} from '../Gameplay/PlayerInputBindings';
 
 export class InputDeviceOrientation implements InputDeviceInterface {
-  private _bindings: InputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
 
   public readonly hasOrientationSupport: boolean = 'DeviceOrientationEvent' in window;
   public readonly hasMotionSupport: boolean = 'DeviceMotionEvent' in window;
@@ -18,7 +18,7 @@ export class InputDeviceOrientation implements InputDeviceInterface {
   public rotationRate: DeviceRotationRate;
   public interval: number;
 
-  public setBindings(bindings: InputBindingsInterface) {
+  public setBindings(bindings: PlayerInputBindingsInterface) {
     this._bindings = bindings;
   }
 

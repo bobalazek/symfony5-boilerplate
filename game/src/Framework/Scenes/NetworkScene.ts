@@ -48,9 +48,9 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkSync() {
-    GameManager.scene.onBeforeRenderObservable.add(() => {
+    GameManager.babylonScene.onBeforeRenderObservable.add(() => {
       const now = (new Date()).getTime();
-      const meshes = GameManager.scene.meshes; // TODO: optimize
+      const meshes = GameManager.babylonScene.meshes; // TODO: optimize
       for (let i = 0; i < meshes.length; i++) {
         let mesh = meshes[i];
         const meshMetadataNetwork = mesh.metadata && mesh.metadata.network

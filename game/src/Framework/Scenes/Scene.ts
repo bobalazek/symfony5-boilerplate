@@ -11,21 +11,29 @@ import {
 } from 'babylonjs';
 import { SkyMaterial } from 'babylonjs-materials';
 
+import { PlayerControllerInterface } from '../Gameplay/PlayerController';
 import { GameManager } from '../Core/GameManager';
 
 export interface SceneInterface {
-  scene: Scene;
+  babylonScene: Scene;
   afterLoadObservable: Observable<SceneInterface>;
+  playerController: PlayerControllerInterface;
+  setPlayerController(playerController: PlayerControllerInterface): void;
   start(): void;
   load(): Promise<any>;
 }
 
 export abstract class AbstractScene implements SceneInterface {
+  public babylonScene: Scene;
   public afterLoadObservable = new Observable<SceneInterface>();
-  public scene: Scene;
+  public playerController: PlayerControllerInterface;
+
+  setPlayerController(playerController: PlayerControllerInterface) {
+    this.playerController = playerController;
+  }
 
   start() {
-    this.scene = new Scene(GameManager.engine);
+    this.babylonScene = new Scene(GameManager.engine);
   }
 
   load() {
@@ -56,28 +64,28 @@ export abstract class AbstractScene implements SceneInterface {
       Math.PI / 3,
       10,
       Vector3.Zero(),
-      this.scene
+      this.babylonScene
     );
 
     camera.upperBetaLimit = Math.PI / 2;
     camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 20;
 
-    this.scene.activeCamera = camera;
+    this.babylonScene.activeCamera = camera;
   }
 
   prepareLights() {
     new HemisphericLight(
       'light',
       new Vector3(0, 1, 0),
-      this.scene
+      this.babylonScene
     );
   }
 
   prepareEnvironment() {
     // Skybox
-    let skybox = Mesh.CreateBox('skybox', 1024, this.scene);
-    var skyboxMaterial = new SkyMaterial('skyboxMaterial', this.scene);
+    let skybox = Mesh.CreateBox('skybox', 1024, this.babylonScene);
+    var skyboxMaterial = new SkyMaterial('skyboxMaterial', this.babylonScene);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.useSunPosition = true;
     skyboxMaterial.sunPosition = new Vector3(0, 100, 0);
@@ -88,8 +96,8 @@ export abstract class AbstractScene implements SceneInterface {
       width: 1024,
       height: 1024,
     });
-    let groundMaterial = new StandardMaterial('groundMaterial', this.scene);
-    let groundTexture = new Texture('/static/textures/ground_diffuse.jpg', this.scene);
+    let groundMaterial = new StandardMaterial('groundMaterial', this.babylonScene);
+    let groundTexture = new Texture('/static/textures/ground_diffuse.jpg', this.babylonScene);
     groundTexture.uScale = groundTexture.vScale = 128;
     groundMaterial.diffuseTexture = groundTexture;
     ground.material = groundMaterial;

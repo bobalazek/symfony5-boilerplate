@@ -17,7 +17,7 @@ export class DefaultScene extends AbstractScene {
       this.prepareLights();
       this.prepareEnvironment();
       this.preparePlayer(playerCharacterId);
-      GameManager.playerController.posessTransformNode(
+      this.playerController.posessTransformNode(
         this.babylonScene.getMeshByID(playerCharacterId)
       );
 

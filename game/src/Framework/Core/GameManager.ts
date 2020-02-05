@@ -36,14 +36,12 @@ export class GameManager {
     }
     this.inputManager.bindEvents();
 
-    // Player controller
-    this.playerController = new config.playerController();
-
     // Game scene
     this.scene = new config.defaultScene();
 
     // Prepare game scene & controller
-    this.scene.setPlayerController(this.playerController);
+    let playerController = new config.playerController();
+    this.scene.setPlayerController(playerController);
     this.scene.start();
 
     // Start scene loading
@@ -61,7 +59,7 @@ export class GameManager {
       }
 
       this.inputManager.update();
-      this.playerController.update();
+      this.scene.playerController.update();
       this.babylonScene.render();
       this.inputManager.afterRender();
     });

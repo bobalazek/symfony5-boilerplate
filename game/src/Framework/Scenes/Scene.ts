@@ -30,6 +30,8 @@ export abstract class AbstractScene implements SceneInterface {
 
   setPlayerController(playerController: PlayerControllerInterface) {
     this.playerController = playerController;
+
+    this.playerController.start();
   }
 
   start() {

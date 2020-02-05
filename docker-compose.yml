@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   mysql:
-    container_name: tw_mysql
+    container_name: cw_mysql
     build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
@@ -15,7 +15,7 @@ services:
       - app-network
     restart: always
   mysql-test:
-    container_name: tw_mysql_test
+    container_name: cw_mysql_test
     build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
@@ -28,7 +28,7 @@ services:
       - app-network
     restart: always
   nginx:
-    container_name: tw_nginx
+    container_name: cw_nginx
     build: ./docker/nginx
     volumes:
       - .:/var/www
@@ -47,7 +47,7 @@ services:
       - '${NGINX_PORT_443:-443}:443'
     restart: always
   php-fpm:
-    container_name: tw_phpfpm
+    container_name: cw_phpfpm
     build: ./docker/php-fpm
     env_file:
       - .env
@@ -62,7 +62,7 @@ services:
       - app-network
     restart: always
   redis:
-    container_name: tw_redis
+    container_name: cw_redis
     image: redis
     volumes:
       - redis-volume:/data
@@ -70,7 +70,7 @@ services:
       - app-network
     restart: always
   node-web:
-    container_name: tw_node_web
+    container_name: cw_node_web
     build: ./docker/node-web
     env_file:
       - .env
@@ -81,7 +81,7 @@ services:
     command: tail -f /dev/null
     restart: always
   node-game:
-    container_name: tw_node_game
+    container_name: cw_node_game
     build: ./docker/node-game
     env_file:
       - .env
@@ -96,7 +96,7 @@ services:
     restart: always
 networks:
   app-network:
-    name: tw_app_network
+    name: cw_app_network
     driver: bridge
 volumes:
   mysql-volume:

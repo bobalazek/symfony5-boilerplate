@@ -1,26 +1,26 @@
-# The Wall
+# CorcoViewer
 
-The Wall project game
+The CorcoViewer project
 
 
 ## Setup
 
 * Prepare the environment
   * Create your own `.env` file (copy the contents from `.env.example`)
-    * All the variables in `.env`, will automatically be forwarded to the `tw_phpfpm` container.
+    * All the variables in `.env`, will automatically be forwarded to the `cw_phpfpm` container.
     * This is the most convenient way to set the web app variables all in one place. Alternatively you can duplicate the `web/.env` into `web/.env.local` and set your the values for your custom variables there - particularly those, inside the `Project` block.
   * Create a `docker-compose.override.yml` file and set your custom volumes there - just copy the contents from `docker-compose.override.example.yml`
 * Build the app
   * Docker (compose):
     * Run: `docker-compose up -d`
   * Web - Backend:
-    * Run: `docker exec -ti tw_phpfpm composer install`
-    * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:update --force`
-    * Run: `docker exec -ti tw_phpfpm php bin/console doctrine:fixtures:load`
+    * Run: `docker exec -ti cw_phpfpm composer install`
+    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
+    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
   * Web - Frontend:
-    * Run: `docker exec -ti tw_node_web yarn install`
+    * Run: `docker exec -ti cw_node_web yarn install`
   * Game:
-    * Run: `docker exec -ti tw_node_game npm install`
+    * Run: `docker exec -ti cw_node_game npm install`
 * You are ready to go to the next step - `Development`!
 
 
@@ -28,12 +28,12 @@ The Wall project game
 
 ### Web - Frontend
 
-* Before you start working on the web frontend run: `docker exec -ti tw_node_web yarn run watch`
+* Before you start working on the web frontend run: `docker exec -ti cw_node_web yarn run watch`
 * Go to your browser and open http://localhost:81 (or whichever port you set in `.env` for the `NGINX_PORT_80` variable)
 
 ### Game
 
-* Before you start working on the game run: `docker exec -ti tw_node_game npm run dev`
+* Before you start working on the game run: `docker exec -ti cw_node_game npm run dev`
 * Go to your browser and open http://localhost:8081 (or whichever port you set in `.env` for the `GAME_CLIENT_PORT_8080` variable)
 
 
@@ -43,23 +43,25 @@ The Wall project game
 
 #### PHP-FPM
 
-* Install composer dependencies: `docker exec -ti tw_phpfpm composer install`
-* Run schema update: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:update --force`
-* Load fixtures: `docker exec -ti tw_phpfpm php bin/console doctrine:fixtures:load`
-* Run tests: `docker exec -ti tw_phpfpm php bin/phpunit`
-* Make translations: `docker exec -ti tw_phpfpm php bin/console translation:update --dump-messages en --force`
-* PHP-CS-Fixer: `docker exec -ti tw_phpfpm php-cs-fixer fix`
-* Drop schema: `docker exec -ti tw_phpfpm php bin/console doctrine:schema:drop --force`
-* Messenger - consume: `docker exec -ti tw_phpfpm php bin/console messenger:consume async -vvv --time-limit=3600`
-* Messenger - stop workers: `docker exec -ti tw_phpfpm php bin/console messenger:stop-workers`
+* Install composer dependencies: `docker exec -ti cw_phpfpm composer install`
+* Run schema update: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
+* Load fixtures: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
+* Run tests: `docker exec -ti cw_phpfpm php bin/phpunit`
+* Make translations: `docker exec -ti cw_phpfpm php bin/console translation:update --dump-messages en --force`
+* PHP-CS-Fixer: `docker exec -ti cw_phpfpm php-cs-fixer fix`
+* Drop schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:drop --force`
+* Messenger - consume: `docker exec -ti cw_phpfpm php bin/console messenger:consume async -vvv --time-limit=3600`
+* Messenger - stop workers: `docker exec -ti cw_phpfpm php bin/console messenger:stop-workers`
 
 #### Node
 
-* Install JS dependencies: `docker exec -ti tw_node_web yarn install`
-* Watch & build static assets (CSS & JS) for development: `docker exec -ti tw_node_web yarn run watch`
-* Build static assets (CSS & JS) for production: `docker exec -ti tw_node_web yarn run build`
+* Install JS dependencies: `docker exec -ti cw_node_web yarn install`
+* Watch & build static assets (CSS & JS) for development: `docker exec -ti cw_node_web yarn run watch`
+* Build static assets (CSS & JS) for production: `docker exec -ti cw_node_web yarn run build`
 
 ### Game
 
-* Watch & build for development: `docker exec -ti tw_node_game npm run dev`
-* Build for production: `docker exec -ti tw_node_game npm run build`
+* Watch & build for development: `docker exec -ti cw_node_game npm run dev`
+  * Watch & build only client: `docker exec -ti cw_node_game npm run dev-client`
+  * Watch & build only server: `docker exec -ti cw_node_game npm run dev-server`
+* Build for production: `docker exec -ti cw_node_game npm run build`

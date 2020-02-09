@@ -19,29 +19,26 @@ export class InputGamepad {
   public leftTriggerObservable = new Observable<number>();
   public rightTriggerObservable = new Observable<number>();
 
-  // Buttons
-  public _buttonA: boolean = false;
-  public _buttonB: boolean = false;
-  public _buttonX: boolean = false;
-  public _buttonY: boolean = false;
-  public _buttonStart: boolean = false;
-  public _buttonBack: boolean = false;
-  public _buttonLeftStick: boolean = false;
-  public _buttonRightStick: boolean = false;
-  public _buttonLeftBumper: boolean = false;
-  public _buttonRightBumper: boolean = false;
-  public _buttonDPadUp: boolean = false;
-  public _buttonDPadDown: boolean = false;
-  public _buttonDPadLeft: boolean = false;
-  public _buttonDPadRight: boolean = false;
-
-  // Axes
-  public _leftStickX: number = 0;
-  public _leftStickY: number = 0;
-  public _rightStickX: number = 0;
-  public _rightStickY: number = 0;
-  public _leftTrigger: number = 0;
-  public _rightTrigger: number = 0;
+  private _buttonA: boolean = false;
+  private _buttonB: boolean = false;
+  private _buttonX: boolean = false;
+  private _buttonY: boolean = false;
+  private _buttonStart: boolean = false;
+  private _buttonBack: boolean = false;
+  private _buttonLeftStick: boolean = false;
+  private _buttonRightStick: boolean = false;
+  private _buttonLeftBumper: boolean = false;
+  private _buttonRightBumper: boolean = false;
+  private _buttonDPadUp: boolean = false;
+  private _buttonDPadDown: boolean = false;
+  private _buttonDPadLeft: boolean = false;
+  private _buttonDPadRight: boolean = false;
+  private _leftStickX: number = 0;
+  private _leftStickY: number = 0;
+  private _rightStickX: number = 0;
+  private _rightStickY: number = 0;
+  private _leftTrigger: number = 0;
+  private _rightTrigger: number = 0;
 
   constructor(data: Gamepad) {
     this.data = data;

@@ -17,14 +17,14 @@ import {
 } from '../Gameplay/PlayerInputBindings';
 
 export class InputGamepadManager implements InputDeviceInterface {
+  public readonly hasSupport: boolean = 'GamepadEvent' in window;
+  public isAnyConnected: boolean = false;
+
   private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisGamepadDataInterface } = {};
   private _actionsMap: { [key: string]: string } = {};
   private _actionsInversedMap: { [key: string]: number } = {}; // have the actions on the left & button on the right
   private readonly _axisDeadZone: number = 0.1;
-
-  public readonly hasSupport: boolean = 'GamepadEvent' in window;
-  public isAnyConnected: boolean = false;
 
   public setBindings(bindings: PlayerInputBindingsInterface) {
     this._bindings = bindings;

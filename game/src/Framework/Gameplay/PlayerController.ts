@@ -20,16 +20,16 @@ export class AbstractPlayerController implements PlayerControllerInterface {
 }
 
 export class ThirdPersonPlayerController extends AbstractPlayerController {
-  public posessedTransformNode: TransformNode;
+  public cameraUseInertia: boolean = false;
+  public cameraAlphaMultiplier: number = 0.0005;
+  public cameraBetaMultiplier: number = 0.0005;
+  public cameraRadiusMultiplier: number = 0.002;
 
+  private _posessedTransformNode: TransformNode;
   private readonly _forward = new Vector3(0, 0, 1);
   private readonly _forwardInverted = new Vector3(0, 0, -1);
   private readonly _right = new Vector3(1, 0, 0);
   private readonly _rightInverted = new Vector3(-1, 0, 0);
-
-  private readonly _cameraAlphaMultiplier: number = -0.0005;
-  private readonly _cameraBetaMultiplier: number = -0.0002;
-  private readonly _cameraRadiusMultiplier: number = 0.01;
 
   public start() {
     GameManager.inputManager.setForcePointerLock(true);
@@ -70,19 +70,28 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
     }
 
     /***** Mesh & camera update *****/
-    if (this.posessedTransformNode) {
+    if (this._posessedTransformNode) {
       const camera = <ArcRotateCamera>GameManager.scene.babylonScene.activeCamera;
 
       if (inputAxes['lookZoom']) {
-        camera.radius = camera.radius + (inputAxes['lookZoom'] * this._cameraRadiusMultiplier);
+        if (this.cameraUseInertia) {
+          camera.inertialRadiusOffset += inputAxes['lookZoom'] * -this.cameraRadiusMultiplier;
+        } else {
+          camera.radius += inputAxes['lookZoom'] * this.cameraRadiusMultiplier;
+        }
       }
 
       if (
         inputRotation.x !== 0 ||
         inputRotation.y !== 0
       ) {
-        camera.alpha += inputRotation.x * this._cameraAlphaMultiplier;
-        camera.beta += inputRotation.y * this._cameraBetaMultiplier;
+        if (this.cameraUseInertia) {
+          camera.inertialAlphaOffset += inputRotation.x * this.cameraAlphaMultiplier * -1;
+          camera.inertialBetaOffset += inputRotation.y * this.cameraBetaMultiplier * -1;
+        } else {
+          camera.alpha += inputRotation.x * this.cameraAlphaMultiplier * -1;
+          camera.beta += inputRotation.y * this.cameraBetaMultiplier * -1;
+        }
       }
 
       // TODO: rotate posessedTransformNode towards the direction it's moving
@@ -91,12 +100,18 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
         inputLocation.x !== 0 ||
         inputLocation.y !== 0
       ) {
+        const rightVector = GameManager.scene.babylonScene.useRightHandedSystem
+          ? this._rightInverted
+          : this._right;
+        const forwardVector = GameManager.scene.babylonScene.useRightHandedSystem
+          ? this._forwardInverted
+          : this._forward;
         const cameraRight = Vector3.TransformNormal(
-          GameManager.scene.babylonScene.useRightHandedSystem ? this._rightInverted : this._right,
+          rightVector,
           camera.getWorldMatrix()
         ).normalize().scaleInPlace(inputLocation.x);
         const cameraForward = Vector3.TransformNormal(
-          GameManager.scene.babylonScene.useRightHandedSystem ? this._forwardInverted : this._forward,
+          forwardVector,
           camera.getWorldMatrix()
         ).normalize().scaleInPlace(inputLocation.y);
         const direction = new Vector3(
@@ -105,7 +120,7 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
           cameraRight.z + cameraForward.z
         ).normalize();
 
-        this.posessedTransformNode.position.addInPlaceFromFloats(
+        this._posessedTransformNode.position.addInPlaceFromFloats(
           direction.x,
           0,
           direction.z
@@ -115,9 +130,13 @@ export class ThirdPersonPlayerController extends AbstractPlayerController {
   }
 
   public posessTransformNode(transformNode: TransformNode) {
-    this.posessedTransformNode = transformNode;
+    this._posessedTransformNode = transformNode;
 
     const camera = <ArcRotateCamera>GameManager.scene.babylonScene.activeCamera;
-    camera.lockedTarget = this.posessedTransformNode;
+    camera.lockedTarget = this._posessedTransformNode;
+  }
+
+  public get posessedTransformNode() {
+    return this._posessedTransformNode;
   }
 }

@@ -1,3 +1,5 @@
+import { Observable } from 'babylonjs';
+
 import { InputDeviceInterface } from './InputConstants';
 import {
   PlayerInputBindingsInterface,
@@ -5,10 +7,12 @@ import {
 } from '../Gameplay/PlayerInputBindings';
 
 export class InputDeviceOrientation implements InputDeviceInterface {
-  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
-
   public readonly hasOrientationSupport: boolean = 'DeviceOrientationEvent' in window;
   public readonly hasMotionSupport: boolean = 'DeviceMotionEvent' in window;
+
+  public orientationObservable = new Observable<DeviceOrientationEvent>();
+  public motionObservable = new Observable<DeviceMotionEvent>();
+
   public absolute: boolean;
   public alpha: number;
   public beta: number;
@@ -17,6 +21,8 @@ export class InputDeviceOrientation implements InputDeviceInterface {
   public accelerationIncludingGravity: DeviceMotionEventAcceleration;
   public rotationRate: DeviceRotationRate;
   public interval: number;
+
+  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
 
   public setBindings(bindings: PlayerInputBindingsInterface) {
     this._bindings = bindings;
@@ -66,6 +72,8 @@ export class InputDeviceOrientation implements InputDeviceInterface {
     this.alpha = e.alpha;
     this.beta = e.beta;
     this.gamma = e.gamma;
+
+    this.orientationObservable.notifyObservers(e);
   }
 
   private _onHandleMotion(e: DeviceMotionEvent) {
@@ -73,5 +81,7 @@ export class InputDeviceOrientation implements InputDeviceInterface {
     this.accelerationIncludingGravity = e.accelerationIncludingGravity;
     this.rotationRate = e.rotationRate;
     this.interval = e.interval;
+
+    this.motionObservable.notifyObservers(e);
   }
 }

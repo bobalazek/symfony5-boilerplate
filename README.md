@@ -56,11 +56,14 @@ The CorcoViewer project
 #### Node
 
 * Install JS dependencies: `docker exec -ti cw_node_web yarn install`
+* Upgrade JS dependencies: `docker exec -ti cw_node_web yarn upgrade`
 * Watch & build static assets (CSS & JS) for development: `docker exec -ti cw_node_web yarn run watch`
 * Build static assets (CSS & JS) for production: `docker exec -ti cw_node_web yarn run build`
 
 ### Game
 
+* Install JS dependencies: `docker exec -ti cw_node_game npm install`
+* Update JS dependencies: `docker exec -ti cw_node_game npm update`
 * Watch & build for development: `docker exec -ti cw_node_game npm run dev`
   * Watch & build only client: `docker exec -ti cw_node_game npm run dev-client`
   * Watch & build only server: `docker exec -ti cw_node_game npm run dev-server`

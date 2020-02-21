@@ -22,7 +22,7 @@ export class AbstractController implements ControllerInterface {
 export class ThirdPersonController extends AbstractController {
   public cameraUseInertia: boolean = false;
   public cameraAlphaMultiplier: number = 0.0005;
-  public cameraBetaMultiplier: number = 0.0005;
+  public cameraBetaMultiplier: number = 0.0002;
   public cameraRadiusMultiplier: number = 0.002;
 
   private _posessedTransformNode: TransformNode;

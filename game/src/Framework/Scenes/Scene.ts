@@ -76,8 +76,8 @@ export abstract class AbstractScene implements SceneInterface {
       this.babylonScene
     );
 
-    camera.lowerBetaLimit = Tools.ToRadians(15);
-    camera.upperBetaLimit = Tools.ToRadians(75);
+    camera.lowerBetaLimit = Tools.ToRadians(10);
+    camera.upperBetaLimit = Tools.ToRadians(80);
     camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 20;
 

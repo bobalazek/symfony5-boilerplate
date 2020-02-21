@@ -8,6 +8,7 @@ import {
   MeshBuilder,
   StandardMaterial,
   Texture,
+  Tools,
 } from 'babylonjs';
 import { SkyMaterial } from 'babylonjs-materials';
 
@@ -68,14 +69,15 @@ export abstract class AbstractScene implements SceneInterface {
   prepareCamera() {
     let camera = new ArcRotateCamera(
       'camera',
-      Math.PI / -2,
-      Math.PI / 3,
+      Tools.ToRadians(0),
+      Tools.ToRadians(60),
       10,
       Vector3.Zero(),
       this.babylonScene
     );
 
-    camera.upperBetaLimit = Math.PI / 2;
+    camera.lowerBetaLimit = Tools.ToRadians(15);
+    camera.upperBetaLimit = Tools.ToRadians(75);
     camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 20;
 

@@ -11,14 +11,14 @@ import {
 } from 'babylonjs';
 import { SkyMaterial } from 'babylonjs-materials';
 
-import { PlayerControllerInterface } from '../Gameplay/PlayerController';
+import { ControllerInterface } from '../Gameplay/Controller';
 import { GameManager } from '../Core/GameManager';
 
 export interface SceneInterface {
   babylonScene: Scene;
   afterLoadObservable: Observable<SceneInterface>;
-  playerController: PlayerControllerInterface;
-  setPlayerController(playerController: PlayerControllerInterface): void;
+  controller: ControllerInterface;
+  setController(controller: ControllerInterface): void;
   start(): void;
   load(): Promise<any>;
   update(): void;
@@ -27,12 +27,12 @@ export interface SceneInterface {
 export abstract class AbstractScene implements SceneInterface {
   public babylonScene: Scene;
   public afterLoadObservable = new Observable<SceneInterface>();
-  public playerController: PlayerControllerInterface;
+  public controller: ControllerInterface;
 
-  setPlayerController(playerController: PlayerControllerInterface) {
-    this.playerController = playerController;
+  setController(controller: ControllerInterface) {
+    this.controller = controller;
 
-    this.playerController.start();
+    this.controller.start();
   }
 
   start() {
@@ -55,7 +55,7 @@ export abstract class AbstractScene implements SceneInterface {
   }
 
   update() {
-    this.playerController.update();
+    this.controller.update();
   }
 
   /***** Helpers *****/

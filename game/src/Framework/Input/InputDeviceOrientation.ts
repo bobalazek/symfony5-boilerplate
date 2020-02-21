@@ -2,9 +2,9 @@ import { Observable } from 'babylonjs';
 
 import { InputDeviceInterface } from './InputConstants';
 import {
-  PlayerInputBindingsInterface,
-  AbstractPlayerInputBindings,
-} from '../Gameplay/PlayerInputBindings';
+  InputBindingsInterface,
+  AbstractInputBindings,
+} from '../Gameplay/InputBindings';
 
 export class InputDeviceOrientation implements InputDeviceInterface {
   public readonly hasOrientationSupport: boolean = 'DeviceOrientationEvent' in window;
@@ -22,9 +22,9 @@ export class InputDeviceOrientation implements InputDeviceInterface {
   public rotationRate: DeviceRotationRate;
   public interval: number;
 
-  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: InputBindingsInterface = new AbstractInputBindings();
 
-  public setBindings(bindings: PlayerInputBindingsInterface) {
+  public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
   }
 

@@ -10,17 +10,17 @@ import {
   InputMappingInterface,
 } from '../Input/InputConstants';
 
-export interface PlayerInputBindingsInterface {
+export interface InputBindingsInterface {
   axisMappings: { [key: string]: Array<InputMappingInterface> };
   actionMappings: { [key: string]: Array<InputMappingInterface> };
 }
 
-export class AbstractPlayerInputBindings implements PlayerInputBindingsInterface {
+export class AbstractInputBindings implements InputBindingsInterface {
   public axisMappings = {};
   public actionMappings = {};
 }
 
-export class ThirdPersonPlayerInputBindings extends AbstractPlayerInputBindings {
+export class ThirdPersonInputBindings extends AbstractInputBindings {
   public axisMappings = {
     moveForward: [
       {

@@ -9,19 +9,19 @@ import {
   InputDeviceEnum,
 } from './InputConstants';
 import {
-  PlayerInputBindingsInterface,
-  AbstractPlayerInputBindings,
-} from '../Gameplay/PlayerInputBindings';
+  InputBindingsInterface,
+  AbstractInputBindings,
+} from '../Gameplay/InputBindings';
 
 export class InputKeyboard implements InputDeviceInterface {
   public keyUpDownObservable = new Observable<KeyboardEvent>();
 
-  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: InputBindingsInterface = new AbstractInputBindings();
   private _axesKeyScaleMap: { [key: number]: { axis: string, scale: number } } = {}; // ex.: [ 68: { axis: 'moveForward', scale: 1 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: { 68: moveForward }
   private _keysPressed: { [key: number]: number | undefined } = {}; // ex.: { 68: 123456789 /* unix time */ }
 
-  public setBindings(bindings: PlayerInputBindingsInterface) {
+  public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
 
     // Attach actions

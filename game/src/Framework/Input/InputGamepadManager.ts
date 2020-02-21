@@ -12,21 +12,21 @@ import {
 } from './InputConstants';
 import { InputGamepad } from './InputGamepad';
 import {
-  PlayerInputBindingsInterface,
-  AbstractPlayerInputBindings,
-} from '../Gameplay/PlayerInputBindings';
+  InputBindingsInterface,
+  AbstractInputBindings,
+} from '../Gameplay/InputBindings';
 
 export class InputGamepadManager implements InputDeviceInterface {
   public readonly hasSupport: boolean = 'GamepadEvent' in window;
   public isAnyConnected: boolean = false;
 
-  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: InputBindingsInterface = new AbstractInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisGamepadDataInterface } = {};
   private _actionsMap: { [key: string]: string } = {};
   private _actionsInversedMap: { [key: string]: number } = {}; // have the actions on the left & button on the right
   private readonly _axisDeadZone: number = 0.1;
 
-  public setBindings(bindings: PlayerInputBindingsInterface) {
+  public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
 
     // Attach actions

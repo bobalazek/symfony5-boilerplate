@@ -5,8 +5,8 @@ import {
 } from 'babylonjs';
 
 import { InputManager } from './InputManager';
-import { PlayerControllerInterface } from '../Gameplay/PlayerController';
-import { PlayerInputBindingsInterface } from '../Gameplay/PlayerInputBindings';
+import { ControllerInterface } from '../Gameplay/Controller';
+import { InputBindingsInterface } from '../Gameplay/InputBindings';
 import { SceneInterface } from '../Scenes/Scene';
 
 export class GameManager {
@@ -16,7 +16,7 @@ export class GameManager {
 
   public static scene: SceneInterface;
   public static inputManager: InputManager;
-  public static playerController: PlayerControllerInterface;
+  public static controller: ControllerInterface;
 
   public static boot(config: GameConfigInterface) {
     this.canvas = <HTMLCanvasElement>document.getElementById('game');
@@ -29,9 +29,9 @@ export class GameManager {
 
     // Input manager
     this.inputManager = new InputManager();
-    if (config.playerInputBindings) {
+    if (config.inputBindings) {
       this.inputManager.setBindings(
-        new config.playerInputBindings()
+        new config.inputBindings()
       );
     }
     this.inputManager.bindEvents();
@@ -40,8 +40,8 @@ export class GameManager {
     this.scene = new config.defaultScene();
 
     // Prepare game scene & controller
-    let playerController = new config.playerController();
-    this.scene.setPlayerController(playerController);
+    let controller = new config.controller();
+    this.scene.setController(controller);
     this.scene.start();
 
     // Start scene loading
@@ -86,6 +86,6 @@ export class GameManager {
 export interface GameConfigInterface {
   engineOptions: EngineOptions;
   defaultScene: new () => SceneInterface;
-  playerController: new () => PlayerControllerInterface;
-  playerInputBindings?: new () => PlayerInputBindingsInterface;
+  controller: new () => ControllerInterface;
+  inputBindings?: new () => InputBindingsInterface;
 }

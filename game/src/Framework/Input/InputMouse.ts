@@ -11,21 +11,21 @@ import {
   InputMouseButtonEnum,
 } from './InputConstants';
 import {
-  PlayerInputBindingsInterface,
-  AbstractPlayerInputBindings,
-} from '../Gameplay/PlayerInputBindings';
+  InputBindingsInterface,
+  AbstractInputBindings,
+} from '../Gameplay/InputBindings';
 
 export class InputMouse implements InputDeviceInterface {
   public moveObservable = new Observable<MouseEvent | PointerEvent>();
   public upDownObservable = new Observable<MouseEvent | PointerEvent>();
   public wheelObservable = new Observable<MouseWheelEvent>();
 
-  private _bindings: PlayerInputBindingsInterface = new AbstractPlayerInputBindings();
+  private _bindings: InputBindingsInterface = new AbstractInputBindings();
   private _axesMap: { [key: string]: InputMappingAxisMouseDataInterface } = {}; // ex.: [ moveForward: { axis: 0, scale: 1.0 } ]
   private _actionsMap: { [key: number]: string } = {}; // ex.: [ 0: interact ]; 0 = InputMouseButtonEnum.Left
   private _buttonsPressed: Array<number> = [];
 
-  public setBindings(bindings: PlayerInputBindingsInterface) {
+  public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
 
     // Attach actions

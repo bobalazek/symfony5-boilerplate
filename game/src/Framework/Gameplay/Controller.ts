@@ -7,19 +7,19 @@ import {
 
 import { GameManager } from '../Core/GameManager';
 
-export interface PlayerControllerInterface {
+export interface ControllerInterface {
   start(): void;
   update(): void;
   posessTransformNode(transformNode: TransformNode): void;
 }
 
-export class AbstractPlayerController implements PlayerControllerInterface {
+export class AbstractController implements ControllerInterface {
   public start() {}
   public update() {}
   public posessTransformNode(transformNode: TransformNode) {}
 }
 
-export class ThirdPersonPlayerController extends AbstractPlayerController {
+export class ThirdPersonController extends AbstractController {
   public cameraUseInertia: boolean = false;
   public cameraAlphaMultiplier: number = 0.0005;
   public cameraBetaMultiplier: number = 0.0005;

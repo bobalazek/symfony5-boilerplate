@@ -44,7 +44,7 @@ export class DefaultScene extends AbstractNetworkScene {
     });
     playerCharacter.position.y = 1;
 
-    this.playerController.posessTransformNode(playerCharacter);
+    this.controller.posessTransformNode(playerCharacter);
   }
 
   preparePlayerNetworkSync(playerCharacterId: string) {

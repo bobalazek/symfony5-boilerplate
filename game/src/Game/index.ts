@@ -1,13 +1,11 @@
 import { GameManager } from '../Framework/Core/GameManager';
-import { DefaultScene } from './Scenes/DefaultScene';
-import { Controller } from './Gameplay/Controller';
-import { InputBindings } from './Gameplay/InputBindings';
+import { AbstractController } from '../Framework/Gameplay/Controller';
+import { AudioVisualizerScene } from './Scenes/AudioVisualizerScene';
 
 GameManager.boot({
   engineOptions: {
     stencil: true,
   },
-  defaultScene: DefaultScene,
-  controller: Controller,
-  inputBindings: InputBindings,
+  controller: AbstractController,
+  defaultScene: AudioVisualizerScene,
 });

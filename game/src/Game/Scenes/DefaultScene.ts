@@ -5,8 +5,6 @@ import { AbstractScene } from '../../Framework/Scenes/Scene';
 
 export class DefaultScene extends AbstractScene {
   load() {
-
-
     return new Promise((resolve) => {
       // Show preloader
       GameManager.engine.displayLoadingUI();

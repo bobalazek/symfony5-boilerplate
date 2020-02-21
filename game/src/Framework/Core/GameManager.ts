@@ -85,7 +85,7 @@ export class GameManager {
 
 export interface GameConfigInterface {
   engineOptions: EngineOptions;
-  defaultScene: new () => SceneInterface;
   controller: new () => ControllerInterface;
   inputBindings?: new () => InputBindingsInterface;
+  defaultScene: new () => SceneInterface;
 }

@@ -1,6 +1,7 @@
 import {
   Scene,
   Observable,
+  Camera,
   ArcRotateCamera,
   Vector3,
   HemisphericLight,
@@ -20,6 +21,7 @@ export interface SceneInterface {
   afterLoadObservable: Observable<SceneInterface>;
   controller: ControllerInterface;
   setController(controller: ControllerInterface): void;
+  setActiveCamera(camera: Camera): void;
   start(): void;
   load(): Promise<any>;
   update(): void;
@@ -32,8 +34,11 @@ export abstract class AbstractScene implements SceneInterface {
 
   setController(controller: ControllerInterface) {
     this.controller = controller;
-
     this.controller.start();
+  }
+
+  setActiveCamera(camera: Camera) {
+    this.babylonScene.activeCamera = camera;
   }
 
   start() {
@@ -81,13 +86,13 @@ export abstract class AbstractScene implements SceneInterface {
     camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 20;
 
-    this.babylonScene.activeCamera = camera;
+    this.setActiveCamera(camera);
   }
 
   prepareLights() {
     new HemisphericLight(
       'light',
-      new Vector3(0, 1, 0),
+      Vector3.Up(),
       this.babylonScene
     );
   }

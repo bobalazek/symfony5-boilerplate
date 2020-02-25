@@ -6,23 +6,23 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Prepare docker-compose's .env file
-      run: cp -b .env.ci .env
-    - name: Run docker-compose
-      run: docker-compose up -d
-    - name: Prepare backend
-      run: |
-        docker exec -i cw_phpfpm composer install
-        docker exec -i cw_phpfpm php bin/console doctrine:schema:update --force
-        docker exec -i cw_phpfpm php bin/console doctrine:fixtures:load
-    - name: Prepare web frontend
-      run: |
-        docker exec -i cw_node_web yarn install
-        docker exec -i cw_node_web yarn run build
-    - name: Prepare game frontend
-      run: |
-        docker exec -i cw_node_game npm install
-        docker exec -i cw_node_game npm run build
-    - name: Run tests
-      run: docker exec -i cw_phpfpm php bin/phpunit
+      - uses: actions/checkout@v2
+      - name: Prepare docker-compose's .env file
+        run: cp -b .env.ci .env
+      - name: Run docker-compose
+        run: docker-compose up -d
+      - name: Prepare backend
+        run: |
+          docker exec -i cw_phpfpm composer install
+          docker exec -i cw_phpfpm php bin/console doctrine:schema:update --force
+          docker exec -i cw_phpfpm php bin/console doctrine:fixtures:load
+      - name: Prepare web frontend
+        run: |
+          docker exec -i cw_node_web yarn install
+          docker exec -i cw_node_web yarn run build
+      - name: Prepare game frontend
+        run: |
+          docker exec -i cw_node_game npm install
+          docker exec -i cw_node_game npm run build
+      - name: Run tests
+        run: docker exec -i cw_phpfpm php bin/phpunit

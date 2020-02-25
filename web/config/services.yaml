@@ -5,12 +5,12 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     # General
-    app.name: 'The Wall'
-    app.twitter_handle: 'thewall'
+    app.name: 'Corcoviewer'
+    app.twitter_handle: 'corcoviewer'
     app.description: 'It is going to be HUUUGE!'
     app.keywords: 'health'
     app.mailer_from:
-        'mailer@corcosoft.com': 'Drumpf'
+        'mailer@corcosoft.com': 'Corcoviewer'
     app.mailer_to:
         'bobalazek124@gmail.com': 'Borut'
     app.google.recaptcha.site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'

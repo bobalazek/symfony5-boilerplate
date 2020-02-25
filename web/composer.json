@@ -8,7 +8,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "api-platform/api-pack": "^1.2",
         "aws/aws-sdk-php": "^3.133",
         "cocur/slugify": "^4.0",
         "doctrine/doctrine-migrations-bundle": "^2.1",

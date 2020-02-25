@@ -8,7 +8,7 @@ The CorcoViewer project
 * Prepare the environment
   * Create your own `.env` file (copy the contents from `.env.example`)
     * All the variables in `.env`, will automatically be forwarded to the `cw_phpfpm` container.
-    * This is the most convenient way to set the web app variables all in one place. Alternatively you can duplicate the `web/.env` into `web/.env.local` and set your the values for your custom variables there - particularly those, inside the `Project` block.
+    * This is the most convenient way to set the web app variables all in one place. Alternatively you can duplicate the `web/.env` into `web/.env.local` and set your the values for your custom variables there.
   * Create a `docker-compose.override.yml` file and set your custom volumes there - just copy the contents from `docker-compose.override.example.yml`
 * Build the app
   * Docker (compose):

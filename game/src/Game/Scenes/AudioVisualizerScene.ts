@@ -7,10 +7,10 @@ import {
   AudioEngine,
   Analyser,
   VertexData,
-  VertexBuffer,
   FreeCamera,
   StandardMaterial,
   HemisphericLight,
+  Tools,
 } from 'babylonjs';
 
 import { GameManager } from '../../Framework/Core/GameManager';
@@ -48,7 +48,7 @@ export class AudioVisualizerScene extends AbstractScene {
   }
 
   prepareLights() {
-    let hemisphericLight = new HemisphericLight(
+    new HemisphericLight(
       'hemisphericLight',
       Vector3.Up(),
       this.babylonScene
@@ -57,9 +57,9 @@ export class AudioVisualizerScene extends AbstractScene {
 
   prepareVisualizer() {
     const name = 'visualizer';
-    const segments = 32;
+    const segments = 128;
     const diameter = 5;
-    const audioMultiplier = 0.01;
+    const audioMultiplier = 0.02;
     let mesh = this.generatePolyMesh(
       name,
       segments,
@@ -93,7 +93,13 @@ export class AudioVisualizerScene extends AbstractScene {
       }
 
       const vertexData = this.generatePolyMeshVertexData(segments, diameter, diameterAddArray);
+      // TODO: ONLY update the positions!
       vertexData.applyToMesh(mesh, true);
+
+      // Create another mirrored mesh
+      let mirrorMesh = mesh.clone();
+      mirrorMesh.rotate(new Vector3(0, 0, 1), Tools.ToRadians(180));
+      mirrorMesh.rotate(new Vector3(0, 1, 0), Tools.ToRadians(180));
   	});
   }
 
@@ -113,12 +119,14 @@ export class AudioVisualizerScene extends AbstractScene {
     const vertexData = this.generatePolyMeshVertexData(segments, diameter);
     vertexData.applyToMesh(mesh, true);
 
-    mesh.rotate(new Vector3(1, 0, 0), Math.PI);
+    mesh.rotate(new Vector3(0, 0, 1), Tools.ToRadians(90));
 
     return mesh;
   }
 
   generatePolyMeshVertexData(segments: number, diameter: number, diameterAddArray?: Array<number>) {
+    segments = segments - 2; // Temporary hack to make the half-circle even
+
     const positionsCount = segments + 2;
     const segmentWidth = Math.PI /* * 2 */ / segments;
 
@@ -134,9 +142,13 @@ export class AudioVisualizerScene extends AbstractScene {
     colors.push(1, 0, 0, 1);
 
     for (let i = 1; i < positionsCount; i++) {
-      let add = diameterAddArray && typeof diameterAddArray[i-2] !== 'undefined'
-        ? diameterAddArray[i-2]
-        : 0;
+      let add = 0;
+
+      if (diameterAddArray) {
+        add = typeof diameterAddArray[i] !== 'undefined'
+          ? diameterAddArray[i]
+          : 0;
+      }
 
       const finalDiameter = diameter + add;
 

@@ -1,11 +1,13 @@
 import { GameManager } from '../Framework/Core/GameManager';
-import { AbstractController } from '../Framework/Gameplay/Controller';
-import { AudioVisualizerScene } from './Scenes/AudioVisualizerScene';
+import { ThirdPersonController } from '../Framework/Gameplay/Controller';
+import { ThirdPersonInputBindings } from '../Framework/Gameplay/InputBindings';
+import { DefaultScene } from './Scenes/DefaultScene';
 
 GameManager.boot({
   engineOptions: {
     stencil: true,
   },
-  controller: AbstractController,
-  defaultScene: AudioVisualizerScene,
+  controller: ThirdPersonController,
+  inputBindings: ThirdPersonInputBindings,
+  defaultScene: DefaultScene,
 });

@@ -8,7 +8,7 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   watch: true,
   watchOptions: {
-    poll: 500,
+    poll: 250,
     ignored: ['node_modules/**'],
   },
   devServer: {

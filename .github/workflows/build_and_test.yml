@@ -27,7 +27,7 @@ jobs:
 
       - name: Frontend (game) - Install dependencies & buld the app
         run: |
-          docker exec -i cw_node_game npm ci
+          docker exec -i cw_node_game npm install
           docker exec -i cw_node_game npm run build
 
       - name: Backend - Run tests

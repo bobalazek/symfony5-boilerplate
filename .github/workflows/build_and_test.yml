@@ -22,7 +22,7 @@ jobs:
 
       - name: Frontend (web) - Install dependencies & buld the app
         run: |
-          docker exec -i cw_node_web yarn install
+          docker exec -i cw_node_web yarn install --frozen-lockfile
           docker exec -i cw_node_web yarn run build
 
       - name: Frontend (game) - Install dependencies & buld the app

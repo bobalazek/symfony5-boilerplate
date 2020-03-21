@@ -13,7 +13,6 @@ services:
       - mysql-volume:/var/lib/mysql
     networks:
       - app-network
-    restart: always
   mysql-test:
     container_name: cw_mysql_test
     build: ./docker/mysql
@@ -26,7 +25,6 @@ services:
       - mysql-test-volume:/var/lib/mysql
     networks:
       - app-network
-    restart: always
   nginx:
     container_name: cw_nginx
     build: ./docker/nginx
@@ -45,7 +43,6 @@ services:
     ports:
       - '${NGINX_PORT_80:-80}:80'
       - '${NGINX_PORT_443:-443}:443'
-    restart: always
   php-fpm:
     container_name: cw_phpfpm
     build: ./docker/php-fpm
@@ -60,7 +57,6 @@ services:
       - mysql
     networks:
       - app-network
-    restart: always
   redis:
     container_name: cw_redis
     image: redis
@@ -68,7 +64,6 @@ services:
       - redis-volume:/data
     networks:
       - app-network
-    restart: always
   node-web:
     container_name: cw_node_web
     build: ./docker/node-web
@@ -79,7 +74,6 @@ services:
     networks:
       - app-network
     command: tail -f /dev/null
-    restart: always
   node-game:
     container_name: cw_node_game
     build: ./docker/node-game
@@ -93,7 +87,6 @@ services:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
     command: tail -f /dev/null
-    restart: always
 networks:
   app-network:
     name: cw_app_network

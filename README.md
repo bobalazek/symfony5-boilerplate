@@ -46,7 +46,7 @@ The CorcoViewer project
 #### PHP-FPM
 
 * Install composer dependencies: `docker exec -ti cw_phpfpm composer install`
-* Update composer dependencies: `docker exec -ti cw_phpfpm composer install`
+* Update composer dependencies: `docker exec -ti cw_phpfpm composer update`
 * Run schema update: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
 * Load fixtures: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
 * Run tests: `docker exec -ti cw_phpfpm php bin/phpunit`

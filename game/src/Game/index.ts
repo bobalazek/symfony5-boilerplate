@@ -17,6 +17,7 @@ GameManager.boot({
 */
 
 // Audio visializer
+/*
 import { AbstractController } from '../Framework/Gameplay/Controller';
 import { AudioVisualizerScene } from './Scenes/AudioVisualizerScene';
 
@@ -26,4 +27,17 @@ GameManager.boot({
   },
   controller: AbstractController,
   defaultScene: AudioVisualizerScene,
+});
+*/
+
+// Hot air balloon
+import { AbstractController } from '../Framework/Gameplay/Controller';
+import { HotAirBalloonScene } from './Scenes/HotAirBalloonScene';
+
+GameManager.boot({
+  engineOptions: {
+    stencil: true,
+  },
+  controller: AbstractController,
+  defaultScene: HotAirBalloonScene,
 });

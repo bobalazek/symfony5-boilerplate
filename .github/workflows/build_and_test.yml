@@ -10,25 +10,25 @@ jobs:
 
       - name: Docker compose - Prepare .env file
         run: cp -b .env.ci .env
-
       - name: Docker compose - Build & start the containers
         run: docker-compose up -d
 
-      - name: Backend - Install dependencies, update the schema and run fixtures
-        run: |
-          docker exec -i cw_phpfpm composer install
-          docker exec -i cw_phpfpm php bin/console doctrine:schema:update --force
-          docker exec -i cw_phpfpm php bin/console doctrine:fixtures:load --no-interaction
+      - name: Backend - Install dependencies
+        run: docker exec -i cw_phpfpm composer install
+      - name: Backend - Update the schema
+        run: docker exec -i cw_phpfpm php bin/console doctrine:schema:update --force
+      - name: Backend - Run fixtures
+        run: docker exec -i cw_phpfpm php bin/console doctrine:fixtures:load --no-interaction
 
-      - name: Frontend (web) - Install dependencies & buld the app
-        run: |
-          docker exec -i cw_node_web yarn install --frozen-lockfile
-          docker exec -i cw_node_web yarn run build
+      - name: Frontend (web) - Install dependencies
+        run: docker exec -i cw_node_web yarn install --frozen-lockfile
+      - name: Frontend (web) - Build the app
+        run: docker exec -i cw_node_web yarn run build
 
-      - name: Frontend (game) - Install dependencies & buld the app
-        run: |
-          docker exec -i cw_node_game npm install
-          docker exec -i cw_node_game npm run build
+      - name: Frontend (game) - Install dependencies
+        run: docker exec -i cw_node_game npm install
+      - name: Frontend (game) - Build the app
+        run: docker exec -i cw_node_game npm run build
 
       - name: Backend - Run tests
         run: docker exec -i cw_phpfpm php bin/phpunit

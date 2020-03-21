@@ -1,5 +1,6 @@
 import { GameManager } from '../Framework/Core/GameManager';
 
+// Third person game
 /*
 import { ThirdPersonController } from '../Framework/Gameplay/Controller';
 import { ThirdPersonInputBindings } from '../Framework/Gameplay/InputBindings';
@@ -15,6 +16,7 @@ GameManager.boot({
 });
 */
 
+// Audio visializer
 import { AbstractController } from '../Framework/Gameplay/Controller';
 import { AudioVisualizerScene } from './Scenes/AudioVisualizerScene';
 

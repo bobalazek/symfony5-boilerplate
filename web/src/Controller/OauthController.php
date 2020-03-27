@@ -91,16 +91,11 @@ class OauthController extends AbstractController
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $formAuthenticator
     ) {
-        $facebookClient = $this->oauthManager->getFacebookClient();
-        $helper = $facebookClient->getRedirectLoginHelper();
-
         $type = $request->getSession()->get('_oauth_type');
         $referer = $request->getSession()->get('_oauth_referer');
 
         try {
-            $accessToken = $helper->getAccessToken(
-                $request->getUri() // hack, as the FB SDK detects the wrong uri
-            );
+            $oauthUser = $this->oauthManager->getFacebookUser($request);
         } catch (\Exception $e) {
             $this->addFlash(
                 'danger',
@@ -113,23 +108,19 @@ class OauthController extends AbstractController
                 : $this->redirectToRoute('home');
         }
 
-        $accessTokenString = (string)$accessToken;
-        $request->getSession()->set('_facebook_access_token', $accessTokenString);
-
-        $facebookUser = $this->oauthManager->getFacebookUser($accessTokenString);
-        $facebookId = $facebookUser->getId();
-
         if ('link' === $type) {
             $user = $this->em
                 ->getRepository(User::class)
                 ->findOneByOauthFacebookId(
-                    $facebookId
+                    $oauthUser['id']
                 );
 
             if (!$user) {
                 $userMyself = $this->getUser();
                 if ($userMyself) {
-                    $userMyself->setOauthFacebookId($facebookId);
+                    $userMyself->setOauthFacebookId(
+                        $oauthUser['id']
+                    );
 
                     $this->em->persist($userMyself);
                     $this->em->flush();
@@ -149,7 +140,7 @@ class OauthController extends AbstractController
             $user = $this->em
                 ->getRepository(User::class)
                 ->findOneByOauthFacebookId(
-                    $facebookId
+                    $oauthUser['id']
                 );
 
             if ($user) {
@@ -169,7 +160,7 @@ class OauthController extends AbstractController
             $user = $this->em
                 ->getRepository(User::class)
                 ->findOneByOauthFacebookId(
-                    $facebookId
+                    $oauthUser['id']
                 );
 
             if (!$user) {
@@ -223,36 +214,36 @@ class OauthController extends AbstractController
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $formAuthenticator
     ) {
-        $googleClient = $this->oauthManager->getGoogleClient();
-
-        $code = $request->query->get('code');
-
-        if (!$code) {
-            return $this->redirectToRoute('oauth.google');
-        }
-
         $type = $request->getSession()->get('_oauth_type');
         $referer = $request->getSession()->get('_oauth_referer');
 
-        $googleClient->authenticate($code);
+        try {
+            $oauthUser = $this->oauthManager->getGoogleUser($request);
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'danger',
+                'Something went wrong. Error: ' .
+                $e->getMessage()
+            );
 
-        $accessToken = $googleClient->getAccessToken();
-        $request->getSession()->set('_google_access_token', $accessToken);
-
-        $googleUser = $this->oauthManager->getGoogleUser($accessToken);
-        $googleId = $googleUser->getUserId();
+            return $referer
+                ? $this->redirect($referer)
+                : $this->redirectToRoute('home');
+        }
 
         if ('link' === $type) {
             $user = $this->em
                 ->getRepository(User::class)
                 ->findOneByOauthGoogleId(
-                    $googleId
+                    $oauthUser['id']
                 );
 
             if (!$user) {
                 $userMyself = $this->getUser();
                 if ($userMyself) {
-                    $userMyself->setOauthGoogleId($googleId);
+                    $userMyself->setOauthGoogleId(
+                        $oauthUser['id']
+                    );
 
                     $this->em->persist($userMyself);
                     $this->em->flush();
@@ -272,7 +263,7 @@ class OauthController extends AbstractController
             $user = $this->em
                 ->getRepository(User::class)
                 ->findOneByOauthGoogleId(
-                    $googleId
+                    $oauthUser['id']
                 );
 
             if ($user) {
@@ -292,7 +283,7 @@ class OauthController extends AbstractController
             $user = $this->em
                 ->getRepository(User::class)
                 ->findOneByOauthGoogleId(
-                    $googleId
+                    $oauthUser['id']
                 );
 
             if (!$user) {

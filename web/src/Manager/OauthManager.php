@@ -5,6 +5,7 @@ namespace App\Manager;
 use Facebook\Facebook;
 use Google_Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -53,14 +54,35 @@ class OauthManager
         return $this->facebookClient;
     }
 
-    public function getFacebookUser($accessToken)
+    public function getFacebookUser(Request $request)
     {
-        $response = $this->getFacebookClient()->get(
-            '/me?fields=id',
+        $accessToken = $request->getSession()->get('_facebook_access_token');
+        $facebookClient = $this->getFacebookClient();
+        $helper = $facebookClient->getRedirectLoginHelper();
+
+        if (!$accessToken) {
+            $accessToken = $helper->getAccessToken(
+                $request->getUri() // hack, as the FB SDK detects the wrong uri
+            );
+        }
+
+        $accessTokenString = (string)$accessToken;
+        $request->getSession()->set('_facebook_access_token', $accessTokenString);
+
+        $facebookUserResponse = $this->getFacebookClient()->get(
+            '/me?fields=id,name,first_name,middle_name,last_name,email',
             $accessToken
         );
+        $facebookUser = $facebookUserResponse->getGraphUser();
 
-        return $response->getGraphUser();
+        return [
+            'id' => $facebookUser->getId(),
+            'name' => $facebookUser->getName(),
+            'first_name' => $facebookUser->getFirstName(),
+            'middle_name' => $facebookUser->getMiddleName(),
+            'last_name' => $facebookUser->getLastName(),
+            'email' => $facebookUser->getEmail(),
+        ];
     }
 
     public function getGoogleClient($redirectUri = null): Google_Client
@@ -87,14 +109,35 @@ class OauthManager
         return $this->googleClient;
     }
 
-    public function getGoogleUser($accessToken)
+    public function getGoogleUser(Request $request)
     {
+        $accessToken = $request->getSession()->get('_google_access_token');
+
         $client = $this->getGoogleClient();
+
+        if (!$accessToken) {
+            $code = $request->query->get('code');
+            if (!$code) {
+                throw new \Exception('The "code" query parameter is not provided.');
+            }
+
+            $client->authenticate($code);
+
+            $accessToken = $client->getAccessToken();
+        }
+
+        $request->getSession()->set('_google_access_token', $accessToken);
 
         $client->setAccessToken($accessToken);
 
         $oauth = new \Google_Service_Oauth2($client);
 
-        return $oauth->tokeninfo();
+        $googleUser = $oauth->tokeninfo();
+
+        return [
+            'id' => $googleUser->getUserId(),
+            'email' => $googleUser->getEmail(),
+            'verified_email' => $googleUser->getVerifiedEmail(),
+        ];
     }
 }

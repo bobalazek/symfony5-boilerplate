@@ -77,27 +77,34 @@ class RegisterController extends AbstractController
         $user = new User();
 
         if ('facebook' === $oauth) {
-            $accessToken = $request->getSession()->get('_facebook_access_token');
             try {
-                $facebookUser = $this->oauthManager->getFacebookUser($accessToken);
+                $oauthUser = $this->oauthManager->getFacebookUser($request);
                 $user
-                    ->setOauthFacebookId($facebookUser->getId())
-                    ->setName($facebookUser->getName())
-                    ->setEmail($facebookUser->getEmail())
+                    ->setOauthFacebookId($oauthUser['id'])
+                    ->setEmail($oauthUser['email'])
                 ;
             } catch (\Exception $e) {
                 $oauth = null;
+
+                $this->addFlash(
+                    'danger',
+                    $e->getMessage()
+                );
             }
         } elseif ('google' === $oauth) {
-            $accessToken = $request->getSession()->get('_google_access_token');
             try {
-                $googleUser = $this->oauthManager->getGoogleUser($accessToken);
+                $oauthUser = $this->oauthManager->getGoogleUser($request);
                 $user
-                    ->setOauthGoogleId($googleUser->getUserId())
-                    ->setEmail($googleUser->getEmail())
+                    ->setOauthGoogleId($oauthUser['id'])
+                    ->setEmail($oauthUser['email'])
                 ;
             } catch (\Exception $e) {
                 $oauth = null;
+
+                $this->addFlash(
+                    'danger',
+                    $e->getMessage()
+                );
             }
         }
 

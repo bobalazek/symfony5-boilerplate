@@ -1,5 +1,13 @@
 {% extends 'layouts/bootstrap4.html.twig' %}
 
+{# Strange hack. Doesn't seem to work otherwise #}
+{% set terms_label = 'terms.label' | trans({}, 'register') | replace({
+  '%terms_link_start%': '<a target="_blank" href="' ~ url('terms') ~ '">',
+  '%terms_link_end%': '</a>',
+  '%privacy_link_start%': '<a target="_blank" href="' ~ url('privacy') ~ '">',
+  '%privacy_link_end%': '</a>',
+}) | raw %}
+
 {% block title %}{{ 'Signup' | trans }} | {{ parent() }}{% endblock %}
 
 {% form_theme form _self %}
@@ -30,12 +38,7 @@
       {{ form_row(form.email) }}
       {{ form_row(form.plainPassword) }}
       {{ form_row(form.termsAgree, {
-        label: 'terms.label' | trans({
-          '%terms_link_start%': '<a target="_blank" href="' ~ url('terms') ~ '">',
-          '%terms_link_end%': '</a>',
-          '%privacy_link_start%': '<a target="_blank" href="' ~ url('privacy') ~ '">',
-          '%privacy_link_end%': '</a>',
-        }, 'register'),
+        label: terms_label,
       }) }}
       {{ form_row(form.recaptcha) }}
       <button class="btn btn-lg btn-block btn-primary" type="submit">

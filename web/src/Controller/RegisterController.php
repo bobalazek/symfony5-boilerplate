@@ -133,7 +133,7 @@ class RegisterController extends AbstractController
             ;
             $this->mailer->send($message);
 
-            // The default user (plantana) should follow the newly registered user
+            // The default user (corco) should follow the newly registered user
             $defaultUser = $this->em->getRepository(User::class)->findOneById(1);
             if ($defaultUser) {
                 $userFollower = new UserFollower();

@@ -93,10 +93,24 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $method = 'email';
+
+        // If login happend via oauth
+        $route = $request->attributes->get('_route');
+        if (
+            substr($route, 0, 6) === 'oauth.' &&
+            substr($route, -9) === '.callback'
+        ) {
+            $routeExploded = explode('.', $route);
+            $method = $routeExploded[1];
+        }
+
         $this->userActionManager->add(
             'login',
             'User has logged in',
-            [],
+            [
+                'method' => $method,
+            ],
             $token->getUser()
         );
 

@@ -135,7 +135,7 @@
       </trans-unit>
       <trans-unit id="UBsDO6j" resname="oauth.link_google">
         <source>oauth.link_google</source>
-        <target state="translated">Link your facebook account</target>
+        <target state="translated">Link your google account</target>
       </trans-unit>
       <trans-unit id="ttLEm0g" resname="deletion.alert.confirmation_sent">
         <source>deletion.alert.confirmation_sent</source>

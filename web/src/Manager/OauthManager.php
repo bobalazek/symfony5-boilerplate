@@ -40,6 +40,25 @@ class OauthManager
         $this->router = $router;
     }
 
+    /**
+     * @param string $provider
+     * @param Request $request
+     * @return array
+     */
+    public function getUser($provider, Request $request)
+    {
+        if ($provider === 'facebook') {
+            return $this->getFacebookUser($request);
+        } elseif ($provider === 'google') {
+            return $this->getGoogleUser($request);
+        }
+
+        throw new \Exception('Provider ' . $provider . ' does not exist.');
+    }
+
+    /**
+     * @return Facebook
+     */
     public function getFacebookClient(): Facebook
     {
         if (!$this->facebookClient) {
@@ -54,6 +73,10 @@ class OauthManager
         return $this->facebookClient;
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function getFacebookUser(Request $request)
     {
         $accessToken = $request->getSession()->get('_facebook_access_token');
@@ -85,6 +108,10 @@ class OauthManager
         ];
     }
 
+    /**
+     * @param string|null $redirectUri
+     * @return Google_Client
+     */
     public function getGoogleClient($redirectUri = null): Google_Client
     {
         if (!$redirectUri) {
@@ -109,6 +136,10 @@ class OauthManager
         return $this->googleClient;
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function getGoogleUser(Request $request)
     {
         $accessToken = $request->getSession()->get('_google_access_token');

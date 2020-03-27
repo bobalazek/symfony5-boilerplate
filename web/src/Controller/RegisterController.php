@@ -42,23 +42,17 @@ class RegisterController extends AbstractController
      */
     private $mailer;
 
-    /**
-     * @var OauthManager
-     */
-    private $oauthManager;
 
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        \Swift_Mailer $mailer,
-        OauthManager $oauthManager
+        \Swift_Mailer $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->mailer = $mailer;
-        $this->oauthManager = $oauthManager;
     }
 
     /**
@@ -66,7 +60,8 @@ class RegisterController extends AbstractController
      */
     public function index(
         Request $request,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        OauthManager $oauthManager
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
@@ -76,28 +71,17 @@ class RegisterController extends AbstractController
 
         $user = new User();
 
-        if ('facebook' === $oauth) {
+        if ($oauth) {
             try {
-                $oauthUser = $this->oauthManager->getFacebookUser($request);
-                $user
-                    ->setOauthFacebookId($oauthUser['id'])
-                    ->setEmail($oauthUser['email'])
-                ;
-            } catch (\Exception $e) {
-                $oauth = null;
+                $oauthUser = $oauthManager->getUser($oauth, $request);
 
-                $this->addFlash(
-                    'danger',
-                    $e->getMessage()
-                );
-            }
-        } elseif ('google' === $oauth) {
-            try {
-                $oauthUser = $this->oauthManager->getGoogleUser($request);
-                $user
-                    ->setOauthGoogleId($oauthUser['id'])
-                    ->setEmail($oauthUser['email'])
-                ;
+                $user->setEmail($oauthUser['email']);
+
+                if ($oauth === 'facebook') {
+                    $user->setOauthFacebookId($oauthUser['id']);
+                } elseif ($oauth === 'google') {
+                    $user->setOauthGoogleId($oauthUser['id']);
+                }
             } catch (\Exception $e) {
                 $oauth = null;
 

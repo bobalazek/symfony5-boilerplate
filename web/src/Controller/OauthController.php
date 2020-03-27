@@ -16,6 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class OauthController.
+ *
+ * TODO: implement https://github.com/knpuniversity/oauth2-client-bundle
  */
 class OauthController extends AbstractController
 {
@@ -65,6 +67,9 @@ class OauthController extends AbstractController
         $referer = $request->headers->get('referer');
         $request->getSession()->set('_oauth_referer', $referer);
 
+        $facebookCredentials = $this->params->get('app.oauth.facebook');
+
+        $scope = explode(',', $facebookCredentials['scope']);
         $callbackUrl = $this->generateUrl(
             'oauth.facebook.callback',
             [],
@@ -72,10 +77,7 @@ class OauthController extends AbstractController
         );
         $loginUrl = $helper->getLoginUrl(
             $callbackUrl,
-            [
-                'public_profile',
-                'email',
-            ]
+            $scope
         );
 
         return $this->redirect($loginUrl);
@@ -99,58 +101,19 @@ class OauthController extends AbstractController
             $accessToken = $helper->getAccessToken(
                 $request->getUri() // hack, as the FB SDK detects the wrong uri
             );
-        } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+        } catch (\Exception $e) {
             $this->addFlash(
                 'danger',
-                'Graph returned an error: ' . $e->getMessage()
+                'Something went wrong. Error: ' .
+                $e->getMessage()
             );
 
-            if ($referer) {
-                return $this->redirect($referer);
-            }
-
-            return $this->redirectToRoute('home');
-        } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-            $this->addFlash(
-                'danger',
-                'Facebook SDK returned an error: ' . $e->getMessage()
-            );
-
-            if ($referer) {
-                return $this->redirect($referer);
-            }
-
-            return $this->redirectToRoute('home');
+            return $referer
+                ? $this->redirect($referer)
+                : $this->redirectToRoute('home');
         }
 
-        if (!isset($accessToken)) {
-            if ($helper->getError()) {
-                $this->addFlash(
-                    'danger',
-                    'Something went wrong. Error: ' .
-                    $helper->getError()
-                );
-
-                if ($referer) {
-                    return $this->redirect($referer);
-                }
-
-                return $this->redirectToRoute('home');
-            } else {
-                $this->addFlash(
-                    'danger',
-                    'Something went wrong'
-                );
-
-                if ($referer) {
-                    return $this->redirect($referer);
-                }
-
-                return $this->redirectToRoute('home');
-            }
-        }
-
-        $accessTokenString = (string) $accessToken;
+        $accessTokenString = (string)$accessToken;
         $request->getSession()->set('_facebook_access_token', $accessTokenString);
 
         $facebookUser = $this->oauthManager->getFacebookUser($accessTokenString);
@@ -215,7 +178,7 @@ class OauthController extends AbstractController
                 ]);
             }
 
-            // Remove, so we can't reused it anymore
+            // Remove, so we can't reuse it anymore
             $request->getSession()->set('_facebook_access_token', null);
 
             $this->addFlash(
@@ -229,11 +192,9 @@ class OauthController extends AbstractController
             );
         }
 
-        if ($referer) {
-            return $this->redirect($referer);
-        }
-
-        return $this->redirectToRoute('home');
+        return $referer
+            ? $this->redirect($referer)
+            : $this->redirectToRoute('home');
     }
 
     /**
@@ -340,7 +301,7 @@ class OauthController extends AbstractController
                 ]);
             }
 
-            // Remove, so we can't reused it anymore
+            // Remove, so we can't reuse it anymore
             $request->getSession()->set('_google_access_token', null);
 
             $this->addFlash(
@@ -354,10 +315,8 @@ class OauthController extends AbstractController
             );
         }
 
-        if ($referer) {
-            return $this->redirect($referer);
-        }
-
-        return $this->redirectToRoute('home');
+        return $referer
+            ? $this->redirect($referer)
+            : $this->redirectToRoute('home');
     }
 }

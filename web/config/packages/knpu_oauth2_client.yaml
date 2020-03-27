@@ -1,0 +1,3 @@
+knpu_oauth2_client:
+    clients:
+        # https://github.com/knpuniversity/oauth2-client-bundle#configuring-a-client

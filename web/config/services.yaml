@@ -26,6 +26,7 @@ parameters:
         id: '%env(OAUTH_FACEBOOK_ID)%'
         secret: '%env(OAUTH_FACEBOOK_SECRET)%'
         version: '%env(OAUTH_FACEBOOK_VERSION)%'
+        scope: '%env(OAUTH_FACEBOOK_SCOPE)%'
     app.oauth.google:
         id: '%env(OAUTH_GOOGLE_ID)%'
         secret: '%env(OAUTH_GOOGLE_SECRET)%'

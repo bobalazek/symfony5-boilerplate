@@ -56,7 +56,7 @@ class OauthController extends AbstractController
     /**
      * @Route("/oauth/facebook", name="oauth.facebook")
      */
-    public function facebook(Request $request)
+    public function facebook()
     {
         return $this->redirect(
             $this->oauthManager->getOauthLoginUrl('facebook')
@@ -75,7 +75,7 @@ class OauthController extends AbstractController
         $referer = $request->getSession()->get('_oauth_referer');
 
         try {
-            $oauthUser = $this->oauthManager->getFacebookUser($request);
+            $oauthUser = $this->oauthManager->getUser('facebook');
         } catch (\Exception $e) {
             $this->addFlash(
                 'danger',
@@ -88,13 +88,13 @@ class OauthController extends AbstractController
                 : $this->redirectToRoute('home');
         }
 
-        if ('link' === $type) {
-            $user = $this->em
-                ->getRepository(User::class)
-                ->findOneByOauthFacebookId(
-                    $oauthUser['id']
-                );
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneBy([
+                'oauthFacebookId' => $oauthUser['id'],
+            ]);
 
+        if ('link' === $type) {
             if (!$user) {
                 $userMyself = $this->getUser();
                 if ($userMyself) {
@@ -117,12 +117,6 @@ class OauthController extends AbstractController
                 );
             }
         } elseif ('login' === $type) {
-            $user = $this->em
-                ->getRepository(User::class)
-                ->findOneByOauthFacebookId(
-                    $oauthUser['id']
-                );
-
             if ($user) {
                 return $guardHandler->authenticateUserAndHandleSuccess(
                     $user,
@@ -137,12 +131,6 @@ class OauthController extends AbstractController
                 $this->translator->trans('flash.user_with_this_facebook_id_not_found', [], 'login')
             );
         } elseif ('register' === $type) {
-            $user = $this->em
-                ->getRepository(User::class)
-                ->findOneByOauthFacebookId(
-                    $oauthUser['id']
-                );
-
             if (!$user) {
                 return $this->redirectToRoute('register', [
                     'oauth' => 'facebook',
@@ -171,7 +159,7 @@ class OauthController extends AbstractController
     /**
      * @Route("/oauth/google", name="oauth.google")
      */
-    public function google(Request $request)
+    public function google()
     {
         return $this->redirect(
             $this->oauthManager->getOauthLoginUrl('google')
@@ -190,7 +178,7 @@ class OauthController extends AbstractController
         $referer = $request->getSession()->get('_oauth_referer');
 
         try {
-            $oauthUser = $this->oauthManager->getGoogleUser($request);
+            $oauthUser = $this->oauthManager->getUser('google');
         } catch (\Exception $e) {
             $this->addFlash(
                 'danger',

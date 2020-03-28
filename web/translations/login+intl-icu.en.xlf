@@ -5,21 +5,13 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="Fn5jOHI" resname="flash.user_with_this_facebook_id_not_found">
-        <source>flash.user_with_this_facebook_id_not_found</source>
-        <target state="translated">A user with this facebook account was not found</target>
+      <trans-unit id="Fn5jOHI" resname="flash.user_with_this_id_not_found">
+        <source>flash.user_with_this_id_not_found</source>
+        <target state="translated">A user with this {provider} account was not found</target>
       </trans-unit>
-      <trans-unit id=".DWSIGe" resname="flash.user_with_this_facebook_id_already_exists">
-        <source>flash.user_with_this_facebook_id_already_exists</source>
-        <target state="translated">A user with this facebook account already exists</target>
-      </trans-unit>
-      <trans-unit id="iGYfXbj" resname="flash.user_with_this_google_id_not_found">
-        <source>flash.user_with_this_google_id_not_found</source>
-        <target state="translated">A user with this google account was not found</target>
-      </trans-unit>
-      <trans-unit id="MCvpfGw" resname="flash.user_with_this_google_id_already_exists">
-        <source>flash.user_with_this_google_id_already_exists</source>
-        <target state="translated">A user with this google account already exists</target>
+      <trans-unit id=".DWSIGe" resname="flash.user_with_this_id_already_exists">
+        <source>flash.user_with_this_id_already_exists</source>
+        <target state="translated">A user with this {provider} account already exists</target>
       </trans-unit>
       <trans-unit id="DbT5gr0" resname="email_confirm.user_not_found">
         <source>email_confirm.user_not_found</source>

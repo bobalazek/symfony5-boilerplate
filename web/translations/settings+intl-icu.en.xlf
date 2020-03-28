@@ -89,13 +89,9 @@
         <source>image.flash.success</source>
         <target state="translated">You have successfully set your profile picture</target>
       </trans-unit>
-      <trans-unit id="uz68eYZ" resname="oauth.flash.facebook_unlinked_success">
-        <source>oauth.flash.facebook_unlinked_success</source>
-        <target state="translated">You have successfully unlinked your facebook account</target>
-      </trans-unit>
-      <trans-unit id="0oJoTiG" resname="oauth.flash.google_unlinked_success">
-        <source>oauth.flash.google_unlinked_success</source>
-        <target state="translated">You have successfully unlinked your google account</target>
+      <trans-unit id="uz68eYZ" resname="oauth.flash.unlinked_success">
+        <source>oauth.flash.unlinked_success</source>
+        <target state="translated">You have successfully unlinked your {provider} account</target>
       </trans-unit>
       <trans-unit id="c28lmVb" resname="password.flash.success">
         <source>password.flash.success</source>

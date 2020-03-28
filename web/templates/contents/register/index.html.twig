@@ -25,11 +25,15 @@
     </p>
     {% if oauth == 'facebook' %}
       <div class="alert alert-info">
-        {{ 'alert.linked_with_facebook' | trans([], 'register') }}
+        {{ 'alert.linked_with' | trans({
+          '{provider}': 'facebook',
+        }, 'register') }}
       </div>
     {% elseif oauth == 'google' %}
       <div class="alert alert-info">
-        {{ 'alert.linked_with_google' | trans([], 'register') }}
+        {{ 'alert.linked_with' | trans({
+          '{provider}': 'google',
+        }, 'register') }}
       </div>
     {% endif %}
     {{ form_start(form) }}
@@ -50,13 +54,15 @@
       <div class="text-center mb-2">
         {{ 'or_register_with' | trans([], 'register') }}
       </div>
-      <a href="{{ url('oauth.facebook', {
+      <a href="{{ url('oauth', {
+        provider: 'facebook',
         type: 'register',
       }) }}" class="btn btn-lg btn-block btn-block btn-primary">
         <i class="fab fa-facebook"></i>
         {{ 'Facebook' | trans }}
       </a>
-      <a href="{{ url('oauth.google', {
+      <a href="{{ url('oauth', {
+        provider: 'google',
         type: 'register',
       }) }}" class="btn btn-lg btn-block btn-block btn-primary">
         <i class="fab fa-google"></i>

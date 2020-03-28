@@ -5,13 +5,9 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="xvmAD4V" resname="alert.linked_with_facebook">
-        <source>alert.linked_with_facebook</source>
-        <target state="translated">Your account has been linked to facebook. Please finish the signup below</target>
-      </trans-unit>
-      <trans-unit id="3gIYfk6" resname="alert.linked_with_google">
-        <source>alert.linked_with_google</source>
-        <target state="translated">Your account has been linked to google. Please finish the signup below</target>
+      <trans-unit id="xvmAD4V" resname="alert.linked_with">
+        <source>alert.linked_with</source>
+        <target state="translated">Your account has been linked to {provider}. Please finish the signup below</target>
       </trans-unit>
       <trans-unit id="u9FPEb4" resname="terms.label">
         <source>terms.label</source>

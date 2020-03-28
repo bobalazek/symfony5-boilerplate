@@ -66,7 +66,9 @@ class SettingsOauthController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('oauth.flash.facebook_unlinked_success', [], 'settings')
+                $this->translator->trans('oauth.flash.unlinked_success', [
+                    '{provider}' => 'facebook',
+                ], 'settings')
             );
 
             $this->userActionManager->add(
@@ -83,7 +85,9 @@ class SettingsOauthController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('oauth.flash.google_unlinked_success', [], 'settings')
+                $this->translator->trans('oauth.flash.unlinked_success', [
+                    '{provider}' => 'google',
+                ], 'settings')
             );
 
             $this->userActionManager->add(

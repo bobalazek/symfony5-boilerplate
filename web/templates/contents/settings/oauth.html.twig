@@ -9,7 +9,8 @@
      {{ 'oauth.unlink_facebook' | trans([], 'settings') }}
     </a>
   {% else %}
-    <a href="{{ url('oauth.facebook', {
+    <a href="{{ url('oauth', {
+      provider: 'facebook',
       type: 'link',
     }) }}"
       class="btn btn-primary">
@@ -25,7 +26,8 @@
      {{ 'oauth.unlink_google' | trans([], 'settings') }}
     </a>
   {% else %}
-    <a href="{{ url('oauth.google', {
+    <a href="{{ url('oauth', {
+      provider: 'google',
       type: 'link',
     }) }}" class="btn btn-primary">
      {{ 'oauth.link_google' | trans([], 'settings') }}

@@ -82,8 +82,10 @@ class OauthManager
 
         if ($provider === 'facebook') {
             $callbackUrl = $this->router->generate(
-                'oauth.facebook.callback',
-                [],
+                'oauth.callback',
+                [
+                    'provider' => 'facebook',
+                ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
 
@@ -98,17 +100,7 @@ class OauthManager
                 $scope
             );
         } elseif ($provider === 'google') {
-            $callbackUrl = $this->router->generate(
-                'oauth.google.callback',
-                [],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
             $googleClient = $this->getGoogleClient();
-
-            $googleClient->setRedirectUri($callbackUrl);
-
-            // TODO: set the scope here, instead of below already?
 
             return $googleClient->createAuthUrl();
         }
@@ -184,6 +176,13 @@ class OauthManager
     public function getGoogleClient(): Google_Client
     {
         if (!$this->googleClient) {
+            $callbackUrl = $this->router->generate(
+                'oauth.callback',
+                [
+                    'provider' => 'google',
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
             $googleCredentials = $this->params->get('app.oauth.google');
 
             $this->googleClient = new Google_Client();
@@ -192,6 +191,7 @@ class OauthManager
             $this->googleClient->addScope('https://www.googleapis.com/auth/userinfo.email');
             $this->googleClient->addScope('https://www.googleapis.com/auth/userinfo.profile');
             $this->googleClient->setIncludeGrantedScopes(true);
+            $this->googleClient->setRedirectUri($callbackUrl);
         }
 
         return $this->googleClient;

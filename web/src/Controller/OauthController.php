@@ -58,29 +58,9 @@ class OauthController extends AbstractController
      */
     public function facebook(Request $request)
     {
-        $facebookClient = $this->oauthManager->getFacebookClient();
-        $helper = $facebookClient->getRedirectLoginHelper();
-
-        $type = $request->query->get('type', 'link');
-        $request->getSession()->set('_oauth_type', $type);
-
-        $referer = $request->headers->get('referer');
-        $request->getSession()->set('_oauth_referer', $referer);
-
-        $facebookCredentials = $this->params->get('app.oauth.facebook');
-
-        $scope = explode(',', $facebookCredentials['scope']);
-        $callbackUrl = $this->generateUrl(
-            'oauth.facebook.callback',
-            [],
-            UrlGeneratorInterface::ABSOLUTE_URL
+        return $this->redirect(
+            $this->oauthManager->getOauthLoginUrl('facebook')
         );
-        $loginUrl = $helper->getLoginUrl(
-            $callbackUrl,
-            $scope
-        );
-
-        return $this->redirect($loginUrl);
     }
 
     /**
@@ -169,8 +149,8 @@ class OauthController extends AbstractController
                 ]);
             }
 
-            // Remove, so we can't reuse it anymore
-            $request->getSession()->set('_facebook_access_token', null);
+            // Cleanup the oauth session
+            $this->oauthManager->cleanup();
 
             $this->addFlash(
                 'danger',
@@ -193,17 +173,9 @@ class OauthController extends AbstractController
      */
     public function google(Request $request)
     {
-        $type = $request->query->get('type', 'link');
-        $request->getSession()->set('_oauth_type', $type);
-
-        $referer = $request->headers->get('referer');
-        $request->getSession()->set('_oauth_referer', $referer);
-
-        $googleClient = $this->oauthManager->getGoogleClient();
-
-        $authUrl = $googleClient->createAuthUrl();
-
-        return $this->redirect($authUrl);
+        return $this->redirect(
+            $this->oauthManager->getOauthLoginUrl('google')
+        );
     }
 
     /**
@@ -292,8 +264,8 @@ class OauthController extends AbstractController
                 ]);
             }
 
-            // Remove, so we can't reuse it anymore
-            $request->getSession()->set('_google_access_token', null);
+            // Cleanup the oauth session
+            $this->oauthManager->cleanup();
 
             $this->addFlash(
                 'danger',

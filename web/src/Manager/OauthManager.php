@@ -6,6 +6,7 @@ use Facebook\Facebook;
 use Google_Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -25,6 +26,11 @@ class OauthManager
     private $router;
 
     /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
      * @var Facebook
      */
     private $facebookClient;
@@ -34,26 +40,89 @@ class OauthManager
      */
     private $googleClient;
 
-    public function __construct(ParameterBagInterface $params, RouterInterface $router)
+    public function __construct(
+        ParameterBagInterface $params,
+        RouterInterface $router,
+        RequestStack $requestStack
+    )
     {
         $this->params = $params;
         $this->router = $router;
+        $this->requestStack = $requestStack;
     }
 
     /**
      * @param string $provider
-     * @param Request $request
      * @return array
      */
-    public function getUser($provider, Request $request)
+    public function getUser($provider)
     {
         if ($provider === 'facebook') {
-            return $this->getFacebookUser($request);
+            return $this->getFacebookUser();
         } elseif ($provider === 'google') {
-            return $this->getGoogleUser($request);
+            return $this->getGoogleUser();
         }
 
-        throw new \Exception('Provider ' . $provider . ' does not exist.');
+        throw new \Exception('Provider "' . $provider . '" does not exist.');
+    }
+
+    /**
+     * @param string $provider
+     * @return string
+     */
+    public function getOauthLoginUrl($provider)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $type = $request->query->get('type', 'link');
+        $request->getSession()->set('_oauth_type', $type);
+
+        $referer = $request->headers->get('referer');
+        $request->getSession()->set('_oauth_referer', $referer);
+
+        if ($provider === 'facebook') {
+            $callbackUrl = $this->router->generate(
+                'oauth.facebook.callback',
+                [],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            $facebookClient = $this->getFacebookClient();
+            $helper = $facebookClient->getRedirectLoginHelper();
+
+            $facebookCredentials = $this->params->get('app.oauth.facebook');
+            $scope = explode(',', $facebookCredentials['scope']);
+
+            return $helper->getLoginUrl(
+                $callbackUrl,
+                $scope
+            );
+        } elseif ($provider === 'google') {
+            $callbackUrl = $this->router->generate(
+                'oauth.google.callback',
+                [],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            $googleClient = $this->getGoogleClient();
+
+            $googleClient->setRedirectUri($callbackUrl);
+
+            // TODO: set the scope here, instead of below already?
+
+            return $googleClient->createAuthUrl();
+        }
+
+        throw new \Exception('Provider "' . $provider . '" does not exist.');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function cleanup()
+    {
+        $request->getSession()->set('_facebook_access_token', null);
+        $request->getSession()->set('_google_access_token', null);
     }
 
     /**
@@ -77,8 +146,9 @@ class OauthManager
      * @param Request $request
      * @return array
      */
-    public function getFacebookUser(Request $request)
+    public function getFacebookUser()
     {
+        $request = $this->requestStack->getCurrentRequest();
         $accessToken = $request->getSession()->get('_facebook_access_token');
         $facebookClient = $this->getFacebookClient();
         $helper = $facebookClient->getRedirectLoginHelper();
@@ -109,25 +179,16 @@ class OauthManager
     }
 
     /**
-     * @param string|null $redirectUri
      * @return Google_Client
      */
-    public function getGoogleClient($redirectUri = null): Google_Client
+    public function getGoogleClient(): Google_Client
     {
-        if (!$redirectUri) {
-            $redirectUri = $this->router->generate(
-                'oauth.google.callback',
-                [],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-        }
-
         if (!$this->googleClient) {
             $googleCredentials = $this->params->get('app.oauth.google');
+
             $this->googleClient = new Google_Client();
             $this->googleClient->setClientId($googleCredentials['id']);
             $this->googleClient->setClientSecret($googleCredentials['secret']);
-            $this->googleClient->setRedirectUri($redirectUri);
             $this->googleClient->addScope('https://www.googleapis.com/auth/userinfo.email');
             $this->googleClient->addScope('https://www.googleapis.com/auth/userinfo.profile');
             $this->googleClient->setIncludeGrantedScopes(true);
@@ -140,8 +201,9 @@ class OauthManager
      * @param Request $request
      * @return array
      */
-    public function getGoogleUser(Request $request)
+    public function getGoogleUser()
     {
+        $request = $this->requestStack->getCurrentRequest();
         $accessToken = $request->getSession()->get('_google_access_token');
 
         $client = $this->getGoogleClient();

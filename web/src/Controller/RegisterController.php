@@ -73,7 +73,7 @@ class RegisterController extends AbstractController
 
         if ($oauth) {
             try {
-                $oauthUser = $oauthManager->getUser($oauth, $request);
+                $oauthUser = $oauthManager->getUser($oauth);
 
                 $user->setEmail($oauthUser['email']);
 

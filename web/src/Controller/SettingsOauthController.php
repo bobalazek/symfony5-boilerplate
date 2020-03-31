@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\UserOauthProvider;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,11 +58,44 @@ class SettingsOauthController extends AbstractController
 
         $user = $this->getUser();
 
-        $action = $request->query->get('action');
-        if ('facebook_unlink' === $action) {
-            $user->setOauthFacebookId(null);
+        // TODO: get those providers from somewhere
+        $providers = [
+            'facebook' => [
+                'label' => 'Facebook',
+                'is_linked' => false,
+            ],
+            'google' => [
+                'label' => 'Google',
+                'is_linked' => false,
+            ],
+        ];
 
-            $this->em->persist($user);
+        foreach ($providers as $providerKey => $provider) {
+            $providers[$providerKey]['is_linked'] = $this->em
+                ->getRepository(UserOauthProvider::class)
+                ->findOneBy([
+                    'user' => $user,
+                    'provider' => $providerKey,
+                ]) !== null;
+        }
+
+        $action = $request->query->get('action');
+        if ('unlink' === $action) {
+            $provider = $request->query->get('provider');
+
+            $userOauthProvider = $this->em
+                ->getRepository(UserOauthProvider::class)
+                ->findOneBy([
+                    'user' => $user,
+                    'provider' => $provider,
+                ]);
+            if (!$userOauthProvider) {
+                throw $this->createNotFoundException(
+                    $this->translator->trans('oauth.unlink.provider_not_found', [], 'settings')
+                );
+            }
+
+            $this->em->remove($userOauthProvider);
             $this->em->flush();
 
             $this->addFlash(
@@ -77,27 +111,10 @@ class SettingsOauthController extends AbstractController
             );
 
             return $this->redirectToRoute('settings.oauth');
-        } elseif ('google_unlink' === $action) {
-            $user->setOauthGoogleId(null);
-
-            $this->em->persist($user);
-            $this->em->flush();
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('oauth.flash.unlinked_success', [
-                    '{provider}' => 'google',
-                ], 'settings')
-            );
-
-            $this->userActionManager->add(
-                'settings.oauth.google.unlink',
-                'User has successfully unlinked their google account'
-            );
-
-            return $this->redirectToRoute('settings.oauth');
         }
 
-        return $this->render('contents/settings/oauth.html.twig');
+        return $this->render('contents/settings/oauth.html.twig', [
+            'providers' => $providers,
+        ]);
     }
 }

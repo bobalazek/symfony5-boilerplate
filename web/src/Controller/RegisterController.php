@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserFollower;
+use App\Entity\UserOauthProvider;
 use App\Form\RegisterType;
 use App\Manager\OauthManager;
 use App\Security\Guard\Authenticator\LoginFormAuthenticator;
@@ -77,11 +78,11 @@ class RegisterController extends AbstractController
 
                 $user->setEmail($oauthUser['email']);
 
-                if ($oauth === 'facebook') {
-                    $user->setOauthFacebookId($oauthUser['id']);
-                } elseif ($oauth === 'google') {
-                    $user->setOauthGoogleId($oauthUser['id']);
-                }
+                $userOauthProvider = new UserOauthProvider();
+                $userOauthProvider->setProvider($oauth);
+                $userOauthProvider->setProviderId($oauthUser['id']);
+
+                $user->addUserOauthProvider($userOauthProvider);
             } catch (\Exception $e) {
                 $oauth = null;
 

@@ -31,16 +31,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   message="There is already an account with this email",
  *   groups={"register", "settings"}
  * )
- * @UniqueEntity(
- *   fields={"oauthFacebookId"},
- *   message="There is already an account with this facebook id",
- *   groups={"register", "settings"}
- * )
- * @UniqueEntity(
- *   fields={"oauthGoogleId"},
- *   message="There is already an account with this google id",
- *   groups={"register", "settings"}
- * )
  */
 class User implements UserInterface, EquatableInterface, \Serializable
 {
@@ -184,16 +174,6 @@ class User implements UserInterface, EquatableInterface, \Serializable
     private $private = false;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $oauthFacebookId;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $oauthGoogleId;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $emailConfirmedAt;
@@ -257,6 +237,11 @@ class User implements UserInterface, EquatableInterface, \Serializable
      */
     private $userPoints;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserOauthProvider", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $userOauthProviders;
+
     public function __construct()
     {
         $this->userActions = new ArrayCollection();
@@ -266,6 +251,7 @@ class User implements UserInterface, EquatableInterface, \Serializable
         $this->userFollowers = new ArrayCollection();
         $this->userNotifications = new ArrayCollection();
         $this->userPoints = new ArrayCollection();
+        $this->userOauthProviders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -563,30 +549,6 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function setPrivate(bool $private): self
     {
         $this->private = $private;
-
-        return $this;
-    }
-
-    public function getOauthFacebookId(): ?string
-    {
-        return $this->oauthFacebookId;
-    }
-
-    public function setOauthFacebookId(?string $oauthFacebookId): self
-    {
-        $this->oauthFacebookId = $oauthFacebookId;
-
-        return $this;
-    }
-
-    public function getOauthGoogleId(): ?string
-    {
-        return $this->oauthGoogleId;
-    }
-
-    public function setOauthGoogleId(?string $oauthGoogleId): self
-    {
-        $this->oauthGoogleId = $oauthGoogleId;
 
         return $this;
     }
@@ -933,29 +895,29 @@ class User implements UserInterface, EquatableInterface, \Serializable
     }
 
     /**
-     * @return Collection|Report[]
+     * @return Collection|UserOauthProvider[]
      */
-    public function getReports(): Collection
+    public function getUserOauthProviders(): Collection
     {
-        return $this->reports;
+        return $this->userOauthProviders;
     }
 
-    public function addReport(Report $report): self
+    public function addUserOauthProvider(UserOauthProvider $userOauthProvider): self
     {
-        if (!$this->reports->contains($report)) {
-            $this->reports[] = $report;
-            $report->setUser($this);
+        if (!$this->userOauthProviders->contains($userOauthProvider)) {
+            $this->userOauthProviders[] = $userOauthProvider;
+            $userOauthProvider->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeReport(Report $report): self
+    public function removeUserOauthProvider(UserOauthProvider $userOauthProvider): self
     {
-        if ($this->reports->contains($report)) {
-            $this->reports->removeElement($report);
-            if ($report->getUser() === $this) {
-                $report->setUser(null);
+        if ($this->userOauthProvider->contains($userOauthProvider)) {
+            $this->userOauthProvider->removeElement($userOauthProvider);
+            if ($userOauthProvider->getUser() === $this) {
+                $userOauthProvider->setUser(null);
             }
         }
 

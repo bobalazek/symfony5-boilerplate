@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserOauthProvider;
 use App\Manager\OauthManager;
 use App\Security\Guard\Authenticator\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,7 +73,7 @@ class OauthController extends AbstractController
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $formAuthenticator
     ) {
-        $type = $request->getSession()->get('_oauth_type');
+        $action = $request->getSession()->get('_oauth_action');
         $referer = $request->getSession()->get('_oauth_referer');
 
         try {
@@ -89,22 +90,22 @@ class OauthController extends AbstractController
                 : $this->redirectToRoute('home');
         }
 
-        $field = 'oauth' . ucfirst($provider) . 'Id';
-
-        $user = $this->em
-            ->getRepository(User::class)
+        $userOauthProvider = $this->em
+            ->getRepository(UserOauthProvider::class)
             ->findOneBy([
-                $field => $oauthUser['id'],
+                'provider' => $provider,
+                'providerId' => $oauthUser['id'],
             ]);
 
-        if ('link' === $type) {
-            if (!$user) {
+        if ('link' === $action) {
+            if (!$userOauthProvider) {
                 $userMyself = $this->getUser();
                 if ($userMyself) {
-                    $method = 'set' . ucfirst($field);
-                    $userMyself->{$method}(
-                        $oauthUser['id']
-                    );
+                    $userOauthProvider = new UserOauthProvider();
+                    $userOauthProvider->setProvider($provider);
+                    $userOauthProvider->setProviderId($oauthUser['id']);
+
+                    $userMyself->addUserOauthProvider($userOauthProvider);
 
                     $this->em->persist($userMyself);
                     $this->em->flush();
@@ -124,10 +125,17 @@ class OauthController extends AbstractController
                     ], 'oauth')
                 );
             }
-        } elseif ('login' === $type) {
-            if ($user) {
+        } elseif ('login' === $action) {
+            if ($userOauthProvider) {
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('flash.success', [
+                        '{provider}' => $provider,
+                    ], 'oauth')
+                );
+
                 return $guardHandler->authenticateUserAndHandleSuccess(
-                    $user,
+                    $userOauthProvider->getUser(),
                     $request,
                     $formAuthenticator,
                     'main'
@@ -140,8 +148,8 @@ class OauthController extends AbstractController
                     '{provider}' => $provider,
                 ], 'login')
             );
-        } elseif ('register' === $type) {
-            if (!$user) {
+        } elseif ('register' === $action) {
+            if (!$userOauthProvider) {
                 return $this->redirectToRoute('register', [
                     'oauth' => $provider,
                 ]);
@@ -155,13 +163,6 @@ class OauthController extends AbstractController
                 $this->translator->trans('flash.user_with_this_id_already_exists', [
                     '{provider}' => $provider,
                 ], 'login')
-            );
-        } else {
-            $this->addFlash(
-                'success',
-                $this->translator->trans('flash.success', [
-                    '{provider}' => $provider,
-                ], 'oauth')
             );
         }
 

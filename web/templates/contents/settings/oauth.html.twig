@@ -1,36 +1,27 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
 {% block main %}
-  <h2>{{ 'Facebook' | trans }}</h2>
-  {% if app.user.getOauthFacebookId() %}
-    <a href="{{ url('settings.oauth', {
-      action: 'facebook_unlink',
-    }) }}" class="btn btn-danger">
-     {{ 'oauth.unlink_facebook' | trans([], 'settings') }}
-    </a>
-  {% else %}
-    <a href="{{ url('oauth', {
-      provider: 'facebook',
-      type: 'link',
-    }) }}"
-      class="btn btn-primary">
-     {{ 'oauth.link_facebook' | trans([], 'settings') }}
-    </a>
-  {% endif %}
-  <hr />
-  <h2>{{ 'Google' | trans }}</h2>
-  {% if app.user.getOauthGoogleId() %}
-    <a href="{{ url('settings.oauth', {
-      action: 'google_unlink',
-    }) }}" class="btn btn-danger">
-     {{ 'oauth.unlink_google' | trans([], 'settings') }}
-    </a>
-  {% else %}
-    <a href="{{ url('oauth', {
-      provider: 'google',
-      type: 'link',
-    }) }}" class="btn btn-primary">
-     {{ 'oauth.link_google' | trans([], 'settings') }}
-    </a>
-  {% endif %}
+  {% for providerKey, provider in providers %}
+    <h2>{{ provider.label }}</h2>
+    {% if provider.is_linked %}
+      <a href="{{ url('settings.oauth', {
+        action: 'unlink',
+        provider: providerKey,
+      }) }}" class="btn btn-danger">
+       {{ 'oauth.unlink' | trans({
+        '{provider}': providerKey,
+       }, 'settings') }}
+      </a>
+    {% else %}
+      <a href="{{ url('oauth', {
+        action: 'link',
+        provider: providerKey,
+      }) }}"
+        class="btn btn-primary">
+        {{ 'oauth.link' | trans({
+         '{provider}': providerKey,
+        }, 'settings') }}
+      </a>
+    {% endif %}
+  {% endfor %}
 {% endblock %}

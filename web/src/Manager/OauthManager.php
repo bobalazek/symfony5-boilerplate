@@ -74,8 +74,8 @@ class OauthManager
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $type = $request->query->get('type', 'link');
-        $request->getSession()->set('_oauth_type', $type);
+        $action = $request->query->get('action', 'link');
+        $request->getSession()->set('_oauth_action', $action);
 
         $referer = $request->headers->get('referer');
         $request->getSession()->set('_oauth_referer', $referer);

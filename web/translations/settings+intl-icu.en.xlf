@@ -117,21 +117,13 @@
         <source>export.alert.no_exports_yet</source>
         <target state="translated">No exports yet</target>
       </trans-unit>
-      <trans-unit id="MePEhPs" resname="oauth.unlink_facebook">
-        <source>oauth.unlink_facebook</source>
-        <target state="translated">Unlink your facebook account</target>
+      <trans-unit id="MePEhPs" resname="oauth.unlink">
+        <source>oauth.unlink</source>
+        <target state="translated">Unlink your {provider} account</target>
       </trans-unit>
-      <trans-unit id="7l46lL2" resname="oauth.link_facebook">
-        <source>oauth.link_facebook</source>
-        <target state="translated">Link your facebook account</target>
-      </trans-unit>
-      <trans-unit id="Ns85_0M" resname="oauth.unlink_google">
-        <source>oauth.unlink_google</source>
-        <target state="translated">Unlink your google account</target>
-      </trans-unit>
-      <trans-unit id="UBsDO6j" resname="oauth.link_google">
-        <source>oauth.link_google</source>
-        <target state="translated">Link your google account</target>
+      <trans-unit id="7l46lL2" resname="oauth.link">
+        <source>oauth.link</source>
+        <target state="translated">Link your {provider} account</target>
       </trans-unit>
       <trans-unit id="ttLEm0g" resname="deletion.alert.confirmation_sent">
         <source>deletion.alert.confirmation_sent</source>

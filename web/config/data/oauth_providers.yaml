@@ -1,0 +1,8 @@
+parameters:
+    app.oauth_providers:
+        facebook:
+            label: Facebook
+            fa_icon_class: 'fab fa-facebook'
+        google:
+            label: Google
+            fa_icon_class: 'fab fa-google'

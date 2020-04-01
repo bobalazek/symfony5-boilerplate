@@ -58,20 +58,10 @@ class SettingsOauthController extends AbstractController
 
         $user = $this->getUser();
 
-        // TODO: get those providers from somewhere
-        $providers = [
-            'facebook' => [
-                'label' => 'Facebook',
-                'is_linked' => false,
-            ],
-            'google' => [
-                'label' => 'Google',
-                'is_linked' => false,
-            ],
-        ];
+        $providers = $this->params->get('app.oauth_providers');
 
         foreach ($providers as $providerKey => $provider) {
-            $providers[$providerKey]['is_linked'] = $this->em
+            $providers[$providerKey]['_is_linked'] = $this->em
                 ->getRepository(UserOauthProvider::class)
                 ->findOneBy([
                     'user' => $user,

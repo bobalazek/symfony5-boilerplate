@@ -1,25 +1,28 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
 {% block main %}
-  {% for providerKey, provider in providers %}
+  {% for key, provider in providers %}
+    {% if loop.first != true %}
+      <hr />
+    {% endif %}
     <h2>{{ provider.label }}</h2>
-    {% if provider.is_linked %}
+    {% if provider._is_linked %}
       <a href="{{ url('settings.oauth', {
         action: 'unlink',
-        provider: providerKey,
+        provider: key,
       }) }}" class="btn btn-danger">
        {{ 'oauth.unlink' | trans({
-        '{provider}': providerKey,
+        '{provider}': key,
        }, 'settings') }}
       </a>
     {% else %}
       <a href="{{ url('oauth', {
         action: 'link',
-        provider: providerKey,
+        provider: key,
       }) }}"
         class="btn btn-primary">
         {{ 'oauth.link' | trans({
-         '{provider}': providerKey,
+         '{provider}': key,
         }, 'settings') }}
       </a>
     {% endif %}

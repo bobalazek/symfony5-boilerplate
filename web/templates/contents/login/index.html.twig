@@ -70,19 +70,14 @@
     <div class="text-center mb-2">
       {{ 'or_login_with' | trans([], 'login') }}
     </div>
-    <a href="{{ url('oauth', {
-      provider: 'facebook',
-      action: 'login',
-    }) }}" class="btn btn-lg btn-block btn-block btn-primary">
-      <i class="fab fa-facebook"></i>
-      {{ 'Facebook' | trans }}
-    </a>
-    <a href="{{ url('oauth', {
-      provider: 'google',
-      action: 'login',
-    }) }}" class="btn btn-lg btn-block btn-block btn-primary">
-      <i class="fab fa-google"></i>
-      {{ 'Google' | trans }}
-    </a>
+    {% for key, provider in app_oauth_providers %}
+      <a href="{{ url('oauth', {
+        provider: key,
+        action: 'login',
+      }) }}" class="btn btn-lg btn-block btn-block btn-primary">
+        <i class="{{ provider.fa_icon_class }}"></i>
+        {{ provider.label }}
+      </a>
+    {% endfor %}
   </div>
 {% endblock %}

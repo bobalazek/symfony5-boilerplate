@@ -38,9 +38,10 @@ class LoggedUserModeratorControllerTest extends WebTestCase
 
     public function testIfLockWorks()
     {
+        $reason = 'YouGotBlocked';
         $this->client->request(
             'GET',
-            '/users/user/lock'
+            '/users/user/lock?reason=' . $reason
         );
 
         $user = $this->em
@@ -49,7 +50,27 @@ class LoggedUserModeratorControllerTest extends WebTestCase
         ;
 
         $this->assertTrue(
-            $user->getLocked()
+            $user->isLocked()
+        );
+        $this->assertTrue(
+            $user->getLockedReason() === $reason
+        );
+    }
+
+    public function testIfDeleteWorks()
+    {
+        $this->client->request(
+            'GET',
+            '/users/user/delete'
+        );
+
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneByUsername('user')
+        ;
+
+        $this->assertTrue(
+            $user->isDeleted()
         );
     }
 

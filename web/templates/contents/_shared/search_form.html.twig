@@ -1,0 +1,27 @@
+{% set form_action = form_action is defined ? form_action : '' %}
+{% set search = search is defined ? search : '' %}
+<form action="{{ form_action }}" method="get" class="mb-4">
+  <div class="row">
+    <div class="col">
+      <div class="input-group input-group-lg">
+        <input type="text"
+          name="search"
+          class="form-control"
+          value="{{ search }}"
+          aria-label="{{ 'Search' | trans }}">
+      </div>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-lg btn-block btn-primary" type="submit">
+        {{ 'Seach' | trans }}
+      </button>
+    </div>
+  </div>
+  {% if form_query_parameters is defined %}
+    {% for key, value in form_query_parameters %}
+      <input type="hidden"
+        name="{{ key }}"
+        value="{{ value }}">
+    {% endfor %}
+  {% endif %}
+</form>

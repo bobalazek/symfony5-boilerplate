@@ -23,6 +23,7 @@ class UsersController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER_MODERATOR');
 
+        $search = $request->get('search', '');
         $status = $request->query->get('status', 'active');
 
         $queryBuilder = $this->em
@@ -30,6 +31,18 @@ class UsersController extends AbstractUsersController
             ->createQueryBuilder('u')
             ->orderBy('u.createdAt', 'DESC')
         ;
+
+        if ($search) {
+            $queryBuilder
+                ->where($queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->like('u.name', ':search'),
+                    $queryBuilder->expr()->like('u.username', ':search'),
+                    $queryBuilder->expr()->like('u.email', ':search')
+                ))
+                ->setParameter('search', '%' . $search . '%')
+            ;
+        }
+
         if ('deleted' === $status) {
             $this->em->getFilters()->disable('gedmo_softdeletable');
             $queryBuilder = $queryBuilder
@@ -56,6 +69,7 @@ class UsersController extends AbstractUsersController
         return $this->render('contents/users/index.html.twig', [
             'pagination' => $pagination,
             'status' => $status,
+            'search' => $search,
         ]);
     }
 

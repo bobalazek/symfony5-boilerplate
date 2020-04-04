@@ -22,6 +22,11 @@
         {{ 'Deleted' | trans }}
       </a>
     </div>
+    {% include 'contents/_shared/search_form.html.twig' with {
+      form_query_parameters: {
+        status: status,
+      },
+    } %}
     {% if pagination.getTotalItemCount() %}
       <div class="row mt-4">
         {% for user in pagination.getItems() %}

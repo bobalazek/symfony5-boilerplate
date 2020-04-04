@@ -109,6 +109,26 @@
         <source>alert.no_users_yet</source>
         <target state="translated">No users yet</target>
       </trans-unit>
+      <trans-unit id="0HI4lcw" resname="follower_requests.user_follower_not_found">
+        <source>follower_requests.user_follower_not_found</source>
+        <target state="translated">User follower not found</target>
+      </trans-unit>
+      <trans-unit id="y2bryYv" resname="follower_requests.delete.flash.success">
+        <source>follower_requests.delete.flash.success</source>
+        <target state="translated">You have successfully deleted the follower request</target>
+      </trans-unit>
+      <trans-unit id="5ZbMTUx" resname="follower_requests.approve.flash.success">
+        <source>follower_requests.approve.flash.success</source>
+        <target state="translated">You have successfully approved the follower request</target>
+      </trans-unit>
+      <trans-unit id="n4YBJfb" resname="follower_requests.ignore.flash.success">
+        <source>follower_requests.ignore.flash.success</source>
+        <target state="translated">You have successfully ignored the follower request</target>
+      </trans-unit>
+      <trans-unit id="JcNsR4u" resname="follower_requests.alert.no_follower_requests_yet">
+        <source>follower_requests.alert.no_follower_requests_yet</source>
+        <target state="translated">No follower requests yet</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

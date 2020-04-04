@@ -112,7 +112,7 @@ class AppExtension extends AbstractExtension
                 'username' => $user->getUsername(),
             ]);
         } elseif (UserNotification::TYPE_USER_FOLLOW_REQUEST === $type) {
-            $link = $this->router->generate('follower_requests');
+            $link = $this->router->generate('users.follower_requests');
         }
 
         $transKey = 'text.' . $type;

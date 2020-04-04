@@ -52,7 +52,7 @@
     {% if not oauth %}
       <hr />
       <div class="text-center mb-2">
-        {{ 'or_register_with' | trans([], 'register') }}
+        {{ 'or_register_with' | trans({}, 'register') }}
       </div>
       {% for key, provider in app_oauth_providers %}
         <a href="{{ url('oauth', {

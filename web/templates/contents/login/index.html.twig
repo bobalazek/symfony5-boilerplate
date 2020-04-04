@@ -68,7 +68,7 @@
     </form>
     <hr />
     <div class="text-center mb-2">
-      {{ 'or_login_with' | trans([], 'login') }}
+      {{ 'or_login_with' | trans({}, 'login') }}
     </div>
     {% for key, provider in app_oauth_providers %}
       <a href="{{ url('oauth', {

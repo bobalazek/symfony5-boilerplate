@@ -25,14 +25,14 @@
           </a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ url('users.detail', {
-              username: app.user.getUsername(),
+              username: 'me',
             }) }}">
               {{ 'Profile' | trans }}
             </a>
             <a class="dropdown-item" href="{{ url('notifications') }}">
               {{ 'Notifications' | trans }}
             </a>
-            <a class="dropdown-item" href="{{ url('follower_requests') }}">
+            <a class="dropdown-item" href="{{ url('users.follower_requests') }}">
               {{ 'Follower requests' | trans }}
             </a>
             <a class="dropdown-item" href="{{ url('settings') }}">

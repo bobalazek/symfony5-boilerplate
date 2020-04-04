@@ -13,44 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class FollowerRequestsController.
+ * Class UsersFollowerRequestsController.
  */
-class FollowerRequestsController extends AbstractController
+class UsersFollowerRequestsController extends AbstractUsersController
 {
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var ParameterBagInterface
-     */
-    private $params;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var UserActionManager
-     */
-    private $userActionManager;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        ParameterBagInterface $params,
-        EntityManagerInterface $em,
-        UserActionManager $userActionManager
-    ) {
-        $this->translator = $translator;
-        $this->params = $params;
-        $this->em = $em;
-        $this->userActionManager = $userActionManager;
-    }
-
-    /**
-     * @Route("/follower-requests", name="follower_requests")
+     * @Route("/users/me/follower-requests", name="users.follower_requests")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
@@ -63,7 +31,9 @@ class FollowerRequestsController extends AbstractController
             UserFollower::STATUS_PENDING,
             UserFollower::STATUS_IGNORED,
         ])) {
-            throw $this->createNotFoundException($this->translator->trans('status_not_found', [], 'follower_requests'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('status_not_found')
+            );
         }
 
         $query = $this->em->getRepository(UserFollower::class)
@@ -79,7 +49,7 @@ class FollowerRequestsController extends AbstractController
             12
         );
 
-        return $this->render('contents/follower_requests/index.html.twig', [
+        return $this->render('contents/users/follower_requests.html.twig', [
             'user' => $user,
             'pagination' => $pagination,
             'status' => $status,
@@ -87,7 +57,7 @@ class FollowerRequestsController extends AbstractController
     }
 
     /**
-     * @Route("/follower-requests/{id}/delete", name="follower_requests.delete")
+     * @Route("/follower-requests/{id}/delete", name="users.follower_requests.delete")
      */
     public function delete($id, Request $request)
     {
@@ -101,7 +71,9 @@ class FollowerRequestsController extends AbstractController
                 'user' => $user,
             ]);
         if (!$userFollower) {
-            throw $this->createNotFoundException($this->translator->trans('user_follower_not_found', [], 'follower_requests'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('follower_requests.user_follower_not_found', [], 'users')
+            );
         }
 
         $this->em->remove($userFollower);
@@ -109,11 +81,11 @@ class FollowerRequestsController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('delete.flash.success', [], 'follower_requests')
+            $this->translator->trans('follower_requests.delete.flash.success', [], 'users')
         );
 
         $this->userActionManager->add(
-            'follower_requests.delete',
+            'users.follower_requests.delete',
             'A user follow was deleted',
             $userFollower->toArray()
         );
@@ -123,11 +95,11 @@ class FollowerRequestsController extends AbstractController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('follower_requests');
+        return $this->redirectToRoute('users.follower_requests');
     }
 
     /**
-     * @Route("/follower-requests/{id}/approve", name="follower_requests.approve")
+     * @Route("/follower-requests/{id}/approve", name="users.follower_requests.approve")
      */
     public function approve($id, Request $request)
     {
@@ -141,7 +113,9 @@ class FollowerRequestsController extends AbstractController
                 'user' => $user,
             ]);
         if (!$userFollower) {
-            throw $this->createNotFoundException($this->translator->trans('user_follower_not_found', [], 'follower_requests'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('follower_requests.user_follower_not_found', [], 'users')
+            );
         }
 
         $userFollower->setStatus(UserFollower::STATUS_APPROVED);
@@ -151,11 +125,11 @@ class FollowerRequestsController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('approve.flash.success', [], 'follower_requests')
+            $this->translator->trans('approve.flash.success', [], 'users')
         );
 
         $this->userActionManager->add(
-            'follower_requests.approve',
+            'users.follower_requests.approve',
             'A user follow was approved',
             $userFollower->toArray()
         );
@@ -165,11 +139,11 @@ class FollowerRequestsController extends AbstractController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('follower_requests');
+        return $this->redirectToRoute('users.follower_requests');
     }
 
     /**
-     * @Route("/follower-requests/{id}/ignore", name="follower_requests.ignore")
+     * @Route("/follower-requests/{id}/ignore", name="users.follower_requests.ignore")
      */
     public function ignore($id, Request $request)
     {
@@ -183,7 +157,9 @@ class FollowerRequestsController extends AbstractController
                 'user' => $user,
             ]);
         if (!$userFollower) {
-            throw $this->createNotFoundException($this->translator->trans('user_follower_not_found', [], 'follower_requests'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('follower_requests.user_follower_not_found', [], 'users')
+            );
         }
 
         $userFollower->setStatus(UserFollower::STATUS_IGNORED);
@@ -193,11 +169,11 @@ class FollowerRequestsController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('ignore.flash.success', [], 'follower_requests')
+            $this->translator->trans('follower_requests.follower_requests.ignore.flash.success', [], 'users')
         );
 
         $this->userActionManager->add(
-            'follower_requests.ignore',
+            'users.follower_requests.ignore',
             'A user follow was ignored',
             $userFollower->toArray()
         );
@@ -207,6 +183,6 @@ class FollowerRequestsController extends AbstractController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('follower_requests');
+        return $this->redirectToRoute('users.follower_requests');
     }
 }

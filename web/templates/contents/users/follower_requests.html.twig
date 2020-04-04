@@ -14,12 +14,12 @@
     </h1>
     <h2>{{ 'Follower requests' | trans }}</h2>
     <div class="list-group list-group-horizontal text-center mb-4">
-      <a href="{{ url('follower_requests', {
+      <a href="{{ url('users.follower_requests', {
         status: 'pending',
       }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'pending' ? 'active' : '' }}">
         {{ 'Pending' | trans }}
       </a>
-      <a href="{{ url('follower_requests', {
+      <a href="{{ url('users.follower_requests', {
         status: 'ignored',
       }) }}" class="list-group-item list-group-item-action flex-fill {{ status == 'ignored' ? 'active' : '' }}">
         {{ 'Ignored' | trans }}
@@ -29,21 +29,21 @@
       <div class="row">
         {% for user_follower in pagination.getItems() %}
           {% set action_approve = {
-            href: url('follower_requests.approve', {
+            href: url('users.follower_requests.approve', {
               id: user_follower.getId(),
             }),
             class: 'btn btn-success',
             text: 'Approve' | trans,
           } %}
           {% set action_ignore = {
-            href: url('follower_requests.ignore', {
+            href: url('users.follower_requests.ignore', {
               id: user_follower.getId(),
             }),
             class: 'btn btn-warning',
             text: 'Ignore' | trans,
           } %}
           {% set action_delete = {
-            href: url('follower_requests.delete', {
+            href: url('users.follower_requests.delete', {
               id: user_follower.getId(),
             }),
             class: 'btn btn-danger',
@@ -62,7 +62,7 @@
       {{ knp_pagination_render(pagination) }}
     {% else %}
       <div class="alert alert-info">
-        {{ 'alert.no_follower_requests_yet' | trans([], 'follower_requests') }}
+        {{ 'alert.no_follower_requests_yet' | trans({}, 'users') }}
       </div>
     {% endif %}
   </div>

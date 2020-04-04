@@ -337,7 +337,7 @@ class UsersActionsController extends AbstractUsersController
             throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
         }
 
-        $reason = 'The user was locked.';
+        $reason = $request->query->get('reason', 'The user was locked.');
 
         $user
             ->setLocked(true)
@@ -354,7 +354,7 @@ class UsersActionsController extends AbstractUsersController
 
         $this->userActionManager->add(
             'users.lock',
-            'A user was lock',
+            'A user was locked',
             [
                 'id' => $user->getId(),
                 'reason' => $reason,

@@ -63,17 +63,22 @@ class UsersController extends AbstractUsersController
      */
     public function detail($username): Response
     {
-        $user = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+        $userMyself = $this->getUser();
+
+        $user = $username === 'me'
+            ? $userMyself
+            : $this->em->getRepository(User::class)->findOneByUsername($username);
         if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'users'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('user_not_found', [], 'users')
+            );
         }
 
         if ($user->isLocked()) {
-            throw $this->createNotFoundException($this->translator->trans('detail.user_is_locked', [], 'users'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('detail.user_is_locked', [], 'users')
+            );
         }
-
-        $userMyself = $this->getUser();
 
         $userFollower = null;
         $canViewDetails = $this->_canViewDetails($user, $userMyself);
@@ -179,7 +184,9 @@ class UsersController extends AbstractUsersController
         }
 
         if (!$this->_canViewDetails($user)) {
-            throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
+            throw $this->createAccessDeniedException(
+                $this->translator->trans('not_allowed')
+            );
         }
 
         $query = $this->em->getRepository(UserFollower::class)
@@ -218,7 +225,9 @@ class UsersController extends AbstractUsersController
         }
 
         if (!$this->_canViewDetails($user)) {
-            throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
+            throw $this->createAccessDeniedException(
+                $this->translator->trans('not_allowed')
+            );
         }
 
         $query = $this->em->getRepository(UserFollower::class)

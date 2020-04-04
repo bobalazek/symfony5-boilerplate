@@ -43,7 +43,9 @@
           {% else %}
             <a href="{{ url('users.lock', {
               username: user.getUsername(),
-            }) }}" class="btn btn-warning">
+            }) }}" class="btn btn-warning btn-prompt-add-query"
+              data-promt-add-query-text="{{ 'Please enter a reason' | trans({}, 'users') }}"
+              data-promt-add-query-parameter="reason">
               {{ 'Lock' | trans }}
             </a>
           {% endif %}

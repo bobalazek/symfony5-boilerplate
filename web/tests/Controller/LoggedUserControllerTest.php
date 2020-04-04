@@ -132,8 +132,8 @@ class LoggedUserControllerTest extends WebTestCase
     public function provideUrls()
     {
         return [
+            ['/users/me/follower-requests'],
             ['/notifications'],
-            ['/follower-requests'],
             ['/settings'],
             ['/settings/image'],
             ['/settings/password'],

@@ -26,7 +26,7 @@
       {{ knp_pagination_render(pagination) }}
     {% else %}
       <div class="alert alert-info">
-        {{ 'followers.no_users_yet' | trans([], 'users') }}
+        {{ 'followers.no_users_yet' | trans({}, 'users') }}
       </div>
     {% endif %}
   </div>

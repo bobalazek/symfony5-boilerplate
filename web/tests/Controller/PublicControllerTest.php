@@ -58,8 +58,8 @@ class PublicControllerTest extends WebTestCase
     public function provideNotUrls()
     {
         return [
+            ['/users/me/follower-requests'],
             ['/notifications'],
-            ['/follower-requests'],
             ['/settings'],
             ['/settings/image'],
             ['/settings/password'],

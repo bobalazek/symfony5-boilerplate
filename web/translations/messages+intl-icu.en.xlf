@@ -11,7 +11,11 @@
       </trans-unit>
       <trans-unit id="G89jNN." resname="not_allowed">
         <source>not_allowed</source>
-        <target state="translated">not allowed</target>
+        <target state="translated">You are not allowed to do this</target>
+      </trans-unit>
+      <trans-unit id="78yjbNy" resname="status_not_found">
+        <source>status_not_found</source>
+        <target state="translated">Status not found</target>
       </trans-unit>
       <trans-unit id="ycwMKSm" resname="deleted user">
         <source>deleted user</source>

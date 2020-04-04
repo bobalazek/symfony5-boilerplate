@@ -3,6 +3,7 @@ easy_admin:
     entities:
         User:
             class: App\Entity\User
+            label: 'Users'
             disabled_actions: [ 'new', 'delete' ]
             list:
                 fields:
@@ -45,12 +46,9 @@ easy_admin:
                     - updatedAt
                     - emailConfirmedAt
 
-        UserFollower:
-            class: App\Entity\UserFollower
-            disabled_actions: [ 'new', 'edit', 'delete' ]
-
         UserAction:
             class: App\Entity\UserAction
+            label: 'User actions'
             disabled_actions: [ 'new', 'edit', 'delete' ]
             list:
                 fields:
@@ -64,3 +62,28 @@ easy_admin:
                     - property: data
                       template: 'admin/fields/user_action_data.html.twig'
                     - createdAt
+
+        UserOauthProvider:
+            class: App\Entity\UserOauthProvider
+            label: 'User OAuth providers'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        UserNotification:
+            class: App\Entity\UserNotification
+            label: 'User notifications'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        UserFollower:
+            class: App\Entity\UserFollower
+            label: 'User followers'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        UserPoint:
+            class: App\Entity\UserPoint
+            label: 'User points'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        UserExport:
+            class: App\Entity\UserExport
+            label: 'User exports'
+            disabled_actions: [ 'new', 'edit', 'delete' ]

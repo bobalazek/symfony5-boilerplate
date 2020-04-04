@@ -6,11 +6,16 @@ use App\Tests\WebTestCase;
 
 /**
  * Class PublicControllerTest.
+ *
+ * @internal
+ * @coversNothing
  */
 class PublicControllerTest extends WebTestCase
 {
     /**
      * @dataProvider provideUrls
+     *
+     * @param mixed $url
      */
     public function testPageIsSuccessful($url)
     {
@@ -25,6 +30,8 @@ class PublicControllerTest extends WebTestCase
 
     /**
      * @dataProvider provideNotUrls
+     *
+     * @param mixed $url
      */
     public function testPageIsNotSuccessful($url)
     {

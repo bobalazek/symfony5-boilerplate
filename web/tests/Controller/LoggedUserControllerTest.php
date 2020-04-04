@@ -9,6 +9,9 @@ use App\Tests\WebTestCase;
 
 /**
  * Class LoggedUserControllerTest.
+ *
+ * @internal
+ * @coversNothing
  */
 class LoggedUserControllerTest extends WebTestCase
 {
@@ -21,6 +24,8 @@ class LoggedUserControllerTest extends WebTestCase
 
     /**
      * @dataProvider provideUrls
+     *
+     * @param mixed $url
      */
     public function testPageIsSuccessful($url)
     {

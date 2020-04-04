@@ -29,6 +29,7 @@ class UserRepository extends ServiceEntityRepository
             )
             ->setParameter('query', $usernameOrEmail)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

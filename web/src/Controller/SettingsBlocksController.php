@@ -64,7 +64,8 @@ class SettingsBlocksController extends AbstractController
                 'user' => $user,
             ], [
                 'createdAt' => 'DESC',
-            ]);
+            ])
+        ;
 
         return $this->render('contents/settings/blocks.html.twig', [
             'users_blocks' => $usersBlocks,

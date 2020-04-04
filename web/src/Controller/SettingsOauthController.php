@@ -61,12 +61,13 @@ class SettingsOauthController extends AbstractController
         $providers = $this->params->get('app.oauth_providers');
 
         foreach ($providers as $providerKey => $provider) {
-            $providers[$providerKey]['_is_linked'] = $this->em
+            $providers[$providerKey]['_is_linked'] = null !== $this->em
                 ->getRepository(UserOauthProvider::class)
                 ->findOneBy([
                     'user' => $user,
                     'provider' => $providerKey,
-                ]) !== null;
+                ])
+            ;
         }
 
         $action = $request->query->get('action');
@@ -78,7 +79,8 @@ class SettingsOauthController extends AbstractController
                 ->findOneBy([
                     'user' => $user,
                     'provider' => $provider,
-                ]);
+                ])
+            ;
             if (!$userOauthProvider) {
                 throw $this->createNotFoundException(
                     $this->translator->trans('oauth.unlink.provider_not_found', [], 'settings')

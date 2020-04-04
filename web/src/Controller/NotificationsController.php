@@ -87,6 +87,8 @@ class NotificationsController extends AbstractController
 
     /**
      * @Route("/notifications/{id}/read", name="notifications.read")
+     *
+     * @param mixed $id
      */
     public function read($id, Request $request)
     {
@@ -120,6 +122,8 @@ class NotificationsController extends AbstractController
 
     /**
      * @Route("/notifications/{id}/unread", name="notifications.unread")
+     *
+     * @param mixed $id
      */
     public function unread($id, Request $request)
     {
@@ -153,14 +157,15 @@ class NotificationsController extends AbstractController
         return $this->redirectToRoute('notifications');
     }
 
-    /********** Helpers **********/
+    /* Helpers */
     private function _get($id)
     {
         $userNotification = $this->em->getRepository(UserNotification::class)
             ->findOneBy([
                 'id' => $id,
                 'user' => $this->getUser(),
-            ]);
+            ])
+        ;
         if (!$userNotification) {
             throw $this->createNotFoundException($this->translator->trans('user_notification_not_found', [], 'notifications'));
         }

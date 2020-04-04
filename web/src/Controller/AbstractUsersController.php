@@ -58,7 +58,7 @@ class AbstractUsersController extends AbstractController
         $this->mailer = $mailer;
     }
 
-    /********** Helpers **********/
+    /* Helpers */
     protected function _get($username)
     {
         $user = null;
@@ -67,7 +67,8 @@ class AbstractUsersController extends AbstractController
         }
 
         $user = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+            ->findOneByUsername($username)
+        ;
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'users'));
         }
@@ -88,11 +89,13 @@ class AbstractUsersController extends AbstractController
             return true;
         }
 
-        $userBlock = $this->em->getRepository(UserBlock::class)
+        $userBlock = $this->em
+            ->getRepository(UserBlock::class)
             ->findOneBy([
                 'user' => $user,
                 'userBlocked' => $userMyself,
-            ]);
+            ])
+        ;
         if ($userBlock) {
             return false;
         }
@@ -106,7 +109,8 @@ class AbstractUsersController extends AbstractController
                 'user' => $user,
                 'userFollowing' => $userMyself,
                 'status' => UserFollower::STATUS_APPROVED,
-            ]);
+            ])
+        ;
         if ($userFollower) {
             return true;
         }

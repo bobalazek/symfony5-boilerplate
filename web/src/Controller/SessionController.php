@@ -33,6 +33,8 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/session/locale/{locale}", name="session.locale")
+     *
+     * @param mixed $locale
      */
     public function locale($locale, Request $request)
     {

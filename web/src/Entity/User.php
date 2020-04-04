@@ -254,6 +254,11 @@ class User implements UserInterface, EquatableInterface, \Serializable
         $this->userOauthProviders = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getUsername() . ' (' . $this->getEmail() . ')';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -943,10 +948,5 @@ class User implements UserInterface, EquatableInterface, \Serializable
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getUsername() . ' (' . $this->getEmail() . ')';
     }
 }

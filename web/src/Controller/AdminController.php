@@ -121,7 +121,7 @@ class AdminController extends EasyAdminController
         parent::removeEntity($entity);
     }
 
-    /********** Helpers **********/
+    /* Helpers */
     private function _getClassKey($entity)
     {
         $converter = new CamelCaseToSnakeCaseNameConverter();

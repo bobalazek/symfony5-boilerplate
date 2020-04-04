@@ -31,6 +31,11 @@ class UserBlock implements Interfaces\StatusInterface
      */
     private $userBlocked;
 
+    public function __toString()
+    {
+        return $this->getUser() . ' blocks ' . $this->getUserBlocked();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,10 +75,5 @@ class UserBlock implements Interfaces\StatusInterface
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getUser() . ' blocks ' . $this->getUserBlocked();
     }
 }

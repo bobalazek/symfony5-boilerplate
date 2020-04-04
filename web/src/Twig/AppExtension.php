@@ -101,7 +101,8 @@ class AppExtension extends AbstractExtension
         ])) {
             $userFollower = $this->em
                 ->getRepository(User::class)
-                ->findOneById($data['user_id']);
+                ->findOneById($data['user_id'])
+            ;
             $textParams['%user_username%'] = $userFollower
                 ? '<b>' . $userFollower->getUsername() . '</b>'
                 : $this->translator->trans('deleted user');
@@ -128,6 +129,8 @@ class AppExtension extends AbstractExtension
     }
 
     /**
+     * @param mixed|null $locale
+     *
      * @return array
      */
     public function getCountriesFunction($locale = null)

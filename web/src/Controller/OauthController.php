@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\UserOauthProvider;
 use App\Manager\OauthManager;
 use App\Security\Guard\Authenticator\LoginFormAuthenticator;
@@ -11,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -56,6 +54,8 @@ class OauthController extends AbstractController
 
     /**
      * @Route("/oauth/{provider}", name="oauth")
+     *
+     * @param mixed $provider
      */
     public function index($provider)
     {
@@ -66,6 +66,8 @@ class OauthController extends AbstractController
 
     /**
      * @Route("/oauth/{provider}/callback", name="oauth.callback")
+     *
+     * @param mixed $provider
      */
     public function callback(
         $provider,
@@ -95,7 +97,8 @@ class OauthController extends AbstractController
             ->findOneBy([
                 'provider' => $provider,
                 'providerId' => $oauthUser['id'],
-            ]);
+            ])
+        ;
 
         if ('link' === $action) {
             if (!$userOauthProvider) {

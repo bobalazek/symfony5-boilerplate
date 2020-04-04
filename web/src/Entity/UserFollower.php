@@ -32,6 +32,11 @@ class UserFollower implements Interfaces\StatusInterface
      */
     private $userFollowing;
 
+    public function __toString()
+    {
+        return $this->getUser() . ' follows ' . $this->getUserFollowing();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,10 +76,5 @@ class UserFollower implements Interfaces\StatusInterface
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getUser() . ' follows ' . $this->getUserFollowing();
     }
 }

@@ -78,7 +78,8 @@ class PasswordResetController extends AbstractController
                 ->findOneBy([
                     'email' => $email,
                     'passwordResetCode' => $passwordResetCode,
-                ]);
+                ])
+            ;
             if (!$user) {
                 throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'password_reset'));
             }
@@ -162,7 +163,8 @@ class PasswordResetController extends AbstractController
         $email = $form->get('email')->getData();
 
         $user = $this->em->getRepository(User::class)
-            ->findOneByEmail($email);
+            ->findOneByEmail($email)
+        ;
 
         if (!$user) {
             $this->addFlash(

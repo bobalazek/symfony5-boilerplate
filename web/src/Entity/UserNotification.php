@@ -48,6 +48,11 @@ class UserNotification implements Interfaces\StatusInterface
      */
     private $user;
 
+    public function __toString()
+    {
+        return $this->getUser() . ' @ ' . $this->getType();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,10 +139,5 @@ class UserNotification implements Interfaces\StatusInterface
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getUser() . ' @ ' . $this->getType();
     }
 }

@@ -94,9 +94,9 @@ class SettingsPasswordController extends AbstractController
             );
 
             return $this->redirectToRoute('settings.password');
-        } else {
-            $this->em->refresh($user);
         }
+
+        $this->em->refresh($user);
 
         return $this->render('contents/settings/password.html.twig', [
             'form' => $form->createView(),

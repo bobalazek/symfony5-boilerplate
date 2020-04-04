@@ -44,8 +44,7 @@ class OauthManager
         ParameterBagInterface $params,
         RouterInterface $router,
         RequestStack $requestStack
-    )
-    {
+    ) {
         $this->params = $params;
         $this->router = $router;
         $this->requestStack = $requestStack;
@@ -53,13 +52,15 @@ class OauthManager
 
     /**
      * @param string $provider
+     *
      * @return array
      */
     public function getUser($provider)
     {
-        if ($provider === 'facebook') {
+        if ('facebook' === $provider) {
             return $this->getFacebookUser();
-        } elseif ($provider === 'google') {
+        }
+        if ('google' === $provider) {
             return $this->getGoogleUser();
         }
 
@@ -68,6 +69,7 @@ class OauthManager
 
     /**
      * @param string $provider
+     *
      * @return string
      */
     public function getOauthLoginUrl($provider)
@@ -80,7 +82,7 @@ class OauthManager
         $referer = $request->headers->get('referer');
         $request->getSession()->set('_oauth_referer', $referer);
 
-        if ($provider === 'facebook') {
+        if ('facebook' === $provider) {
             $callbackUrl = $this->router->generate(
                 'oauth.callback',
                 [
@@ -99,7 +101,8 @@ class OauthManager
                 $callbackUrl,
                 $scope
             );
-        } elseif ($provider === 'google') {
+        }
+        if ('google' === $provider) {
             $googleClient = $this->getGoogleClient();
 
             return $googleClient->createAuthUrl();
@@ -117,9 +120,6 @@ class OauthManager
         $request->getSession()->set('_google_access_token', null);
     }
 
-    /**
-     * @return Facebook
-     */
     public function getFacebookClient(): Facebook
     {
         if (!$this->facebookClient) {
@@ -136,6 +136,7 @@ class OauthManager
 
     /**
      * @param Request $request
+     *
      * @return array
      */
     public function getFacebookUser()
@@ -151,7 +152,7 @@ class OauthManager
             );
         }
 
-        $accessTokenString = (string)$accessToken;
+        $accessTokenString = (string) $accessToken;
         $request->getSession()->set('_facebook_access_token', $accessTokenString);
 
         $facebookUserResponse = $this->getFacebookClient()->get(
@@ -170,9 +171,6 @@ class OauthManager
         ];
     }
 
-    /**
-     * @return Google_Client
-     */
     public function getGoogleClient(): Google_Client
     {
         if (!$this->googleClient) {
@@ -199,6 +197,7 @@ class OauthManager
 
     /**
      * @param Request $request
+     *
      * @return array
      */
     public function getGoogleUser()

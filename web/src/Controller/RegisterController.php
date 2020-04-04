@@ -43,7 +43,6 @@ class RegisterController extends AbstractController
      */
     private $mailer;
 
-
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
@@ -163,7 +162,8 @@ class RegisterController extends AbstractController
             ->findOneBy([
                 'email' => $email,
                 'emailConfirmCode' => $emailConfirmCode,
-            ]);
+            ])
+        ;
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('email_confirm.user_not_found', [], 'login'));
         }

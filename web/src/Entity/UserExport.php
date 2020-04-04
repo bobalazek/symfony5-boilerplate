@@ -75,6 +75,11 @@ class UserExport
      */
     private $user;
 
+    public function __toString()
+    {
+        return $this->getUser()->getUsername() . ' @ ' . $this->getStatus();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,10 +215,5 @@ class UserExport
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getUser()->getUsername() . ' @ ' . $this->getStatus();
     }
 }

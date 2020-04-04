@@ -67,7 +67,8 @@ class SettingsExportController extends AbstractController
                 'user' => $user,
             ], [
                 'createdAt' => 'DESC',
-            ]);
+            ])
+        ;
         $lastUserExport = isset($userExports[0])
             ? $userExports[0]
             : null;

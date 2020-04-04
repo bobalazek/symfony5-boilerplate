@@ -139,7 +139,9 @@ class SettingsDeletionController extends AbstractController
             );
 
             return $this->redirectToRoute('settings.deletion');
-        } elseif ('resend_deletion' === $action) {
+        }
+
+        if ('resend_deletion' === $action) {
             $lastDeletionConfirmationEmailSentAt = $user->getLastDeletionConfirmationEmailSentAt();
             if ($lastDeletionConfirmationEmailSentAt) {
                 $difference = (new \DateTime())->getTimestamp() - $lastDeletionConfirmationEmailSentAt->getTimestamp();

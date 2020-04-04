@@ -6,6 +6,9 @@ use App\Tests\WebTestCase;
 
 /**
  * Class LoggedAdminControllerTest.
+ *
+ * @internal
+ * @coversNothing
  */
 class LoggedAdminControllerTest extends WebTestCase
 {
@@ -18,6 +21,8 @@ class LoggedAdminControllerTest extends WebTestCase
 
     /**
      * @dataProvider provideUrls
+     *
+     * @param mixed $url
      */
     public function testPageIsSuccessful($url)
     {

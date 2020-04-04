@@ -41,6 +41,11 @@ trait ImageFileTrait
      */
     protected $imageFileUrl;
 
+    public function __toString()
+    {
+        return $this->getImageFileUrl();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,10 +121,5 @@ trait ImageFileTrait
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getImageFileUrl();
     }
 }

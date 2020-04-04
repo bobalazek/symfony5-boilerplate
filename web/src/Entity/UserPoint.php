@@ -40,6 +40,11 @@ class UserPoint implements Interfaces\StatusInterface
      */
     private $user;
 
+    public function __toString()
+    {
+        return $this->getUser() . ' @ ' . $this->getKey();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,10 +110,5 @@ class UserPoint implements Interfaces\StatusInterface
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getUser() . ' @ ' . $this->getKey();
     }
 }

@@ -55,6 +55,11 @@ class UserAction
      */
     private $user;
 
+    public function __toString()
+    {
+        return $this->getKey() . ' (' . $this->getMessage() . ')';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,10 +159,5 @@ class UserAction
                 ? $this->getCreatedAt()->format(DATE_ATOM)
                 : null,
         ];
-    }
-
-    public function __toString()
-    {
-        return $this->getKey() . ' (' . $this->getMessage() . ')';
     }
 }

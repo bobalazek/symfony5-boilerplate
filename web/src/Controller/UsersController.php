@@ -28,7 +28,8 @@ class UsersController extends AbstractUsersController
         $queryBuilder = $this->em
             ->getRepository(User::class)
             ->createQueryBuilder('u')
-            ->orderBy('u.createdAt', 'DESC');
+            ->orderBy('u.createdAt', 'DESC')
+        ;
         if ('deleted' === $status) {
             $this->em->getFilters()->disable('gedmo_softdeletable');
             $queryBuilder = $queryBuilder
@@ -60,24 +61,22 @@ class UsersController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}", name="users.detail")
+     *
+     * @param mixed $username
      */
     public function detail($username): Response
     {
         $userMyself = $this->getUser();
 
-        $user = $username === 'me'
+        $user = 'me' === $username
             ? $userMyself
             : $this->em->getRepository(User::class)->findOneByUsername($username);
         if (!$user) {
-            throw $this->createNotFoundException(
-                $this->translator->trans('user_not_found', [], 'users')
-            );
+            throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'users'));
         }
 
         if ($user->isLocked()) {
-            throw $this->createNotFoundException(
-                $this->translator->trans('detail.user_is_locked', [], 'users')
-            );
+            throw $this->createNotFoundException($this->translator->trans('detail.user_is_locked', [], 'users'));
         }
 
         $userFollower = null;
@@ -97,7 +96,8 @@ class UsersController extends AbstractUsersController
                 ->findOneBy([
                     'user' => $user,
                     'userFollowing' => $userMyself,
-                ]);
+                ])
+            ;
             if ($userFollower) {
                 $canUnfollow = true;
             } else {
@@ -109,7 +109,8 @@ class UsersController extends AbstractUsersController
                 ->findOneBy([
                     'user' => $userMyself,
                     'userBlocked' => $user,
-                ]);
+                ])
+            ;
             if ($userBlock) {
                 $canUnblock = true;
             } else {
@@ -121,7 +122,8 @@ class UsersController extends AbstractUsersController
                 ->findOneBy([
                     'user' => $user,
                     'userBlocked' => $userMyself,
-                ]);
+                ])
+            ;
             if ($userBlockedByUser) {
                 $isBlockedByUser = true;
             }
@@ -169,11 +171,14 @@ class UsersController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/followers", name="users.followers")
+     *
+     * @param mixed $username
      */
     public function followers($username, Request $request, PaginatorInterface $paginator)
     {
         $user = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+            ->findOneByUsername($username)
+        ;
         if (!$user) {
             $this->addFlash(
                 'danger',
@@ -184,9 +189,7 @@ class UsersController extends AbstractUsersController
         }
 
         if (!$this->_canViewDetails($user)) {
-            throw $this->createAccessDeniedException(
-                $this->translator->trans('not_allowed')
-            );
+            throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
         }
 
         $query = $this->em->getRepository(UserFollower::class)
@@ -195,7 +198,8 @@ class UsersController extends AbstractUsersController
                 'status' => UserFollower::STATUS_APPROVED,
             ], [
                 'createdAt' => 'DESC',
-            ]);
+            ])
+        ;
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -210,11 +214,15 @@ class UsersController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/following", name="users.following")
+     *
+     * @param mixed $username
      */
     public function following($username, Request $request, PaginatorInterface $paginator)
     {
-        $user = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneByUsername($username)
+        ;
         if (!$user) {
             $this->addFlash(
                 'danger',
@@ -225,9 +233,7 @@ class UsersController extends AbstractUsersController
         }
 
         if (!$this->_canViewDetails($user)) {
-            throw $this->createAccessDeniedException(
-                $this->translator->trans('not_allowed')
-            );
+            throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
         }
 
         $query = $this->em->getRepository(UserFollower::class)
@@ -235,7 +241,8 @@ class UsersController extends AbstractUsersController
                 'userFollowing' => $user,
             ], [
                 'createdAt' => 'DESC',
-            ]);
+            ])
+        ;
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),

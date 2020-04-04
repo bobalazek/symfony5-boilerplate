@@ -77,7 +77,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $user = $this->em->getRepository(User::class)
-            ->findOneByEmail($credentials['email']);
+            ->findOneByEmail($credentials['email'])
+        ;
 
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('A user with this email could not be found.');
@@ -98,8 +99,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         // If login happend via oauth
         $route = $request->attributes->get('_route');
         if (
-            substr($route, 0, 6) === 'oauth.' &&
-            substr($route, -9) === '.callback'
+            'oauth.' === substr($route, 0, 6) &&
+            '.callback' === substr($route, -9)
         ) {
             $routeExploded = explode('.', $route);
             $method = $routeExploded[1];
@@ -125,7 +126,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         $credentials = $exception->getToken()->getCredentials();
         $user = $this->em->getRepository(User::class)
-            ->findOneByEmail($credentials['email']);
+            ->findOneByEmail($credentials['email'])
+        ;
 
         $this->userActionManager->add(
             'login.fail',

@@ -45,6 +45,9 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/image/{entity_type}/{entity_id}.jpg", name="image.view")
+     *
+     * @param mixed $entity_type
+     * @param mixed $entity_id
      */
     public function view($entity_type, $entity_id)
     {
@@ -66,11 +69,12 @@ class ImageController extends AbstractController
         $entityFileUrl = null;
         if ($entityClass) {
             $entity = $this->em->getRepository($entityClass)
-                ->findOneById($entity_id);
+                ->findOneById($entity_id)
+            ;
         }
         if ($entity) {
             $method = $availableEntities[$entity_type]['imageProperyMethod'];
-            $entityFileUrl = $entity->$method();
+            $entityFileUrl = $entity->{$method}();
         }
 
         $imageKey = $entity_type . $entity_id;

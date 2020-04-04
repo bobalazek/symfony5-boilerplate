@@ -75,9 +75,9 @@ class SettingsPrivacyController extends AbstractController
             );
 
             return $this->redirectToRoute('settings.privacy');
-        } else {
-            $this->em->refresh($user);
         }
+
+        $this->em->refresh($user);
 
         return $this->render('contents/settings/privacy.html.twig', [
             'form' => $form->createView(),

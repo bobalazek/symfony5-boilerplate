@@ -18,6 +18,8 @@ class UsersActionsController extends AbstractUsersController
 {
     /**
      * @Route("/users/{username}/follow", name="users.follow")
+     *
+     * @param mixed $username
      */
     public function follow(
         $username,
@@ -29,7 +31,8 @@ class UsersActionsController extends AbstractUsersController
         $userMyself = $this->getUser();
 
         $user = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+            ->findOneByUsername($username)
+        ;
         if (!$user) {
             $this->addFlash(
                 'danger',
@@ -54,7 +57,8 @@ class UsersActionsController extends AbstractUsersController
             ->findOneBy([
                 'user' => $user,
                 'userFollowing' => $userMyself,
-            ]);
+            ])
+        ;
         if ($userFollower) {
             $text = UserFollower::STATUS_PENDING === $userFollower->getStatus()
                 ? $this->translator->trans('follow.flash.request_pending', [], 'users')
@@ -123,6 +127,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/unfollow", name="users.unfollow")
+     *
+     * @param mixed $username
      */
     public function unfollow($username, Request $request): Response
     {
@@ -131,7 +137,8 @@ class UsersActionsController extends AbstractUsersController
         $user = $this->getUser();
 
         $userToUnfollow = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+            ->findOneByUsername($username)
+        ;
         if (!$userToUnfollow) {
             $this->addFlash(
                 'danger',
@@ -145,7 +152,8 @@ class UsersActionsController extends AbstractUsersController
             ->findOneBy([
                 'user' => $userToUnfollow,
                 'userFollowing' => $user,
-            ]);
+            ])
+        ;
         if (!$userFollower) {
             $this->addFlash(
                 'danger',
@@ -185,6 +193,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/block", name="users.block")
+     *
+     * @param mixed $username
      */
     public function block($username, Request $request): Response
     {
@@ -193,7 +203,8 @@ class UsersActionsController extends AbstractUsersController
         $userMyself = $this->getUser();
 
         $user = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+            ->findOneByUsername($username)
+        ;
         if (!$user) {
             $this->addFlash(
                 'danger',
@@ -218,7 +229,8 @@ class UsersActionsController extends AbstractUsersController
             ->findOneBy([
                 'user' => $userMyself,
                 'userBlocked' => $user,
-            ]);
+            ])
+        ;
         if ($userBlock) {
             $this->addFlash(
                 'danger',
@@ -264,6 +276,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/unblock", name="users.unblock")
+     *
+     * @param mixed $username
      */
     public function unblock($username, Request $request): Response
     {
@@ -272,7 +286,8 @@ class UsersActionsController extends AbstractUsersController
         $user = $this->getUser();
 
         $userToUnblock = $this->em->getRepository(User::class)
-            ->findOneByUsername($username);
+            ->findOneByUsername($username)
+        ;
         if (!$userToUnblock) {
             $this->addFlash(
                 'danger',
@@ -286,7 +301,8 @@ class UsersActionsController extends AbstractUsersController
             ->findOneBy([
                 'user' => $user,
                 'userBlocked' => $userToUnblock,
-            ]);
+            ])
+        ;
         if (!$userBlock) {
             $this->addFlash(
                 'danger',
@@ -326,6 +342,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/lock", name="users.lock")
+     *
+     * @param mixed $username
      */
     public function lock($username, Request $request)
     {
@@ -371,6 +389,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/unlock", name="users.unlock")
+     *
+     * @param mixed $username
      */
     public function unlock($username, Request $request)
     {
@@ -409,6 +429,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/delete", name="users.delete")
+     *
+     * @param mixed $username
      */
     public function delete($username, Request $request)
     {
@@ -453,6 +475,8 @@ class UsersActionsController extends AbstractUsersController
 
     /**
      * @Route("/users/{username}/undelete", name="users.undelete")
+     *
+     * @param mixed $username
      */
     public function undelete($username, Request $request)
     {

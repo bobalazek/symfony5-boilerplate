@@ -170,7 +170,9 @@ class SettingsController extends AbstractController
             );
 
             return $this->redirectToRoute('settings');
-        } elseif ('resend_new_email' === $action) {
+        }
+
+        if ('resend_new_email' === $action) {
             if (!$user->getNewEmail()) {
                 $this->addFlash(
                     'danger',

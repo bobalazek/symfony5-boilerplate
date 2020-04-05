@@ -28,7 +28,6 @@ class GoogleAuthenticatorManager
     }
 
     /**
-     * @param string $secret
      * @return string
      */
     public function getCode(string $secret)
@@ -37,8 +36,6 @@ class GoogleAuthenticatorManager
     }
 
     /**
-     * @param string $secret
-     * @param string $code
      * @return bool
      */
     public function checkCode(string $secret, string $code)
@@ -56,9 +53,8 @@ class GoogleAuthenticatorManager
 
     /**
      * @param string $accountName basically the id of a user in email format: [user_id]@[hostname]
-     * @param string $secret
      * @param string $issuer
-     * @param int $size
+     *
      * @return string
      */
     public function generateQr(string $accountName, string $secret, string $issuer = null, int $size)

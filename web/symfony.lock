@@ -2,6 +2,9 @@
     "aws/aws-sdk-php": {
         "version": "3.130.2"
     },
+    "bacon/bacon-qr-code": {
+        "version": "2.0.0"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -19,6 +22,9 @@
         "files": [
             "config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
+    },
+    "dasprid/enum": {
+        "version": "1.0.0"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -139,6 +145,9 @@
     "egulias/email-validator": {
         "version": "2.1.12"
     },
+    "endroid/qr-code": {
+        "version": "3.7.7"
+    },
     "facebook/graph-sdk": {
         "version": "5.7.0"
     },
@@ -196,6 +205,9 @@
     "karser/karser-recaptcha3-bundle": {
         "version": "v0.1.4"
     },
+    "khanamiryan/qrcode-detector-decoder": {
+        "version": "1.0.2"
+    },
     "knplabs/knp-components": {
         "version": "v2.3.1"
     },
@@ -222,6 +234,9 @@
     },
     "mtdowling/jmespath.php": {
         "version": "2.4.0"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.6"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -274,6 +289,9 @@
     "phpseclib/phpseclib": {
         "version": "2.0.23"
     },
+    "picqer/php-barcode-generator": {
+        "version": "v2.0.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -309,6 +327,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "sonata-project/google-authenticator": {
+        "version": "2.2.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.3"

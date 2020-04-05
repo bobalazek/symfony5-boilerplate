@@ -1,6 +1,6 @@
 {
-    "name": "bobalazek/myveganguide",
-    "description": "MyVeganGuide project",
+    "name": "bobalazek/corcoviewer",
+    "description": "Corcoviewer project",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -12,6 +12,7 @@
         "cocur/slugify": "^4.0",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "easycorp/easyadmin-bundle": "^2.3",
+        "endroid/qr-code": "^3.7",
         "facebook/graph-sdk": "^5.7",
         "gedmo/doctrine-extensions": "^2.4",
         "google/apiclient": "^2.4",
@@ -20,8 +21,10 @@
         "knplabs/knp-paginator-bundle": "^5.1",
         "knpuniversity/oauth2-client-bundle": "^2.0",
         "php-translation/symfony-bundle": "^0.12.0",
+        "picqer/php-barcode-generator": "^2.0",
         "scienta/doctrine-json-functions": "^4.1",
         "sensio/framework-extra-bundle": "^5.5",
+        "sonata-project/google-authenticator": "^2.2",
         "symfony/asset": "5.0.*",
         "symfony/console": "5.0.*",
         "symfony/dotenv": "5.0.*",

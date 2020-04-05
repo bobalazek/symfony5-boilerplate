@@ -12,8 +12,8 @@
     <tbody>
       {% for key, method in methods %}
         <tr>
-          <td>{{ method }}</td>
-          <td>{{ (key in methods_enabled)
+          <td>{{ method.label }}</td>
+          <td>{{ key in methods_enabled
             ? ('Yes' | trans)
             : ('No' | trans) }}</td>
           <td>

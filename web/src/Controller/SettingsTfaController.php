@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\UserTfaMethod;
 use App\Form\SettingsUserTfaMethodType;
+use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,6 +39,11 @@ class SettingsTfaController extends AbstractController
      */
     private $userActionManager;
 
+    /**
+     * @var array
+     */
+    private $methods;
+
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
@@ -59,14 +65,8 @@ class SettingsTfaController extends AbstractController
 
         $user = $this->getUser();
 
-        // TODO: save it in params
-        $methods = [
-            'email' => $this->translator->trans('Email'),
-            'authenticator' => $this->translator->trans('Authenticator'),
-            'recovery_codes' => $this->translator->trans('Recovery codes'),
-        ];
+        $methods = $this->params->get('app.tfa_methods');
         $methodsEnabled = [];
-
         foreach ($user->getUserTfaMethods() as $userTfaMethod) {
             if (!$userTfaMethod->isEnabled()) {
                 continue;
@@ -83,17 +83,18 @@ class SettingsTfaController extends AbstractController
 
     /**
      * @Route("/login/tfa/{method}", name="settings.tfa.edit")
+     *
+     * @param mixed $method
      */
-    public function edit($method, Request $request): Response
-    {
+    public function edit(
+        $method,
+        Request $request,
+        GoogleAuthenticatorManager $googleAuthenticatorManager
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        // TODO: save it in params
-        if (!in_array($method, [
-            'email',
-            'authenticator',
-            'recovery_codes',
-        ])) {
+        $methods = $this->params->get('app.tfa_methods');
+        if (!in_array($method, array_keys($methods))) {
             $this->addFlash(
                 'danger',
                 $this->translator->trans('tfa.flash.method_does_not_exist', [], 'settings')
@@ -104,6 +105,7 @@ class SettingsTfaController extends AbstractController
 
         $user = $this->getUser();
 
+        $methodData = $methods[$method];
         $userTfaMethod = $this->em
             ->getRepository(UserTfaMethod::class)
             ->findOneBy([
@@ -112,9 +114,21 @@ class SettingsTfaController extends AbstractController
             ])
         ;
         if (!$userTfaMethod) {
+            $data = null;
+
+            if (UserTfaMethod::METHOD_AUTHENTICATOR === $method) {
+                // TODO
+                $data = [
+                    'secret' => $googleAuthenticatorManager->generateSecret(),
+                ];
+            } elseif (UserTfaMethod::METHOD_RECOVERY_CODES === $method) {
+                // TODO
+            }
+
             $userTfaMethod = new UserTfaMethod();
             $userTfaMethod
                 ->setMethod($method)
+                ->setData($data)
                 ->setUser($user)
             ;
 
@@ -147,6 +161,8 @@ class SettingsTfaController extends AbstractController
 
         return $this->render('contents/settings/tfa/edit.html.twig', [
             'form' => $form->createView(),
+            'method' => $method,
+            'heading' => $methodData['label'],
         ]);
     }
 }

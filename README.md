@@ -51,7 +51,7 @@ The CorcoViewer project
 * Load fixtures: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
 * Run tests: `docker exec -ti cw_phpfpm php bin/phpunit`
 * Make translations: `docker exec -ti cw_phpfpm php bin/console translation:update --dump-messages en --force`
-* PHP-CS-Fixer: `docker exec -ti cw_phpfpm php-cs-fixer fix --dry-run`
+* PHP-CS-Fixer: `docker exec -ti cw_phpfpm php-cs-fixer fix`
 * Drop database schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:drop --force`
 * Validate database schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:validate`
 * Show database mapping: `docker exec -ti cw_phpfpm php bin/console doctrine:mapping:info`

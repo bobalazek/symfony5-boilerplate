@@ -1,0 +1,10 @@
+parameters:
+    app.tfa_methods:
+        email:
+            label: Email
+        google_authenticator:
+            label: Google Authenticator
+            hostname: corcosoft.com
+            issuer: Corcosoft
+        recovery_codes:
+            label: Recovery codes

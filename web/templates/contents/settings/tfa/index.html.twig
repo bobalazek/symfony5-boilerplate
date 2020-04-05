@@ -1,0 +1,30 @@
+{% extends 'contents/settings/_layout.html.twig' %}
+
+{% block main %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'Method' | trans }}</th>
+        <th>{{ 'Enabled' | trans }}</th>
+        <th>{{ 'Actions' | trans }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, method in methods %}
+        <tr>
+          <td>{{ method }}</td>
+          <td>{{ (key in methods_enabled)
+            ? ('Yes' | trans)
+            : ('No' | trans) }}</td>
+          <td>
+            <a href="{{ url('settings.tfa.edit', {
+              method: key,
+            }) }}">
+              {{ 'Edit' | trans }}
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

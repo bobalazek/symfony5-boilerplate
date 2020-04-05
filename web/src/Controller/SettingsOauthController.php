@@ -82,9 +82,7 @@ class SettingsOauthController extends AbstractController
                 ])
             ;
             if (!$userOauthProvider) {
-                throw $this->createNotFoundException(
-                    $this->translator->trans('oauth.unlink.provider_not_found', [], 'settings')
-                );
+                throw $this->createNotFoundException($this->translator->trans('oauth.unlink.provider_not_found', [], 'settings'));
             }
 
             $this->em->remove($userOauthProvider);

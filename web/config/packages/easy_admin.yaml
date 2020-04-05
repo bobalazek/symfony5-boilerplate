@@ -68,6 +68,11 @@ easy_admin:
             label: 'User OAuth providers'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
+        UserTfaMethod:
+            class: App\Entity\UserTfaMethod
+            label: 'User TFA methods'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
         UserNotification:
             class: App\Entity\UserNotification
             label: 'User notifications'

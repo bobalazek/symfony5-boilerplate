@@ -12,6 +12,9 @@ class UserOauthProvider implements Interfaces\StatusInterface
 {
     use Traits\TimestampsTrait;
 
+    const PROVIDER_FACEBOOK = 'facebook';
+    const PROVIDER_GOOGLE = 'google';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

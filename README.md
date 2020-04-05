@@ -47,12 +47,16 @@ The CorcoViewer project
 
 * Install composer dependencies: `docker exec -ti cw_phpfpm composer install`
 * Update composer dependencies: `docker exec -ti cw_phpfpm composer update`
-* Run schema update: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
+* Run database schema update: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
 * Load fixtures: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
 * Run tests: `docker exec -ti cw_phpfpm php bin/phpunit`
 * Make translations: `docker exec -ti cw_phpfpm php bin/console translation:update --dump-messages en --force`
-* PHP-CS-Fixer: `docker exec -ti cw_phpfpm php-cs-fixer fix`
-* Drop schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:drop --force`
+* PHP-CS-Fixer: `docker exec -ti cw_phpfpm php-cs-fixer fix --dry-run`
+* Drop database schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:drop --force`
+* Validate database schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:validate`
+* Show database mapping: `docker exec -ti cw_phpfpm php bin/console doctrine:mapping:info`
+* Run database migrations: `docker exec -ti cw_phpfpm php bin/console doctrine:migrations:migrate`
+* Lint twig templates: `docker exec -ti cw_phpfpm php bin/console lint/twig templates/`
 * Messenger - consume: `docker exec -ti cw_phpfpm php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger - stop workers: `docker exec -ti cw_phpfpm php bin/console messenger:stop-workers`
 

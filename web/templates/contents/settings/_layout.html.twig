@@ -42,6 +42,13 @@
               : '' }}">
             {{ 'OAuth' | trans }}
           </a>
+          <a href="{{ url('settings.tfa') }}"
+            class="list-group-item list-group-item-action {{ 'settings.tfa' == app.request.attributes.get('_route')
+              or 'settings.tfa.edit' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'TFA' | trans }}
+          </a>
           <a href="{{ url('settings.blocks') }}"
             class="list-group-item list-group-item-action {{ 'settings.blocks' == app.request.attributes.get('_route')
               ? 'active'

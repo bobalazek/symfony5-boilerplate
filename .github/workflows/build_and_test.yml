@@ -30,5 +30,9 @@ jobs:
       - name: Frontend (game) - Build the app
         run: docker exec -i cw_node_game npm run build
 
+      - name: Backend - Lint HTML (twig) templates
+        run: docker exec -i cw_phpfpm php bin/console lint:twig templates/
+      - name: Backend - Lint PHP files
+        run: docker exec -i cw_phpfpm php-cs-fixer fix --dry-run
       - name: Backend - Run tests
         run: docker exec -i cw_phpfpm php bin/phpunit

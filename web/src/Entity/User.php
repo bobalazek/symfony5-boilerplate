@@ -242,6 +242,11 @@ class User implements UserInterface, EquatableInterface, \Serializable
      */
     private $userOauthProviders;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserTfaMethod", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $userTfaMethods;
+
     public function __construct()
     {
         $this->userActions = new ArrayCollection();
@@ -252,6 +257,7 @@ class User implements UserInterface, EquatableInterface, \Serializable
         $this->userNotifications = new ArrayCollection();
         $this->userPoints = new ArrayCollection();
         $this->userOauthProviders = new ArrayCollection();
+        $this->userTfaMethods = new ArrayCollection();
     }
 
     public function __toString()
@@ -923,6 +929,36 @@ class User implements UserInterface, EquatableInterface, \Serializable
             $this->userOauthProvider->removeElement($userOauthProvider);
             if ($userOauthProvider->getUser() === $this) {
                 $userOauthProvider->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserTfaMethod[]
+     */
+    public function getUserTfaMethods(): Collection
+    {
+        return $this->userTfaMethods;
+    }
+
+    public function addUserTfaMethod(UserTfaMethod $userTfaMethod): self
+    {
+        if (!$this->userTfaMethods->contains($userTfaMethod)) {
+            $this->userTfaMethods[] = $userTfaMethod;
+            $userTfaMethod->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTfaMethod(UserTfaMethod $userTfaMethod): self
+    {
+        if ($this->userTfaMethods->contains($userTfaMethod)) {
+            $this->userTfaMethods->removeElement($userTfaMethod);
+            if ($userTfaMethod->getUser() === $this) {
+                $userTfaMethod->setUser(null);
             }
         }
 

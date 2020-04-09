@@ -44,6 +44,7 @@
           </a>
           <a href="{{ url('settings.tfa') }}"
             class="list-group-item list-group-item-action {{ 'settings.tfa' == app.request.attributes.get('_route')
+              or path('settings.tfa') in app.request.uri
               ? 'active'
               : '' }}">
             {{ 'TFA' | trans }}

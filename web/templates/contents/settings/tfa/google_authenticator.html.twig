@@ -1,11 +1,41 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
 {% block main %}
-  <h2>{{ 'Google Authenticator' | trans }}</h2>
-  {{ form_start(form) }}
-    {{ form_row(form.enabled) }}
-    <button class="btn btn-lg btn-block btn-primary" type="submit">
-      {{ 'Save' | trans }}
-    </button>
-  {{ form_end(form) }}
+  <h2>
+    {{ 'Google Authenticator' | trans }}
+    <a class="btn btn-light btn-sm"
+      href="{{ url('settings.tfa') }}">
+      {{ 'back' | trans }}
+    </a>
+  </h2>
+  {% if user_tfa_method.isEnabled() == false %}
+    <div class="row">
+      <div class="col-md-3">
+        <img class="img-responsive"
+          src="{{ qr_code_url }}"
+          alt="{{ 'QR Code' | trans }}">
+        <div>
+          <b>{{ 'Secret:' | trans }}</b>
+          {{ secret }}
+        </div>
+      </div>
+      <div class="col-md-9">
+        {{ form_start(form) }}
+          {{ form_row(form.code) }}
+          <button class="btn btn-lg btn-block btn-primary" type="submit">
+            {{ 'Save' | trans }}
+          </button>
+        {{ form_end(form) }}
+      </div>
+    </div>
+  {% endif %}
+  {% if user_tfa_method.isEnabled() %}
+    <a class="btn btn-lg btn-block btn-danger btn-confirm"
+      data-confirm-text="{{ 'Are you sure?' | trans }}"
+      href="{{ url('settings.tfa.google_authenticator', {
+        action: 'reset',
+      }) }}">
+      {{ 'Reset' | trans }}
+    </a>
+  {% endif %}
 {% endblock %}

@@ -1,7 +1,13 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
 {% block main %}
-  <h2>{{ 'Recovery Codes' | trans }}</h2>
+  <h2>
+    {{ 'Recovery Codes' | trans }}
+    <a class="btn btn-light btn-sm"
+      href="{{ url('settings.tfa') }}">
+      {{ 'back' | trans }}
+    </a>
+  </h2>
   {{ form_start(form) }}
     {{ form_row(form.enabled) }}
     <table class="table">

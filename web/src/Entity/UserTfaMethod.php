@@ -44,6 +44,11 @@ class UserTfaMethod implements Interfaces\StatusInterface
      */
     private $user;
 
+    /**
+     * Temporary propery used for entering codes for google authenticator and such
+     */
+    private $code;
+
     public function __toString()
     {
         return $this->getUser() . ' @ ' . $this->getMethod();
@@ -103,6 +108,18 @@ class UserTfaMethod implements Interfaces\StatusInterface
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

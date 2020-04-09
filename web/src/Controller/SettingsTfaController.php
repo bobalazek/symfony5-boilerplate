@@ -131,15 +131,67 @@ class SettingsTfaController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
+        $action = $request->query->get('action');
+
         $userTfaMethod = $this->_getUserTfaMethod(
             UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR,
             $user
         );
 
-        $form = $this->createForm(SettingsUserTfaMethodType::class, $userTfaMethod);
+        $userTfaMethodData = $userTfaMethod->getData();
+        $secret = $userTfaMethodData['secret'];
+
+        $methods = $this->params->get('app.tfa_methods');
+        $googleAuthenticatorData = $methods[UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR];
+
+        $qrCodeUrl = $this->googleAuthenticatorManager->generateQrUrl(
+            $user->getId() . '@' . $googleAuthenticatorData['hostname'],
+            $secret,
+            $googleAuthenticatorData['issuer']
+        );
+
+        if ('reset' === $action) {
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
+            );
+
+            $this->userActionManager->add(
+                'settings.tfa.google_authenticator.reset',
+                'User TFA google authenticator was successfully reset.'
+            );
+
+            $userTfaMethod->setEnabled(false);
+
+            $this->em->persist($userTfaMethod);
+            $this->em->flush();
+
+            return $this->redirectToRoute('settings.tfa.google_authenticator');
+        }
+
+        $form = $this->createForm(SettingsUserTfaMethodType::class, $userTfaMethod, [
+            'hide_enabled_field' => false,
+            'show_code_field' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $code = $userTfaMethod->getCode();
+            $codeValid = $this->googleAuthenticatorManager->checkCode(
+                $secret ?? '',
+                $code
+            );
+            if (!$codeValid) {
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('tfa.flash.code_invald', [], 'settings')
+                );
+
+                return $this->redirectToRoute('settings.tfa.google_authenticator');
+            }
+
+            $userTfaMethod->setEnabled(true);
+
             $this->em->persist($userTfaMethod);
             $this->em->flush();
 
@@ -158,6 +210,9 @@ class SettingsTfaController extends AbstractController
 
         return $this->render('contents/settings/tfa/google_authenticator.html.twig', [
             'form' => $form->createView(),
+            'user_tfa_method' => $userTfaMethod,
+            'secret' => $secret,
+            'qr_code_url' => $qrCodeUrl,
         ]);
     }
 

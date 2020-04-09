@@ -57,7 +57,7 @@ class GoogleAuthenticatorManager
      *
      * @return string
      */
-    public function generateQr(string $accountName, string $secret, string $issuer = null, int $size)
+    public function generateQrUrl(string $accountName, string $secret, string $issuer = null, int $size = 200)
     {
         return GoogleQrUrl::generate($accountName, $secret, $issuer, $size);
     }

@@ -45,7 +45,7 @@ class UserTfaMethod implements Interfaces\StatusInterface
     private $user;
 
     /**
-     * Temporary propery used for entering codes for google authenticator and such
+     * Temporary propery used for entering codes for google authenticator and such.
      */
     private $code;
 

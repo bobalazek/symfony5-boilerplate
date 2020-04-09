@@ -247,6 +247,16 @@ class User implements UserInterface, EquatableInterface, \Serializable
      */
     private $userTfaMethods;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserTfaEmail", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $userTfaEmails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserTfaRecoveryCode", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $userTfaRecoveryCodes;
+
     public function __construct()
     {
         $this->userActions = new ArrayCollection();
@@ -258,6 +268,8 @@ class User implements UserInterface, EquatableInterface, \Serializable
         $this->userPoints = new ArrayCollection();
         $this->userOauthProviders = new ArrayCollection();
         $this->userTfaMethods = new ArrayCollection();
+        $this->userTfaEmails = new ArrayCollection();
+        $this->userTfaRecoveryCodes = new ArrayCollection();
     }
 
     public function __toString()
@@ -959,6 +971,66 @@ class User implements UserInterface, EquatableInterface, \Serializable
             $this->userTfaMethods->removeElement($userTfaMethod);
             if ($userTfaMethod->getUser() === $this) {
                 $userTfaMethod->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserTfaEmail[]
+     */
+    public function getUserTfaEmails(): Collection
+    {
+        return $this->userTfaEmails;
+    }
+
+    public function addUserTfaEmail(UserTfaEmail $userTfaEmail): self
+    {
+        if (!$this->userTfaEmails->contains($userTfaEmail)) {
+            $this->userTfaEmails[] = $userTfaEmail;
+            $userTfaEmail->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTfaEmail(UserTfaEmail $userTfaEmail): self
+    {
+        if ($this->userTfaEmails->contains($userTfaEmail)) {
+            $this->userTfaEmails->removeElement($userTfaEmail);
+            if ($userTfaEmail->getUser() === $this) {
+                $userTfaEmail->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserTfaRecoveryCode[]
+     */
+    public function getUserTfaRecoveryCodes(): Collection
+    {
+        return $this->userTfaRecoveryCodes;
+    }
+
+    public function addUserTfaRecoveryCode(UserTfaRecoveryCode $userTfaRecoveryCode): self
+    {
+        if (!$this->userTfaRecoveryCodes->contains($userTfaRecoveryCode)) {
+            $this->userTfaRecoveryCodes[] = $userTfaRecoveryCode;
+            $userTfaRecoveryCode->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTfaRecoveryCode(UserTfaRecoveryCode $userTfaRecoveryCode): self
+    {
+        if ($this->userTfaRecoveryCodes->contains($userTfaRecoveryCode)) {
+            $this->userTfaRecoveryCodes->removeElement($userTfaRecoveryCode);
+            if ($userTfaRecoveryCode->getUser() === $this) {
+                $userTfaRecoveryCode->setUser(null);
             }
         }
 

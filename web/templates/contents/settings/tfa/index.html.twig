@@ -17,7 +17,7 @@
             ? ('Yes' | trans)
             : ('No' | trans) }}</td>
           <td>
-            <a href="{{ url('settings.tfa.edit', {
+            <a href="{{ url('settings.tfa.' ~ key, {
               method: key,
             }) }}">
               {{ 'Edit' | trans }}

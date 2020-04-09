@@ -8,3 +8,4 @@ parameters:
             issuer: Corcosoft
         recovery_codes:
             label: Recovery codes
+            initial_count: 10 # how much codes should be generated for each user when enabled?

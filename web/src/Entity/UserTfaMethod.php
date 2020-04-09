@@ -13,7 +13,7 @@ class UserTfaMethod implements Interfaces\StatusInterface
     use Traits\TimestampsTrait;
 
     const METHOD_EMAIL = 'email';
-    const METHOD_AUTHENTICATOR = 'authenticator';
+    const METHOD_GOOGLE_AUTHENTICATOR = 'google_authenticator';
     const METHOD_RECOVERY_CODES = 'recovery_codes';
 
     /**

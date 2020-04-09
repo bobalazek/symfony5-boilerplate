@@ -1,9 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
 {% block main %}
-  <h2>{{ 'Two factor authentication' }}</h2>
-  <h3>{{ heading }}</h3>
-  <hr />
+  <h2>{{ 'Email' | trans }}</h2>
   {{ form_start(form) }}
     {{ form_row(form.enabled) }}
     <button class="btn btn-lg btn-block btn-primary" type="submit">

@@ -22,6 +22,19 @@ $(document).ready(function () {
     $('.collection').appCollection({
       onAddCallback: attachEvents,
     });
+    $('.btn-confirm').on('click', function(e) {
+      e.preventDefault();
+
+      var href = $(this).attr('href');
+      var text = $(this).attr('data-confirm-text');
+
+      var response = confirm(text);
+      if (!response) {
+        return;
+      }
+
+      window.location.href = href;
+    });
     $('.btn-prompt-add-query').on('click', function(e) {
       e.preventDefault();
 

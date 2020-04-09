@@ -7,135 +7,147 @@
     <body>
       <trans-unit id="z6C2YN3" resname="new_email_resend.flash.already_requested_recently">
         <source>new_email_resend.flash.already_requested_recently</source>
-        <target state="translated">You have already requested a new email confirmation few minutes ago. Please check your email</target>
+        <target>You have already requested a new email confirmation few minutes ago. Please check your email</target>
       </trans-unit>
       <trans-unit id="n9QwJWs" resname="flash.new_email_success">
         <source>flash.new_email_success</source>
-        <target state="translated">You have successfully set a new email</target>
+        <target>You have successfully set a new email</target>
       </trans-unit>
       <trans-unit id="g4ahva6" resname="flash.success">
         <source>flash.success</source>
-        <target state="translated">You have successfully saved your settings</target>
+        <target>You have successfully saved your settings</target>
       </trans-unit>
       <trans-unit id="yQuDm7K" resname="flash.cancel_new_email_success">
         <source>flash.cancel_new_email_success</source>
-        <target state="translated">You have successfully cancelled the new email</target>
+        <target>You have successfully cancelled the new email</target>
       </trans-unit>
       <trans-unit id="hTOsMI8" resname="new_email_resend.flash.new_email_not_set">
         <source>new_email_resend.flash.new_email_not_set</source>
-        <target state="translated">New email can not be set, because there is no new email</target>
+        <target>New email can not be set, because there is no new email</target>
       </trans-unit>
       <trans-unit id="EA0acD1" resname="new_email.flash.already_requested_recently">
         <source>new_email.flash.already_requested_recently</source>
-        <target state="translated">You already requested a new email confirmation recently. Check your email or try again in a couple of minutes</target>
+        <target>You already requested a new email confirmation recently. Check your email or try again in a couple of minutes</target>
       </trans-unit>
       <trans-unit id="wCFenDC" resname="flash.resend_new_email_success">
         <source>flash.resend_new_email_success</source>
-        <target state="translated">The new email confirmation email was successfully sent</target>
+        <target>The new email confirmation email was successfully sent</target>
       </trans-unit>
       <trans-unit id="8I6gkSs" resname="flash.new_email_confirm_code_invalid">
         <source>flash.new_email_confirm_code_invalid</source>
-        <target state="translated">The new email code seems to have been expired. Please try click the link below to send it again</target>
+        <target>The new email code seems to have been expired. Please try click the link below to send it again</target>
       </trans-unit>
       <trans-unit id="3h9LY0x" resname="flash.new_email_confirmed_success">
         <source>flash.new_email_confirmed_success</source>
-        <target state="translated">You have successfully confirmed your new email</target>
+        <target>You have successfully confirmed your new email</target>
       </trans-unit>
       <trans-unit id="2_bq7X8" resname="deletion.flash.already_requested_recently">
         <source>deletion.flash.already_requested_recently</source>
-        <target state="translated">You already requested the deletion recently. Please check your email or try again in a couple minutes</target>
+        <target>You already requested the deletion recently. Please check your email or try again in a couple minutes</target>
       </trans-unit>
       <trans-unit id="Ov85qz5" resname="deletion.flash.success">
         <source>deletion.flash.success</source>
-        <target state="translated">You have successfully requested the account deletion. Please check your email to confirm it</target>
+        <target>You have successfully requested the account deletion. Please check your email to confirm it</target>
       </trans-unit>
       <trans-unit id="VDiXwuJ" resname="deletion.flash.cancel_deletion_success">
         <source>deletion.flash.cancel_deletion_success</source>
-        <target state="translated">You have successfully canceled the account deletion</target>
+        <target>You have successfully canceled the account deletion</target>
       </trans-unit>
       <trans-unit id="1Rcvndr" resname="deletion.deletion_resend.flash.already_requested_recently">
         <source>deletion.deletion_resend.flash.already_requested_recently</source>
-        <target state="translated">You already requested a deletion recently. Check your email or try again in a couple of minutes</target>
+        <target>You already requested a deletion recently. Check your email or try again in a couple of minutes</target>
       </trans-unit>
       <trans-unit id="RjY_hbs" resname="deletion.flash.resend_deletion_email_success">
         <source>deletion.flash.resend_deletion_email_success</source>
-        <target state="translated">You have successfully resend the deletion email</target>
+        <target>You have successfully resend the deletion email</target>
       </trans-unit>
       <trans-unit id="P08nxIH" resname="deletion.flash.deletion_confirm_code_invalid">
         <source>deletion.flash.deletion_confirm_code_invalid</source>
-        <target state="translated">Deletion code is invalid</target>
+        <target>Deletion code is invalid</target>
       </trans-unit>
       <trans-unit id="PWORgHi" resname="flash.deletion_confirmed_success">
         <source>flash.deletion_confirmed_success</source>
-        <target state="translated">Your account was successfully deleted</target>
+        <target>Your account was successfully deleted</target>
       </trans-unit>
       <trans-unit id="pQFiczb" resname="export.alert.already_in_progress">
         <source>export.alert.already_in_progress</source>
-        <target state="translated">An export is already in progress</target>
+        <target>An export is already in progress</target>
       </trans-unit>
       <trans-unit id="RrzSgLH" resname="export.alert.already_requested_recently">
         <source>export.alert.already_requested_recently</source>
-        <target state="translated">You have already requested a export recently. Please wait a few minutes before trying again</target>
+        <target>You have already requested a export recently. Please wait a few minutes before trying again</target>
       </trans-unit>
       <trans-unit id="j9UM_ON" resname="export.flash.success">
         <source>export.flash.success</source>
-        <target state="translated">Export successfully requested</target>
+        <target>Export successfully requested</target>
       </trans-unit>
       <trans-unit id="SDdUdcx" resname="flash.clear_image_file_success">
         <source>flash.clear_image_file_success</source>
-        <target state="translated">The image was successfully cleared</target>
+        <target>The image was successfully cleared</target>
       </trans-unit>
       <trans-unit id="oJ_JQ_x" resname="image.flash.success">
         <source>image.flash.success</source>
-        <target state="translated">You have successfully set your profile picture</target>
+        <target>You have successfully set your profile picture</target>
       </trans-unit>
-      <trans-unit id="uz68eYZ" resname="oauth.flash.unlinked_success">
+      <trans-unit id="0ggInpn" resname="oauth.flash.unlinked_success">
         <source>oauth.flash.unlinked_success</source>
-        <target state="translated">You have successfully unlinked your {provider} account</target>
+        <target>You have successfully unlinked your {provider} account</target>
       </trans-unit>
       <trans-unit id="c28lmVb" resname="password.flash.success">
         <source>password.flash.success</source>
-        <target state="translated">You have successfully changed your password</target>
+        <target>You have successfully changed your password</target>
       </trans-unit>
       <trans-unit id="8D_r.bl" resname="privacy.flash.success">
         <source>privacy.flash.success</source>
-        <target state="translated">Privacy settings were successfully saved</target>
+        <target>Privacy settings were successfully saved</target>
       </trans-unit>
       <trans-unit id="NDJnoo8" resname="actions.alert.no_user_actions_yet">
         <source>actions.alert.no_user_actions_yet</source>
-        <target state="translated">No actions yet</target>
+        <target>No actions yet</target>
       </trans-unit>
       <trans-unit id="okKKkiv" resname="blocks.alert.no_blocked_users_yet">
         <source>blocks.alert.no_blocked_users_yet</source>
-        <target state="translated">You are not blocking anyone yet</target>
+        <target>You are not blocking anyone yet</target>
       </trans-unit>
       <trans-unit id="Mp8cv_V" resname="export.alert.text">
         <source>export.alert.text</source>
-        <target state="translated">Here you can request an export of all your data on this platform</target>
+        <target>Here you can request an export of all your data on this platform</target>
       </trans-unit>
       <trans-unit id="Ji_Md1s" resname="export.alert.no_exports_yet">
         <source>export.alert.no_exports_yet</source>
-        <target state="translated">No exports yet</target>
+        <target>No exports yet</target>
       </trans-unit>
-      <trans-unit id="MePEhPs" resname="oauth.unlink">
+      <trans-unit id="SeuhF79" resname="oauth.unlink">
         <source>oauth.unlink</source>
-        <target state="translated">Unlink your {provider} account</target>
+        <target>Unlink your {provider} account</target>
       </trans-unit>
-      <trans-unit id="7l46lL2" resname="oauth.link">
+      <trans-unit id="Rk155t8" resname="oauth.link">
         <source>oauth.link</source>
-        <target state="translated">Link your {provider} account</target>
+        <target>Link your {provider} account</target>
       </trans-unit>
-      <trans-unit id="ttLEm0g" resname="deletion.alert.confirmation_sent">
+      <trans-unit id="tHt8DjT" resname="deletion.alert.confirmation_sent">
         <source>deletion.alert.confirmation_sent</source>
-        <target state="translated">The deletion confirmation email has been sent to your current email address Please click the link inside to confirm it. In case you did not get any code, click %resend_link_start%here%resend_link_end% and we will resend you the email or cancel it %cancel_link_start%here%cancel_link_end%</target>
+        <target>The deletion confirmation email has been sent to your current email address Please click the link inside to confirm it. In case you did not get any code, click %resend_link_start%here%resend_link_end% and we will resend you the email or cancel it %cancel_link_start%here%cancel_link_end%</target>
       </trans-unit>
-      <trans-unit id="wx0X4U5" resname="deletion.alert.warning">
+      <trans-unit id="jl.iN6g" resname="deletion.alert.warning">
         <source>deletion.alert.warning</source>
-        <target state="translated">This action is permanent. You will not be able to retrieve any of the content or inforation you shared with this platform. An email will be sent to you, so you can confirm your action</target>
+        <target>This action is permanent. You will not be able to retrieve any of the content or inforation you shared with this platform. An email will be sent to you, so you can confirm your action</target>
       </trans-unit>
       <trans-unit id="ETp1jt0" resname="alert.new_email">
         <source>alert.new_email</source>
-        <target state="translated">We have sent you a confirmation email to the new email address (%email%). Please click the link inside to confirm it. In case you did not get any code, click %resend_link_start%here%resend_link_end% and we will resend you the email or cancel it %cancel_link_start%here%cancel_link_end%</target>
+        <target>We have sent you a confirmation email to the new email address (%email%). Please click the link inside to confirm it. In case you did not get any code, click %resend_link_start%here%resend_link_end% and we will resend you the email or cancel it %cancel_link_start%here%cancel_link_end%</target>
+      </trans-unit>
+      <trans-unit id="E9pytB." resname="oauth.unlink.provider_not_found">
+        <source>oauth.unlink.provider_not_found</source>
+        <target>OAuth provider not found</target>
+      </trans-unit>
+      <trans-unit id="qe7MIDa" resname="tfa.flash.success">
+        <source>tfa.flash.success</source>
+        <target>Settings were successfully saved</target>
+      </trans-unit>
+      <trans-unit id="wUavpOA" resname="tfa.recovery_codes.regenerate.flash.success">
+        <source>tfa.recovery_codes.regenerate.flash.success</source>
+        <target>Recovery codes were successfully regenerated</target>
       </trans-unit>
     </body>
   </file>

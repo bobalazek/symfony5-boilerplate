@@ -7,415 +7,479 @@
     <body>
       <trans-unit id=".a90OF." resname="home.contact.flash.success">
         <source>home.contact.flash.success</source>
-        <target state="translated">home.contact.flash.success</target>
+        <target>home.contact.flash.success</target>
       </trans-unit>
       <trans-unit id="G89jNN." resname="not_allowed">
         <source>not_allowed</source>
-        <target state="translated">You are not allowed to do this</target>
+        <target>You are not allowed to do this</target>
       </trans-unit>
-      <trans-unit id="78yjbNy" resname="status_not_found">
+      <trans-unit id="UX0tbUG" resname="status_not_found">
         <source>status_not_found</source>
-        <target state="translated">Status not found</target>
+        <target>Status not found</target>
       </trans-unit>
       <trans-unit id="ycwMKSm" resname="deleted user">
         <source>deleted user</source>
-        <target state="translated">deleted user</target>
+        <target>deleted user</target>
       </trans-unit>
       <trans-unit id="VKDowX6" resname="Error">
         <source>Error</source>
-        <target state="translated">Error</target>
+        <target>Error</target>
       </trans-unit>
       <trans-unit id="rj756Vk" resname="Go back to homepage">
         <source>Go back to homepage</source>
-        <target state="translated">Go back to homepage</target>
+        <target>Go back to homepage</target>
       </trans-unit>
       <trans-unit id="IeiD2FR" resname="Follower requests">
         <source>Follower requests</source>
-        <target state="translated">Follower requests</target>
+        <target>Follower requests</target>
       </trans-unit>
       <trans-unit id="MxVRsN5" resname="Pending">
         <source>Pending</source>
-        <target state="translated">Pending</target>
+        <target>Pending</target>
       </trans-unit>
       <trans-unit id="fWSPW0f" resname="Ignored">
         <source>Ignored</source>
-        <target state="translated">Ignored</target>
+        <target>Ignored</target>
       </trans-unit>
       <trans-unit id="YAesvjC" resname="Approve">
         <source>Approve</source>
-        <target state="translated">Approve</target>
+        <target>Approve</target>
       </trans-unit>
       <trans-unit id=".Od8NNP" resname="Ignore">
         <source>Ignore</source>
-        <target state="translated">Ignore</target>
+        <target>Ignore</target>
       </trans-unit>
       <trans-unit id="4tClSWj" resname="Delete">
         <source>Delete</source>
-        <target state="translated">Delete</target>
+        <target>Delete</target>
       </trans-unit>
       <trans-unit id="Tvyg0Qx" resname="About">
         <source>About</source>
-        <target state="translated">About</target>
+        <target>About</target>
       </trans-unit>
       <trans-unit id="K1w9JnI" resname="Contact">
         <source>Contact</source>
-        <target state="translated">Contact</target>
+        <target>Contact</target>
       </trans-unit>
       <trans-unit id="9vRoj.I" resname="Send">
         <source>Send</source>
-        <target state="translated">Send</target>
+        <target>Send</target>
       </trans-unit>
       <trans-unit id="t5yskm4" resname="Help">
         <source>Help</source>
-        <target state="translated">Help</target>
+        <target>Help</target>
       </trans-unit>
       <trans-unit id="Ro89gZF" resname="home.heading">
         <source>home.heading</source>
-        <target state="translated">home.heading</target>
+        <target>home.heading</target>
       </trans-unit>
       <trans-unit id="VKV8MUf" resname="Privacy">
         <source>Privacy</source>
-        <target state="translated">Privacy</target>
+        <target>Privacy</target>
       </trans-unit>
       <trans-unit id="7eVImWS" resname="Terms">
         <source>Terms</source>
-        <target state="translated">Terms</target>
+        <target>Terms</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
         <source>Login</source>
-        <target state="translated">Login</target>
+        <target>Login</target>
       </trans-unit>
       <trans-unit id="feohTSd" resname="Not registered yet?">
         <source>Not registered yet?</source>
-        <target state="translated">Not registered yet?</target>
+        <target>Not registered yet?</target>
       </trans-unit>
       <trans-unit id="CvD9j2H" resname="Signup">
         <source>Signup</source>
-        <target state="translated">Signup</target>
+        <target>Signup</target>
       </trans-unit>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="translated">Email</target>
+        <target>Email</target>
       </trans-unit>
       <trans-unit id="588_9PF" resname="Password">
         <source>Password</source>
-        <target state="translated">Password</target>
+        <target>Password</target>
       </trans-unit>
       <trans-unit id="_TJnqhH" resname="Remember me">
         <source>Remember me</source>
-        <target state="translated">Remember me</target>
+        <target>Remember me</target>
       </trans-unit>
       <trans-unit id="r9Jf3xf" resname="Forgot your password?">
         <source>Forgot your password?</source>
-        <target state="translated">Forgot your password?</target>
+        <target>Forgot your password?</target>
       </trans-unit>
       <trans-unit id="1B9bSXf" resname="Facebook">
         <source>Facebook</source>
-        <target state="translated">Facebook</target>
+        <target>Facebook</target>
       </trans-unit>
       <trans-unit id="zncGZ_X" resname="Google">
         <source>Google</source>
-        <target state="translated">Google</target>
+        <target>Google</target>
       </trans-unit>
       <trans-unit id="Z0jsi3Z" resname="Moderator">
         <source>Moderator</source>
-        <target state="translated">Moderator</target>
+        <target>Moderator</target>
       </trans-unit>
       <trans-unit id="awzJBNC" resname="Users">
         <source>Users</source>
-        <target state="translated">Users</target>
+        <target>Users</target>
       </trans-unit>
       <trans-unit id="eIARgzp" resname="Notifications">
         <source>Notifications</source>
-        <target state="translated">Notifications</target>
+        <target>Notifications</target>
       </trans-unit>
       <trans-unit id="4O3_s6c" resname="Reset password">
         <source>Reset password</source>
-        <target state="translated">Reset password</target>
+        <target>Reset password</target>
       </trans-unit>
       <trans-unit id="PjgG.xc" resname="Back to login">
         <source>Back to login</source>
-        <target state="translated">Back to login</target>
+        <target>Back to login</target>
       </trans-unit>
       <trans-unit id="53.qk20" resname="Already have an account?">
         <source>Already have an account?</source>
-        <target state="translated">Already have an account?</target>
+        <target>Already have an account?</target>
       </trans-unit>
       <trans-unit id="maUt8.8" resname="Key">
         <source>Key</source>
-        <target state="translated">Key</target>
+        <target>Key</target>
       </trans-unit>
       <trans-unit id="M7k0ds9" resname="Time">
         <source>Time</source>
-        <target state="translated">Time</target>
+        <target>Time</target>
       </trans-unit>
       <trans-unit id="7r3SSnf" resname="Confirm">
         <source>Confirm</source>
-        <target state="translated">Confirm</target>
+        <target>Confirm</target>
       </trans-unit>
       <trans-unit id="wrfqblB" resname="Request export">
         <source>Request export</source>
-        <target state="translated">Request export</target>
+        <target>Request export</target>
       </trans-unit>
       <trans-unit id="MFaeLWS" resname="User exports">
         <source>User exports</source>
-        <target state="translated">User exports</target>
+        <target>User exports</target>
       </trans-unit>
       <trans-unit id="d1tb_WR" resname="Created at">
         <source>Created at</source>
-        <target state="translated">Created at</target>
+        <target>Created at</target>
       </trans-unit>
       <trans-unit id=".nUoddO" resname="Started at">
         <source>Started at</source>
-        <target state="translated">Started at</target>
+        <target>Started at</target>
       </trans-unit>
       <trans-unit id="kg5BPH1" resname="Status">
         <source>Status</source>
-        <target state="translated">Status</target>
+        <target>Status</target>
       </trans-unit>
       <trans-unit id=".4BZ3Gd" resname="Actions">
         <source>Actions</source>
-        <target state="translated">Actions</target>
+        <target>Actions</target>
       </trans-unit>
       <trans-unit id="A4ctydY" resname="In queue">
         <source>In queue</source>
-        <target state="translated">In queue</target>
+        <target>In queue</target>
       </trans-unit>
       <trans-unit id="1ur_gjW" resname="Download">
         <source>Download</source>
-        <target state="translated">Download</target>
+        <target>Download</target>
       </trans-unit>
       <trans-unit id=".PBY9fJ" resname="expires on">
         <source>expires on</source>
-        <target state="translated">expires on</target>
+        <target>expires on</target>
       </trans-unit>
       <trans-unit id="5hGA4N2" resname="Link expired">
         <source>Link expired</source>
-        <target state="translated">Link expired</target>
+        <target>Link expired</target>
       </trans-unit>
       <trans-unit id="ICMaQDI" resname="Clear image">
         <source>Clear image</source>
-        <target state="translated">Clear image</target>
+        <target>Clear image</target>
       </trans-unit>
       <trans-unit id="7ofBSKu" resname="or select a new one below, to replace the existing image">
         <source>or select a new one below, to replace the existing image</source>
-        <target state="translated">or select a new one below, to replace the existing image</target>
+        <target>or select a new one below, to replace the existing image</target>
       </trans-unit>
       <trans-unit id="Kdf2udz" resname="or select an existing avatar below">
         <source>or select an existing avatar below</source>
-        <target state="translated">or select an existing avatar below</target>
+        <target>or select an existing avatar below</target>
       </trans-unit>
       <trans-unit id="FQn1YfJ" resname="Save">
         <source>Save</source>
-        <target state="translated">Save</target>
+        <target>Save</target>
       </trans-unit>
       <trans-unit id="ctvBGHE" resname="settings.alert.new_email">
         <source>settings.alert.new_email</source>
-        <target state="translated">settings.alert.new_email</target>
+        <target>settings.alert.new_email</target>
       </trans-unit>
       <trans-unit id="dKiDoDe" resname="Settings">
         <source>Settings</source>
-        <target state="translated">Settings</target>
+        <target>Settings</target>
       </trans-unit>
       <trans-unit id="yRDUdNz" resname="General">
         <source>General</source>
-        <target state="translated">General</target>
+        <target>General</target>
       </trans-unit>
       <trans-unit id="GqTLC8y" resname="Image">
         <source>Image</source>
-        <target state="translated">Image</target>
+        <target>Image</target>
       </trans-unit>
       <trans-unit id="J.iUPG6" resname="OAuth">
         <source>OAuth</source>
-        <target state="translated">OAuth</target>
+        <target>OAuth</target>
       </trans-unit>
       <trans-unit id="HNWmaHu" resname="Blocks">
         <source>Blocks</source>
-        <target state="translated">Blocks</target>
+        <target>Blocks</target>
       </trans-unit>
       <trans-unit id="NmSJVXn" resname="Export">
         <source>Export</source>
-        <target state="translated">Export</target>
+        <target>Export</target>
       </trans-unit>
       <trans-unit id="Px5B_l9" resname="Deletion">
         <source>Deletion</source>
-        <target state="translated">Deletion</target>
+        <target>Deletion</target>
       </trans-unit>
       <trans-unit id="ZB0e9le" resname="Follow">
         <source>Follow</source>
-        <target state="translated">Follow</target>
+        <target>Follow</target>
       </trans-unit>
       <trans-unit id="LZ4oKJ_" resname="Requested">
         <source>Requested</source>
-        <target state="translated">Requested</target>
+        <target>Requested</target>
       </trans-unit>
       <trans-unit id="d41Wjog" resname="Unfollow">
         <source>Unfollow</source>
-        <target state="translated">Unfollow</target>
+        <target>Unfollow</target>
       </trans-unit>
       <trans-unit id="IR0LuM9" resname="Block">
         <source>Block</source>
-        <target state="translated">Block</target>
+        <target>Block</target>
       </trans-unit>
       <trans-unit id="cS2mMXH" resname="Unblock">
         <source>Unblock</source>
-        <target state="translated">Unblock</target>
+        <target>Unblock</target>
       </trans-unit>
       <trans-unit id="d96r4jj" resname="Points">
         <source>Points</source>
-        <target state="translated">Points</target>
+        <target>Points</target>
       </trans-unit>
       <trans-unit id="oUWrNCp" resname="Followers">
         <source>Followers</source>
-        <target state="translated">Followers</target>
+        <target>Followers</target>
       </trans-unit>
       <trans-unit id="NEtCcco" resname="Following">
         <source>Following</source>
-        <target state="translated">Following</target>
+        <target>Following</target>
       </trans-unit>
       <trans-unit id="kjQGlYm" resname="Active">
         <source>Active</source>
-        <target state="translated">Active</target>
+        <target>Active</target>
       </trans-unit>
       <trans-unit id="pCTjPZC" resname="Locked">
         <source>Locked</source>
-        <target state="translated">Locked</target>
+        <target>Locked</target>
       </trans-unit>
       <trans-unit id="tI.znC4" resname="Deleted">
         <source>Deleted</source>
-        <target state="translated">Deleted</target>
+        <target>Deleted</target>
       </trans-unit>
       <trans-unit id="3Mg5pAF" resname="View">
         <source>View</source>
-        <target state="translated">View</target>
+        <target>View</target>
       </trans-unit>
       <trans-unit id="EYXzfTO" resname="deleted">
         <source>deleted</source>
-        <target state="translated">deleted</target>
+        <target>deleted</target>
       </trans-unit>
       <trans-unit id="FEk.X1R" resname="locked">
         <source>locked</source>
-        <target state="translated">locked</target>
+        <target>locked</target>
       </trans-unit>
       <trans-unit id="loeWEWU" resname="active">
         <source>active</source>
-        <target state="translated">active</target>
+        <target>active</target>
       </trans-unit>
       <trans-unit id="SscJqli" resname="Unlock">
         <source>Unlock</source>
-        <target state="translated">Unlock</target>
+        <target>Unlock</target>
       </trans-unit>
       <trans-unit id="20S4208" resname="Lock">
         <source>Lock</source>
-        <target state="translated">Lock</target>
+        <target>Lock</target>
       </trans-unit>
       <trans-unit id="Mc3G5YF" resname="Undelete">
         <source>Undelete</source>
-        <target state="translated">Undelete</target>
+        <target>Undelete</target>
       </trans-unit>
       <trans-unit id="3NHVIj9" resname="Name">
         <source>Name</source>
-        <target state="translated">Name</target>
+        <target>Name</target>
       </trans-unit>
       <trans-unit id="aJcSg4Q" resname="Subject">
         <source>Subject</source>
-        <target state="translated">Subject</target>
+        <target>Subject</target>
       </trans-unit>
       <trans-unit id="L3dmip3" resname="Message">
         <source>Message</source>
-        <target state="translated">Message</target>
+        <target>Message</target>
       </trans-unit>
       <trans-unit id="IfKSJLt" resname="All rights reserved.">
         <source>All rights reserved.</source>
-        <target state="translated">All rights reserved.</target>
+        <target>All rights reserved.</target>
       </trans-unit>
       <trans-unit id="t2TNwOq" resname="Unknown">
         <source>Unknown</source>
-        <target state="translated">Unknown</target>
+        <target>Unknown</target>
       </trans-unit>
       <trans-unit id="OnhpU4i" resname="Home">
         <source>Home</source>
-        <target state="translated">Home</target>
+        <target>Home</target>
       </trans-unit>
       <trans-unit id="1pajW90" resname="Profile">
         <source>Profile</source>
-        <target state="translated">Profile</target>
+        <target>Profile</target>
       </trans-unit>
       <trans-unit id="wcIksDz" resname="Admin">
         <source>Admin</source>
-        <target state="translated">Admin</target>
+        <target>Admin</target>
       </trans-unit>
       <trans-unit id="j_KmKgy" resname="Admin - Translations">
         <source>Admin - Translations</source>
-        <target state="translated">Admin - Translations</target>
+        <target>Admin - Translations</target>
       </trans-unit>
       <trans-unit id="0FJ_Sz1" resname="Logout">
         <source>Logout</source>
-        <target state="translated">Logout</target>
+        <target>Logout</target>
       </trans-unit>
       <trans-unit id="tB977_i" resname="Login / join">
         <source>Login / join</source>
-        <target state="translated">Login / join</target>
+        <target>Login / join</target>
       </trans-unit>
       <trans-unit id="CQ7UMW8" resname="Brand">
         <source>Brand</source>
-        <target state="translated">Brand</target>
+        <target>Brand</target>
       </trans-unit>
       <trans-unit id="DWK7Ad9" resname="Packaging">
         <source>Packaging</source>
-        <target state="translated">Packaging</target>
+        <target>Packaging</target>
       </trans-unit>
       <trans-unit id="h2dduDo" resname="Ingredients">
         <source>Ingredients</source>
-        <target state="translated">Ingredients</target>
+        <target>Ingredients</target>
       </trans-unit>
       <trans-unit id="fgt9.Nv" resname="Allergens">
         <source>Allergens</source>
-        <target state="translated">Allergens</target>
+        <target>Allergens</target>
       </trans-unit>
       <trans-unit id="uLHYlMa" resname="Categories">
         <source>Categories</source>
-        <target state="translated">Categories</target>
+        <target>Categories</target>
       </trans-unit>
       <trans-unit id="EzEnW8U" resname="Tags">
         <source>Tags</source>
-        <target state="translated">Tags</target>
+        <target>Tags</target>
       </trans-unit>
       <trans-unit id=".9KLj6a" resname="Image url">
         <source>Image url</source>
-        <target state="translated">Image url</target>
+        <target>Image url</target>
       </trans-unit>
       <trans-unit id="FXzpi5o" resname="Url">
         <source>Url</source>
-        <target state="translated">Url</target>
+        <target>Url</target>
       </trans-unit>
       <trans-unit id="OsGp7E_" resname="Currency">
         <source>Currency</source>
-        <target state="translated">Currency</target>
+        <target>Currency</target>
       </trans-unit>
       <trans-unit id="p6zE664" resname="Profile picture">
         <source>Profile picture</source>
-        <target state="translated">Profile picture</target>
+        <target>Profile picture</target>
       </trans-unit>
       <trans-unit id="cB0CHQj" resname="Country">
         <source>Country</source>
-        <target state="translated">Country</target>
+        <target>Country</target>
       </trans-unit>
       <trans-unit id=".DP3Mkb" resname="City">
         <source>City</source>
-        <target state="translated">City</target>
+        <target>City</target>
       </trans-unit>
       <trans-unit id="ifaDJWD" resname="Year">
         <source>Year</source>
-        <target state="translated">Year</target>
+        <target>Year</target>
       </trans-unit>
       <trans-unit id="MQylA_8" resname="Month">
         <source>Month</source>
-        <target state="translated">Month</target>
+        <target>Month</target>
       </trans-unit>
       <trans-unit id="jyNk4Ru" resname="Day">
         <source>Day</source>
-        <target state="translated">Day</target>
+        <target>Day</target>
+      </trans-unit>
+      <trans-unit id="zS0vkjB" resname="Two Factor Authentication">
+        <source>Two Factor Authentication</source>
+        <target>Two Factor Authentication</target>
+      </trans-unit>
+      <trans-unit id="vhiDLGg" resname="Google Authenticator">
+        <source>Google Authenticator</source>
+        <target>Google Authenticator</target>
+      </trans-unit>
+      <trans-unit id="UqD5tls" resname="Method">
+        <source>Method</source>
+        <target>Method</target>
+      </trans-unit>
+      <trans-unit id="ksHN.fT" resname="Enabled">
+        <source>Enabled</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="haOas0X" resname="Yes">
+        <source>Yes</source>
+        <target>Yes</target>
+      </trans-unit>
+      <trans-unit id="HqRCoTS" resname="No">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="RkxP.QG" resname="Edit">
+        <source>Edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="V5x.TgG" resname="Recovery Codes">
+        <source>Recovery Codes</source>
+        <target>Recovery Codes</target>
+      </trans-unit>
+      <trans-unit id="NA9GMDP" resname="Code">
+        <source>Code</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="1wueJLy" resname="Created">
+        <source>Created</source>
+        <target>Created</target>
+      </trans-unit>
+      <trans-unit id="rn2N_sn" resname="Used">
+        <source>Used</source>
+        <target>Used</target>
+      </trans-unit>
+      <trans-unit id="8HYsTzv" resname="Are you sure?">
+        <source>Are you sure?</source>
+        <target>Are you sure?</target>
+      </trans-unit>
+      <trans-unit id="FlEDG.W" resname="Regenerate">
+        <source>Regenerate</source>
+        <target>Regenerate</target>
+      </trans-unit>
+      <trans-unit id="ronxWPx" resname="TFA">
+        <source>TFA</source>
+        <target>TFA</target>
+      </trans-unit>
+      <trans-unit id="ScJmuqq" resname="Search">
+        <source>Search</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="xK_axX8" resname="Seach">
+        <source>Seach</source>
+        <target>Seach</target>
       </trans-unit>
     </body>
   </file>

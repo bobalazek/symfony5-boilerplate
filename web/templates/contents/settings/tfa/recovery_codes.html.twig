@@ -4,8 +4,35 @@
   <h2>{{ 'Recovery Codes' | trans }}</h2>
   {{ form_start(form) }}
     {{ form_row(form.enabled) }}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{{ 'Code' | trans }}</th>
+          <th>{{ 'Created' | trans }}</th>
+          <th>{{ 'Used' | trans }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user_tfa_recovery_code in app.user.getUserTfaRecoveryCodes() %}
+          <tr>
+            <td>{{ user_tfa_recovery_code.getRecoveryCode() }}</td>
+            <td>{{ user_tfa_recovery_code.getCreatedAt() | date }}</td>
+            <td>{{ user_tfa_recovery_code.getUsedAt()
+              ? user_tfa_recovery_code.getUsedAt() | date
+              : '' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     <button class="btn btn-lg btn-block btn-primary" type="submit">
       {{ 'Save' | trans }}
     </button>
+    <a class="btn btn-lg btn-block btn-danger btn-confirm"
+      data-confirm-text="{{ 'Are you sure?' | trans }}"
+      href="{{ url('settings.tfa.recovery_codes', {
+        action: 'regenerate',
+      }) }}">
+      {{ 'Regenerate' | trans }}
+    </a>
   {{ form_end(form) }}
 {% endblock %}

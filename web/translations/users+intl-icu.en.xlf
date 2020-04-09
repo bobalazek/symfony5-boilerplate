@@ -7,127 +7,131 @@
     <body>
       <trans-unit id="dkLItjB" resname="user_not_found">
         <source>user_not_found</source>
-        <target state="translated">user not found</target>
+        <target>User not found</target>
       </trans-unit>
       <trans-unit id="N1XCkrn" resname="follow.flash.user_does_not_exist">
         <source>follow.flash.user_does_not_exist</source>
-        <target state="translated">The user you are trying to follow does not exist</target>
+        <target>The user you are trying to follow does not exist</target>
       </trans-unit>
       <trans-unit id="iqETf3q" resname="follow.flash.can_not_follow_yourself">
         <source>follow.flash.can_not_follow_yourself</source>
-        <target state="translated">You can not follow yourself</target>
+        <target>You can not follow yourself</target>
       </trans-unit>
       <trans-unit id="aGwK5F_" resname="follow.flash.request_pending">
         <source>follow.flash.request_pending</source>
-        <target state="translated">Your request was sent to to the user and is waiting approval</target>
+        <target>Your request was sent to to the user and is waiting approval</target>
       </trans-unit>
       <trans-unit id="vJORDHI" resname="follow.flash.already_following_this_user">
         <source>follow.flash.already_following_this_user</source>
-        <target state="translated">You already follow this user</target>
+        <target>You already follow this user</target>
       </trans-unit>
       <trans-unit id="mc7zI2Y" resname="follow.flash.request_success">
         <source>follow.flash.request_success</source>
-        <target state="translated">You have successfully requested to follow this user</target>
+        <target>You have successfully requested to follow this user</target>
       </trans-unit>
       <trans-unit id="BwwZaoM" resname="follow.flash.success">
         <source>follow.flash.success</source>
-        <target state="translated">You have successfully followed this user</target>
+        <target>You have successfully followed this user</target>
       </trans-unit>
       <trans-unit id="_p7dfpM" resname="unfollow.flash.user_does_not_exist">
         <source>unfollow.flash.user_does_not_exist</source>
-        <target state="translated">The user you are trying to unfollow does not exist</target>
+        <target>The user you are trying to unfollow does not exist</target>
       </trans-unit>
       <trans-unit id="DGRBP4I" resname="unfollow.flash.you_are_not_following_this_user">
         <source>unfollow.flash.you_are_not_following_this_user</source>
-        <target state="translated">You are not following this user</target>
+        <target>You are not following this user</target>
       </trans-unit>
       <trans-unit id="2sSoVk9" resname="unfollow.flash.success">
         <source>unfollow.flash.success</source>
-        <target state="translated">You have successfully unfollowed this user</target>
+        <target>You have successfully unfollowed this user</target>
       </trans-unit>
       <trans-unit id="mSk3_9Q" resname="block.flash.user_does_not_exist">
         <source>block.flash.user_does_not_exist</source>
-        <target state="translated">The user you are tying to block does not exist</target>
+        <target>The user you are tying to block does not exist</target>
       </trans-unit>
       <trans-unit id="xM3f0JM" resname="block.flash.can_not_block_yourself">
         <source>block.flash.can_not_block_yourself</source>
-        <target state="translated">You can not block yoursefl</target>
+        <target>You can not block yoursefl</target>
       </trans-unit>
       <trans-unit id="CZd1z7a" resname="block.flash.already_blocking_this_user">
         <source>block.flash.already_blocking_this_user</source>
-        <target state="translated">You are already blocking this user</target>
+        <target>You are already blocking this user</target>
       </trans-unit>
       <trans-unit id="YC3IFhp" resname="block.flash.success">
         <source>block.flash.success</source>
-        <target state="translated">You have successfully blocked the user</target>
+        <target>You have successfully blocked the user</target>
       </trans-unit>
       <trans-unit id="UWTlmuc" resname="unblock.flash.user_does_not_exist">
         <source>unblock.flash.user_does_not_exist</source>
-        <target state="translated">User does not exist</target>
+        <target>User does not exist</target>
       </trans-unit>
       <trans-unit id="aLLQkqH" resname="unblock.flash.you_are_not_blocking_this_user">
         <source>unblock.flash.you_are_not_blocking_this_user</source>
-        <target state="translated">You are not blocking this user</target>
+        <target>You are not blocking this user</target>
       </trans-unit>
       <trans-unit id="c4BAhgt" resname="unblock.flash.success">
         <source>unblock.flash.success</source>
-        <target state="translated">You have successfully unblocked the user</target>
+        <target>You have successfully unblocked the user</target>
       </trans-unit>
       <trans-unit id="ouszKpO" resname="lock.flash.success">
         <source>lock.flash.success</source>
-        <target state="translated">You have successfully locked this user</target>
+        <target>You have successfully locked this user</target>
       </trans-unit>
       <trans-unit id="s8bx5mB" resname="unlock.flash.success">
         <source>unlock.flash.success</source>
-        <target state="translated">You have successfully unlocked this user</target>
+        <target>You have successfully unlocked this user</target>
       </trans-unit>
       <trans-unit id="52irAYj" resname="delete.flash.success">
         <source>delete.flash.success</source>
-        <target state="translated">You have successfully deleted this user</target>
+        <target>You have successfully deleted this user</target>
       </trans-unit>
       <trans-unit id="d1yr8Dr" resname="undelete.flash.success">
         <source>undelete.flash.success</source>
-        <target state="translated">You have successfully undeleted this user</target>
+        <target>You have successfully undeleted this user</target>
       </trans-unit>
       <trans-unit id="crsUuu2" resname="detail.user_is_locked">
         <source>detail.user_is_locked</source>
-        <target state="translated">User is locked</target>
+        <target>User is locked</target>
       </trans-unit>
-      <trans-unit id="an2t0Zr" resname="users.detail.blocked_by_user">
+      <trans-unit id="7QCKUu." resname="users.detail.blocked_by_user">
         <source>users.detail.blocked_by_user</source>
-        <target state="translated">You are blocked by this user</target>
+        <target>You are blocked by this user</target>
       </trans-unit>
       <trans-unit id="3jnoOel" resname="followers.no_users_yet">
         <source>followers.no_users_yet</source>
-        <target state="translated">No followers yet</target>
+        <target>No followers yet</target>
       </trans-unit>
       <trans-unit id="gxbH0BU" resname="following.no_users_yet">
         <source>following.no_users_yet</source>
-        <target state="translated">No users following yet</target>
+        <target>No users following yet</target>
       </trans-unit>
       <trans-unit id=".puIge4" resname="alert.no_users_yet">
         <source>alert.no_users_yet</source>
-        <target state="translated">No users yet</target>
+        <target>No users yet</target>
       </trans-unit>
-      <trans-unit id="0HI4lcw" resname="follower_requests.user_follower_not_found">
+      <trans-unit id="nELz5xC" resname="follower_requests.user_follower_not_found">
         <source>follower_requests.user_follower_not_found</source>
-        <target state="translated">User follower not found</target>
+        <target>User follower not found</target>
       </trans-unit>
-      <trans-unit id="y2bryYv" resname="follower_requests.delete.flash.success">
+      <trans-unit id="m7aSruL" resname="follower_requests.delete.flash.success">
         <source>follower_requests.delete.flash.success</source>
-        <target state="translated">You have successfully deleted the follower request</target>
+        <target>You have successfully deleted the follower request</target>
       </trans-unit>
-      <trans-unit id="5ZbMTUx" resname="follower_requests.approve.flash.success">
+      <trans-unit id="lJxFGT8" resname="follower_requests.approve.flash.success">
         <source>follower_requests.approve.flash.success</source>
-        <target state="translated">You have successfully approved the follower request</target>
+        <target>You have successfully approved the user</target>
       </trans-unit>
-      <trans-unit id="n4YBJfb" resname="follower_requests.ignore.flash.success">
+      <trans-unit id="U58rSTW" resname="follower_requests.ignore.flash.success">
         <source>follower_requests.ignore.flash.success</source>
-        <target state="translated">You have successfully ignored the follower request</target>
+        <target>You have successfully ignored the follower request</target>
       </trans-unit>
-      <trans-unit id="JcNsR4u" resname="follower_requests.alert.no_follower_requests_yet">
+      <trans-unit id="8I6oNAj" resname="follower_requests.alert.no_follower_requests_yet">
         <source>follower_requests.alert.no_follower_requests_yet</source>
-        <target state="translated">No follower requests yet</target>
+        <target>No follower requests yet</target>
+      </trans-unit>
+      <trans-unit id="Cqouzm_" resname="Please enter a reason">
+        <source>Please enter a reason</source>
+        <target>Please enter a reason</target>
       </trans-unit>
     </body>
   </file>

@@ -5,25 +5,25 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="Fn5jOHI" resname="flash.user_with_this_id_not_found">
+      <trans-unit id="9lx4SRK" resname="flash.user_with_this_id_not_found">
         <source>flash.user_with_this_id_not_found</source>
-        <target state="translated">A user with this {provider} account was not found</target>
+        <target>A user with this {provider} account was not found</target>
       </trans-unit>
-      <trans-unit id=".DWSIGe" resname="flash.user_with_this_id_already_exists">
+      <trans-unit id="MTXDS3_" resname="flash.user_with_this_id_already_exists">
         <source>flash.user_with_this_id_already_exists</source>
-        <target state="translated">A user with this {provider} account already exists</target>
+        <target>A user with this {provider} account already exists</target>
       </trans-unit>
       <trans-unit id="DbT5gr0" resname="email_confirm.user_not_found">
         <source>email_confirm.user_not_found</source>
-        <target state="translated">A user with this email and confirmation code was not found</target>
+        <target>A user with this email and confirmation code was not found</target>
       </trans-unit>
       <trans-unit id="5QlqZ_F" resname="email_confirm.flash.success">
         <source>email_confirm.flash.success</source>
-        <target state="translated">You have successfully confirmed your email</target>
+        <target>You have successfully confirmed your email</target>
       </trans-unit>
       <trans-unit id="jn6ZUHr" resname="or_login_with">
         <source>or_login_with</source>
-        <target state="translated">or login with</target>
+        <target>or login with</target>
       </trans-unit>
     </body>
   </file>

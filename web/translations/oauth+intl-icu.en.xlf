@@ -5,21 +5,21 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="ZvPA4vQ" resname="flash.linked_success">
+      <trans-unit id="3O.wMeX" resname="flash.linked_success">
         <source>flash.linked_success</source>
-        <target state="translated">You {provider} account was linked successfully</target>
+        <target>You {provider} account was linked successfully</target>
       </trans-unit>
-      <trans-unit id=".DWSIGe" resname="flash.user_with_this_id_already_exists">
+      <trans-unit id="MTXDS3_" resname="flash.user_with_this_id_already_exists">
         <source>flash.user_with_this_id_already_exists</source>
-        <target state="translated">A user with this {provider} ID already exists</target>
+        <target>A user with this {provider} ID already exists</target>
       </trans-unit>
-      <trans-unit id="5DbSyGe" resname="flash.user_with_this_id_not_found">
+      <trans-unit id="9lx4SRK" resname="flash.user_with_this_id_not_found">
         <source>flash.user_with_this_id_not_found</source>
-        <target state="translated">A user with this {provider} ID was not found</target>
+        <target>A user with this {provider} ID was not found</target>
       </trans-unit>
-      <trans-unit id="2gPpbj2" resname="flash.success">
+      <trans-unit id="g4ahva6" resname="flash.success">
         <source>flash.success</source>
-        <target state="translated">OAuth for {provider} was successful</target>
+        <target>OAuth for {provider} was successful</target>
       </trans-unit>
     </body>
   </file>

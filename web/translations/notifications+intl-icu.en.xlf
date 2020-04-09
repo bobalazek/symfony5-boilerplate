@@ -7,27 +7,27 @@
     <body>
       <trans-unit id="89jY3Xq" resname="read.flash.success">
         <source>read.flash.success</source>
-        <target state="translated">You have successfully marked the notification as read</target>
+        <target>You have successfully marked the notification as read</target>
       </trans-unit>
       <trans-unit id="SECpfKK" resname="unread.flash.success">
         <source>unread.flash.success</source>
-        <target state="translated">You have successfully marked the notification as unread</target>
+        <target>You have successfully marked the notification as unread</target>
       </trans-unit>
       <trans-unit id="g9u3uDb" resname="user_notification_not_found">
         <source>user_notification_not_found</source>
-        <target state="translated">User notification not found</target>
+        <target>User notification not found</target>
       </trans-unit>
       <trans-unit id="uFWmCmu" resname="alert.no_notifications_yet">
         <source>alert.no_notifications_yet</source>
-        <target state="translated">No notifications yet</target>
+        <target>No notifications yet</target>
       </trans-unit>
       <trans-unit id=".wZHR2." resname="text.user.follow">
         <source>text.user.follow</source>
-        <target state="translated">User %user_username% is following you now</target>
+        <target>User %user_username% is following you now</target>
       </trans-unit>
       <trans-unit id="ktyH5g1" resname="text.user.follow.request">
         <source>text.user.follow.request</source>
-        <target state="translated">User %user_username% has sent you a follower request</target>
+        <target>User %user_username% has sent you a follower request</target>
       </trans-unit>
     </body>
   </file>

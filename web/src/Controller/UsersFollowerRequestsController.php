@@ -121,7 +121,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('approve.flash.success', [], 'users')
+            $this->translator->trans('follower_requests.approve.flash.success', [], 'users')
         );
 
         $this->userActionManager->add(
@@ -167,7 +167,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('follower_requests.follower_requests.ignore.flash.success', [], 'users')
+            $this->translator->trans('follower_requests.ignore.flash.success', [], 'users')
         );
 
         $this->userActionManager->add(

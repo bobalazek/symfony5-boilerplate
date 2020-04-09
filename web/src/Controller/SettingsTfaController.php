@@ -86,9 +86,10 @@ class SettingsTfaController extends AbstractController
     }
 
     /**
-     * @Route("/login/tfa/email", name="settings.tfa.email")
+     * @Route("/settings/tfa/email", name="settings.tfa.email")
      */
-    public function email(Request $request): Response {
+    public function email(Request $request): Response
+    {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
@@ -123,9 +124,10 @@ class SettingsTfaController extends AbstractController
     }
 
     /**
-     * @Route("/login/tfa/google-authenticator", name="settings.tfa.google_authenticator")
+     * @Route("/settings/tfa/google-authenticator", name="settings.tfa.google_authenticator")
      */
-    public function googleAuthenticator(Request $request): Response {
+    public function googleAuthenticator(Request $request): Response
+    {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
@@ -160,12 +162,39 @@ class SettingsTfaController extends AbstractController
     }
 
     /**
-     * @Route("/login/tfa/recovery-codes", name="settings.tfa.recovery_codes")
+     * @Route("/settings/tfa/recovery-codes", name="settings.tfa.recovery_codes")
      */
-    public function recoveryCodes(Request $request): Response {
+    public function recoveryCodes(Request $request): Response
+    {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
+        $action = $request->query->get('action');
+
+        if ('regenerate' === $action) {
+            $userTfaRecoveryCodes = $user->getUserTfaRecoveryCodes();
+            foreach ($userTfaRecoveryCodes as $userTfaRecoveryCode) {
+                $this->em->remove($userTfaRecoveryCode);
+            }
+            $this->em->flush();
+
+            $this->_generateUserTfaRecoveryCodes(
+                $user
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.recovery_codes.regenerate.flash.success', [], 'settings')
+            );
+
+            $this->userActionManager->add(
+                'settings.tfa.recovery_codes.regenerate',
+                'User TFA recovery codes were successfully regenerated.'
+            );
+
+            return $this->redirectToRoute('settings.tfa.recovery_codes');
+        }
+
         $userTfaMethod = $this->_getUserTfaMethod(
             UserTfaMethod::METHOD_RECOVERY_CODES,
             $user
@@ -206,7 +235,6 @@ class SettingsTfaController extends AbstractController
             ])
         ;
         if (!$userTfaMethod) {
-            $methodData = $methods[$method];
             $data = null;
 
             if (UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR === $method) {
@@ -214,8 +242,9 @@ class SettingsTfaController extends AbstractController
                     'secret' => $this->googleAuthenticatorManager->generateSecret(),
                 ];
             } elseif (UserTfaMethod::METHOD_RECOVERY_CODES === $method) {
+                $methods = $this->params->get('app.tfa_methods');
+                $methodData = $methods[$method];
                 $this->_generateUserTfaRecoveryCodes(
-                    $methodData['initial_count'],
                     $user
                 );
             }
@@ -234,10 +263,15 @@ class SettingsTfaController extends AbstractController
         return $userTfaMethod;
     }
 
-    private function _generateUserTfaRecoveryCodes(int $count, User $user)
+    private function _generateUserTfaRecoveryCodes(User $user, $count = null)
     {
+        if (null === $count) {
+            $methods = $this->params->get('app.tfa_methods');
+            $count = $methods[UserTfaMethod::METHOD_RECOVERY_CODES]['initial_count'];
+        }
+
         $codesGenerated = 0;
-        while ($codesGenerated < $initialCount) {
+        while ($codesGenerated < $count) {
             $recoveryCode = $this->_generateRandomString(4) .
                 '-' . $this->_generateRandomString(4);
 
@@ -262,15 +296,13 @@ class SettingsTfaController extends AbstractController
             $this->em->persist($userTfaRecoveryCode);
             $this->em->flush();
 
-            $codesGenerated++;
+            ++$codesGenerated;
         }
 
         return true;
     }
 
     /**
-     * @param int $length
-     *
      * @return string
      */
     private function _generateRandomString(int $length = 4)
@@ -279,7 +311,7 @@ class SettingsTfaController extends AbstractController
         $charactersLength = strlen($characters);
         $randomString = '';
 
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
 

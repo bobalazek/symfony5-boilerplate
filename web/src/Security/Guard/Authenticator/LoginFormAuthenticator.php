@@ -4,6 +4,7 @@ namespace App\Security\Guard\Authenticator;
 
 use App\Entity\User;
 use App\Manager\UserActionManager;
+use App\Manager\UserTfaManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,19 +34,22 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $csrfTokenManager;
     private $passwordEncoder;
     private $userActionManager;
+    private $userTfaManager;
 
     public function __construct(
         EntityManagerInterface $em,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        UserActionManager $userActionManager
+        UserActionManager $userActionManager,
+        UserTfaManager $userTfaManager
     ) {
         $this->em = $em;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->userActionManager = $userActionManager;
+        $this->userTfaManager = $userTfaManager;
     }
 
     public function supports(Request $request)
@@ -94,9 +98,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $user = $token->getUser();
         $method = 'email';
 
-        // If login happend via oauth
+        // If login happend via OAuth
         $route = $request->attributes->get('_route');
         if (
             'oauth.' === substr($route, 0, 6) &&
@@ -112,8 +117,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             [
                 'method' => $method,
             ],
-            $token->getUser()
+            $user
         );
+
+        // Will return false when disabled
+        $tfaDefaultMethod = $this->userTfaManager->getDefaultMethod($user);
+        if ($tfaDefaultMethod) {
+            $request->getSession()->set('tfa_method', $tfaDefaultMethod);
+            $request->getSession()->set('tfa_in_progress', true);
+        }
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);

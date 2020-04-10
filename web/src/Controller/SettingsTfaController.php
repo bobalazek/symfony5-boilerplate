@@ -192,7 +192,7 @@ class SettingsTfaController extends AbstractController
         }
 
         $form = $this->createForm(SettingsUserTfaMethodType::class, $userTfaMethod, [
-            'hide_enabled_field' => false,
+            'hide_enabled_field' => true,
             'show_code_field' => true,
         ]);
         $form->handleRequest($request);

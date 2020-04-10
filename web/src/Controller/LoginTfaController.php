@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\UserTfaEmail;
 use App\Entity\UserTfaMethod;
 use App\Entity\UserTfaRecoveryCode;
 use App\Form\LoginTfaType;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
 use App\Manager\UserTfaManager;
+use App\Utils\StringHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -57,7 +59,8 @@ class LoginTfaController extends AbstractController
         EntityManagerInterface $em,
         UserActionManager $userActionManager,
         GoogleAuthenticatorManager $googleAuthenticatorManager,
-        UserTfaManager $userTfaManager
+        UserTfaManager $userTfaManager,
+        \Swift_Mailer $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -65,6 +68,7 @@ class LoginTfaController extends AbstractController
         $this->userActionManager = $userActionManager;
         $this->googleAuthenticatorManager = $googleAuthenticatorManager;
         $this->userTfaManager = $userTfaManager;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -159,30 +163,87 @@ class LoginTfaController extends AbstractController
                 $this->em->flush();
             }
 
-            $request->getSession()->remove('tfa_method');
-            $request->getSession()->remove('tfa_in_progress');
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('tfa.flash.success', [], 'login')
-            );
-
-            $this->userActionManager->add(
-                'login.tfa',
-                'User successfully entered the 2FA code',
-                [
-                    'method' => $method,
-                ]
-            );
-
-            return $this->redirectToRoute('home');
+            return $this->_afterSuccess($request, $method);
         }
 
         if (
             $isEmailMethod &&
             $isFormSubmittedAndValid
         ) {
-            // TODO: submit email
+            $userTfaEmail = new UserTfaEmail();
+            $userTfaEmail
+                ->setCode(StringHelper::generate(32, false))
+                ->setUser($user)
+            ;
+
+            $this->em->persist($userTfaEmail);
+            $this->em->flush();
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.email.flash.code_sent', [], 'login')
+            );
+
+            $this->userActionManager->add(
+                'login.tfa.email',
+                'User was sent an TFA email'
+            );
+
+            $emailSubject = $this->translator->trans('tfa_confirm.subject', [
+                '%app_name%' => $this->params->get('app.name'),
+            ], 'emails');
+            $message = (new \Swift_Message($emailSubject))
+                ->setFrom($this->params->get('app.mailer_from'))
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/tfa_confirm.html.twig',
+                        [
+                            'user' => $user,
+                            'user_tfa_email' => $userTfaEmail,
+                        ]
+                    )
+                )
+            ;
+            $this->mailer->send($message);
+
+            return $this->redirectToRoute('login.tfa');
+        }
+
+        $queryCode = $request->query->get('code');
+        if ($queryCode) {
+            $userTfaEmail = $this->em
+                ->getRepository(UserTfaEmail::class)
+                ->findOneBy([
+                    'user' => $user,
+                    'code' => strtoupper($queryCode),
+                    'usedAt' => null,
+                ])
+            ;
+            if (!$userTfaEmail) {
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('tfa.email.flash.code_invalid', [], 'login')
+                );
+
+                $this->userActionManager->add(
+                    'login.tfa.fail',
+                    'User tried to enter 2FA but failed',
+                    [
+                        'method' => $method,
+                        'code' => $queryCode,
+                    ]
+                );
+
+                return $this->redirectToRoute('login.tfa');
+            }
+
+            $userTfaEmail->setUsedAt(new \DateTime());
+
+            $this->em->persist($userTfaEmail);
+            $this->em->flush();
+
+            return $this->_afterSuccess($request, $method);
         }
 
         $methods = $this->params->get('app.tfa_methods');
@@ -204,5 +265,26 @@ class LoginTfaController extends AbstractController
             'methods' => $methods,
             'available_methods' => $availableMethods,
         ]);
+    }
+
+    private function _afterSuccess(Request $request, string $method)
+    {
+        $request->getSession()->remove('tfa_method');
+        $request->getSession()->remove('tfa_in_progress');
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('tfa.flash.success', [], 'login')
+        );
+
+        $this->userActionManager->add(
+            'login.tfa',
+            'User successfully entered the 2FA code',
+            [
+                'method' => $method,
+            ]
+        );
+
+        return $this->redirectToRoute('home');
     }
 }

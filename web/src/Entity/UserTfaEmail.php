@@ -22,7 +22,7 @@ class UserTfaEmail implements Interfaces\StatusInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $token;
+    private $code;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -37,7 +37,7 @@ class UserTfaEmail implements Interfaces\StatusInterface
 
     public function __toString()
     {
-        return $this->getUser() . ' @ ' . $this->getToken();
+        return $this->getUser() . ' @ ' . $this->getCode();
     }
 
     public function getId(): ?int
@@ -45,14 +45,14 @@ class UserTfaEmail implements Interfaces\StatusInterface
         return $this->id;
     }
 
-    public function getToken(): ?string
+    public function getCode(): ?string
     {
-        return $this->token;
+        return $this->code;
     }
 
-    public function setToken(string $token): self
+    public function setCode(string $code): self
     {
-        $this->token = $token;
+        $this->code = $code;
 
         return $this;
     }

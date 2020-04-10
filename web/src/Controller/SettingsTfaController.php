@@ -9,6 +9,7 @@ use App\Form\SettingsTfaType;
 use App\Form\SettingsUserTfaMethodType;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
+use App\Utils\StringHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -349,8 +350,9 @@ class SettingsTfaController extends AbstractController
 
         $codesGenerated = 0;
         while ($codesGenerated < $count) {
-            $recoveryCode = $this->_generateRandomString(4) .
-                '-' . $this->_generateRandomString(4);
+            $recoveryCode = StringHelper::generate(4) .
+                '-' .
+                StringHelper::generate(4);
 
             $existingUserTfaRecoveryCode = $this->em
                 ->getRepository(UserTfaRecoveryCode::class)
@@ -377,21 +379,5 @@ class SettingsTfaController extends AbstractController
         }
 
         return true;
-    }
-
-    /**
-     * @return string
-     */
-    private function _generateRandomString(int $length = 4)
-    {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-
-        for ($i = 0; $i < $length; ++$i) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-
-        return $randomString;
     }
 }

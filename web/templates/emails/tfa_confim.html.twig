@@ -1,0 +1,12 @@
+{% trans_default_domain 'emails' %}
+
+{% set confirm_url = url('login.tfa', {
+    code: user_tfa_email.getCode(),
+}) %}
+
+{{ 'greeting' | trans({
+  '%user_username%': user.getUsername(),
+}) }}
+
+{{ 'tfa_confirm.content' | trans }}
+{{ confirm_url | raw }}

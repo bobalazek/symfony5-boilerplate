@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\UserTfaMethod;
+use App\Entity\UserTfaRecoveryCode;
 use App\Form\LoginTfaType;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
@@ -71,7 +72,8 @@ class LoginTfaController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        if (!$this->getUser()) {
+        $user = $this->getUser();
+        if (!$user) {
             return $this->redirectToRoute('login');
         }
 
@@ -87,11 +89,83 @@ class LoginTfaController extends AbstractController
             'show_code_field' => !$isEmailMethod,
         ]);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $isFormSubmittedAndValid = $form->isSubmitted() && $form->isValid();
+        if (
+            !$isEmailMethod &&
+            $isFormSubmittedAndValid
+        ) {
+            // TODO: prevent infinite attempts
+
             $formData = $form->getData();
+            $code = trim($formData['code']);
+            if (UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR === $method) {
+                $userTfaMethod = $this->em
+                    ->getRepository(UserTfaMethod::class)
+                    ->findOneBy([
+                        'user' => $user,
+                        'method' => UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR,
+                    ])
+                ;
+                $userTfaMethodData = $userTfaMethod->getData();
+                $secret = $userTfaMethodData['secret'];
+                $isCodeValid = $this->googleAuthenticatorManager->checkCode($secret, $code);
+                if (!$isCodeValid) {
+                    $this->addFlash(
+                        'danger',
+                        $this->translator->trans('tfa.google_authenticator.flash.code_invalid', [], 'login')
+                    );
+
+                    $this->userActionManager->add(
+                        'login.tfa.fail',
+                        'User tried to enter 2FA but failed',
+                        [
+                            'method' => $method,
+                            'code' => $code,
+                        ]
+                    );
+
+                    return $this->redirectToRoute('login.tfa');
+                }
+            } elseif (UserTfaMethod::METHOD_RECOVERY_CODES === $method) {
+                $userTfaRecoveryCode = $this->em
+                    ->getRepository(UserTfaRecoveryCode::class)
+                    ->findOneBy([
+                        'user' => $user,
+                        'recoveryCode' => strtoupper($code),
+                        'usedAt' => null,
+                    ])
+                ;
+                if (!$userTfaRecoveryCode) {
+                    $this->addFlash(
+                        'danger',
+                        $this->translator->trans('tfa.recovery_codes.flash.code_invalid', [], 'login')
+                    );
+
+                    $this->userActionManager->add(
+                        'login.tfa.fail',
+                        'User tried to enter 2FA but failed',
+                        [
+                            'method' => $method,
+                            'code' => $code,
+                        ]
+                    );
+
+                    return $this->redirectToRoute('login.tfa');
+                }
+
+                $userTfaRecoveryCode->setUsedAt(new \DateTime());
+
+                $this->em->persist($userTfaRecoveryCode);
+                $this->em->flush();
+            }
 
             $request->getSession()->remove('tfa_method');
             $request->getSession()->remove('tfa_in_progress');
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'login')
+            );
 
             $this->userActionManager->add(
                 'login.tfa',
@@ -101,7 +175,12 @@ class LoginTfaController extends AbstractController
                 ]
             );
 
-            return $this->redirectToRoute('settings.tfa');
+            return $this->redirectToRoute('home');
+        } elseif (
+            $isEmailMethod &&
+            $isFormSubmittedAndValid
+        ) {
+            // TODO: submit email
         }
 
         $methods = $this->params->get('app.tfa_methods');
@@ -114,7 +193,7 @@ class LoginTfaController extends AbstractController
         ) {
             $request->getSession()->set('tfa_method', $switchMethod);
 
-            return $this->redirectToRoute('settings.tfa');
+            return $this->redirectToRoute('login.tfa');
         }
 
         return $this->render('contents/login/tfa.html.twig', [

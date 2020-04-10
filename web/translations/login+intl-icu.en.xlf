@@ -25,6 +25,22 @@
         <source>or_login_with</source>
         <target>or login with</target>
       </trans-unit>
+      <trans-unit id="_D33RNb" resname="tfa.google_authenticator.alert.helper_text">
+        <source>tfa.google_authenticator.alert.helper_text</source>
+        <target>Please open your google authenticator application and enter the code below</target>
+      </trans-unit>
+      <trans-unit id="3ihuumL" resname="tfa.email.alert.helper_text">
+        <source>tfa.email.alert.helper_text</source>
+        <target>Please click the confim button below, so we can send you the 2FA email</target>
+      </trans-unit>
+      <trans-unit id="0KJz3n5" resname="tfa.recovery_codes.alert.helper_text">
+        <source>tfa.recovery_codes.alert.helper_text</source>
+        <target>Please enter one of your recovery codes below</target>
+      </trans-unit>
+      <trans-unit id="rXwcUpC" resname="tfa.switch_method">
+        <source>tfa.switch_method</source>
+        <target>or switch to another method</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

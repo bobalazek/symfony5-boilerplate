@@ -1,0 +1,42 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Two Factor Authentication' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4 text-center">
+    <h1>{{ 'Two Factor Authentication' | trans }}</h1>
+    {{ form_start(form) }}
+      {% if method == constant('App\\Entity\\UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR') %}
+        <div class="alert alert-info">
+          {{ 'tfa.google_authenticator.alert.helper_text' | trans({}, 'login') }}
+        </div>
+      {% elseif method == constant('App\\Entity\\UserTfaMethod::METHOD_EMAIL') %}
+        <div class="alert alert-info">
+          {{ 'tfa.email.alert.helper_text' | trans({}, 'login') }}
+        </div>
+      {% elseif method == constant('App\\Entity\\UserTfaMethod::METHOD_RECOVERY_CODES') %}
+      <div class="alert alert-info">
+        {{ 'tfa.recovery_codes.alert.helper_text' | trans({}, 'login') }}
+      </div>
+      {% endif %}
+      {% if form.code is defined %}
+        {{ form_row(form.code) }}
+      {% endif %}
+      <button class="btn btn-lg btn-block btn-primary" type="submit">
+        {{ 'Confirm' | trans }}
+      </button>
+    {{ form_end(form) }}
+    {% if (available_methods | length) > 1 %}
+      <hr />
+      <h5>{{ 'tfa.switch_method' | trans({}, 'login') }}</h5>
+      {% for available_method in available_methods | filter(available_method => available_method != method) %}
+        <a class="btn btn-light btn-block"
+          href="{{ url('login.tfa', {
+            switch_method: available_method,
+          }) }}">
+          {{ methods[available_method].label }}
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

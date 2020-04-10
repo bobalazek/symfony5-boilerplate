@@ -35,7 +35,8 @@ class UserTfaManager
      *
      * @return false|string
      */
-    public function getDefaultMethod(User $user = null) {
+    public function getDefaultMethod(User $user = null)
+    {
         if (!$user) {
             $user = $this->security->getUser();
         }
@@ -73,7 +74,8 @@ class UserTfaManager
      *
      * @return array
      */
-    public function getAvailableMethods(User $user = null) {
+    public function getAvailableMethods(User $user = null)
+    {
         if (!$user) {
             $user = $this->security->getUser();
         }

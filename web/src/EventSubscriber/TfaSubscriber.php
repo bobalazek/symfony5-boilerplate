@@ -3,10 +3,11 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\AccessMapInterface;
 
 /**
@@ -25,9 +26,11 @@ class TfaSubscriber implements EventSubscriberInterface
     private $accessMap;
 
     public function __construct(
+        Security $security,
         RouterInterface $router/*,
         AccessMapInterface $accessMap*/
     ) {
+        $this->security = $security;
         $this->router = $router;
         //$this->accessMap = $accessMap;
     }
@@ -35,7 +38,10 @@ class TfaSubscriber implements EventSubscriberInterface
     public function onKernelController(ControllerEvent $event)
     {
         $request = $event->getRequest();
-        if ($request->getSession()->get('tfa_in_progress')) {
+        if (
+            $this->security->getUser() &&
+            $request->getSession()->get('tfa_in_progress')
+        ) {
             /*
             // TODO: make that work
             $patterns = $this->accessMap->getPatterns($request);

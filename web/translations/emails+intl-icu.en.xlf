@@ -75,7 +75,15 @@
       </trans-unit>
       <trans-unit id="Z4bZSJV" resname="password_reset_success.content">
         <source>password_reset_success.content</source>
-        <target>You have successfully reset your passwor</target>
+        <target>You have successfully reset your password</target>
+      </trans-unit>
+      <trans-unit id="G99EAIk" resname="tfa_confirm.subject">
+        <source>tfa_confirm.subject</source>
+        <target>%app_name% | 2FA confirmation</target>
+      </trans-unit>
+      <trans-unit id="YpNH6GK" resname="tfa_confirm.content">
+        <source>tfa_confirm.content</source>
+        <target>Please click the link below to confirm your 2FA</target>
       </trans-unit>
     </body>
   </file>

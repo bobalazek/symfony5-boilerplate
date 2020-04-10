@@ -41,6 +41,26 @@
         <source>tfa.switch_method</source>
         <target>or switch to another method</target>
       </trans-unit>
+      <trans-unit id="zYAn4ke" resname="tfa.google_authenticator.flash.code_invalid">
+        <source>tfa.google_authenticator.flash.code_invalid</source>
+        <target>The code you entered is invalid</target>
+      </trans-unit>
+      <trans-unit id="EdD.7md" resname="tfa.recovery_codes.flash.code_invalid">
+        <source>tfa.recovery_codes.flash.code_invalid</source>
+        <target>The code you entered is invalid</target>
+      </trans-unit>
+      <trans-unit id="RohxNz1" resname="tfa.email.flash.code_sent">
+        <source>tfa.email.flash.code_sent</source>
+        <target>The code was successfuly sent to your email. Once you get it, please click the link inside</target>
+      </trans-unit>
+      <trans-unit id="P2TQNJ4" resname="tfa.email.flash.code_invalid">
+        <source>tfa.email.flash.code_invalid</source>
+        <target>The link you were redirected from in invalid or already expeired. Please request a new code</target>
+      </trans-unit>
+      <trans-unit id="qe7MIDa" resname="tfa.flash.success">
+        <source>tfa.flash.success</source>
+        <target>You have successfuly logged in</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

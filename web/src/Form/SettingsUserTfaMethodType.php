@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\UserTfaMethod;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,11 +16,14 @@ class SettingsUserTfaMethodType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['hide_enabled_field']) {
+        if (!$options['hide_enabled_field']) {
             $builder
-                ->add('enabled', CheckboxType::class, [
-                    'label' => 'Enabled',
-                    'required' => false,
+                ->add('enabled', ChoiceType::class, [
+                    'label' => false,
+                    'choices' => [
+                        'Enabled' => true,
+                        'Disabled' => false,
+                    ],
                 ])
             ;
         }
@@ -29,7 +32,7 @@ class SettingsUserTfaMethodType extends AbstractType
             $builder
                 ->add('code', TextType::class, [
                     'label' => 'Code',
-                    'required' => false,
+                    'required' => true,
                 ])
             ;
         }

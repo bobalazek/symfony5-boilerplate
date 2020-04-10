@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\UserTfaMethod;
 use App\Entity\UserTfaRecoveryCode;
+use App\Form\SettingsTfaType;
 use App\Form\SettingsUserTfaMethodType;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
@@ -79,7 +80,28 @@ class SettingsTfaController extends AbstractController
             $methodsEnabled[] = $userTfaMethod->getMethod();
         }
 
+        $form = $this->createForm(SettingsTfaType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
+            );
+
+            $this->userActionManager->add(
+                'settings.tfa',
+                'User 2FA was changed'
+            );
+
+            return $this->redirectToRoute('settings.tfa');
+        }
+
         return $this->render('contents/settings/tfa/index.html.twig', [
+            'form' => $form->createView(),
             'methods' => $methods,
             'methods_enabled' => $methodsEnabled,
         ]);
@@ -112,7 +134,7 @@ class SettingsTfaController extends AbstractController
 
             $this->userActionManager->add(
                 'settings.tfa.email',
-                'User TFA method "email" was edited.'
+                'User 2FA method "email" was edited.'
             );
 
             return $this->redirectToRoute('settings.tfa.email');
@@ -158,7 +180,7 @@ class SettingsTfaController extends AbstractController
 
             $this->userActionManager->add(
                 'settings.tfa.google_authenticator.reset',
-                'User TFA google authenticator was successfully reset.'
+                'User 2FA google authenticator was successfully reset.'
             );
 
             $userTfaMethod->setEnabled(false);
@@ -202,7 +224,7 @@ class SettingsTfaController extends AbstractController
 
             $this->userActionManager->add(
                 'settings.tfa.google_authenticator',
-                'User TFA method "google_authenticator" was edited.'
+                'User 2FA method "google_authenticator" was edited.'
             );
 
             return $this->redirectToRoute('settings.tfa.google_authenticator');
@@ -244,7 +266,7 @@ class SettingsTfaController extends AbstractController
 
             $this->userActionManager->add(
                 'settings.tfa.recovery_codes.regenerate',
-                'User TFA recovery codes were successfully regenerated.'
+                'User 2FA recovery codes were successfully regenerated.'
             );
 
             return $this->redirectToRoute('settings.tfa.recovery_codes');
@@ -269,7 +291,7 @@ class SettingsTfaController extends AbstractController
 
             $this->userActionManager->add(
                 'settings.tfa.recovery_codes',
-                'User TFA method "recovery_codes" was edited.'
+                'User 2FA method "recovery_codes" was edited.'
             );
 
             return $this->redirectToRoute('settings.tfa.recovery_codes');

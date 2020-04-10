@@ -47,7 +47,7 @@
               or path('settings.tfa') in app.request.uri
               ? 'active'
               : '' }}">
-            {{ 'TFA' | trans }}
+            {{ '2FA' | trans }}
           </a>
           <a href="{{ url('settings.blocks') }}"
             class="list-group-item list-group-item-action {{ 'settings.blocks' == app.request.attributes.get('_route')

@@ -1,30 +1,43 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
 {% block main %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>{{ 'Method' | trans }}</th>
-        <th>{{ 'Enabled' | trans }}</th>
-        <th>{{ 'Actions' | trans }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for key, method in methods %}
+  {{ form_start(form) }}
+    {% if app.user.isTfaEnabled() and methods_enabled is empty %}
+      <div class="alert alert-danger">
+        {{ 'tfa.alert.no_methods_enabled' | trans({}, 'settings') }}
+      </div>
+    {% elseif app.user.isTfaEnabled() == false and methods_enabled is not empty %}
+      <div class="alert alert-danger">
+        {{ 'tfa.alert.tfa_not_enabled' | trans({}, 'settings') }}
+      </div>
+    {% endif %}
+    {{ form_row(form.tfaEnabled) }}
+    <table class="table">
+      <thead>
         <tr>
-          <td>{{ method.label }}</td>
-          <td>{{ key in methods_enabled
-            ? ('Yes' | trans)
-            : ('No' | trans) }}</td>
-          <td>
-            <a href="{{ url('settings.tfa.' ~ key, {
-              method: key,
-            }) }}">
-              {{ 'Edit' | trans }}
-            </a>
-          </td>
+          <th>{{ 'Method' | trans }}</th>
+          <th>{{ 'Enabled' | trans }}</th>
+          <th>{{ 'Actions' | trans }}</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for key, method in methods %}
+          <tr>
+            <td>{{ method.label }}</td>
+            <td>{{ key in methods_enabled
+              ? ('Yes' | trans)
+              : ('No' | trans) }}</td>
+            <td>
+              <a href="{{ url('settings.tfa.' ~ key) }}">
+                {{ 'Edit' | trans }}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button class="btn btn-lg btn-block btn-primary" type="submit">
+      {{ 'Save' | trans }}
+    </button>
+  {{ form_end(form) }}
 {% endblock %}

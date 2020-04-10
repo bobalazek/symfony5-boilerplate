@@ -174,6 +174,11 @@ class User implements UserInterface, EquatableInterface, \Serializable
     private $private = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $tfaEnabled = false;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $emailConfirmedAt;
@@ -572,6 +577,23 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function setPrivate(bool $private): self
     {
         $this->private = $private;
+
+        return $this;
+    }
+
+    public function getTfaEnabled(): bool
+    {
+        return $this->tfaEnabled;
+    }
+
+    public function isTfaEnabled(): bool
+    {
+        return $this->getTfaEnabled();
+    }
+
+    public function setTfaEnabled(bool $tfaEnabled): self
+    {
+        $this->tfaEnabled = $tfaEnabled;
 
         return $this;
     }

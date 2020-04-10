@@ -149,6 +149,18 @@
         <source>tfa.recovery_codes.regenerate.flash.success</source>
         <target>Recovery codes were successfully regenerated</target>
       </trans-unit>
+      <trans-unit id="WQAt3i6" resname="tfa.flash.code_invald">
+        <source>tfa.flash.code_invald</source>
+        <target>The code you entered is invald</target>
+      </trans-unit>
+      <trans-unit id="kNoYBjw" resname="tfa.alert.no_methods_enabled">
+        <source>tfa.alert.no_methods_enabled</source>
+        <target>You enabled 2FA, but do not have any methods enabled. Please activate at least one method for the functionality to work</target>
+      </trans-unit>
+      <trans-unit id="H_NCitE" resname="tfa.alert.tfa_not_enabled">
+        <source>tfa.alert.tfa_not_enabled</source>
+        <target>You have enabled at least one 2FA method, but the functionality itself is still disabled</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

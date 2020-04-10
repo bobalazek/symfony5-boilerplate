@@ -481,6 +481,26 @@
         <source>Seach</source>
         <target>Seach</target>
       </trans-unit>
+      <trans-unit id="PEgjRvN" resname="back">
+        <source>back</source>
+        <target>back</target>
+      </trans-unit>
+      <trans-unit id="WneRVer" resname="QR Code">
+        <source>QR Code</source>
+        <target>QR Code</target>
+      </trans-unit>
+      <trans-unit id="5ACXO0O" resname="Secret:">
+        <source>Secret:</source>
+        <target>Secret:</target>
+      </trans-unit>
+      <trans-unit id="2u52BrM" resname="Reset">
+        <source>Reset</source>
+        <target>Reset</target>
+      </trans-unit>
+      <trans-unit id="jOEYyjy" resname="2FA">
+        <source>2FA</source>
+        <target>2FA</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

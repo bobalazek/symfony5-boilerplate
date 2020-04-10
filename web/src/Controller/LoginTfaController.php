@@ -176,7 +176,9 @@ class LoginTfaController extends AbstractController
             );
 
             return $this->redirectToRoute('home');
-        } elseif (
+        }
+
+        if (
             $isEmailMethod &&
             $isFormSubmittedAndValid
         ) {

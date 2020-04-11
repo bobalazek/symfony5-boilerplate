@@ -17,6 +17,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -61,7 +64,7 @@ class LoginTfaController extends AbstractController
         UserActionManager $userActionManager,
         GoogleAuthenticatorManager $googleAuthenticatorManager,
         UserTfaManager $userTfaManager,
-        \Swift_Mailer $mailer
+        MailerInterface $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -227,22 +230,19 @@ class LoginTfaController extends AbstractController
         );
 
         $emailSubject = $this->translator->trans('tfa_confirm.subject', [
-            '%app_name%' => $this->params->get('app.name'),
+            'app_name' => $this->params->get('app.name'),
         ], 'emails');
-        $message = (new \Swift_Message($emailSubject))
-            ->setFrom($this->params->get('app.mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/tfa_confirm.html.twig',
-                    [
-                        'user' => $user,
-                        'user_tfa_email' => $userTfaEmail,
-                    ]
-                )
-            )
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/tfa_confirm.html.twig')
+            ->context([
+                'user' => $user,
+                'user_tfa_email' => $userTfaEmail,
+            ])
         ;
-        $this->mailer->send($message);
+        $this->mailer->send($email);
 
         return $this->redirectToRoute('login.tfa');
     }

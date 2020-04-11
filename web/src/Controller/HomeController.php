@@ -10,6 +10,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 /**
  * Class HomeController.
@@ -32,7 +35,7 @@ class HomeController extends AbstractController
     private $em;
 
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
 
@@ -40,7 +43,7 @@ class HomeController extends AbstractController
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        \Swift_Mailer $mailer
+        MailerInterface $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -100,21 +103,16 @@ class HomeController extends AbstractController
             $data = $form->getData();
 
             $emailSubject = $this->translator->trans('contact.subject', [
-                '%app_name%' => $this->params->get('app.name'),
+                'app_name' => $this->params->get('app.name'),
             ], 'emails');
-            $message = (new \Swift_Message($emailSubject))
-                ->setFrom([
-                    $data['email'] => $data['name'],
-                ])
-                ->setTo($this->params->get('app.mailer_to'))
-                ->setBody(
-                    $this->renderView(
-                        'emails/contact.html.twig',
-                        $data
-                    )
-                )
+            $email = (new TemplatedEmail())
+                ->subject($emailSubject)
+                ->from(new Address($data['email'], $data['name']))
+                ->to($this->params->get('app.mailer_to'))
+                ->htmlTemplate('emails/contact.html.twig')
+                ->context($data)
             ;
-            $this->mailer->send($message);
+            $this->mailer->send($email);
 
             $this->userActionManager->add(
                 'contact',

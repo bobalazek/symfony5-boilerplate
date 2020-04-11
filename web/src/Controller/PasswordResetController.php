@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 /**
  * Class PasswordResetController.
@@ -41,7 +44,7 @@ class PasswordResetController extends AbstractController
     private $passwordEncoder;
 
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
 
@@ -50,7 +53,7 @@ class PasswordResetController extends AbstractController
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserPasswordEncoderInterface $passwordEncoder,
-        \Swift_Mailer $mailer
+        MailerInterface $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -141,19 +144,18 @@ class PasswordResetController extends AbstractController
         $this->em->flush();
 
         $emailSubject = $this->translator->trans('password_reset_success.subject', [
-            '%app_name%' => $this->params->get('app.name'),
+            'app_name' => $this->params->get('app.name'),
         ], 'emails');
-        $message = (new \Swift_Message($emailSubject))
-            ->setFrom($this->params->get('app.mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/password_reset_success.html.twig',
-                    ['user' => $user]
-                )
-            )
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/password_reset_success.html.twig')
+            ->context([
+                'user' => $user,
+            ])
         ;
-        $this->mailer->send($message);
+        $this->mailer->send($email);
 
         return $this->render('contents/password_reset/success.html.twig');
     }
@@ -198,17 +200,16 @@ class PasswordResetController extends AbstractController
         $this->em->flush();
 
         $emailSubject = $this->translator->trans('password_reset.subject', [
-            '%app_name%' => $this->params->get('app.name'),
+            'app_name' => $this->params->get('app.name'),
         ], 'emails');
-        $message = (new \Swift_Message($emailSubject))
-            ->setFrom($this->params->get('app.mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/password_reset.html.twig',
-                    ['user' => $user]
-                )
-            )
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/password_reset.html.twig')
+            ->context([
+                'user' => $user,
+            ])
         ;
         $this->mailer->send($message);
 

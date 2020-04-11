@@ -4,14 +4,14 @@
   {% if app.user.getDeletionConfirmCode() %}
     <div class="alert alert-info">
       {{ 'deletion.alert.confirmation_sent' | trans({
-        '%resend_link_start%': '<a href="' ~ url('settings.deletion', {
+        resend_link_start: '<a href="' ~ url('settings.deletion', {
           action: 'resend_deletion',
         }) ~ '">',
-        '%resend_link_end%': '</a>',
-        '%cancel_link_start%': '<a href="' ~ url('settings.deletion', {
+        resend_link_end: '</a>',
+        cancel_link_start: '<a href="' ~ url('settings.deletion', {
           action: 'cancel_deletion',
         }) ~ '">',
-        '%cancel_link_end%': '</a>',
+        cancel_link_end: '</a>',
       }, 'settings') | raw }}
     </div>
   {% else %}

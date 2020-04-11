@@ -87,6 +87,11 @@ services:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
     command: tail -f /dev/null
+  smtp-mailer:
+    container_name: cw_smtp_mailer
+    image: namshi/smtp
+    networks:
+      - app-network
 networks:
   app-network:
     name: cw_app_network

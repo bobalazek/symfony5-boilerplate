@@ -55,6 +55,7 @@ class TfaSubscriber implements EventSubscriberInterface
             */
 
             $allowedRoutes = [
+                null, // ERROR
                 'logout',
                 'login.tfa',
             ];
@@ -66,10 +67,9 @@ class TfaSubscriber implements EventSubscriberInterface
 
             $url = $this->router->generate('login.tfa');
             $response = new RedirectResponse($url);
-            // TODO: not working
-            /*$event->setController(function () use ($response) {
+            $event->setController(function () use ($response) {
                 return $response;
-            });*/
+            });
         }
     }
 

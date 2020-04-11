@@ -114,7 +114,7 @@ class OauthManager
     /**
      * @param Request $request
      */
-    public function cleanup()
+    public function cleanup(Request $request)
     {
         $request->getSession()->set('_facebook_access_token', null);
         $request->getSession()->set('_google_access_token', null);

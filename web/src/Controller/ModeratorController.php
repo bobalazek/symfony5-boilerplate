@@ -14,38 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ModeratorController extends AbstractController
 {
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var ParameterBagInterface
-     */
-    private $params;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var \Swift_Mailer
-     */
-    private $mailer;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        ParameterBagInterface $params,
-        EntityManagerInterface $em,
-        \Swift_Mailer $mailer
-    ) {
-        $this->translator = $translator;
-        $this->params = $params;
-        $this->em = $em;
-        $this->mailer = $mailer;
-    }
-
-    /**
      * @Route("/moderator", name="moderator")
      */
     public function index()

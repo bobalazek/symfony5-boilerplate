@@ -17,6 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 /**
  * Class RegisterController.
@@ -39,7 +42,7 @@ class RegisterController extends AbstractController
     private $em;
 
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
 
@@ -47,7 +50,7 @@ class RegisterController extends AbstractController
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        \Swift_Mailer $mailer
+        MailerInterface $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -110,19 +113,18 @@ class RegisterController extends AbstractController
             $this->em->flush();
 
             $emailSubject = $this->translator->trans('email_confirm.subject', [
-                '%app_name%' => $this->params->get('app.name'),
+                'app_name' => $this->params->get('app.name'),
             ], 'emails');
-            $message = (new \Swift_Message($emailSubject))
-                ->setFrom($this->params->get('app.mailer_from'))
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'emails/email_confirm.html.twig',
-                        ['user' => $user]
-                    )
-                )
+            $email = (new TemplatedEmail())
+                ->subject($emailSubject)
+                ->from(Address::fromString($this->params->get('app.mailer_from')))
+                ->to($user->getEmail())
+                ->htmlTemplate('emails/email_confirm.html.twig')
+                ->context([
+                    'user' => $user,
+                ])
             ;
-            $this->mailer->send($message);
+            $this->mailer->send($email);
 
             // The default user (corco) should follow the newly registered user
             $defaultUser = $this->em->getRepository(User::class)->findOneById(1);
@@ -174,19 +176,18 @@ class RegisterController extends AbstractController
         $this->em->flush();
 
         $emailSubject = $this->translator->trans('email_confirm_success.subject', [
-            '%app_name%' => $this->params->get('app.name'),
+            'app_name' => $this->params->get('app.name'),
         ], 'emails');
-        $message = (new \Swift_Message($emailSubject))
-            ->setFrom($this->params->get('app.mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/email_confirm_success.html.twig',
-                    ['user' => $user]
-                )
-            )
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/email_confirm_success.html.twig')
+            ->context([
+                'user' => $user,
+            ])
         ;
-        $this->mailer->send($message);
+        $this->mailer->send($email);
 
         $this->addFlash(
             'success',

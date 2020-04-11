@@ -4,9 +4,11 @@
     code: user_tfa_email.getCode(),
 }) %}
 
-{{ 'greeting' | trans({
-  '%user_username%': user.getUsername(),
-}) }}
+<h1>
+  {{ 'greeting' | trans({
+    'user_username': user.getUsername(),
+  }) }}
+</h1>
 
-{{ 'tfa_confirm.content' | trans }}
-{{ confirm_url | raw }}
+<p>{{ 'tfa_confirm.content' | trans() }}</p>
+<p>{{ confirm_url | raw }}</p>

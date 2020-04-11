@@ -103,7 +103,7 @@ class AppExtension extends AbstractExtension
                 ->getRepository(User::class)
                 ->findOneById($data['user_id'])
             ;
-            $textParams['%user_username%'] = $userFollower
+            $textParams['user_username'] = $userFollower
                 ? '<b>' . $userFollower->getUsername() . '</b>'
                 : $this->translator->trans('deleted user');
         }

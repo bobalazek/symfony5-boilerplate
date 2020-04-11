@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 /**
  * Class SettingsDeletionController.
@@ -38,7 +41,7 @@ class SettingsDeletionController extends AbstractController
     private $userActionManager;
 
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
 
@@ -47,7 +50,7 @@ class SettingsDeletionController extends AbstractController
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserActionManager $userActionManager,
-        \Swift_Mailer $mailer
+        MailerInterface $mailer
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -190,19 +193,18 @@ class SettingsDeletionController extends AbstractController
             $this->_deleteUser($user);
 
             $emailSubject = $this->translator->trans('deletion_confirm_success.subject', [
-                '%app_name%' => $this->params->get('app.name'),
+                'app_name' => $this->params->get('app.name'),
             ], 'emails');
-            $message = (new \Swift_Message($emailSubject))
-                ->setFrom($this->params->get('app.mailer_from'))
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'emails/deletion_confirm_success.html.twig',
-                        ['user' => $user]
-                    )
-                )
+            $email = (new TemplatedEmail())
+                ->subject($emailSubject)
+                ->from(Address::fromString($this->params->get('app.mailer_from')))
+                ->to($user->getEmail())
+                ->htmlTemplate('emails/deletion_confirm_success.html.twig')
+                ->context([
+                    'user' => $user,
+                ])
             ;
-            $this->mailer->send($message);
+            $this->mailer->send($email);
 
             $this->addFlash(
                 'success',
@@ -216,19 +218,18 @@ class SettingsDeletionController extends AbstractController
     private function _sendDeletionConfirm($user)
     {
         $emailSubject = $this->translator->trans('deletion_confirm.subject', [
-            '%app_name%' => $this->params->get('app.name'),
+            'app_name' => $this->params->get('app.name'),
         ], 'emails');
-        $message = (new \Swift_Message($emailSubject))
-            ->setFrom($this->params->get('app.mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/deletion_confirm.html.twig',
-                    ['user' => $user]
-                )
-            )
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/deletion_confirm.html.twig')
+            ->context([
+                'user' => $user,
+            ])
         ;
-        $this->mailer->send($message);
+        $this->mailer->send($email);
     }
 
     private function _deleteUser($user)

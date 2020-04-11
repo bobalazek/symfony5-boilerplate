@@ -4,9 +4,11 @@
     deletion_confirm_code: user.getDeletionConfirmCode(),
 }) %}
 
-{{ 'greeting' | trans({
-  '%user_username%': user.getUsername(),
-}) }}
+<h1>
+  {{ 'greeting' | trans({
+    'user_username': user.getUsername(),
+  }) }}
+</h1>
 
-{{ 'deletion_confirm.content' | trans }}
-{{ deletion_confirm_url | raw }}
+<p>{{ 'deletion_confirm.content' | trans }}</p>
+<p>{{ deletion_confirm_url | raw }}</p>

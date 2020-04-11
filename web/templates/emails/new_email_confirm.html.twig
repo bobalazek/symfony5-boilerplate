@@ -4,9 +4,11 @@
     new_email_confirm_code: user.getNewEmailConfirmCode(),
 }) %}
 
-{{ 'greeting' | trans({
-  '%user_username%': user.getUsername(),
-}) }}
+<h1>
+  {{ 'greeting' | trans({
+    'user_username': user.getUsername(),
+  }) }}
+</h1>
 
-{{ 'new_email_confirm.content' | trans }}
-{{ new_email_confirm_url | raw }}
+<p>{{ 'new_email_confirm.content' | trans }}</p>
+<p>{{ new_email_confirm_url | raw }}</p>

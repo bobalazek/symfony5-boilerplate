@@ -7,43 +7,43 @@
     <body>
       <trans-unit id="M0Heh8N" resname="contact.subject">
         <source>contact.subject</source>
-        <target>%app_name% | Contact</target>
+        <target>{app_name} | Contact</target>
       </trans-unit>
       <trans-unit id="Faqgv47" resname="password_reset_success.subject">
         <source>password_reset_success.subject</source>
-        <target>%app_name% | Reset password success</target>
+        <target>{app_name} | Reset password success</target>
       </trans-unit>
       <trans-unit id="t0jsmWP" resname="password_reset.subject">
         <source>password_reset.subject</source>
-        <target>%app_name% | Reset password</target>
+        <target>{app_name} | Reset password</target>
       </trans-unit>
       <trans-unit id="elqewkD" resname="email_confirm.subject">
         <source>email_confirm.subject</source>
-        <target>%app_name% | Email confirmation</target>
+        <target>{app_name} | Email confirmation</target>
       </trans-unit>
       <trans-unit id="jGN8Qri" resname="email_confirm_success.subject">
         <source>email_confirm_success.subject</source>
-        <target>%app_name% | Email confirmation success</target>
+        <target>{app_name} | Email confirmation success</target>
       </trans-unit>
       <trans-unit id="K33rmFD" resname="new_email_confirm_success.subject">
         <source>new_email_confirm_success.subject</source>
-        <target>%app_name% | New email confirmation success</target>
+        <target>{app_name} | New email confirmation success</target>
       </trans-unit>
       <trans-unit id="5BETPbN" resname="new_email_confirm.subject">
         <source>new_email_confirm.subject</source>
-        <target>%app_name% | New email confirmation</target>
+        <target>{app_name} | New email confirmation</target>
       </trans-unit>
       <trans-unit id="kGYSYuq" resname="deletion_confirm_success.subject">
         <source>deletion_confirm_success.subject</source>
-        <target>%app_name% | Account deletion successful</target>
+        <target>{app_name} | Account deletion successful</target>
       </trans-unit>
       <trans-unit id="9YZ6Nq2" resname="deletion_confirm.subject">
         <source>deletion_confirm.subject</source>
-        <target>%app_name% | Account deletion</target>
+        <target>{app_name} | Account deletion</target>
       </trans-unit>
       <trans-unit id="GPawIAt" resname="greeting">
         <source>greeting</source>
-        <target>Hello %user_username%</target>
+        <target>Hello {user_username}</target>
       </trans-unit>
       <trans-unit id="1I5pZCp" resname="deletion_confirm.content">
         <source>deletion_confirm.content</source>
@@ -79,7 +79,7 @@
       </trans-unit>
       <trans-unit id="G99EAIk" resname="tfa_confirm.subject">
         <source>tfa_confirm.subject</source>
-        <target>%app_name% | 2FA confirmation</target>
+        <target>{app_name} | 2FA confirmation</target>
       </trans-unit>
       <trans-unit id="YpNH6GK" resname="tfa_confirm.content">
         <source>tfa_confirm.content</source>

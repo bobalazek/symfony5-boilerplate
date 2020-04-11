@@ -127,7 +127,7 @@
       </trans-unit>
       <trans-unit id="tHt8DjT" resname="deletion.alert.confirmation_sent">
         <source>deletion.alert.confirmation_sent</source>
-        <target>The deletion confirmation email has been sent to your current email address Please click the link inside to confirm it. In case you did not get any code, click %resend_link_start%here%resend_link_end% and we will resend you the email or cancel it %cancel_link_start%here%cancel_link_end%</target>
+        <target>The deletion confirmation email has been sent to your current email address Please click the link inside to confirm it. In case you did not get any code, click {resend_link_start}here{resend_link_end} and we will resend you the email or cancel it {cancel_link_start}here{cancel_link_end}</target>
       </trans-unit>
       <trans-unit id="jl.iN6g" resname="deletion.alert.warning">
         <source>deletion.alert.warning</source>
@@ -135,7 +135,7 @@
       </trans-unit>
       <trans-unit id="ETp1jt0" resname="alert.new_email">
         <source>alert.new_email</source>
-        <target>We have sent you a confirmation email to the new email address (%email%). Please click the link inside to confirm it. In case you did not get any code, click %resend_link_start%here%resend_link_end% and we will resend you the email or cancel it %cancel_link_start%here%cancel_link_end%</target>
+        <target>We have sent you a confirmation email to the new email address ({email}). Please click the link inside to confirm it. In case you did not get any code, click {resend_link_start}here{resend_link_end} and we will resend you the email or cancel it {cancel_link_start}here{cancel_link_end}</target>
       </trans-unit>
       <trans-unit id="E9pytB." resname="oauth.unlink.provider_not_found">
         <source>oauth.unlink.provider_not_found</source>

@@ -23,11 +23,11 @@
       </trans-unit>
       <trans-unit id=".wZHR2." resname="text.user.follow">
         <source>text.user.follow</source>
-        <target>User %user_username% is following you now</target>
+        <target>User {user_username} is following you now</target>
       </trans-unit>
       <trans-unit id="ktyH5g1" resname="text.user.follow.request">
         <source>text.user.follow.request</source>
-        <target>User %user_username% has sent you a follower request</target>
+        <target>User {user_username} has sent you a follower request</target>
       </trans-unit>
     </body>
   </file>

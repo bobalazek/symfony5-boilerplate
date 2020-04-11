@@ -117,14 +117,14 @@ class OauthController extends AbstractController
                 $this->addFlash(
                     'success',
                     $this->translator->trans('flash.linked_success', [
-                        '{provider}' => $provider,
+                        'provider' => $provider,
                     ], 'oauth')
                 );
             } else {
                 $this->addFlash(
                     'danger',
                     $this->translator->trans('flash.user_with_this_id_already_exists', [
-                        '{provider}' => $provider,
+                        'provider' => $provider,
                     ], 'oauth')
                 );
             }
@@ -133,7 +133,7 @@ class OauthController extends AbstractController
                 $this->addFlash(
                     'success',
                     $this->translator->trans('flash.success', [
-                        '{provider}' => $provider,
+                        'provider' => $provider,
                     ], 'oauth')
                 );
 
@@ -148,7 +148,7 @@ class OauthController extends AbstractController
             $this->addFlash(
                 'danger',
                 $this->translator->trans('flash.user_with_this_id_not_found', [
-                    '{provider}' => $provider,
+                    'provider' => $provider,
                 ], 'login')
             );
         } elseif ('register' === $action) {
@@ -159,12 +159,12 @@ class OauthController extends AbstractController
             }
 
             // Cleanup the oauth session
-            $this->oauthManager->cleanup();
+            $this->oauthManager->cleanup($request);
 
             $this->addFlash(
                 'danger',
                 $this->translator->trans('flash.user_with_this_id_already_exists', [
-                    '{provider}' => $provider,
+                    'provider' => $provider,
                 ], 'login')
             );
         }

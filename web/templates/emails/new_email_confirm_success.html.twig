@@ -1,7 +1,9 @@
 {% trans_default_domain 'emails' %}
 
-{{ 'greeting' | trans({
-  '%user_username%': user.getUsername(),
-}) }}
+<h1>
+  {{ 'greeting' | trans({
+    'user_username': user.getUsername(),
+  }) }}
+</h1>
 
-{{ 'new_email_confirm_success.content' | trans }}
+<p>{{ 'new_email_confirm_success.content' | trans }}</p>

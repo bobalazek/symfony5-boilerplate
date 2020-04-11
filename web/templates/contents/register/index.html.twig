@@ -1,12 +1,12 @@
 {% extends 'layouts/bootstrap4.html.twig' %}
 
 {# Strange hack. Doesn't seem to work otherwise #}
-{% set terms_label = 'terms.label' | trans({}, 'register') | replace({
-  '%terms_link_start%': '<a target="_blank" href="' ~ url('terms') ~ '">',
-  '%terms_link_end%': '</a>',
-  '%privacy_link_start%': '<a target="_blank" href="' ~ url('privacy') ~ '">',
-  '%privacy_link_end%': '</a>',
-}) | raw %}
+{% set terms_label = 'terms.label' | trans({
+  terms_link_start: '<a target="_blank" href="' ~ url('terms') ~ '">',
+  terms_link_end: '</a>',
+  privacy_link_start: '<a target="_blank" href="' ~ url('privacy') ~ '">',
+  privacy_link_end: '</a>',
+}, 'register') | raw %}
 
 {% block title %}{{ 'Signup' | trans }} | {{ parent() }}{% endblock %}
 
@@ -26,13 +26,13 @@
     {% if oauth == 'facebook' %}
       <div class="alert alert-info">
         {{ 'alert.linked_with' | trans({
-          '{provider}': 'facebook',
+          provider: 'facebook',
         }, 'register') }}
       </div>
     {% elseif oauth == 'google' %}
       <div class="alert alert-info">
         {{ 'alert.linked_with' | trans({
-          '{provider}': 'google',
+          provider: 'google',
         }, 'register') }}
       </div>
     {% endif %}

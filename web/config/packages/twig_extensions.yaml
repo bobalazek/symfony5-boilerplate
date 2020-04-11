@@ -8,4 +8,3 @@ services:
     Twig\Extensions\DateExtension: null
     Twig\Extensions\IntlExtension: null
     Twig\Extensions\TextExtension: null
-    Twig\Extra\Intl\IntlExtension : null

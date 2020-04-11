@@ -210,6 +210,25 @@ class LoginTfaController extends AbstractController
 
     private function _handleEmailMethod(User $user)
     {
+        $recentUserTfaEmail = $this->em
+            ->getRepository(UserTfaEmail::class)
+            ->createQueryBuilder('ute')
+            ->where('ute.user = :user AND ute.createdAt > :createdAt')
+            ->setMaxResults(1)
+            ->setParameter('user', $user)
+            ->setParameter('createdAt', new \DateTime('-15 minutes'))
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+        if ($recentUserTfaEmail) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('tfa.email.flash.code_already_sent_recently', [], 'login')
+            );
+
+            return $this->redirectToRoute('login.tfa');
+        }
+
         $userTfaEmail = new UserTfaEmail();
         $userTfaEmail
             ->setCode(StringHelper::generate(32, false))

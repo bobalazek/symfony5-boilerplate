@@ -111,9 +111,6 @@ class OauthManager
         throw new \Exception('Provider "' . $provider . '" does not exist.');
     }
 
-    /**
-     * @param Request $request
-     */
     public function cleanup(Request $request)
     {
         $request->getSession()->set('_facebook_access_token', null);

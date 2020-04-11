@@ -121,6 +121,7 @@ class LoginTfaController extends AbstractController
             }
 
             $formData = $form->getData();
+
             return $this->_handleNonEmailMethod(
                 $request,
                 $user,

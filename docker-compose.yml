@@ -99,6 +99,7 @@ services:
     image: namshi/smtp
     networks:
       - app-network
+
 networks:
   app-network:
     name: cw_app_network

@@ -14,15 +14,16 @@ The CorcoViewer project
   * Create a `docker-compose.override.yml` file and set your custom volumes there - just copy the contents from `docker-compose.override.example.yml`
 * Build the app
   * Docker (compose):
-    * Run: `docker-compose up -d`
+    * Run: `docker-compose pull` (pulls down the latest images)
+    * Run: `docker-compose up -d` (boots up all the images)
   * Web - Backend:
-    * Run: `docker exec -ti cw_phpfpm composer install`
-    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
-    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
+    * Run: `docker exec -ti cw_phpfpm composer install` (installs dependencies)
+    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force` (sets up the database schema)
+    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load` (loads the fixtures)
   * Web - Frontend:
-    * Run: `docker exec -ti cw_node_web yarn install`
+    * Run: `docker exec -ti cw_node_web yarn install` (installs dependencies)
   * Game:
-    * Run: `docker exec -ti cw_node_game npm install`
+    * Run: `docker exec -ti cw_node_game npm install` (installs dependencies)
 * You are ready to go to the next step - `Development`!
 
 

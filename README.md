@@ -29,7 +29,7 @@ The CorcoViewer project
 
 ## Development
 
-### Web - Frontend
+### Web
 
 * Before you start working on the web frontend run: `docker exec -ti cw_node_web yarn run watch`
 * Go to your browser and open http://localhost:80 (or whichever port you set in `.env` for the `NGINX_PORT_80` variable)

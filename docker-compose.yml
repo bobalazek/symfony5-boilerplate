@@ -1,6 +1,40 @@
 version: '3.7'
 
 services:
+  php:
+    container_name: cw_php
+    build: ./web/docker/php
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  nginx:
+    container_name: cw_nginx
+    build: ./web/docker/nginx
+    volumes:
+      - .:/var/www
+      - ./web/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./web/docker/nginx/sites/:/etc/nginx/sites-available
+      - ./web/docker/nginx/conf.d/:/etc/nginx/conf.d
+      - ./web/docker/nginx/certs/:/etc/ssl/certs
+    links:
+      - php
+    depends_on:
+      - php
+    networks:
+      - app-network
+    ports:
+      - '${NGINX_PORT_80:-80}:80'
+      - '${NGINX_PORT_443:-443}:443'
+
   mysql:
     container_name: cw_mysql
     build: ./docker/mysql
@@ -27,48 +61,6 @@ services:
     networks:
       - app-network
 
-  nginx:
-    container_name: cw_nginx
-    build: ./web/docker/nginx
-    volumes:
-      - .:/var/www
-      - ./web/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./web/docker/nginx/sites/:/etc/nginx/sites-available
-      - ./web/docker/nginx/conf.d/:/etc/nginx/conf.d
-      - ./web/docker/nginx/certs/:/etc/ssl/certs
-    links:
-      - php
-    depends_on:
-      - php
-    networks:
-      - app-network
-    ports:
-      - '${NGINX_PORT_80:-80}:80'
-      - '${NGINX_PORT_443:-443}:443'
-
-  php:
-    container_name: cw_php
-    build: ./web/docker/php
-    env_file:
-      - .env
-    volumes:
-      - .:/var/www
-    links:
-      - mysql
-      - redis
-    depends_on:
-      - mysql
-    networks:
-      - app-network
-
-  redis:
-    container_name: cw_redis
-    image: redis
-    volumes:
-      - redis-volume:/data
-    networks:
-      - app-network
-
   node-web:
     container_name: cw_node_web
     build: ./web/docker/node
@@ -79,6 +71,20 @@ services:
     networks:
       - app-network
     command: tail -f /dev/null
+
+  redis:
+    container_name: cw_redis
+    image: redis
+    volumes:
+      - redis-volume:/data
+    networks:
+      - app-network
+
+  smtp-server:
+    container_name: cw_smtp_server
+    image: namshi/smtp
+    networks:
+      - app-network
 
   node-game:
     container_name: cw_node_game
@@ -93,12 +99,6 @@ services:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
     command: tail -f /dev/null
-
-  smtp-mailer:
-    container_name: cw_smtp_mailer
-    image: namshi/smtp
-    networks:
-      - app-network
 
 networks:
   app-network:

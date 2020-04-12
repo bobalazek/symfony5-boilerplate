@@ -25,10 +25,11 @@ jobs:
       - name: Frontend (web) - Build the app
         run: docker exec -i cw_node_web yarn run build
 
-      - name: Frontend (game) - Install dependencies
-        run: docker exec -i cw_node_game npm ci
-      - name: Frontend (game) - Build the app
-        run: docker exec -i cw_node_game npm run build
+# Temporary disable because it has some issues with ammo.js
+#      - name: Frontend (game) - Install dependencies
+#        run: docker exec -i cw_node_game npm ci
+#      - name: Frontend (game) - Build the app
+#        run: docker exec -i cw_node_game npm run build
 
       - name: Backend - Lint HTML (twig) templates
         run: docker exec -i cw_phpfpm php bin/console lint:twig templates/

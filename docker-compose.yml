@@ -13,6 +13,7 @@ services:
       - mysql-volume:/var/lib/mysql
     networks:
       - app-network
+
   mysql-test:
     container_name: cw_mysql_test
     build: ./docker/mysql
@@ -25,6 +26,7 @@ services:
       - mysql-test-volume:/var/lib/mysql
     networks:
       - app-network
+
   nginx:
     container_name: cw_nginx
     build: ./web/docker/nginx
@@ -43,6 +45,7 @@ services:
     ports:
       - '${NGINX_PORT_80:-80}:80'
       - '${NGINX_PORT_443:-443}:443'
+
   php-fpm:
     container_name: cw_phpfpm
     build: ./web/docker/php-fpm
@@ -57,6 +60,7 @@ services:
       - mysql
     networks:
       - app-network
+
   redis:
     container_name: cw_redis
     image: redis
@@ -64,6 +68,7 @@ services:
       - redis-volume:/data
     networks:
       - app-network
+
   node-web:
     container_name: cw_node_web
     build: ./web/docker/node
@@ -74,6 +79,7 @@ services:
     networks:
       - app-network
     command: tail -f /dev/null
+
   node-game:
     container_name: cw_node_game
     build: ./game
@@ -87,6 +93,7 @@ services:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
     command: tail -f /dev/null
+
   smtp-mailer:
     container_name: cw_smtp_mailer
     image: namshi/smtp
@@ -96,6 +103,7 @@ networks:
   app-network:
     name: cw_app_network
     driver: bridge
+
 volumes:
   mysql-volume:
   mysql-test-volume:

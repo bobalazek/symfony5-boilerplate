@@ -7,9 +7,9 @@ parameters:
     # General
     app.name: 'Corcoviewer'
     app.twitter_handle: 'corcoviewer'
-    app.description: 'It is going to be HUUUGE!'
+    app.description: 'Just your usual corcoviewer'
     app.keywords: 'corcoviewer'
-    app.mailer_from: Corcoviewer <mailer@corcosoft.com>
+    app.mailer_from: Corcoviewer <mailer@corcoviewer.com>
     app.mailer_to: Borut <bobalazek124@gmail.com>
     app.google.recaptcha.site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     # Credentials

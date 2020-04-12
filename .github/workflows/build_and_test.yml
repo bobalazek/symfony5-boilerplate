@@ -14,11 +14,11 @@ jobs:
         run: docker-compose up -d
 
       - name: Backend - Install dependencies
-        run: docker exec -i cw_phpfpm composer install
+        run: docker exec -i cw_php composer install
       - name: Backend - Update the schema
-        run: docker exec -i cw_phpfpm php bin/console doctrine:schema:update --force
+        run: docker exec -i cw_php php bin/console doctrine:schema:update --force
       - name: Backend - Run fixtures
-        run: docker exec -i cw_phpfpm php bin/console doctrine:fixtures:load --no-interaction
+        run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
 
       - name: Frontend (web) - Install dependencies
         run: docker exec -i cw_node_web yarn install --frozen-lockfile
@@ -32,8 +32,8 @@ jobs:
 #        run: docker exec -i cw_node_game npm run build
 
       - name: Backend - Lint HTML (twig) templates
-        run: docker exec -i cw_phpfpm php bin/console lint:twig templates/
+        run: docker exec -i cw_php php bin/console lint:twig templates/
       - name: Backend - Lint PHP files
-        run: docker exec -i cw_phpfpm php-cs-fixer fix --dry-run
+        run: docker exec -i cw_php php-cs-fixer fix --dry-run
       - name: Backend - Run tests
-        run: docker exec -i cw_phpfpm php bin/phpunit
+        run: docker exec -i cw_php php bin/phpunit

@@ -9,7 +9,7 @@ The CorcoViewer project
 
 * Prepare the environment
   * Create your own `.env` file (copy the contents from `.env.example`)
-    * All the variables in `.env`, will automatically be forwarded to the `cw_phpfpm` container.
+    * All the variables in `.env`, will automatically be forwarded to the `cw_php` container.
     * This is the most convenient way to set the web app variables all in one place. Alternatively you can duplicate the `web/.env` into `web/.env.local` and set your the values for your custom variables there.
   * Create a `docker-compose.override.yml` file and set your custom volumes there - just copy the contents from `docker-compose.override.example.yml`
 * Build the app
@@ -17,9 +17,9 @@ The CorcoViewer project
     * Run: `docker-compose pull` (pulls down the latest images)
     * Run: `docker-compose up -d` (boots up all the images)
   * Web - Backend:
-    * Run: `docker exec -ti cw_phpfpm composer install` (installs dependencies)
-    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force` (sets up the database schema)
-    * Run: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load` (loads the fixtures)
+    * Run: `docker exec -ti cw_php composer install` (installs dependencies)
+    * Run: `docker exec -ti cw_php php bin/console doctrine:schema:update --force` (sets up the database schema)
+    * Run: `docker exec -ti cw_php php bin/console doctrine:fixtures:load` (loads the fixtures)
   * Web - Frontend:
     * Run: `docker exec -ti cw_node_web yarn install` (installs dependencies)
   * Game:
@@ -44,22 +44,22 @@ The CorcoViewer project
 
 ### Web
 
-#### PHP-FPM
+#### PHP
 
-* Install composer dependencies: `docker exec -ti cw_phpfpm composer install`
-* Update composer dependencies: `docker exec -ti cw_phpfpm composer update`
-* Run database schema update: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:update --force`
-* Load fixtures: `docker exec -ti cw_phpfpm php bin/console doctrine:fixtures:load`
-* Run tests: `docker exec -ti cw_phpfpm php bin/phpunit`
-* Make translations: `docker exec -ti cw_phpfpm php bin/console translation:update --dump-messages en --force`
-* PHP-CS-Fixer: `docker exec -ti cw_phpfpm php-cs-fixer fix`
-* Drop database schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:drop --force`
-* Validate database schema: `docker exec -ti cw_phpfpm php bin/console doctrine:schema:validate`
-* Show database mapping: `docker exec -ti cw_phpfpm php bin/console doctrine:mapping:info`
-* Run database migrations: `docker exec -ti cw_phpfpm php bin/console doctrine:migrations:migrate`
-* Lint twig templates: `docker exec -ti cw_phpfpm php bin/console lint/twig templates/`
-* Messenger - consume: `docker exec -ti cw_phpfpm php bin/console messenger:consume async -vvv --time-limit=3600`
-* Messenger - stop workers: `docker exec -ti cw_phpfpm php bin/console messenger:stop-workers`
+* Install composer dependencies: `docker exec -ti cw_php composer install`
+* Update composer dependencies: `docker exec -ti cw_php composer update`
+* Run database schema update: `docker exec -ti cw_php php bin/console doctrine:schema:update --force`
+* Load fixtures: `docker exec -ti cw_php php bin/console doctrine:fixtures:load`
+* Run tests: `docker exec -ti cw_php php bin/phpunit`
+* Make translations: `docker exec -ti cw_php php bin/console translation:update --dump-messages en --force`
+* PHP-CS-Fixer: `docker exec -ti cw_php php-cs-fixer fix`
+* Drop database schema: `docker exec -ti cw_php php bin/console doctrine:schema:drop --force`
+* Validate database schema: `docker exec -ti cw_php php bin/console doctrine:schema:validate`
+* Show database mapping: `docker exec -ti cw_php php bin/console doctrine:mapping:info`
+* Run database migrations: `docker exec -ti cw_php php bin/console doctrine:migrations:migrate`
+* Lint twig templates: `docker exec -ti cw_php php bin/console lint/twig templates/`
+* Messenger - consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
+* Messenger - stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
 
 #### Node
 

@@ -37,18 +37,18 @@ services:
       - ./web/docker/nginx/conf.d/:/etc/nginx/conf.d
       - ./web/docker/nginx/certs/:/etc/ssl/certs
     links:
-      - php-fpm
+      - php
     depends_on:
-      - php-fpm
+      - php
     networks:
       - app-network
     ports:
       - '${NGINX_PORT_80:-80}:80'
       - '${NGINX_PORT_443:-443}:443'
 
-  php-fpm:
-    container_name: cw_phpfpm
-    build: ./web/docker/php-fpm
+  php:
+    container_name: cw_php
+    build: ./web/docker/php
     env_file:
       - .env
     volumes:

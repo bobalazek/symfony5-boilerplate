@@ -5,6 +5,10 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
+      <trans-unit id="X3iUlN5" resname="flash.already_logged_in">
+        <source>flash.already_logged_in</source>
+        <target>Already logged in</target>
+      </trans-unit>
       <trans-unit id="9lx4SRK" resname="flash.user_with_this_id_not_found">
         <source>flash.user_with_this_id_not_found</source>
         <target>A user with this {provider} account was not found</target>
@@ -57,9 +61,17 @@
         <source>tfa.email.flash.code_invalid</source>
         <target>The link you were redirected from in invalid or already expeired. Please request a new code</target>
       </trans-unit>
+      <trans-unit id="w.TPj64" resname="tfa.email.flash.code_already_sent_recently">
+        <source>tfa.email.flash.code_already_sent_recently</source>
+        <target>The code was already sent recently. Please check your email</target>
+      </trans-unit>
       <trans-unit id="qe7MIDa" resname="tfa.flash.success">
         <source>tfa.flash.success</source>
         <target>You have successfuly logged in</target>
+      </trans-unit>
+      <trans-unit id="msrmaed" resname="tfa.flash.too_many_attempts">
+        <source>tfa.flash.too_many_attempts</source>
+        <target>You have tried too many attempts. Please try again in a few more minutes</target>
       </trans-unit>
     </body>
   </file>

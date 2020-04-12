@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserAction;
 use App\Entity\UserTfaEmail;
 use App\Entity\UserTfaMethod;
 use App\Entity\UserTfaRecoveryCode;
@@ -88,6 +89,11 @@ class LoginTfaController extends AbstractController
         $method = $request->getSession()->get('tfa_method');
         $inProgress = $request->getSession()->get('tfa_in_progress');
         if (!$inProgress) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('flash.already_logged_in', [], 'login')
+            );
+
             return $this->redirectToRoute('home');
         }
 
@@ -128,6 +134,7 @@ class LoginTfaController extends AbstractController
             return $this->_handleNonEmailMethod(
                 $request,
                 $user,
+                $method,
                 trim($formData['code'])
             );
         }
@@ -140,9 +147,17 @@ class LoginTfaController extends AbstractController
         ]);
     }
 
-    private function _handleNonEmailMethod(Request $request, User $user, $code)
+    private function _handleNonEmailMethod(Request $request, User $user, $method, $code)
     {
-        // TODO: prevent infinite attempts
+        $failedAttemptsCount = $this->_countFailedAttempts($user);
+        if ($failedAttemptsCount > 5) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('tfa.flash.too_many_attempts', [], 'login')
+            );
+
+            return $this->redirectToRoute('login.tfa');
+        }
 
         if (UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR === $method) {
             $userTfaMethod = $this->em
@@ -270,12 +285,19 @@ class LoginTfaController extends AbstractController
     {
         $userTfaEmail = $this->em
             ->getRepository(UserTfaEmail::class)
-            ->findOneBy([
-                'user' => $user,
-                'code' => strtoupper($code),
-                'usedAt' => null,
-                // TODO: is expired?
-            ])
+            ->createQueryBuilder('ute')
+            ->where('
+                ute.user = :user AND
+                ute.code = :code AND
+                ute.usedAt IS NULL AND
+                ute.createdAt > :createdAt
+            ')
+            ->setMaxResults(1)
+            ->setParameter('user', $user)
+            ->setParameter('code', strtoupper($code))
+            ->setParameter('createdAt', new \DateTime('-15 minutes'))
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
         if (!$userTfaEmail) {
             $this->addFlash(
@@ -301,6 +323,25 @@ class LoginTfaController extends AbstractController
         $this->em->flush();
 
         return $this->_afterSuccess($request, UserTfaMethod::METHOD_EMAIL);
+    }
+
+    private function _countFailedAttempts(User $user): int
+    {
+        return $this->em
+            ->getRepository(UserAction::class)
+            ->createQueryBuilder('ua')
+            ->select('COUNT(ua.id)')
+            ->where('
+                ua.user = :user AND
+                ua.key = :key AND
+                ua.createdAt > :createdAt
+            ')
+            ->setParameter('user', $user)
+            ->setParameter('key', 'login.tfa.fail')
+            ->setParameter('createdAt', new \DateTime('-15 minutes'))
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
     }
 
     private function _afterSuccess(Request $request, string $method)

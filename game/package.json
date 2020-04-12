@@ -2,7 +2,7 @@
     "private": true,
     "dependencies": {
         "@colyseus/monitor": "^0.11.17",
-        "ammo.js": "git://github.com/kripken/ammo.js.git#master",
+        "ammo.js": "git+https://github.com/kripken/ammo.js.git#master",
         "babylonjs": "^4.2.0-alpha.11",
         "babylonjs-gui": "^4.2.0-alpha.11",
         "babylonjs-inspector": "^4.2.0-alpha.11",

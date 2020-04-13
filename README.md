@@ -36,7 +36,7 @@ The CorcoViewer project
 
 ### Game
 
-* Before you start working on the game run: `docker exec -ti cw_node_game npm run dev`
+* Before you start working on the game run: `docker exec -ti cw_node_game npm start`
 * Go to your browser and open http://localhost:8080 (or whichever port you set in `.env` for the `GAME_CLIENT_PORT_8080` variable)
 
 
@@ -72,7 +72,7 @@ The CorcoViewer project
 
 * Install npm dependencies: `docker exec -ti cw_node_game npm install`
 * Update npm dependencies: `docker exec -ti cw_node_game npm update`
-* Watch & build for development: `docker exec -ti cw_node_game npm run dev`
-  * Watch & build only client: `docker exec -ti cw_node_game npm run dev-client`
-  * Watch & build only server: `docker exec -ti cw_node_game npm run dev-server`
+* Watch & build for development: `docker exec -ti cw_node_game npm start`
+  * Watch & build only client: `docker exec -ti cw_node_game npm run start-client`
+  * Watch & build only server: `docker exec -ti cw_node_game npm run start-server`
 * Build for production: `docker exec -ti cw_node_game npm run build`

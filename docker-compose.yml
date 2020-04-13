@@ -37,7 +37,7 @@ services:
 
   mysql:
     container_name: cw_mysql
-    build: ./docker/mysql
+    build: ./web/docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
       - MYSQL_USER=${MYSQL_USER:-user}
@@ -50,7 +50,7 @@ services:
 
   mysql-test:
     container_name: cw_mysql_test
-    build: ./docker/mysql
+    build: ./web/docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
       - MYSQL_USER=${MYSQL_USER:-user}

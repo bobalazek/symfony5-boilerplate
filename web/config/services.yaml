@@ -35,20 +35,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    # Redis
-    Redis:
-        class: Redis
-        calls:
-            - method: connect
-              arguments:
-                  - '%env(REDIS_HOST)%'
-                  - '%env(int:REDIS_PORT)%'
-
-    # Symfony
-    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
-        arguments:
-            - '@Redis'
-
     # App
     App\:
         resource: '../src/*'
@@ -88,3 +74,17 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    # Redis
+    Redis:
+        class: Redis
+        calls:
+            - method: connect
+              arguments:
+                  - '%env(REDIS_HOST)%'
+                  - '%env(int:REDIS_PORT)%'
+
+    # Symfony
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'

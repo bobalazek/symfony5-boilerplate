@@ -132,8 +132,6 @@ class OauthManager
     }
 
     /**
-     * @param Request $request
-     *
      * @return array
      */
     public function getFacebookUser()
@@ -193,8 +191,6 @@ class OauthManager
     }
 
     /**
-     * @param Request $request
-     *
      * @return array
      */
     public function getGoogleUser()

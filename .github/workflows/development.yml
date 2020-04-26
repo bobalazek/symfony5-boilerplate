@@ -1,9 +1,10 @@
-name: CI
+name: Development Workflow
 
 on: [push]
 
 jobs:
   ci:
+    name: CI Pipeline
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

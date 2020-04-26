@@ -150,7 +150,7 @@ class OauthManager
         $accessTokenString = (string) $accessToken;
         $request->getSession()->set('_facebook_access_token', $accessTokenString);
 
-        $facebookUserResponse = $this->getFacebookClient()->get(
+        $facebookUserResponse = $facebookClient->get(
             '/me?fields=id,name,first_name,middle_name,last_name,email',
             $accessToken
         );

@@ -9,11 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Environment variables
-        id: environment-variables
-        run: |
-          echo "::set-output name=yarn_dir::$(yarn cache dir)"
-
       - name: Docker compose - Prepare .env file
         run: cp -b .env.ci .env
       - name: Docker compose - Build & start the containers
@@ -26,19 +21,11 @@ jobs:
       - name: Backend - Run fixtures
         run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
 
-      - name: Frontend (web) - Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.environment-variables.outputs.yarn_dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Frontend (web) - Install dependencies
         run: docker exec -i cw_node_web yarn install --frozen-lockfile
       - name: Frontend (web) - Build the app
         run: docker exec -i cw_node_web yarn run build
 
-# Temporary disable because it has some issues with ammo.js
 #      - name: Frontend (game) - Install dependencies
 #        run: docker exec -i cw_node_game npm ci
 #      - name: Frontend (game) - Build the app

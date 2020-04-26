@@ -1,6 +1,6 @@
 # CorcoViewer
 
-![CI](https://github.com/bobalazek/corcoviewer/workflows/Development+Workflow/badge.svg)
+![CI](https://github.com/bobalazek/corcoviewer/workflows/Development%20Workflow/badge.svg)
 
 The CorcoViewer project
 

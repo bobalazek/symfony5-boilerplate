@@ -70,6 +70,8 @@ class OauthManager
     /**
      * @param string $provider
      *
+     * @throws \Exception if provider does not exist
+     *
      * @return string
      */
     public function getOauthLoginUrl($provider)
@@ -131,10 +133,7 @@ class OauthManager
         return $this->facebookClient;
     }
 
-    /**
-     * @return array
-     */
-    public function getFacebookUser()
+    public function getFacebookUser(): array
     {
         $request = $this->requestStack->getCurrentRequest();
         $accessToken = $request->getSession()->get('_facebook_access_token');
@@ -190,10 +189,7 @@ class OauthManager
         return $this->googleClient;
     }
 
-    /**
-     * @return array
-     */
-    public function getGoogleUser()
+    public function getGoogleUser(): array
     {
         $request = $this->requestStack->getCurrentRequest();
         $accessToken = $request->getSession()->get('_google_access_token');

@@ -60,8 +60,8 @@ The CorcoViewer project
 * Lint twig templates: `docker exec -ti cw_php php bin/console lint:twig templates/`
 * Lint yaml config: `docker exec -ti cw_php php bin/console lint:yaml config/`
 * Lint xliff translations: `docker exec -ti cw_php php bin/console lint:xliff translations/`
-* Messenger - consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
-* Messenger - stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
+* Messenger queue consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
+* Messenger queue stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
 
 #### Node
 

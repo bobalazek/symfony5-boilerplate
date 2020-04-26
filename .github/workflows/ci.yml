@@ -1,9 +1,9 @@
-name: Project build and test
+name: CI
 
 on: [push]
 
 jobs:
-  build_and_test:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,8 +31,12 @@ jobs:
 #      - name: Frontend (game) - Build the app
 #        run: docker exec -i cw_node_game npm run build
 
-      - name: Backend - Lint HTML (twig) templates
+      - name: Backend - Lint twig templates
         run: docker exec -i cw_php php bin/console lint:twig templates/
+      - name: Backend - Lint yaml config
+        run: docker exec -i cw_php php bin/console lint:yaml config/
+      - name: Backend - Lint xliff translations
+        run: docker exec -i cw_php php bin/console lint:xliff translations/
       - name: Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
       - name: Backend - Run tests

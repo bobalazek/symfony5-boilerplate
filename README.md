@@ -1,6 +1,6 @@
 # CorcoViewer
 
-![Project build and test](https://github.com/bobalazek/corcoviewer/workflows/Project%20build%20and%20test/badge.svg)
+![Project build and test](https://github.com/bobalazek/corcoviewer/workflows/CI/badge.svg)
 
 The CorcoViewer project
 

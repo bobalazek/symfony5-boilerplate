@@ -8,7 +8,7 @@ import {
   GAME_SERVER_PORT,
 } from '../Config';
 
-export class DefaultScene extends AbstractNetworkScene {
+export class DefaultNetworkScene extends AbstractNetworkScene {
   public networkHost: string = GAME_SERVER_HOST;
   public networkPort: number = GAME_SERVER_PORT;
 
@@ -48,10 +48,10 @@ export class DefaultScene extends AbstractNetworkScene {
   }
 
   preparePlayerNetworkSync(playerCharacterId: string) {
-    this.networkRoom.send([
+    this.networkRoom.send(
       NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET,
       playerCharacterId
-    ]);
+    );
 
     this.networkReplicate(
       GameManager.babylonScene.getMeshByID(playerCharacterId)

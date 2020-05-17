@@ -107,10 +107,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
         this.networkRoom &&
         lastTransformNodeMatrix !== transformMatrix
       ) {
-        this.networkRoom.send([
+        this.networkRoom.send(
           NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
           [transformNode.id, transformMatrix]
-        ]);
+        );
         lastTransformNodeMatrix = transformMatrix;
       }
     }, updateFrequency);

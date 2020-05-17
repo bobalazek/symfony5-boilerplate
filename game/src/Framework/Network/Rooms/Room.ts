@@ -9,6 +9,18 @@ export abstract class AbstractRoom extends Room {
     console.log('Room created!', options);
 
     this.setState(new RoomState());
+
+    this.onMessageTransformMovementUpdate = this.onMessageTransformMovementUpdate.bind(this);
+    this.onMessagePlayerTransformNodeIdSet = this.onMessagePlayerTransformNodeIdSet.bind(this);
+
+    this.onMessage(
+      NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
+      this.onMessageTransformMovementUpdate
+    );
+    this.onMessage(
+      NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET,
+      this.onMessagePlayerTransformNodeIdSet
+    );
   }
 
   onJoin(client: Client, options: any, auth: any) {
@@ -19,24 +31,25 @@ export abstract class AbstractRoom extends Room {
     this.state.removePlayer(client.sessionId);
   }
 
-  onMessage(client: Client, message: any) {
+  onMessageTransformMovementUpdate(client: Client, message: any) {
+  const sessionId = client.sessionId;
+
+  const id = message[0];
+  const transformMatrix = NetworkSerializer.deserializeTransformNode(message[1]);
+
+  if (typeof this.state.transforms[id] === 'undefined') {
+    this.state.addTransform(id, transformMatrix);
+  } else {
+    this.state.setTransform(id, transformMatrix);
+  }
+}
+
+  onMessagePlayerTransformNodeIdSet(client: Client, message: any) {
     const sessionId = client.sessionId;
-    const action = message[0];
 
-    if (action === NetworkConstants.TRANSFORM_MOVEMENT_UPDATE) {
-      const id = message[1][0];
-      const transformMatrix = NetworkSerializer.deserializeTransformNode(message[1][1]);
+    const id = message;
 
-      if (typeof this.state.transforms[id] === 'undefined') {
-        this.state.addTransform(id, transformMatrix);
-      } else {
-        this.state.setTransform(id, transformMatrix);
-      }
-    } else if (action === NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET) {
-      const id = message[1];
-
-      this.state.players[sessionId].posessedTransformNodeId = id;
-    }
+    this.state.players[sessionId].posessedTransformNodeId = id;
   }
 
   onDispose() {

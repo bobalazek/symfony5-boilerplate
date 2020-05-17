@@ -18,7 +18,9 @@ export class GameManager {
   public static inputManager: InputManager;
   public static controller: ControllerInterface;
 
-  public static boot(config: GameConfigInterface) {
+  public static parameters: any;
+
+  public static boot(config: GameConfigInterface, parameters?: any) {
     this.canvas = <HTMLCanvasElement>document.getElementById('game');
     this.engine = new Engine(
       this.canvas,
@@ -26,6 +28,9 @@ export class GameManager {
       config.engineOptions,
       true
     );
+
+    // Parameters
+    this.parameters = parameters;
 
     // Input manager
     this.inputManager = new InputManager();
@@ -36,21 +41,11 @@ export class GameManager {
     }
     this.inputManager.bindEvents();
 
-    // Game scene
+    // Scene & controller
     this.scene = new config.defaultScene();
 
-    // Prepare game scene & controller
-    let controller = new config.controller();
-    this.scene.setController(controller);
-    this.scene.start();
-
-    // Start scene loading
-    this.scene.load()
-      .then((scene: SceneInterface) => {
-        this.setBabylonScene(scene.babylonScene);
-
-        scene.afterLoadObservable.notifyObservers(scene);
-      });
+    this.setController(new config.controller());
+    this.setScene(this.scene);
 
     // Main render loop
     this.engine.runRenderLoop(() => {
@@ -76,16 +71,65 @@ export class GameManager {
     window.addEventListener('blur', () => {
       this.inputManager.unbindEvents();
     });
+
+    if (config.disableRightClick) {
+      window.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+      });
+    }
+  }
+
+  public static setController(controller: ControllerInterface) {
+    this.controller = controller;
+
+    if (this.scene) {
+      this.scene.setController(this.controller);
+    }
+  }
+
+  public static setScene(scene: SceneInterface) {
+    this.scene = scene;
+
+    this.prepareScene(this.scene);
+  }
+
+  public static prepareScene(scene?: SceneInterface) {
+    if (!scene) {
+      scene = this.scene;
+    }
+
+    if (!scene) {
+      throw new Error('No scene set');
+    }
+
+    scene.setController(this.controller);
+    scene.start();
+
+    return new Promise((resolve) => {
+      scene.load()
+        .then((scene: SceneInterface) => {
+          this.setBabylonScene(scene.babylonScene);
+
+          scene.afterLoadObservable.notifyObservers(scene);
+
+          resolve(this);
+        });
+    });
   }
 
   public static setBabylonScene(scene: Scene) {
     this.babylonScene = scene;
+  }
+
+  public static isSupported(): boolean {
+    return Engine.isSupported();
   }
 }
 
 export interface GameConfigInterface {
   engineOptions: EngineOptions;
   controller: new () => ControllerInterface;
-  inputBindings?: new () => InputBindingsInterface;
   defaultScene: new () => SceneInterface;
+  inputBindings?: new () => InputBindingsInterface;
+  disableRightClick?: boolean;
 }

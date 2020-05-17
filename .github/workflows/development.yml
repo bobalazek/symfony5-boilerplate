@@ -26,10 +26,10 @@ jobs:
       - name: Frontend (web) - Build the app
         run: docker exec -i cw_node_web yarn run build
 
-#      - name: Frontend (game) - Install dependencies
-#        run: docker exec -i cw_node_game npm ci
-#      - name: Frontend (game) - Build the app
-#        run: docker exec -i cw_node_game npm run build
+      - name: Frontend (game) - Install dependencies
+        run: docker exec -i cw_node_game npm ci
+      - name: Frontend (game) - Build the app
+        run: docker exec -i cw_node_game npm run build
 
       - name: Backend - Lint twig templates
         run: docker exec -i cw_php php bin/console lint:twig templates/

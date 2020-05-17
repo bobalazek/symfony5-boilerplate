@@ -29,6 +29,7 @@ RUN pecl install redis
 RUN docker-php-ext-enable redis
 
 # Intl
+RUN apt-get install zlib1g-dev libicu-dev g++ -y
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
 

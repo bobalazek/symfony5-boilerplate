@@ -20,7 +20,7 @@ export class GameManager {
 
   public static parameters: any;
 
-  public static boot(config: GameConfigInterface, parameters?: any) {
+  public static boot(config: GameConfigInterface, parameters?: any): GameManager {
     this.canvas = <HTMLCanvasElement>document.getElementById(config.canvasElementId);
     this.engine = new Engine(
       this.canvas,
@@ -77,23 +77,29 @@ export class GameManager {
         e.preventDefault();
       });
     }
+
+    return this;
   }
 
-  public static setController(controller: ControllerInterface) {
+  public static setController(controller: ControllerInterface): GameManager {
     this.controller = controller;
 
     if (this.scene) {
       this.scene.setController(this.controller);
     }
+
+    return this;
   }
 
-  public static setScene(scene: SceneInterface) {
+  public static setScene(scene: SceneInterface): GameManager {
     this.scene = scene;
 
     this.prepareScene(this.scene);
+
+    return this;
   }
 
-  public static prepareScene(scene?: SceneInterface) {
+  public static prepareScene(scene?: SceneInterface): Promise<GameManager> {
     if (!scene) {
       scene = this.scene;
     }
@@ -117,8 +123,10 @@ export class GameManager {
     });
   }
 
-  public static setBabylonScene(scene: Scene) {
+  public static setBabylonScene(scene: Scene): GameManager {
     this.babylonScene = scene;
+
+    return this;
   }
 
   public static isSupported(): boolean {

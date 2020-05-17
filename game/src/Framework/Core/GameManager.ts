@@ -21,7 +21,7 @@ export class GameManager {
   public static parameters: any;
 
   public static boot(config: GameConfigInterface, parameters?: any) {
-    this.canvas = <HTMLCanvasElement>document.getElementById('game');
+    this.canvas = <HTMLCanvasElement>document.getElementById(config.canvasElementId);
     this.engine = new Engine(
       this.canvas,
       true,
@@ -127,6 +127,7 @@ export class GameManager {
 }
 
 export interface GameConfigInterface {
+  canvasElementId: string;
   engineOptions: EngineOptions;
   controller: new () => ControllerInterface;
   defaultScene: new () => SceneInterface;

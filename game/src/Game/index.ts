@@ -5,6 +5,7 @@ import { ThirdPersonInputBindings } from '../Framework/Gameplay/InputBindings';
 import { DefaultNetworkScene } from './Scenes/DefaultNetworkScene';
 
 GameManager.boot({
+  canvasElementId: 'game',
   engineOptions: {
     stencil: true,
   },

@@ -85,7 +85,9 @@ services:
                   - '%env(int:REDIS_PORT)%'
 
     # Symfony
-    Symfony\Bridge\Monolog\Handler\ElasticsearchLogstashHandler: ~
+    Symfony\Bridge\Monolog\Handler\ElasticsearchLogstashHandler:
+        arguments:
+            - 'http://elasticsearch:9200'
 
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:

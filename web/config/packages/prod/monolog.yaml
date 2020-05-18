@@ -21,6 +21,3 @@ monolog:
             handler: deprecation
             max_level: info
             channels: ["php"]
-#        es:
-#            type: service
-#            id: Symfony\Bridge\Monolog\Handler\ElasticsearchLogstashHandler

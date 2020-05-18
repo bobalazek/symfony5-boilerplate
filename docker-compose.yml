@@ -114,7 +114,7 @@ services:
       - ./web/docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./web/docker/logstash/pipeline:/usr/share/logstash/pipeline
     ports:
-      - '${LOGSTASH_PORT_5000:-5000}:5000'
+      - '${LOGSTASH_PORT_5000:-5000}:5000/udp'
       - '${LOGSTASH_PORT_5044:-5044}:5044'
       - '${LOGSTASH_PORT_9600:-9600}:9600'
     networks:

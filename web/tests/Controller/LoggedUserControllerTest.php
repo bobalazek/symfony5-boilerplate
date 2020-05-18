@@ -38,6 +38,22 @@ class LoggedUserControllerTest extends WebTestCase
         );
     }
 
+    /**
+     * @dataProvider provideNotUrls
+     *
+     * @param mixed $url
+     */
+    public function testPageIsNotSuccessful($url)
+    {
+        $this->client->request('GET', $url);
+
+        $this->assertNotSame(
+            200,
+            $this->client->getResponse()->getStatusCode(),
+            'Url "' . $url . '" failed'
+        );
+    }
+
     public function testIfFollowAndUnfollowWorks()
     {
         $user = $this->em
@@ -137,15 +153,31 @@ class LoggedUserControllerTest extends WebTestCase
     public function provideUrls()
     {
         return [
+            ['/'],
             ['/users/me/follower-requests'],
+            ['/users/me/follower-requests?status=ignored'],
             ['/notifications'],
             ['/settings'],
             ['/settings/image'],
             ['/settings/password'],
             ['/settings/privacy'],
+            ['/settings/oauth'],
+            ['/settings/tfa'],
+            ['/settings/tfa/email'],
+            ['/settings/tfa/google-authenticator'],
+            ['/settings/tfa/recovery-codes'],
             ['/settings/blocks'],
+            ['/settings/actions'],
             ['/settings/export'],
             ['/settings/deletion'],
+        ];
+    }
+
+    public function provideNotUrls()
+    {
+        return [
+            ['/moderator'],
+            ['/users'],
         ];
     }
 }

@@ -71,9 +71,16 @@ class PublicControllerTest extends WebTestCase
             ['/settings/image'],
             ['/settings/password'],
             ['/settings/privacy'],
+            ['/settings/oauth'],
+            ['/settings/tfa'],
+            ['/settings/tfa/email'],
+            ['/settings/tfa/google-authenticator'],
+            ['/settings/tfa/recovery-codes'],
             ['/settings/blocks'],
+            ['/settings/actions'],
             ['/settings/export'],
             ['/settings/deletion'],
+            ['/admin'],
         ];
     }
 }

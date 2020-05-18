@@ -77,6 +77,7 @@ class LoggedUserModeratorControllerTest extends WebTestCase
     public function provideUrls()
     {
         return [
+            ['/'],
             ['/moderator'],
             ['/users'],
         ];

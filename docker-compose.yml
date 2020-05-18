@@ -90,12 +90,11 @@ services:
     container_name: cw_elasticsearch
     build: ./web/docker/elasticsearch
     environment:
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-      ELASTIC_PASSWORD: changeme # username is "elastic"
-      # Use single node discovery in order to disable production mode and avoid bootstrap checks
-      # see https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
-      discovery.type: single-node
-      network.host: localhost
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ELASTIC_PASSWORD=changeme" # username is "elastic"
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - transport.host=localhost
     volumes:
       - elasticsearch-volume:/usr/share/elasticsearch/data
       - ./web/docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml

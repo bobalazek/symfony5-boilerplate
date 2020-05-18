@@ -1,0 +1,7 @@
+ARG LOGSTASH_VERSION=7.6.2
+
+FROM docker.elastic.co/logstash/logstash:${LOGSTASH_VERSION}
+
+EXPOSE 9600
+EXPOSE 5000/tcp
+EXPOSE 5000/udp

@@ -14,7 +14,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - app-network
+      - cw-app-network
 
   nginx:
     container_name: cw_nginx
@@ -30,7 +30,7 @@ services:
     depends_on:
       - php
     networks:
-      - app-network
+      - cw-app-network
     ports:
       - '${NGINX_PORT_80:-80}:80'
       - '${NGINX_PORT_443:-443}:443'
@@ -46,7 +46,7 @@ services:
     volumes:
       - mysql-volume:/var/lib/mysql
     networks:
-      - app-network
+      - cw-app-network
 
   mysql-test:
     container_name: cw_mysql_test
@@ -59,7 +59,7 @@ services:
     volumes:
       - mysql-test-volume:/var/lib/mysql
     networks:
-      - app-network
+      - cw-app-network
 
   node-web:
     container_name: cw_node_web
@@ -69,7 +69,7 @@ services:
     volumes:
       - ./web:/usr/src/app
     networks:
-      - app-network
+      - cw-app-network
     command: tail -f /dev/null
 
   redis:
@@ -78,13 +78,60 @@ services:
     volumes:
       - redis-volume:/data
     networks:
-      - app-network
+      - cw-app-network
 
   smtp-server:
     container_name: cw_smtp_server
     image: namshi/smtp
     networks:
-      - app-network
+      - cw-app-network
+
+  elasticsearch:
+    container_name: cw_elasticsearch
+    build: ./web/docker/elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      ELASTIC_PASSWORD: changeme # username is "elastic"
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks
+      # see https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+      network.host: localhost
+    volumes:
+      - elasticsearch-volume:/usr/share/elasticsearch/data
+      - ./web/docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - '${ELASTICSEARCH_PORT_9200:-9200}:9200'
+      - '${ELASTICSEARCH_PORT_9300:-9300}:9300'
+    networks:
+      - cw-app-network
+
+  logstash:
+    container_name: cw_logstash
+    build: ./web/docker/logstash
+    environment:
+      LS_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - ./web/docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./web/docker/logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - '${LOGSTASH_PORT_5000:-5000}:5000'
+      - '${LOGSTASH_PORT_5044:-5044}:5044'
+      - '${LOGSTASH_PORT_9600:-9600}:9600'
+    networks:
+      - cw-app-network
+
+  kibana:
+    container_name: cw_kibana
+    build: ./web/docker/kibana
+    environment:
+      ELASTICSEARCH_USERNAME: kibana
+      ELASTICSEARCH_PASSWORD: changeme
+    volumes:
+      - ./web/docker/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - '${KIBANA_PORT_5601:-5601}:5601'
+    networks:
+      - cw-app-network
 
   node-game:
     container_name: cw_node_game
@@ -93,15 +140,15 @@ services:
       - .env
     volumes:
       - ./game:/usr/src/app
-    networks:
-      - app-network
     ports:
       - '${GAME_CLIENT_PORT_8080:-8080}:8080'
       - '${GAME_SERVER_PORT_1248:-1248}:1248'
     command: tail -f /dev/null
+    networks:
+      - cw-app-network
 
 networks:
-  app-network:
+  cw-app-network:
     name: cw_app_network
     driver: bridge
 
@@ -109,3 +156,4 @@ volumes:
   mysql-volume:
   mysql-test-volume:
   redis-volume:
+  elasticsearch-volume:

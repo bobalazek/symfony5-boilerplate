@@ -13,4 +13,4 @@ services:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
     networks:
-      - app-network
+      - cw-app-network

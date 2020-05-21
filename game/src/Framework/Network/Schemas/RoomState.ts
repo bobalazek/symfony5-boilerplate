@@ -47,7 +47,8 @@ export class RoomState extends Schema {
       transformId,
       spawnTransformMatrix,
       'player',
-      '{}'
+      '{}',
+      id
     );
   }
 
@@ -64,7 +65,13 @@ export class RoomState extends Schema {
     }
   }
 
-  addTransform(id: string, transformMatrix: any, type: string, parameters: string) {
+  addTransform(
+    id: string,
+    transformMatrix: any,
+    type: string,
+    parameters: string,
+    ownerPlayerId: string
+  ) {
     let transform = new Transform();
 
     transform.id = id;
@@ -72,6 +79,7 @@ export class RoomState extends Schema {
     transform.rotation.set(transformMatrix.rotation);
     transform.type = type;
     transform.parameters = parameters;
+    transform.ownerPlayerId = ownerPlayerId;
 
     this.transforms[id] = transform;
   }

@@ -69,16 +69,20 @@ export abstract class AbstractNetworkScene extends AbstractScene {
 
           mesh.position = Vector3.Lerp(
             mesh.position,
-            mesh.metadata.serverData.position,
+            mesh.metadata.network.serverData.position,
             this.networkInterpolationSmooting
           );
 
-          const serverDataRotation = mesh.metadata.serverData.rotation;
+          const serverDataRotation = mesh.metadata.network.serverData.rotation;
           const rotationQuaternion = Quaternion.RotationYawPitchRoll(
             serverDataRotation.y,
             serverDataRotation.x,
             serverDataRotation.z
           );
+
+          if (!mesh.rotationQuaternion) {
+            mesh.rotationQuaternion = Quaternion.Identity();
+          }
 
           mesh.rotationQuaternion = Quaternion.Slerp(
             mesh.rotationQuaternion,
@@ -90,17 +94,9 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     });
   }
 
-  networkReplicate(transformNode: TransformNode, updateFrequency: number = 100) {
-    if (!transformNode.metadata) {
-      transformNode.metadata = {}
-    }
-
-    transformNode.metadata.network = {
-      serverReplicate: true,
-      serverData: null,
-      serverLastUpdate: null,
-      clientLastUpdate: null,
-    };
+  // TODO: rework that
+  networkReplicateTransform(transformNode: TransformNode, updateFrequency: number = 100) {
+    this.prepareTransformNodeNetworkMetadata(transformNode);
 
     let lastTransformNodeMatrix = null;
     return setInterval(() => {
@@ -116,5 +112,18 @@ export abstract class AbstractNetworkScene extends AbstractScene {
         lastTransformNodeMatrix = transformMatrix;
       }
     }, updateFrequency);
+  }
+
+  prepareTransformNodeNetworkMetadata(transformNode: TransformNode) {
+    if (!transformNode.metadata) {
+      transformNode.metadata = {}
+    }
+
+    transformNode.metadata.network = {
+      serverReplicate: true,
+      serverData: null,
+      serverLastUpdate: null,
+      clientLastUpdate: null,
+    };
   }
 }

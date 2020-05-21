@@ -59,11 +59,46 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
           transform.rotation.y,
           transform.rotation.z
         );
+
+        if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
+          this.controller.posessTransformNode(transformMesh);
+          this.networkReplicateTransform(transformMesh);
+        }
+      }
+    };
+
+    networkRoomState.transforms.onChange = (transform: Transform, key: string) => {
+      if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
+        return;
       }
 
-      if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
-        this.controller.posessTransformNode(transformMesh);
+      let transformNode = this.babylonScene.getMeshByID(transform.id);
+      if (!transformNode) {
+        return;
       }
+
+      if (
+        !transformNode.metadata ||
+        !transformNode.metadata.network
+      ) {
+        this.prepareTransformNodeNetworkMetadata(transformNode);
+      }
+
+      const serverData = {
+        position: new Vector3(
+          transform.position.x,
+          transform.position.y,
+          transform.position.z
+        ),
+        rotation: new Vector3(
+          transform.rotation.x,
+          transform.rotation.y,
+          transform.rotation.z
+        ),
+      };
+
+      transformNode.metadata.network.serverData = serverData;
+      transformNode.metadata.network.serverLastUpdate = (new Date()).getTime();
     };
   }
 }

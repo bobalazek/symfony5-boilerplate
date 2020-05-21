@@ -1,4 +1,3 @@
 export enum NetworkConstants {
   TRANSFORM_MOVEMENT_UPDATE,
-  PLAYER_TRANSFORM_NODE_ID_SET,
 };

@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "start-client": "webpack-dev-server --config webpack.dev.js --inline --progress",
-        "start-server": "nodemon --ext ts --watch src/Game/Network/Rooms --exec DEBUG=colyseus:* ts-node src/Game/server.ts",
+        "start-server": "nodemon --ext ts --watch src/Framework/Network --watch src/Game/Network --exec DEBUG=colyseus:* ts-node src/Game/server.ts",
         "start": "concurrently --kill-others \"npm run start-client\" \"npm run start-server\"",
         "build": "webpack --config webpack.prod.js --progress"
     },

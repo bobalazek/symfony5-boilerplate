@@ -25,6 +25,7 @@ export class RoomState extends Schema {
 
   addPlayer(id: string, name: string) {
     let player = new Player();
+
     player.set({
       sessionId: id,
       name: name,
@@ -34,17 +35,43 @@ export class RoomState extends Schema {
     });
 
     this.players[id] = player;
+
+    // TODO: spawn point?
+    const spawnTransformMatrix = {
+      position: {x: 0, y: 0, z: 0},
+      rotation: {x: 0, y: 0, z: 0},
+    };
+
+    const transformId = 'player_' + id;
+    this.addTransform(
+      transformId,
+      spawnTransformMatrix,
+      'player',
+      '{}'
+    );
   }
 
   removePlayer(id: string) {
-    delete this.players[id]; // TODO: set to undefined, as it's faster?
+    const player = this.players[id];
+    if (player) {
+      for (let i = 0; i < this.transforms.length; i++) {
+        if (this.transforms[i].ownerPlayerId === id) {
+          delete this.transforms[i];
+        }
+      }
+
+      delete this.players[id];
+    }
   }
 
-  addTransform(id: string, transformMatrix: any) {
+  addTransform(id: string, transformMatrix: any, type: string, parameters: string) {
     let transform = new Transform();
+
     transform.id = id;
     transform.position.set(transformMatrix.position);
     transform.rotation.set(transformMatrix.rotation);
+    transform.type = type;
+    transform.parameters = parameters;
 
     this.transforms[id] = transform;
   }

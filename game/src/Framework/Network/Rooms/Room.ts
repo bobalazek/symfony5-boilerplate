@@ -11,15 +11,10 @@ export abstract class AbstractRoom extends Room {
     this.setState(new RoomState());
 
     this.onMessageTransformMovementUpdate = this.onMessageTransformMovementUpdate.bind(this);
-    this.onMessagePlayerTransformNodeIdSet = this.onMessagePlayerTransformNodeIdSet.bind(this);
 
     this.onMessage(
       NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
       this.onMessageTransformMovementUpdate
-    );
-    this.onMessage(
-      NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET,
-      this.onMessagePlayerTransformNodeIdSet
     );
   }
 
@@ -32,24 +27,14 @@ export abstract class AbstractRoom extends Room {
   }
 
   onMessageTransformMovementUpdate(client: Client, message: any) {
-  const sessionId = client.sessionId;
+    const id = message[0];
+    const transformMatrix = NetworkSerializer.deserializeTransformNode(message[1]);
 
-  const id = message[0];
-  const transformMatrix = NetworkSerializer.deserializeTransformNode(message[1]);
-
-  if (typeof this.state.transforms[id] === 'undefined') {
-    this.state.addTransform(id, transformMatrix);
-  } else {
-    this.state.setTransform(id, transformMatrix);
-  }
-}
-
-  onMessagePlayerTransformNodeIdSet(client: Client, message: any) {
-    const sessionId = client.sessionId;
-
-    const id = message;
-
-    this.state.players[sessionId].posessedTransformNodeId = id;
+    if (typeof this.state.transforms[id] === 'undefined') {
+      this.state.addTransform(id, transformMatrix);
+    } else {
+      this.state.setTransform(id, transformMatrix);
+    }
   }
 
   onDispose() {

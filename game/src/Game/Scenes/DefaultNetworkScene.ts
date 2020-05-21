@@ -1,8 +1,12 @@
-import { MeshBuilder } from 'babylonjs';
+import {
+  Vector3,
+  MeshBuilder,
+} from 'babylonjs';
 
 import { GameManager } from '../../Framework/Core/GameManager';
 import { AbstractNetworkScene } from '../../Framework/Scenes/NetworkScene';
-import { NetworkConstants } from '../../Framework/Network/NetworkConstants';
+import { RoomState } from '../../Framework/Network/Schemas/RoomState';
+import { Transform } from '../../Framework/Network/Schemas/Transform';
 import {
   GAME_SERVER_HOST,
   GAME_SERVER_PORT,
@@ -22,10 +26,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       this.prepareEnvironment();
       this.prepareNetworkClientAndJoinRoom('lobby')
         .then(() => {
-          const playerCharacterId = 'player_' + this.networkRoom.sessionId;
           this.prepareNetworkSync();
-          this.preparePlayer(playerCharacterId);
-          this.preparePlayerNetworkSync(playerCharacterId);
         });
 
       // Inspector
@@ -38,23 +39,31 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
     });
   }
 
-  preparePlayer(playerCharacterId: string = 'player') {
-    let playerCharacter = MeshBuilder.CreateCylinder(playerCharacterId, {
-      height: 2,
-    });
-    playerCharacter.position.y = 1;
+  prepareNetworkSync() {
+    super.prepareNetworkSync();
 
-    this.controller.posessTransformNode(playerCharacter);
-  }
+    const networkRoomState = <RoomState>this.networkRoom.state;
+    networkRoomState.transforms.onAdd = (transform: Transform, key: string) => {
+      if (transform.type === 'player') {
+        let transformMesh = MeshBuilder.CreateCylinder(transform.id, {
+          height: 2,
+        });
 
-  preparePlayerNetworkSync(playerCharacterId: string) {
-    this.networkRoom.send(
-      NetworkConstants.PLAYER_TRANSFORM_NODE_ID_SET,
-      playerCharacterId
-    );
+        transformMesh.position = new Vector3(
+          transform.position.x,
+          transform.position.y,
+          transform.position.z
+        );
+        transformMesh.rotation = new Vector3(
+          transform.rotation.x,
+          transform.rotation.y,
+          transform.rotation.z
+        );
+      }
 
-    this.networkReplicate(
-      GameManager.babylonScene.getMeshByID(playerCharacterId)
-    );
+      if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
+        this.controller.posessTransformNode(transformMesh);
+      }
+    };
   }
 }

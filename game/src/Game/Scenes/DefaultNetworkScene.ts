@@ -43,28 +43,16 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
     super.prepareNetworkSync();
 
     const networkRoomState = <RoomState>this.networkRoom.state;
-    networkRoomState.transforms.onAdd = (transform: Transform, key: string) => {
-      if (transform.type === 'player') {
-        let transformMesh = MeshBuilder.CreateCylinder(transform.id, {
-          height: 2,
-        });
 
-        transformMesh.position = new Vector3(
-          transform.position.x,
-          transform.position.y,
-          transform.position.z
-        );
-        transformMesh.rotation = new Vector3(
-          transform.rotation.x,
-          transform.rotation.y,
-          transform.rotation.z
-        );
-
-        if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
-          this.controller.posessTransformNode(transformMesh);
-          this.networkReplicateTransform(transformMesh);
-        }
+    // Transforms
+    this.networkRoom.onStateChange.once((state: RoomState) => {
+      for (let i = 0; i < state.transforms.length; i++) {
+        this.prepareNetworkTransform(state.transforms[i]);
       }
+    });
+
+    networkRoomState.transforms.onAdd = (transform: Transform, key: string) => {
+      this.prepareNetworkTransform(transform);
     };
 
     networkRoomState.transforms.onChange = (transform: Transform, key: string) => {
@@ -100,5 +88,29 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       transformNode.metadata.network.serverData = serverData;
       transformNode.metadata.network.serverLastUpdate = (new Date()).getTime();
     };
+  }
+
+  prepareNetworkTransform(transform: Transform) {
+    if (transform.type === 'player') {
+      let transformMesh = MeshBuilder.CreateCylinder(transform.id, {
+        height: 2,
+      });
+
+      transformMesh.position = new Vector3(
+        transform.position.x,
+        transform.position.y,
+        transform.position.z
+      );
+      transformMesh.rotation = new Vector3(
+        transform.rotation.x,
+        transform.rotation.y,
+        transform.rotation.z
+      );
+
+      if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
+        this.controller.posessTransformNode(transformMesh);
+        this.networkReplicateTransform(transformMesh);
+      }
+    }
   }
 }

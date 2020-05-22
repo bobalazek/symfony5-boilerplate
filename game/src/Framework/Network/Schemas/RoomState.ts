@@ -1,5 +1,6 @@
 import {
   Schema,
+  ArraySchema,
   MapSchema,
   type,
 } from '@colyseus/schema';
@@ -24,9 +25,10 @@ export class RoomState extends Schema {
   @type({ map: Transform })
   transforms = new MapSchema<Transform>();
 
-  @type({ map: Transform })
-  chatMessages = new MapSchema<ChatMessage>();
+  @type([ ChatMessage ])
+  chatMessages = new ArraySchema<ChatMessage>();
 
+  /***** Player *****/
   addPlayer(id: string, name: string) {
     let player = new Player();
 
@@ -56,10 +58,10 @@ export class RoomState extends Schema {
     const transformId = 'player_' + id;
     this.addTransform(
       transformId,
+      id,
       spawnTransformMatrix,
       'player',
-      '{}',
-      id
+      '{}'
     );
   }
 
@@ -76,21 +78,22 @@ export class RoomState extends Schema {
     }
   }
 
+  /***** Transform *****/
   addTransform(
     id: string,
+    sessionId: string,
     transformMatrix: any,
     type: string,
-    parameters: string,
-    sessionId: string
+    parameters: string
   ) {
     let transform = new Transform();
 
     transform.id = id;
+    transform.sessionId = sessionId;
     transform.position.set(transformMatrix.position);
     transform.rotation.set(transformMatrix.rotation);
     transform.type = type;
     transform.parameters = parameters;
-    transform.sessionId = sessionId;
 
     this.transforms[id] = transform;
   }
@@ -102,5 +105,18 @@ export class RoomState extends Schema {
 
   removeTransform(id: string) {
     delete this.transforms[id]; // TODO: set to undefined, as it's faster?
+  }
+
+  /***** Chat message *****/
+  addChatMessage(
+    text: string,
+    sessionId: string
+  ) {
+    let chatMessage = new ChatMessage();
+
+    chatMessage.text = text;
+    chatMessage.sessionId = sessionId;
+
+    this.chatMessages.push(chatMessage);
   }
 }

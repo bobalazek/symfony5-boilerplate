@@ -26,7 +26,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       this.prepareEnvironment();
       this.prepareNetworkClientAndJoinRoom('lobby')
         .then(() => {
-          this.prepareNetworkSync();
+          this.prepareNetworkToReplicateTransformsMovement();
         });
 
       // Inspector
@@ -39,8 +39,8 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
     });
   }
 
-  prepareNetworkSync() {
-    super.prepareNetworkSync();
+  prepareNetworkToReplicateTransformsMovement() {
+    super.prepareNetworkToReplicateTransformsMovement();
 
     const networkRoomState = <RoomState>this.networkRoom.state;
 

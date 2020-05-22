@@ -7,11 +7,12 @@ import {
   Client,
   Room,
 } from 'colyseus.js';
+import Cookies from 'js-cookie'
 
 import { GameManager } from '../Core/GameManager';
 import { AbstractScene } from './Scene';
 import { NetworkSerializer } from '../Network/NetworkSerializer';
-import { NetworkConstants } from '../Network/NetworkConstants';
+import { NetworkRoomConstants } from '../Network/NetworkConstants';
 
 export abstract class AbstractNetworkScene extends AbstractScene {
   public networkHost: string;
@@ -42,6 +43,9 @@ export abstract class AbstractNetworkScene extends AbstractScene {
         this.networkRoom = room;
         this.networkRoomSessionId = room.sessionId;
 
+        Cookies.set('lastNetworkRoomId', room.id);
+        Cookies.set('lastNetworkRoomSessionId', room.sessionId);
+
         resolve(room);
       }).catch(e => {
         reject(e);
@@ -49,7 +53,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     });
   }
 
-  prepareNetworkSync() {
+  prepareNetworkToReplicateTransformsMovement() {
     GameManager.babylonScene.onBeforeRenderObservable.add(() => {
       const now = (new Date()).getTime();
       const meshes = GameManager.babylonScene.meshes; // TODO: optimize
@@ -112,7 +116,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
           lastTransformNodeMatrix !== transformMatrix
         ) {
           this.networkRoom.send(
-            NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
+            NetworkRoomConstants.TRANSFORM_MOVEMENT_UPDATE,
             [transformNode.id, transformMatrix]
           );
 

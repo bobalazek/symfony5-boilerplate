@@ -1,7 +1,7 @@
 import { Room, Client } from 'colyseus';
 
 import { NetworkSerializer } from '../NetworkSerializer';
-import { NetworkConstants } from '../NetworkConstants';
+import { NetworkRoomConstants } from '../NetworkConstants';
 import { RoomState } from '../Schemas/RoomState';
 
 export abstract class AbstractRoom extends Room {
@@ -11,10 +11,16 @@ export abstract class AbstractRoom extends Room {
     this.setState(new RoomState());
 
     this.onMessageTransformMovementUpdate = this.onMessageTransformMovementUpdate.bind(this);
+    this.onMessageNewChatMessage = this.onMessageNewChatMessage.bind(this);
+    this.onMessageLeave = this.onMessageLeave.bind(this);
 
     this.onMessage(
-      NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
+      NetworkRoomConstants.TRANSFORM_MOVEMENT_UPDATE,
       this.onMessageTransformMovementUpdate
+    );
+    this.onMessage(
+      NetworkRoomConstants.NEW_CHAT_MESSAGE,
+      this.onMessageNewChatMessage
     );
   }
 
@@ -47,6 +53,16 @@ export abstract class AbstractRoom extends Room {
     } else {
       this.state.setTransform(id, transformMatrix);
     }
+  }
+
+  onMessageNewChatMessage(client: Client, message: any) {
+    const text = message;
+
+    this.state.addChatMessage(text, client.sessionId);
+  }
+
+  onMessageLeave(client: Client, message: any) {
+    this.disconnect();
   }
 
   onDispose() {

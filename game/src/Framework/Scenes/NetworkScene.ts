@@ -94,24 +94,35 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     });
   }
 
-  // TODO: rework that
-  networkReplicateTransform(transformNode: TransformNode, updateFrequency: number = 100) {
+  prepareNetworkReplicateMovementForLocalTransform(transformNode: TransformNode, updateFrequency: number = 100) {
     this.prepareTransformNodeNetworkMetadata(transformNode);
 
+    let lastUpdate = (new Date()).getTime();
+    let lastUpdateTimeAgo = 0;
     let lastTransformNodeMatrix = null;
-    return setInterval(() => {
-      const transformMatrix = NetworkSerializer.serializeTransformNode(transformNode);
-      if (
-        this.networkRoom &&
-        lastTransformNodeMatrix !== transformMatrix
-      ) {
-        this.networkRoom.send(
-          NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
-          [transformNode.id, transformMatrix]
-        );
-        lastTransformNodeMatrix = transformMatrix;
+
+    GameManager.babylonScene.onAfterRenderObservable.add(() => {
+      const now = (new Date()).getTime();
+      lastUpdateTimeAgo += now - lastUpdate;
+
+      if (lastUpdateTimeAgo > updateFrequency) {
+        const transformMatrix = NetworkSerializer.serializeTransformNode(transformNode);
+        if (
+          this.networkRoom &&
+          lastTransformNodeMatrix !== transformMatrix
+        ) {
+          this.networkRoom.send(
+            NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
+            [transformNode.id, transformMatrix]
+          );
+          lastTransformNodeMatrix = transformMatrix;
+        }
+
+        lastUpdateTimeAgo = 0;
       }
-    }, updateFrequency);
+
+      lastUpdate = now;
+    });
   }
 
   prepareTransformNodeNetworkMetadata(transformNode: TransformNode) {

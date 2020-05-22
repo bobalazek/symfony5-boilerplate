@@ -118,7 +118,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
 
       if (transform.sessionId === this.networkRoomSessionId) {
         this.controller.posessTransformNode(transformMesh);
-        this.networkReplicateTransform(transformMesh);
+        this.prepareNetworkReplicateMovementForLocalTransform(transformMesh);
       }
     }
   }

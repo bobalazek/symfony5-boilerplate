@@ -10,10 +10,20 @@ export abstract class AbstractRoom extends Room {
 
     this.setState(new RoomState());
 
+    this.onMessagePing = this.onMessagePing.bind(this);
+    this.onMessageSetPing = this.onMessageSetPing.bind(this);
     this.onMessageTransformMovementUpdate = this.onMessageTransformMovementUpdate.bind(this);
     this.onMessageNewChatMessage = this.onMessageNewChatMessage.bind(this);
     this.onMessageLeave = this.onMessageLeave.bind(this);
 
+    this.onMessage(
+      NetworkRoomConstants.PING,
+      this.onMessagePing
+    );
+    this.onMessage(
+      NetworkRoomConstants.SET_PING,
+      this.onMessageSetPing
+    );
     this.onMessage(
       NetworkRoomConstants.TRANSFORM_MOVEMENT_UPDATE,
       this.onMessageTransformMovementUpdate
@@ -42,6 +52,14 @@ export abstract class AbstractRoom extends Room {
     } catch (e) {
       this.state.removePlayer(client.sessionId);
     }
+  }
+
+  onMessagePing(client: Client, message: any) {
+    client.send(NetworkRoomConstants.PONG, message);
+  }
+
+  onMessageSetPing(client: Client, message: any) {
+    this.state.players[client.sessionId].ping = message;
   }
 
   onMessageTransformMovementUpdate(client: Client, message: any) {

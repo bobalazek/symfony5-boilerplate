@@ -26,6 +26,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       this.prepareEnvironment();
       this.prepareNetworkClientAndJoinRoom('lobby')
         .then(() => {
+          this.prepareNetworkPing();
           this.prepareNetworkToReplicateTransformsMovement();
         });
 

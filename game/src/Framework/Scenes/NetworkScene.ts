@@ -20,6 +20,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   public networkClient: Client;
   public networkRoom: Room;
   public networkRoomSessionId: string;
+  public readonly networkPingInterval: number = 5000; // in milliseconds
   public readonly networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
   public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
 
@@ -104,7 +105,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   prepareNetworkReplicateMovementForLocalTransform(transformNode: TransformNode, updateFrequency: number = 100) {
     this.prepareTransformNodeNetworkMetadata(transformNode);
 
-    let lastUpdate = (new Date()).getTime();
+    let lastUpdate = 0;
     let lastUpdateTimeAgo = 0;
     let lastTransformNodeMatrix = null;
 
@@ -132,16 +133,50 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     });
   }
 
+  prepareNetworkPing() {
+    let pings = {};
+    let lastUpdate = 0;
+    let lastUpdateTimeAgo = 0;
+
+    GameManager.babylonScene.onAfterRenderObservable.add(() => {
+      const now = (new Date()).getTime();
+      lastUpdateTimeAgo += now - lastUpdate;
+
+      if (lastUpdateTimeAgo > this.networkPingInterval) {
+        pings[now] = true;
+
+        this.networkRoom.send(
+          NetworkRoomConstants.PING,
+          now
+        );
+
+        lastUpdateTimeAgo = 0;
+      }
+
+      lastUpdate = now;
+    });
+
+    this.networkRoom.onMessage(NetworkRoomConstants.PONG, (message) => {
+      const now = (new Date()).getTime();
+      this.networkRoom.send(
+        NetworkRoomConstants.SET_PING,
+        now - message
+      );
+    });
+  }
+
   prepareTransformNodeNetworkMetadata(transformNode: TransformNode) {
     if (!transformNode.metadata) {
       transformNode.metadata = {}
     }
 
-    transformNode.metadata.network = {
-      serverReplicate: true,
-      serverData: null,
-      serverLastUpdate: null,
-      clientLastUpdate: null,
-    };
+    if (!transformNode.metadata.network) {
+      transformNode.metadata.network = {
+        serverReplicate: true,
+        serverData: null,
+        serverLastUpdate: null,
+        clientLastUpdate: null,
+      };
+    }
   }
 }

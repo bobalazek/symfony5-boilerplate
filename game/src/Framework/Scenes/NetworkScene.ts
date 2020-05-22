@@ -69,19 +69,20 @@ export abstract class AbstractNetworkScene extends AbstractScene {
           meshMetadataNetwork.serverLastUpdate !== null &&
           now - meshMetadataNetwork.serverLastUpdate < this.networkInterpolationLastUpdateTolerance
         ) {
-          mesh.metadata.network.clientLastUpdate = now;
+          const serverData = mesh.metadata.network.serverData;
 
+          // Position
           mesh.position = Vector3.Lerp(
             mesh.position,
-            mesh.metadata.network.serverData.position,
+            serverData.position,
             this.networkInterpolationSmooting
           );
 
-          const serverDataRotation = mesh.metadata.network.serverData.rotation;
+          // Rotation
           const rotationQuaternion = Quaternion.RotationYawPitchRoll(
-            serverDataRotation.y,
-            serverDataRotation.x,
-            serverDataRotation.z
+            serverData.rotation.y,
+            serverData.rotation.x,
+            serverData.rotation.z
           );
 
           if (!mesh.rotationQuaternion) {
@@ -93,6 +94,8 @@ export abstract class AbstractNetworkScene extends AbstractScene {
             rotationQuaternion,
             this.networkInterpolationSmooting
           );
+
+          mesh.metadata.network.clientLastUpdate = now;
         }
       }
     });

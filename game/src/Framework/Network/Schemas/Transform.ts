@@ -9,7 +9,7 @@ export class Transform extends Schema {
   id: string;
 
   @type("string")
-  ownerPlayerId: string;
+  sessionId: string;
 
   @type("string")
   type: string;

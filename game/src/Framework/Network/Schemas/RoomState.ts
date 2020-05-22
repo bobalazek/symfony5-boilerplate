@@ -6,6 +6,7 @@ import {
 
 import { Transform } from './Transform';
 import { Player } from './Player';
+import { ChatMessage } from './ChatMessage';
 
 export enum RoomStateStatus {
   PENDING,
@@ -22,6 +23,9 @@ export class RoomState extends Schema {
 
   @type({ map: Transform })
   transforms = new MapSchema<Transform>();
+
+  @type({ map: Transform })
+  chatMessages = new MapSchema<ChatMessage>();
 
   addPlayer(id: string, name: string) {
     let player = new Player();
@@ -56,7 +60,7 @@ export class RoomState extends Schema {
     const player = this.players[id];
     if (player) {
       for (let i = 0; i < this.transforms.length; i++) {
-        if (this.transforms[i].ownerPlayerId === id) {
+        if (this.transforms[i].sessionId === id) {
           delete this.transforms[i];
         }
       }
@@ -70,7 +74,7 @@ export class RoomState extends Schema {
     transformMatrix: any,
     type: string,
     parameters: string,
-    ownerPlayerId: string
+    sessionId: string
   ) {
     let transform = new Transform();
 
@@ -79,7 +83,7 @@ export class RoomState extends Schema {
     transform.rotation.set(transformMatrix.rotation);
     transform.type = type;
     transform.parameters = parameters;
-    transform.ownerPlayerId = ownerPlayerId;
+    transform.sessionId = sessionId;
 
     this.transforms[id] = transform;
   }

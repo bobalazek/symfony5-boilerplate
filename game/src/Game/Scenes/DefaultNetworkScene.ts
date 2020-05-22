@@ -56,7 +56,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
     };
 
     networkRoomState.transforms.onChange = (transform: Transform, key: string) => {
-      if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
+      if (transform.sessionId === this.networkRoomSessionId) {
         return;
       }
 
@@ -107,7 +107,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
         transform.rotation.z
       );
 
-      if (transform.ownerPlayerId === this.networkRoomPlayerSessionId) {
+      if (transform.sessionId === this.networkRoomSessionId) {
         this.controller.posessTransformNode(transformMesh);
         this.networkReplicateTransform(transformMesh);
       }

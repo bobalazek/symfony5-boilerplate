@@ -18,7 +18,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   public networkPort: number;
   public networkClient: Client;
   public networkRoom: Room;
-  public networkRoomPlayerSessionId: string;
+  public networkRoomSessionId: string;
   public readonly networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
   public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
 
@@ -40,7 +40,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     return new Promise((resolve, reject) => {
       this.networkClient.joinOrCreate(roomName, roomOptions).then(room => {
         this.networkRoom = room;
-        this.networkRoomPlayerSessionId = room.sessionId;
+        this.networkRoomSessionId = room.sessionId;
 
         resolve(room);
       }).catch(e => {

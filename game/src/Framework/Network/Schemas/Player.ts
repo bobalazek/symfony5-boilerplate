@@ -11,10 +11,13 @@ export class Player extends Schema {
   name: string;
 
   @type("boolean")
+  connected: boolean = true;
+
+  @type("boolean")
   ready: boolean = false;
 
-  @type("uint16")
-  ping: number = 0;
+  @type("int16")
+  ping: number = -1;
 
   @type("string")
   posessedTransformNodeId: string;

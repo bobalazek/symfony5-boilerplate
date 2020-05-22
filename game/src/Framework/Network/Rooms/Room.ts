@@ -22,8 +22,20 @@ export abstract class AbstractRoom extends Room {
     this.state.addPlayer(client.sessionId, 'John Doe');
   }
 
-  onLeave(client: Client, consented: boolean) {
-    this.state.removePlayer(client.sessionId);
+  async onLeave(client: Client, consented: boolean) {
+    this.state.players[client.sessionId].connected = false;
+
+    try {
+      if (consented) {
+          throw new Error('Consented leave');
+      }
+
+      await this.allowReconnection(client, 10);
+
+      this.state.players[client.sessionId].connected = true;
+    } catch (e) {
+      this.state.removePlayer(client.sessionId);
+    }
   }
 
   onMessageTransformMovementUpdate(client: Client, message: any) {

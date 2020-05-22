@@ -115,10 +115,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
             NetworkConstants.TRANSFORM_MOVEMENT_UPDATE,
             [transformNode.id, transformMatrix]
           );
-          lastTransformNodeMatrix = transformMatrix;
-        }
 
-        lastUpdateTimeAgo = 0;
+          lastTransformNodeMatrix = transformMatrix;
+          lastUpdateTimeAgo = 0;
+        }
       }
 
       lastUpdate = now;

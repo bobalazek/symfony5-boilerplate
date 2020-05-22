@@ -40,10 +40,17 @@ export class RoomState extends Schema {
 
     this.players[id] = player;
 
-    // TODO: spawn point?
     const spawnTransformMatrix = {
-      position: {x: 0, y: 0, z: 0},
-      rotation: {x: 0, y: 0, z: 0},
+      position: {
+        x: Math.floor(Math.random() * 10),
+        y: 0,
+        z: Math.floor(Math.random() * 10),
+      },
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0,
+      },
     };
 
     const transformId = 'player_' + id;
@@ -59,9 +66,9 @@ export class RoomState extends Schema {
   removePlayer(id: string) {
     const player = this.players[id];
     if (player) {
-      for (let i = 0; i < this.transforms.length; i++) {
-        if (this.transforms[i].sessionId === id) {
-          delete this.transforms[i];
+      for (let transformId in this.transforms) {
+        if (this.transforms[transformId].sessionId === id) {
+          delete this.transforms[transformId];
         }
       }
 

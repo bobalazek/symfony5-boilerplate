@@ -88,6 +88,15 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       transformNode.metadata.network.serverData = serverData;
       transformNode.metadata.network.serverLastUpdate = (new Date()).getTime();
     };
+
+    networkRoomState.transforms.onRemove = (transform: Transform, key: string) => {
+      let transformNode = this.babylonScene.getMeshByID(transform.id);
+      if (!transformNode) {
+        return;
+      }
+
+      transformNode.dispose();
+    };
   }
 
   prepareNetworkTransform(transform: Transform) {

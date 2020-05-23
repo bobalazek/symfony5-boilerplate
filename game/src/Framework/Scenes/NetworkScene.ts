@@ -134,7 +134,6 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkPing() {
-    let pings = {};
     let lastUpdate = 0;
     let lastUpdateTimeAgo = 0;
 
@@ -143,8 +142,6 @@ export abstract class AbstractNetworkScene extends AbstractScene {
       lastUpdateTimeAgo += now - lastUpdate;
 
       if (lastUpdateTimeAgo > this.networkPingInterval) {
-        pings[now] = true;
-
         this.networkRoom.send(
           NetworkRoomConstants.PING,
           now

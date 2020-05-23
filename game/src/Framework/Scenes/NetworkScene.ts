@@ -40,7 +40,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     this.prepareNetworkClient();
 
     return new Promise((resolve, reject) => {
-      this.networkClient.joinOrCreate(roomName, roomOptions).then(room => {
+      this.networkClient.joinOrCreate(roomName, roomOptions).then((room: Room) => {
         this.networkRoom = room;
         this.networkRoomSessionId = room.sessionId;
 

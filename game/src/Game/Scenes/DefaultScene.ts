@@ -19,9 +19,6 @@ export class DefaultScene extends AbstractScene {
         this.babylonScene.getMeshByID(playerCharacterId)
       );
 
-      // Inspector
-      this.babylonScene.debugLayer.show();
-
       // Hide preloader
       GameManager.engine.hideLoadingUI();
 

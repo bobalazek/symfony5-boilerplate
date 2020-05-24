@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import basicAuth from 'express-basic-auth';
 import { createServer } from 'http';
 import { Server } from 'colyseus';
 import { monitor } from '@colyseus/monitor';
@@ -22,7 +23,13 @@ const gameServer = new Server({
 
 gameServer.define('lobby', LobbyRoom);
 
-app.use('/colyseus', monitor());
+const basicAuthMiddleware = basicAuth({
+    users: {
+        admin: 'password',
+    },
+    challenge: true
+});
+app.use('/colyseus', basicAuthMiddleware, monitor());
 
 gameServer.listen(GAME_SERVER_PORT);
 

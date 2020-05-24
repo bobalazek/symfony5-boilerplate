@@ -117,4 +117,8 @@ export abstract class AbstractScene implements SceneInterface {
     groundMaterial.diffuseTexture = groundTexture;
     ground.material = groundMaterial;
   }
+
+  prepareInspector() {
+    this.babylonScene.debugLayer.show();
+  }
 }

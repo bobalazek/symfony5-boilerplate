@@ -45,9 +45,6 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
         this.prepareNetworkClientAndJoinLobbyRoom();
       }
 
-      // Inspector
-      this.babylonScene.debugLayer.show();
-
       // Hide preloader
       GameManager.engine.hideLoadingUI();
 

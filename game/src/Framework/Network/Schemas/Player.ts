@@ -19,14 +19,11 @@ export class Player extends Schema {
   @type("int16")
   ping: number = -1;
 
-  @type("string")
-  posessedTransformNodeId: string;
-
   set(player: any) {
     this.sessionId = player.sessionId;
     this.name = player.name;
+    this.connected = player.connected;
     this.ready = player.ready;
     this.ping = player.ping;
-    this.posessedTransformNodeId = player.posessedTransformNodeId;
   }
 }

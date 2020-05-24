@@ -174,16 +174,23 @@ export abstract class AbstractNetworkScene extends AbstractScene {
     this.networkRoom.onMessage(NetworkRoomConstants.PONG, (message) => {
       const now = (new Date()).getTime();
       this.networkRoom.send(
-        NetworkRoomConstants.SET_PING,
+        NetworkRoomConstants.SET_PLAYER_PING,
         now - message
       );
     });
   }
 
+  setNetworkPlayerReady(state: boolean = true) {
+    this.networkRoom.send(
+      NetworkRoomConstants.SET_PLAYER_READY,
+      state
+    );
+  }
+
   doNetworkLeave() {
     this.networkRoom.send(
       NetworkRoomConstants.LEAVE,
-      null
+      true
     );
 
     Cookies.remove('lastNetworkRoomId');

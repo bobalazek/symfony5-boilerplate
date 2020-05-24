@@ -11,7 +11,8 @@ export abstract class AbstractRoom extends Room {
     this.setState(new RoomState());
 
     this.onMessagePing = this.onMessagePing.bind(this);
-    this.onMessageSetPing = this.onMessageSetPing.bind(this);
+    this.onMessageSetPlayerPing = this.onMessageSetPlayerPing.bind(this);
+    this.onMessageSetPlayerReady = this.onMessageSetPlayerReady.bind(this);
     this.onMessageTransformMovementUpdate = this.onMessageTransformMovementUpdate.bind(this);
     this.onMessageNewChatMessage = this.onMessageNewChatMessage.bind(this);
     this.onMessageLeave = this.onMessageLeave.bind(this);
@@ -21,8 +22,12 @@ export abstract class AbstractRoom extends Room {
       this.onMessagePing
     );
     this.onMessage(
-      NetworkRoomConstants.SET_PING,
-      this.onMessageSetPing
+      NetworkRoomConstants.SET_PLAYER_PING,
+      this.onMessageSetPlayerPing
+    );
+    this.onMessage(
+      NetworkRoomConstants.SET_PLAYER_READY,
+      this.onMessageSetPlayerReady
     );
     this.onMessage(
       NetworkRoomConstants.TRANSFORM_MOVEMENT_UPDATE,
@@ -58,8 +63,12 @@ export abstract class AbstractRoom extends Room {
     client.send(NetworkRoomConstants.PONG, message);
   }
 
-  onMessageSetPing(client: Client, message: any) {
-    this.state.players[client.sessionId].ping = message;
+  onMessageSetPlayerPing(client: Client, message: any) {
+    this.state.players[client.sessionId].ping = parseInt(message);
+  }
+
+  onMessageSetPlayerReady(client: Client, message: any) {
+    this.state.players[client.sessionId].ready = !!message;
   }
 
   onMessageTransformMovementUpdate(client: Client, message: any) {

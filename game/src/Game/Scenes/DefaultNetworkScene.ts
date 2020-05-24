@@ -2,6 +2,7 @@ import {
   Vector3,
   MeshBuilder,
 } from 'babylonjs';
+import Cookies from 'js-cookie'
 
 import { GameManager } from '../../Framework/Core/GameManager';
 import { AbstractNetworkScene } from '../../Framework/Scenes/NetworkScene';
@@ -24,11 +25,25 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       this.prepareCamera();
       this.prepareLights();
       this.prepareEnvironment();
-      this.prepareNetworkClientAndJoinRoom('lobby')
-        .then(() => {
-          this.prepareNetworkPing();
-          this.prepareNetworkToReplicateTransformsMovement();
-        });
+
+      const lastNetworkRoomId = Cookies.get('lastNetworkRoomId');
+      const lastNetworkRoomSessionId = Cookies.get('lastNetworkRoomSessionId');
+      if (
+        lastNetworkRoomId &&
+        lastNetworkRoomSessionId
+      ) {
+        this.prepareNetworkReconnect(lastNetworkRoomId, lastNetworkRoomSessionId)
+          .then(() => {
+            this.prepareNetworkPing();
+            this.prepareNetworkToReplicateTransformsMovement();
+          })
+          .catch((throws) => {
+            // Fallback if the room doesn't exist
+            this.prepareNetworkClientAndJoinLobbyRoom();
+          });
+      } else {
+        this.prepareNetworkClientAndJoinLobbyRoom();
+      }
 
       // Inspector
       this.babylonScene.debugLayer.show();
@@ -38,6 +53,14 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
 
       resolve(this);
     });
+  }
+
+  prepareNetworkClientAndJoinLobbyRoom() {
+    this.prepareNetworkClientAndJoinRoom('lobby')
+      .then(() => {
+        this.prepareNetworkPing();
+        this.prepareNetworkToReplicateTransformsMovement();
+      });
   }
 
   prepareNetworkToReplicateTransformsMovement() {

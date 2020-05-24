@@ -22,7 +22,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   public networkRoomSessionId: string;
   public readonly networkPingInterval: number = 5000; // in milliseconds
   public readonly networkInterpolationSmooting: number = 0.2; // value between 0.1 to 1
-  public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds
+  public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds; only interpolate if the last update is older less than this
 
   prepareNetworkClient() {
     if (!this.networkHost && !this.networkPort) {
@@ -31,9 +31,11 @@ export abstract class AbstractNetworkScene extends AbstractScene {
       );
     }
 
-    this.networkClient = new Client(
-      'ws://' + this.networkHost + ':' + this.networkPort
-    );
+    if (!this.networkClient) {
+      this.networkClient = new Client(
+        'ws://' + this.networkHost + ':' + this.networkPort
+      );
+    }
   }
 
   prepareNetworkClientAndJoinRoom(roomName: string, roomOptions = {}): Promise<any> {
@@ -46,6 +48,21 @@ export abstract class AbstractNetworkScene extends AbstractScene {
 
         Cookies.set('lastNetworkRoomId', room.id);
         Cookies.set('lastNetworkRoomSessionId', room.sessionId);
+
+        resolve(room);
+      }).catch(e => {
+        reject(e);
+      });
+    });
+  }
+
+  prepareNetworkReconnect(roomId: string, sessionId: string) {
+    this.prepareNetworkClient();
+
+    return new Promise((resolve, reject) => {
+      this.networkClient.reconnect(roomId, sessionId).then((room: Room) => {
+        this.networkRoom = room;
+        this.networkRoomSessionId = room.sessionId;
 
         resolve(room);
       }).catch(e => {
@@ -68,6 +85,7 @@ export abstract class AbstractNetworkScene extends AbstractScene {
           meshMetadataNetwork !== false &&
           meshMetadataNetwork.serverReplicate === true &&
           meshMetadataNetwork.serverLastUpdate !== null &&
+          // TODO: make that different? only update as long the final position/rotation isn't less than a certain tollerance?
           now - meshMetadataNetwork.serverLastUpdate < this.networkInterpolationLastUpdateTolerance
         ) {
           const serverData = mesh.metadata.network.serverData;
@@ -160,6 +178,16 @@ export abstract class AbstractNetworkScene extends AbstractScene {
         now - message
       );
     });
+  }
+
+  doNetworkLeave() {
+    this.networkRoom.send(
+      NetworkRoomConstants.LEAVE,
+      null
+    );
+
+    Cookies.remove('lastNetworkRoomId');
+    Cookies.remove('lastNetworkRoomSessionId');
   }
 
   prepareTransformNodeNetworkMetadata(transformNode: TransformNode) {

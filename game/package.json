@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "@colyseus/monitor": "^0.11.17",
+        "@types/js-cookie": "^2.2.6",
         "babylonjs": "^4.2.0-alpha.16",
         "babylonjs-gui": "^4.2.0-alpha.16",
         "babylonjs-inspector": "^4.2.0-alpha.16",

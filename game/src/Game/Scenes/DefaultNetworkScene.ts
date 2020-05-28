@@ -25,25 +25,7 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
       this.prepareCamera();
       this.prepareLights();
       this.prepareEnvironment();
-
-      const lastNetworkRoomId = Cookies.get('lastNetworkRoomId');
-      const lastNetworkRoomSessionId = Cookies.get('lastNetworkRoomSessionId');
-      if (
-        lastNetworkRoomId &&
-        lastNetworkRoomSessionId
-      ) {
-        this.prepareNetworkReconnect(lastNetworkRoomId, lastNetworkRoomSessionId)
-          .then(() => {
-            this.prepareNetworkPing();
-            this.prepareNetworkToReplicateTransformsMovement();
-          })
-          .catch((throws) => {
-            // Fallback if the room doesn't exist
-            this.prepareNetworkClientAndJoinLobbyRoom();
-          });
-      } else {
-        this.prepareNetworkClientAndJoinLobbyRoom();
-      }
+      this.prepareNetwork();
 
       // Hide preloader
       GameManager.engine.hideLoadingUI();
@@ -52,7 +34,36 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
     });
   }
 
+  prepareNetwork() {
+    if (GameManager.isServer) {
+      return;
+    }
+
+    const lastNetworkRoomId = Cookies.get('lastNetworkRoomId');
+    const lastNetworkRoomSessionId = Cookies.get('lastNetworkRoomSessionId');
+    if (
+      lastNetworkRoomId &&
+      lastNetworkRoomSessionId
+    ) {
+      this.prepareNetworkReconnect(lastNetworkRoomId, lastNetworkRoomSessionId)
+        .then(() => {
+          this.prepareNetworkPing();
+          this.prepareNetworkToReplicateTransformsMovement();
+        })
+        .catch((throws) => {
+          // Fallback if the room doesn't exist
+          this.prepareNetworkClientAndJoinLobbyRoom();
+        });
+    } else {
+      this.prepareNetworkClientAndJoinLobbyRoom();
+    }
+  }
+
   prepareNetworkClientAndJoinLobbyRoom() {
+    if (GameManager.isServer) {
+      return;
+    }
+
     this.prepareNetworkClientAndJoinRoom('lobby')
       .then(() => {
         this.prepareNetworkPing();
@@ -61,6 +72,10 @@ export class DefaultNetworkScene extends AbstractNetworkScene {
   }
 
   prepareNetworkToReplicateTransformsMovement() {
+    if (GameManager.isServer) {
+      return;
+    }
+
     super.prepareNetworkToReplicateTransformsMovement();
 
     const networkRoomState = <RoomState>this.networkRoom.state;

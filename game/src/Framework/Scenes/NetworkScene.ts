@@ -3,10 +3,7 @@ import {
   Vector3,
   Quaternion,
 } from 'babylonjs';
-import {
-  Client,
-  Room,
-} from 'colyseus.js';
+import { Client, Room } from 'colyseus.js';
 import Cookies from 'js-cookie'
 
 import { GameManager } from '../Core/GameManager';
@@ -25,6 +22,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   public readonly networkInterpolationLastUpdateTolerance: number = 1000; // in milliseconds; only interpolate if the last update is older less than this
 
   prepareNetworkClient() {
+    if (GameManager.isServer) {
+      return;
+    }
+
     if (!this.networkHost && !this.networkPort) {
       throw new Error(
         'A networked room requires you to have `networkHost` and `networkPort` set in your scene class.'
@@ -39,6 +40,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkClientAndJoinRoom(roomName: string, roomOptions = {}): Promise<any> {
+    if (GameManager.isServer) {
+      return;
+    }
+
     this.prepareNetworkClient();
 
     return new Promise((resolve, reject) => {
@@ -57,6 +62,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkReconnect(roomId: string, sessionId: string) {
+    if (GameManager.isServer) {
+      return;
+    }
+
     this.prepareNetworkClient();
 
     return new Promise((resolve, reject) => {
@@ -72,6 +81,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkToReplicateTransformsMovement() {
+    if (GameManager.isServer) {
+      return;
+    }
+
     GameManager.babylonScene.onBeforeRenderObservable.add(() => {
       const now = (new Date()).getTime();
       const meshes = GameManager.babylonScene.meshes; // TODO: optimize
@@ -121,6 +134,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkReplicateMovementForLocalTransform(transformNode: TransformNode, updateFrequency: number = 100) {
+    if (GameManager.isServer) {
+      return;
+    }
+
     this.prepareTransformNodeNetworkMetadata(transformNode);
 
     let lastUpdate = 0;
@@ -152,6 +169,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   prepareNetworkPing() {
+    if (GameManager.isServer) {
+      return;
+    }
+
     let lastUpdate = 0;
     let lastUpdateTimeAgo = 0;
 
@@ -181,6 +202,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   setNetworkPlayerReady(state: boolean = true) {
+    if (GameManager.isServer) {
+      return;
+    }
+
     this.networkRoom.send(
       NetworkRoomConstants.SET_PLAYER_READY,
       state
@@ -188,6 +213,10 @@ export abstract class AbstractNetworkScene extends AbstractScene {
   }
 
   doNetworkLeave() {
+    if (GameManager.isServer) {
+      return;
+    }
+
     this.networkRoom.send(
       NetworkRoomConstants.LEAVE,
       true

@@ -5,6 +5,7 @@ import {
   NullEngineOptions,
   Scene,
 } from 'babylonjs';
+import XMLHttpRequest from 'xhr2';
 
 import { InputManager } from './InputManager';
 import { ControllerInterface } from '../Gameplay/Controller';
@@ -12,6 +13,7 @@ import { InputBindingsInterface } from '../Gameplay/InputBindings';
 import { SceneInterface } from '../Scenes/Scene';
 
 export class GameManager {
+  public static isServer: boolean = false;
   public static canvas: HTMLCanvasElement;
   public static engine: Engine;
   public static babylonScene: Scene;
@@ -24,7 +26,9 @@ export class GameManager {
 
   public static boot(config: GameConfigInterface, parameters?: any): GameManager {
     if (config.isServer) {
-      (<any>global).XMLHttpRequest = require('xhr2').XMLHttpRequest;
+      (<any>global).XMLHttpRequest = XMLHttpRequest;
+
+      this.isServer = true;
 
       this.engine = new NullEngine(
         config.serverEngineOptions

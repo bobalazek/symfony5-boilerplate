@@ -5,11 +5,12 @@ import { ThirdPersonInputBindings } from '../Framework/Gameplay/InputBindings';
 import { DefaultNetworkScene } from './Scenes/DefaultNetworkScene';
 
 GameManager.boot({
+  defaultScene: DefaultNetworkScene,
+  controller: ThirdPersonController,
+  inputBindings: ThirdPersonInputBindings,
+  isServer: false,
   canvasElementId: 'game',
   engineOptions: {
     stencil: true,
   },
-  controller: ThirdPersonController,
-  inputBindings: ThirdPersonInputBindings,
-  defaultScene: DefaultNetworkScene,
 });

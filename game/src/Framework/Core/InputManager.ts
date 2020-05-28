@@ -40,6 +40,10 @@ export class InputManager {
   }
 
   public bindEvents() {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
     document.addEventListener(
       'pointerlockchange',
       this._onPointerLockChange.bind(this),
@@ -58,6 +62,10 @@ export class InputManager {
   }
 
   public unbindEvents() {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
     document.removeEventListener(
       'pointerlockchange',
       this._onPointerLockChange.bind(this),

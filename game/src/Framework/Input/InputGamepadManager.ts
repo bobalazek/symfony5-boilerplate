@@ -17,7 +17,7 @@ import {
 } from '../Gameplay/InputBindings';
 
 export class InputGamepadManager implements InputDeviceInterface {
-  public readonly hasSupport: boolean = 'GamepadEvent' in window;
+  public hasSupport: boolean = false;
   public isAnyConnected: boolean = false;
 
   private _bindings: InputBindingsInterface = new AbstractInputBindings();
@@ -25,6 +25,12 @@ export class InputGamepadManager implements InputDeviceInterface {
   private _actionsMap: { [key: string]: string } = {};
   private _actionsInversedMap: { [key: string]: number } = {}; // have the actions on the left & button on the right
   private readonly _axisDeadZone: number = 0.1;
+
+  constructor() {
+     if (typeof window !== 'undefined') {
+       this.hasSupport = 'GamepadEvent' in window;
+     }
+  }
 
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
@@ -60,33 +66,43 @@ export class InputGamepadManager implements InputDeviceInterface {
   }
 
   public bindEvents() {
-    if (this.hasSupport) {
-      window.addEventListener(
-        'gamepadconnected',
-        this._onHandle.bind(this),
-        false
-      );
-      window.addEventListener(
-        'gamepaddisconnected',
-        this._onHandle.bind(this),
-        false
-      );
+    if (
+      !this.hasSupport ||
+      typeof window === 'undefined'
+    ) {
+      return;
     }
+
+    window.addEventListener(
+      'gamepadconnected',
+      this._onHandle.bind(this),
+      false
+    );
+    window.addEventListener(
+      'gamepaddisconnected',
+      this._onHandle.bind(this),
+      false
+    );
   }
 
   public unbindEvents() {
-    if (this.hasSupport) {
-      window.removeEventListener(
-        'gamepadconnected',
-        this._onHandle.bind(this),
-        false
-      );
-      window.removeEventListener(
-        'gamepaddisconnected',
-        this._onHandle.bind(this),
-        false
-      );
+    if (
+      !this.hasSupport ||
+      typeof window === 'undefined'
+    ) {
+      return;
     }
+
+    window.removeEventListener(
+      'gamepadconnected',
+      this._onHandle.bind(this),
+      false
+    );
+    window.removeEventListener(
+      'gamepaddisconnected',
+      this._onHandle.bind(this),
+      false
+    );
   }
 
   public update() {
@@ -185,6 +201,10 @@ export class InputGamepadManager implements InputDeviceInterface {
   }
 
   private _updateGamepads() {
+    if (typeof navigator === 'undefined') {
+      return;
+    }
+
     const browserGamepads = navigator.getGamepads
       ? navigator.getGamepads()
       : (navigator.webkitGetGamepads

@@ -1,6 +1,8 @@
 import {
   Engine,
   EngineOptions,
+  NullEngine,
+  NullEngineOptions,
   Scene,
 } from 'babylonjs';
 
@@ -21,13 +23,21 @@ export class GameManager {
   public static parameters: any;
 
   public static boot(config: GameConfigInterface, parameters?: any): GameManager {
-    this.canvas = <HTMLCanvasElement>document.getElementById(config.canvasElementId);
-    this.engine = new Engine(
-      this.canvas,
-      true,
-      config.engineOptions,
-      true
-    );
+    if (config.isServer) {
+      (<any>global).XMLHttpRequest = require('xhr2').XMLHttpRequest;
+
+      this.engine = new NullEngine(
+        config.serverEngineOptions
+      );
+    } else {
+      this.canvas = <HTMLCanvasElement>document.getElementById(config.canvasElementId);
+      this.engine = new Engine(
+        this.canvas,
+        true,
+        config.engineOptions,
+        true
+      );
+    }
 
     // Parameters
     this.parameters = parameters;
@@ -135,10 +145,12 @@ export class GameManager {
 }
 
 export interface GameConfigInterface {
-  canvasElementId: string;
-  engineOptions: EngineOptions;
-  controller: new () => ControllerInterface;
   defaultScene: new () => SceneInterface;
+  controller?: new () => ControllerInterface;
+  isServer?: boolean;
+  canvasElementId?: string;
+  engineOptions?: EngineOptions;
+  serverEngineOptions?: NullEngineOptions;
   inputBindings?: new () => InputBindingsInterface;
   disableRightClick?: boolean;
 }

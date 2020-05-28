@@ -7,8 +7,8 @@ import {
 } from '../Gameplay/InputBindings';
 
 export class InputDeviceOrientation implements InputDeviceInterface {
-  public readonly hasOrientationSupport: boolean = 'DeviceOrientationEvent' in window;
-  public readonly hasMotionSupport: boolean = 'DeviceMotionEvent' in window;
+  public hasOrientationSupport: boolean = false;
+  public hasMotionSupport: boolean = false;
 
   public orientationObservable = new Observable<DeviceOrientationEvent>();
   public motionObservable = new Observable<DeviceMotionEvent>();
@@ -24,11 +24,22 @@ export class InputDeviceOrientation implements InputDeviceInterface {
 
   private _bindings: InputBindingsInterface = new AbstractInputBindings();
 
+  constructor() {
+    if (typeof window !== 'undefined') {
+      this.hasOrientationSupport = 'DeviceOrientationEvent' in window;
+      this.hasMotionSupport = 'DeviceMotionEvent' in window;
+    }
+  }
+
   public setBindings(bindings: InputBindingsInterface) {
     this._bindings = bindings;
   }
 
   public bindEvents() {
+    if (!window) {
+      return;
+    }
+
     window.addEventListener(
       'deviceorientation',
       this._onHandleOrientation.bind(this),
@@ -42,6 +53,10 @@ export class InputDeviceOrientation implements InputDeviceInterface {
   }
 
   public unbindEvents() {
+    if (!window) {
+      return;
+    }
+
     window.removeEventListener(
       'deviceorientation',
       this._onHandleOrientation.bind(this),

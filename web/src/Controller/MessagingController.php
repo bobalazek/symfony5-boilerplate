@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Thread;
-use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +29,6 @@ class MessagingController extends AbstractUsersController
      * @var EntityManagerInterface
      */
     protected $em;
-
 
     /**
      * AbstractUsersController constructor.
@@ -61,6 +58,8 @@ class MessagingController extends AbstractUsersController
 
     /**
      * @Route("/messaging/{thread_id}", name="messaging.thread")
+     *
+     * @param mixed $thread_id
      */
     public function thread($thread_id, Request $request)
     {
@@ -76,7 +75,8 @@ class MessagingController extends AbstractUsersController
         ]);
     }
 
-    private function _getThreads() {
+    private function _getThreads()
+    {
         $user = $this->getUser();
 
         $threadsArray = [];

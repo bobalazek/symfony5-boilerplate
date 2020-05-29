@@ -53,6 +53,30 @@ class MessagingController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        return $this->render('contents/messaging/index.html.twig', [
+            'thread' => null,
+            'threads' => $this->_getThreads(),
+        ]);
+    }
+
+    /**
+     * @Route("/messaging/{thread_id}", name="messaging.thread")
+     */
+    public function thread($thread_id, Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $thread = null;
+
+        // TODO
+
+        return $this->render('contents/messaging/index.html.twig', [
+            'thread' => $thread,
+            'threads' => $this->_getThreads(),
+        ]);
+    }
+
+    private function _getThreads() {
         $user = $this->getUser();
 
         $threadsArray = [];
@@ -93,14 +117,11 @@ class MessagingController extends AbstractUsersController
             }
 
             $threadsArray[] = [
+                'id' => $thread->getId(),
                 'title' => implode(', ', $userNames),
                 'last_message' => $lastMessage,
                 'last_message_time' => $lastMessageTime,
             ];
         }
-
-        return $this->render('contents/messaging/index.html.twig', [
-            'threads' => $threadsArray,
-        ]);
     }
 }

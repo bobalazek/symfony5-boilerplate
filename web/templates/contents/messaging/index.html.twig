@@ -11,7 +11,9 @@
           <div class="list-group">
             {% for thread in threads %}
             <a
-              href="#"
+              href="{{ url('messaging.thread', {
+                thread_id: thread.id,
+              }) }}"
               class="list-group-item list-group-item-action"
             >
               <div class="d-flex w-100 justify-content-between">
@@ -33,7 +35,13 @@
         {% endif %}
       </div>
       <div class="col-md-8">
-        THREAD MESSAGES
+        {% if thread %}
+          TODO
+        {% else %}
+          <div class="alert alert-info">
+            {{ 'no_thread_selected' | trans({}, 'messaging') }}
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

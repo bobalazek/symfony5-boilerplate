@@ -501,6 +501,10 @@
         <source>2FA</source>
         <target>2FA</target>
       </trans-unit>
+      <trans-unit id="7r27Jcu" resname="Messaging">
+        <source>Messaging</source>
+        <target>Messaging</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

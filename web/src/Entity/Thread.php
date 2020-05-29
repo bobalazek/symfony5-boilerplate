@@ -33,6 +33,16 @@ class Thread implements Interfaces\StatusInterface
 
     public function __toString()
     {
+        $threadUserNames = [];
+        $threadUsers = $this->getThreadUsers();
+        foreach ($threadUsers as $threadUser) {
+            $threadUserNames[] = $threadUser->getUser();
+        }
+
+        if ($threadUserNames) {
+            return implode(', ', $threadUserNames);
+        }
+
         return $this->getId();
     }
 

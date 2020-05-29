@@ -1,0 +1,40 @@
+{% extends 'layouts/bootstrap4.html.twig' %}
+
+{% block title %}{{ 'Messaging' | trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ 'Messaging' | trans }}</h1>
+    <div class="row">
+      <div class="col-md-3">
+        {% if threads %}
+          <div class="list-group">
+            {% for thread in threads %}
+            <a
+              href="#"
+              class="list-group-item list-group-item-action"
+            >
+              <div class="d-flex w-100 justify-content-between">
+                <h5>{{ thread.title }}</h5>
+                {% if thread.last_message_time %}
+                  <small>{{ thread.last_message_time }}</small>
+                {% endif %}
+              </div>
+              {% if thread.last_message %}
+                <p class="mt-1">{{ thread.last_message }}</p>
+              {% endif %}
+            </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">
+            {{ 'no_threads_yet' | trans({}, 'messaging') }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="col-md-9">
+        THREAD MESSAGES
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -264,10 +264,7 @@ class LoginTfaController extends AbstractController
         $this->em->persist($userTfaEmail);
         $this->em->flush();
 
-        $this->emailManager->sendTfaConfirm($user, [
-            'user' => $user,
-            'user_tfa_email' => $userTfaEmail,
-        ]);
+        $this->emailManager->sendTfaConfirm($user, $userTfaEmail);
 
         $this->userActionManager->add(
             'login.tfa.email',
@@ -349,10 +346,10 @@ class LoginTfaController extends AbstractController
     {
         $request->getSession()->remove('tfa_method');
         $request->getSession()->remove('tfa_in_progress');
-        $this->userDeviceManager->setCurrentAsTrusted(
-            $this->getUser(),
-            $request
-        );
+
+        $user = $this->getUser();
+
+        $this->userDeviceManager->setCurrentAsTrusted($user, $request);
 
         $this->addFlash(
             'success',
@@ -366,6 +363,8 @@ class LoginTfaController extends AbstractController
                 'method' => $method,
             ]
         );
+
+        $this->emailManager->sendNewLogin($user, $request);
 
         return $this->redirectToRoute('home');
     }

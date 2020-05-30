@@ -85,6 +85,26 @@
         <source>tfa_confirm.content</source>
         <target>Please click the link below to confirm your 2FA</target>
       </trans-unit>
+      <trans-unit id="P2m0TqM" resname="new_login.subject">
+        <source>new_login.subject</source>
+        <target>{app_name} | New login</target>
+      </trans-unit>
+      <trans-unit id="SRXLVYc" resname="new_login.content">
+        <source>new_login.content</source>
+        <target>We noticed that you recently logged in with a new device</target>
+      </trans-unit>
+      <trans-unit id="0x3hpcX" resname="Browser">
+        <source>Browser</source>
+        <target>Browser</target>
+      </trans-unit>
+      <trans-unit id="D8q.5uC" resname="Operating system">
+        <source>Operating system</source>
+        <target>Operating system</target>
+      </trans-unit>
+      <trans-unit id="v1UFF0p" resname="IP">
+        <source>IP</source>
+        <target>IP</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -3,8 +3,11 @@
 namespace App\Manager;
 
 use App\Entity\User;
+use App\Entity\UserTfaEmail;
+use Jenssegers\Agent\Agent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -55,7 +58,7 @@ class EmailManager
         return $this->mailer->send($email);
     }
 
-    public function sendTfaConfirm(User $user, array $context)
+    public function sendTfaConfirm(User $user, UserTfaEmail $userTfaEmail)
     {
         $emailSubject = $this->translator->trans('tfa_confirm.subject', [
             'app_name' => $this->params->get('app.name'),
@@ -65,7 +68,10 @@ class EmailManager
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
             ->htmlTemplate('emails/tfa_confirm.html.twig')
-            ->context($context)
+            ->context([
+                'user' => $user,
+                'user_tfa_email' => $userTfaEmail,
+            ])
         ;
 
         return $this->mailer->send($email);
@@ -209,6 +215,30 @@ class EmailManager
             ->htmlTemplate('emails/deletion_confirm_success.html.twig')
             ->context([
                 'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendNewLogin(User $user, Request $request)
+    {
+        $agent = new Agent();
+        $agent->setUserAgent($request->headers->get('User-Agent'));
+
+        $emailSubject = $this->translator->trans('new_login.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/new_login.html.twig')
+            ->context([
+                'user' => $user,
+                'browser' => $agent->browser(),
+                'operating_system' => $agent->platform(),
+                'ip' => $request->getClientIp(),
             ])
         ;
 

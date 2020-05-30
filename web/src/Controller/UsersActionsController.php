@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Thread;
+use App\Entity\ThreadUser;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollower;
 use App\Entity\UserNotification;
-use App\Entity\Thread;
-use App\Entity\ThreadUser;
 use App\Manager\UserNotificationManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

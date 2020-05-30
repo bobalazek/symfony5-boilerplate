@@ -60,6 +60,7 @@ class MessagingController extends AbstractUsersController
      * @Route("/messaging/{id}", name="messaging.thread")
      *
      * @param mixed $thread_id
+     * @param mixed $id
      */
     public function thread($id, Request $request)
     {

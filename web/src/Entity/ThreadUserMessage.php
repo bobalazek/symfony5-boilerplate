@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ThreadUserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ThreadUserMessageRepository")
  * @ORM\Table(name="thread_user_messages")
  */
 class ThreadUserMessage

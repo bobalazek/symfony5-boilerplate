@@ -57,17 +57,21 @@ class MessagingController extends AbstractUsersController
     }
 
     /**
-     * @Route("/messaging/{thread_id}", name="messaging.thread")
+     * @Route("/messaging/{id}", name="messaging.thread")
      *
      * @param mixed $thread_id
      */
-    public function thread($thread_id, Request $request)
+    public function thread($id, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $thread = null;
-
-        // TODO
+        $thread = $this->em
+            ->getRepository(Thread::class)
+            ->getByIdAndUser($id, $this->getUser())
+        ;
+        if (!$thread) {
+            throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
+        }
 
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => $thread,
@@ -78,6 +82,10 @@ class MessagingController extends AbstractUsersController
     private function _getThreads()
     {
         $user = $this->getUser();
+
+        $threadUserMessageRepository = $this->em
+            ->getRepository(ThreadUserMessage::class)
+        ;
 
         $threadsArray = [];
         $threads = $this->em
@@ -98,13 +106,16 @@ class MessagingController extends AbstractUsersController
 
             $threadUsers = $thread->getThreadUsers();
             foreach ($threadUsers as $threadUser) {
+                if ($user === $threadUser->getUser()) {
+                    continue;
+                }
+
                 $userNames[] = $threadUser->getUser()->getName();
             }
 
-            $threadUserMessage = $this->em
-                ->getRepository(ThreadUserMessage::class)
+            $threadUserMessage = $threadUserMessageRepository
                 ->createQueryBuilder('tum')
-                ->leftJoin('tum.threadUsers', 'tu')
+                ->leftJoin('tum.threadUser', 'tu')
                 ->where('tu.thread = :thread')
                 ->setParameter('thread', $thread)
                 ->getQuery()
@@ -123,5 +134,7 @@ class MessagingController extends AbstractUsersController
                 'last_message_time' => $lastMessageTime,
             ];
         }
+
+        return $threadsArray;
     }
 }

@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollower;
 use App\Entity\UserNotification;
+use App\Entity\Thread;
+use App\Entity\ThreadUser;
 use App\Manager\UserNotificationManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +32,8 @@ class UsersActionsController extends AbstractUsersController
 
         $userMyself = $this->getUser();
 
-        $user = $this->em->getRepository(User::class)
+        $user = $this->em
+            ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
         if (!$user) {
@@ -53,7 +56,8 @@ class UsersActionsController extends AbstractUsersController
             ]);
         }
 
-        $userFollower = $this->em->getRepository(UserFollower::class)
+        $userFollower = $this->em
+            ->getRepository(UserFollower::class)
             ->findOneBy([
                 'user' => $user,
                 'userFollowing' => $userMyself,
@@ -148,7 +152,8 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
-        $userFollower = $this->em->getRepository(UserFollower::class)
+        $userFollower = $this->em
+            ->getRepository(UserFollower::class)
             ->findOneBy([
                 'user' => $userToUnfollow,
                 'userFollowing' => $user,
@@ -202,7 +207,8 @@ class UsersActionsController extends AbstractUsersController
 
         $userMyself = $this->getUser();
 
-        $user = $this->em->getRepository(User::class)
+        $user = $this->em
+            ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
         if (!$user) {
@@ -225,7 +231,8 @@ class UsersActionsController extends AbstractUsersController
             ]);
         }
 
-        $userBlock = $this->em->getRepository(UserBlock::class)
+        $userBlock = $this->em
+            ->getRepository(UserBlock::class)
             ->findOneBy([
                 'user' => $userMyself,
                 'userBlocked' => $user,
@@ -297,7 +304,8 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
-        $userBlock = $this->em->getRepository(UserBlock::class)
+        $userBlock = $this->em
+            ->getRepository(UserBlock::class)
             ->findOneBy([
                 'user' => $user,
                 'userBlocked' => $userToUnblock,
@@ -337,6 +345,64 @@ class UsersActionsController extends AbstractUsersController
 
         return $this->redirectToRoute('users.detail', [
             'username' => $userToUnblock->getUsername(),
+        ]);
+    }
+
+    /**
+     * @Route("/users/{username}/message", name="users.message")
+     *
+     * @param mixed $username
+     */
+    public function message($username, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        $userToMessage = $this->em
+            ->getRepository(User::class)
+            ->findOneByUsername($username)
+        ;
+        if (!$userToMessage) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('message.flash.user_does_not_exist', [], 'users')
+            );
+
+            return $this->redirectToRoute('home');
+        }
+
+        $thread = $this->em
+            ->getRepository(Thread::class)
+            ->getByUserOneAndTwo($user, $userToMessage)
+        ;
+        if (!$thread) {
+            $threadUserOne = new ThreadUser();
+            $threadUserOne
+                ->setThread($thread)
+                ->setUser($user)
+            ;
+            $this->em->persist($threadUserOne);
+
+            $threadUserTwo = new ThreadUser();
+            $threadUserTwo
+                ->setThread($thread)
+                ->setUser($userToMessage)
+            ;
+            $this->em->persist($threadUserTwo);
+
+            $thread = new Thread();
+            $thread
+                ->addThreadUser($threadUserOne)
+                ->addThreadUser($threadUserTwo)
+            ;
+            $this->em->persist($thread);
+
+            $this->em->flush();
+        }
+
+        return $this->redirectToRoute('messaging.thread', [
+            'id' => $thread->getId(),
         ]);
     }
 

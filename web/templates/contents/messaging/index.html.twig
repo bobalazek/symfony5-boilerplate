@@ -12,7 +12,7 @@
             {% for thread in threads %}
             <a
               href="{{ url('messaging.thread', {
-                thread_id: thread.id,
+                id: thread.id,
               }) }}"
               class="list-group-item list-group-item-action"
             >

@@ -1,6 +1,6 @@
 {% set class = class is defined ? class : '' %}
 {% set ignore_avatar = ignore_avatar is defined ? ignore_avatar : false %}
-{% set style = size is defined ? 'style="width: ' ~ size ~ '; max-width: ' ~ size ~ '; max-height: ' ~ size ~ '; font-size: ' ~ size ~ '"' : '' %}
+{% set style = size is defined ? 'style="width: ' ~ size ~ '; height: ' ~ size ~ '; max-width: ' ~ size ~ '; max-height: ' ~ size ~ '; font-size: ' ~ size ~ '"' : '' %}
 
 {% if user.getAvatarImage() and not ignore_avatar %}
   <img

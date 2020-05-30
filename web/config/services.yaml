@@ -53,6 +53,11 @@ services:
         tags:
             - { name: 'doctrine.event_subscriber' }
 
+    App\EventListener\UserDeviceListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
+            - { name: kernel.event_listener, event: kernel.response }
+
     # Gedmo
     Gedmo\Timestampable\TimestampableListener:
         class: Gedmo\Timestampable\TimestampableListener

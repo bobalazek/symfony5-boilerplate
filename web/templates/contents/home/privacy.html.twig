@@ -2,11 +2,53 @@
 
 {% block title %}{{ 'Privacy' | trans }} | {{ parent() }}{% endblock %}
 
+{% set cookies = [
+  {
+    key: 'PHPSESSID',
+    lifetime: 'until the browser closes',
+    description: 'The main session cookie that stores session preferences and user information ' ~
+      'when you are logged into the platform.',
+  },
+  {
+    key: 'device_uuid',
+    lifetime: '90 days',
+    description: 'This cookies is created after you log into the platform. ' ~
+      'It allows us to have an unique id for your device (PC or mobile), ' ~
+      'so you will not nescessary need to go through the two factor authentication ' ~
+      'process after every login.',
+  },
+] %}
+
 {% block content %}
   <div class="container mt-4">
     <h1>{{ 'Privacy' | trans }}</h1>
     <div>
       TODO
     </div>
+    <h2>{{ 'Cookies' | trans }}</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">
+            {{ 'Cookie' }}
+          </th>
+          <th scope="col">
+            {{ 'Lifetime' }}
+          </th>
+          <th scope="col">
+            {{ 'Description' }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cookie in cookies %}
+          <tr>
+            <td>{{ cookie.key }}</td>
+            <td>{{ cookie.lifetime }}</td>
+            <td>{{ cookie.description }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}

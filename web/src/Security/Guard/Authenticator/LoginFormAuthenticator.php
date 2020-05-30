@@ -4,6 +4,7 @@ namespace App\Security\Guard\Authenticator;
 
 use App\Entity\User;
 use App\Manager\UserActionManager;
+use App\Manager\UserDeviceManager;
 use App\Manager\UserTfaManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -29,11 +30,39 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
     private $urlGenerator;
+
+    /**
+     * @var CsrfTokenManagerInterface
+     */
     private $csrfTokenManager;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
+
+    /**
+     * @var UserActionManager
+     */
     private $userActionManager;
+
+    /**
+     * @var UserDeviceManager
+     */
+    private $userDeviceManager;
+
+    /**
+     * @var UserTfaManager
+     */
     private $userTfaManager;
 
     public function __construct(
@@ -42,6 +71,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder,
         UserActionManager $userActionManager,
+        UserDeviceManager $userDeviceManager,
         UserTfaManager $userTfaManager
     ) {
         $this->em = $em;
@@ -49,6 +79,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->userActionManager = $userActionManager;
+        $this->userDeviceManager = $userDeviceManager;
         $this->userTfaManager = $userTfaManager;
     }
 
@@ -120,9 +151,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $user
         );
 
+        $isUserDeviceTrusted = $this->userDeviceManager->isCurrentTrusted($user, $request);
+
         // Will return false when disabled
         $tfaDefaultMethod = $this->userTfaManager->getDefaultMethod($user);
-        if ($tfaDefaultMethod) {
+        if (
+            $tfaDefaultMethod &&
+            !$isUserDeviceTrusted
+        ) {
             $request->getSession()->set('tfa_method', $tfaDefaultMethod);
             $request->getSession()->set('tfa_in_progress', true);
         }

@@ -10,6 +10,7 @@ use App\Entity\UserTfaRecoveryCode;
 use App\Form\LoginTfaType;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
+use App\Manager\UserDeviceManager;
 use App\Manager\UserTfaManager;
 use App\Utils\StringHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,6 +50,11 @@ class LoginTfaController extends AbstractController
     private $userActionManager;
 
     /**
+     * @var UserDeviceManager
+     */
+    private $userDeviceManager;
+
+    /**
      * @var GoogleAuthenticatorManager
      */
     private $googleAuthenticatorManager;
@@ -63,6 +69,7 @@ class LoginTfaController extends AbstractController
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserActionManager $userActionManager,
+        UserDeviceManager $userDeviceManager,
         GoogleAuthenticatorManager $googleAuthenticatorManager,
         UserTfaManager $userTfaManager,
         MailerInterface $mailer
@@ -71,6 +78,7 @@ class LoginTfaController extends AbstractController
         $this->params = $params;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
+        $this->userDeviceManager = $userDeviceManager;
         $this->googleAuthenticatorManager = $googleAuthenticatorManager;
         $this->userTfaManager = $userTfaManager;
         $this->mailer = $mailer;
@@ -348,6 +356,10 @@ class LoginTfaController extends AbstractController
     {
         $request->getSession()->remove('tfa_method');
         $request->getSession()->remove('tfa_in_progress');
+        $this->userDeviceManager->setCurrentAsTrusted(
+            $this->getUser(),
+            $request
+        );
 
         $this->addFlash(
             'success',

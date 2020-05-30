@@ -12,6 +12,8 @@ class UserDevice
 {
     use Traits\TimestampsTrait;
 
+    const UUID_COOKIE_NAME = 'device_uuid';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -25,9 +27,19 @@ class UserDevice
     private $uuid;
 
     /**
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
      * @ORM\Column(name="trusted", type="boolean")
      */
     private $trusted = false;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastActiveAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userDevices")
@@ -57,6 +69,18 @@ class UserDevice
         return $this;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     public function getTrusted(): bool
     {
         return $this->trusted;
@@ -70,6 +94,18 @@ class UserDevice
     public function setTrusted(bool $trusted): self
     {
         $this->trusted = $trusted;
+
+        return $this;
+    }
+
+    public function getLastActiveAt(): ?\DateTimeInterface
+    {
+        return $this->lastActiveAt;
+    }
+
+    public function setLastActiveAt(?\DateTimeInterface $lastActiveAt): self
+    {
+        $this->lastActiveAt = $lastActiveAt;
 
         return $this;
     }

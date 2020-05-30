@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Manager\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,8 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -44,22 +42,22 @@ class PasswordResetController extends AbstractController
     private $passwordEncoder;
 
     /**
-     * @var MailerInterface
+     * @var EmailManager
      */
-    private $mailer;
+    private $emailManager;
 
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserPasswordEncoderInterface $passwordEncoder,
-        MailerInterface $mailer
+        EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->passwordEncoder = $passwordEncoder;
-        $this->mailer = $mailer;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -143,19 +141,9 @@ class PasswordResetController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        $emailSubject = $this->translator->trans('password_reset_success.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
-            ->htmlTemplate('emails/password_reset_success.html.twig')
-            ->context([
-                'user' => $user,
-            ])
-        ;
-        $this->mailer->send($email);
+        $this->emailManager->sendPasswordResetSuccess($user, [
+            'user' => $user,
+        ]);
 
         return $this->render('contents/password_reset/success.html.twig');
     }
@@ -199,19 +187,9 @@ class PasswordResetController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        $emailSubject = $this->translator->trans('password_reset.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
-            ->htmlTemplate('emails/password_reset.html.twig')
-            ->context([
-                'user' => $user,
-            ])
-        ;
-        $this->mailer->send($message);
+        $this->emailManager->sendPasswordReset($user, [
+            'user' => $user,
+        ]);
 
         return $this->render('contents/password_reset/request_success.html.twig');
     }

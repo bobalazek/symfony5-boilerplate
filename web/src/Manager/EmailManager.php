@@ -39,9 +39,6 @@ class EmailManager
         $this->mailer = $mailer;
     }
 
-    /**
-     * @param array $data
-     */
     public function sendContact(array $data)
     {
         $emailSubject = $this->translator->trans('contact.subject', [
@@ -58,10 +55,6 @@ class EmailManager
         return $this->mailer->send($email);
     }
 
-    /**
-     * @param User $user
-     * @param array $context
-     */
     public function sendTfaConfirm(User $user, array $context)
     {
         $emailSubject = $this->translator->trans('tfa_confirm.subject', [
@@ -76,5 +69,37 @@ class EmailManager
         ;
 
         return $this->mailer->send($email);
+    }
+
+    public function sendPasswordResetSuccess(User $user, array $context)
+    {
+        $emailSubject = $this->translator->trans('password_reset_success.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/password_reset_success.html.twig')
+            ->context($context)
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendPasswordReset(User $user, array $context)
+    {
+        $emailSubject = $this->translator->trans('password_reset.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/password_reset.html.twig')
+            ->context($context)
+        ;
+
+        return $this->mailer->send($message);
     }
 }

@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class UserAction
 {
     use Traits\TimestampsTrait;
+    use Traits\RequestMetaTrait;
 
     /**
      * @ORM\Id()
@@ -33,21 +34,6 @@ class UserAction
      * @ORM\Column(type="json", nullable=true)
      */
     private $data = [];
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $ip;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $userAgent;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $sessionId;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userActions")
@@ -97,42 +83,6 @@ class UserAction
     public function setData(?array $data): self
     {
         $this->data = $data;
-
-        return $this;
-    }
-
-    public function getIp(): ?string
-    {
-        return $this->ip;
-    }
-
-    public function setIp(?string $ip): self
-    {
-        $this->ip = $ip;
-
-        return $this;
-    }
-
-    public function getUserAgent(): ?string
-    {
-        return $this->userAgent;
-    }
-
-    public function setUserAgent(?string $userAgent): self
-    {
-        $this->userAgent = $userAgent;
-
-        return $this;
-    }
-
-    public function getSessionId(): ?string
-    {
-        return $this->sessionId;
-    }
-
-    public function setSessionId(?string $sessionId): self
-    {
-        $this->sessionId = $sessionId;
 
         return $this;
     }

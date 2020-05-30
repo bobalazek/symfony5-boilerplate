@@ -243,6 +243,11 @@ class User implements UserInterface, EquatableInterface, \Serializable
     private $userPoints;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserDevice", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $userDevices;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserOauthProvider", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $userOauthProviders;
@@ -276,6 +281,7 @@ class User implements UserInterface, EquatableInterface, \Serializable
         $this->userFollowers = new ArrayCollection();
         $this->userNotifications = new ArrayCollection();
         $this->userPoints = new ArrayCollection();
+        $this->userDevices = new ArrayCollection();
         $this->userOauthProviders = new ArrayCollection();
         $this->userTfaMethods = new ArrayCollection();
         $this->userTfaEmails = new ArrayCollection();
@@ -939,6 +945,36 @@ class User implements UserInterface, EquatableInterface, \Serializable
             $this->userPoints->removeElement($userPoint);
             if ($userPoint->getUser() === $this) {
                 $userPoint->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserDevice[]
+     */
+    public function getUserDevices(): Collection
+    {
+        return $this->userDevices;
+    }
+
+    public function addUserDevice(UserDevice $userDevice): self
+    {
+        if (!$this->userDevices->contains($userDevice)) {
+            $this->userDevices[] = $userDevice;
+            $userDevice->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserDevice(UserDevice $userDevice): self
+    {
+        if ($this->userDevices->contains($userDevice)) {
+            $this->userDevices->removeElement($userDevice);
+            if ($userDevice->getUser() === $this) {
+                $userDevice->setUser(null);
             }
         }
 

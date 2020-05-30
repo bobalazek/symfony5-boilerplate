@@ -3,15 +3,13 @@
 namespace App\Controller\Settings;
 
 use App\Entity\User;
+use App\Manager\EmailManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -41,22 +39,22 @@ class SettingsDeletionController extends AbstractController
     private $userActionManager;
 
     /**
-     * @var MailerInterface
+     * @var EmailManager
      */
-    private $mailer;
+    private $emailManager;
 
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserActionManager $userActionManager,
-        MailerInterface $mailer
+        EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
-        $this->mailer = $mailer;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -102,7 +100,7 @@ class SettingsDeletionController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->_sendDeletionConfirm($user);
+            $this->emailManager->sendDeletionConfirm($user);
 
             $this->addFlash(
                 'success',
@@ -164,7 +162,7 @@ class SettingsDeletionController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->_sendDeletionConfirm($user);
+            $this->emailManager->sendDeletionConfirm($user);
 
             $this->addFlash(
                 'success',
@@ -192,19 +190,7 @@ class SettingsDeletionController extends AbstractController
 
             $this->_deleteUser($user);
 
-            $emailSubject = $this->translator->trans('deletion_confirm_success.subject', [
-                'app_name' => $this->params->get('app.name'),
-            ], 'emails');
-            $email = (new TemplatedEmail())
-                ->subject($emailSubject)
-                ->from(Address::fromString($this->params->get('app.mailer_from')))
-                ->to($user->getEmail())
-                ->htmlTemplate('emails/deletion_confirm_success.html.twig')
-                ->context([
-                    'user' => $user,
-                ])
-            ;
-            $this->mailer->send($email);
+            $this->emailManager->sendDeletionConfirmSuccess($user);
 
             $this->addFlash(
                 'success',
@@ -213,23 +199,6 @@ class SettingsDeletionController extends AbstractController
 
             return $this->redirectToRoute('login');
         }
-    }
-
-    private function _sendDeletionConfirm($user)
-    {
-        $emailSubject = $this->translator->trans('deletion_confirm.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
-            ->htmlTemplate('emails/deletion_confirm.html.twig')
-            ->context([
-                'user' => $user,
-            ])
-        ;
-        $this->mailer->send($email);
     }
 
     private function _deleteUser($user)
@@ -245,7 +214,7 @@ class SettingsDeletionController extends AbstractController
         $this->em->remove($user);
         $this->em->flush();
 
-        // TODO: flag this id somewhere, so that in case of a backup rollback,
+        // TODO: flag this it somewhere, so that in case of a backup rollback,
         //   you can delete this user again.
     }
 }

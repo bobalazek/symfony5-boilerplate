@@ -3,15 +3,13 @@
 namespace App\Controller\Settings;
 
 use App\Form\SettingsType;
+use App\Manager\EmailManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -41,22 +39,22 @@ class SettingsController extends AbstractController
     private $userActionManager;
 
     /**
-     * @var MailerInterface
+     * @var EmailManager
      */
-    private $mailer;
+    private $emailManager;
 
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserActionManager $userActionManager,
-        MailerInterface $mailer
+        EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
-        $this->mailer = $mailer;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -119,7 +117,7 @@ class SettingsController extends AbstractController
                 ->setLastNewEmailConfirmationEmailSentAt(new \DateTime())
             ;
 
-            $this->_sendNewEmailConfirm($user);
+            $this->emailManager->sendNewEmailConfirm($user);
 
             $this->addFlash(
                 'success',
@@ -203,7 +201,7 @@ class SettingsController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->_sendNewEmailConfirm($user);
+            $this->emailManager->sendNewEmailConfirm($user);
 
             $this->addFlash(
                 'success',
@@ -238,19 +236,7 @@ class SettingsController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $emailSubject = $this->translator->trans('new_email_confirm_success.subject', [
-                'app_name' => $this->params->get('app.name'),
-            ], 'emails');
-            $email = (new TemplatedEmail())
-                ->subject($emailSubject)
-                ->from(Address::fromString($this->params->get('app.mailer_from')))
-                ->to($user->getEmail())
-                ->htmlTemplate('emails/new_email_confirm_success.html.twig')
-                ->context([
-                    'user' => $user,
-                ])
-            ;
-            $this->mailer->send($email);
+            $this->emailManager->sendNewEmailConfirmSuccess($user);
 
             $this->addFlash(
                 'success',
@@ -268,22 +254,5 @@ class SettingsController extends AbstractController
 
             return $this->redirectToRoute('settings');
         }
-    }
-
-    private function _sendNewEmailConfirm($user)
-    {
-        $emailSubject = $this->translator->trans('new_email_confirm.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getNewEmail())
-            ->htmlTemplate('emails/new_email_confirm.html.twig')
-            ->context([
-                'user' => $user,
-            ])
-        ;
-        $this->mailer->send($email);
     }
 }

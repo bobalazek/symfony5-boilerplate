@@ -39,17 +39,17 @@ class EmailManager
         $this->mailer = $mailer;
     }
 
-    public function sendContact(array $data)
+    public function sendContact(array $context)
     {
         $emailSubject = $this->translator->trans('contact.subject', [
             'app_name' => $this->params->get('app.name'),
         ], 'emails');
         $email = (new TemplatedEmail())
             ->subject($emailSubject)
-            ->from(new Address($data['email'], $data['name']))
+            ->from(new Address($context['email'], $context['name']))
             ->to($this->params->get('app.mailer_to'))
             ->htmlTemplate('emails/contact.html.twig')
-            ->context($data)
+            ->context($context)
         ;
 
         return $this->mailer->send($email);
@@ -71,7 +71,7 @@ class EmailManager
         return $this->mailer->send($email);
     }
 
-    public function sendPasswordResetSuccess(User $user, array $context)
+    public function sendPasswordResetSuccess(User $user)
     {
         $emailSubject = $this->translator->trans('password_reset_success.subject', [
             'app_name' => $this->params->get('app.name'),
@@ -81,13 +81,15 @@ class EmailManager
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
             ->htmlTemplate('emails/password_reset_success.html.twig')
-            ->context($context)
+            ->context([
+                'user' => $user,
+            ])
         ;
 
         return $this->mailer->send($email);
     }
 
-    public function sendPasswordReset(User $user, array $context)
+    public function sendPasswordReset(User $user)
     {
         $emailSubject = $this->translator->trans('password_reset.subject', [
             'app_name' => $this->params->get('app.name'),
@@ -97,9 +99,119 @@ class EmailManager
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
             ->htmlTemplate('emails/password_reset.html.twig')
-            ->context($context)
+            ->context([
+                'user' => $user,
+            ])
         ;
 
-        return $this->mailer->send($message);
+        return $this->mailer->send($email);
+    }
+
+    public function sendEmailConfirm(User $user)
+    {
+        $emailSubject = $this->translator->trans('email_confirm.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/email_confirm.html.twig')
+            ->context([
+                'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendEmailConfirmSuccess(User $user)
+    {
+        $emailSubject = $this->translator->trans('email_confirm_success.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/email_confirm_success.html.twig')
+            ->context([
+                'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendNewEmailConfirm(User $user)
+    {
+        $emailSubject = $this->translator->trans('new_email_confirm.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/new_email_confirm.html.twig')
+            ->context([
+                'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendNewEmailConfirmSuccess(User $user)
+    {
+        $emailSubject = $this->translator->trans('new_email_confirm_success.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/new_email_confirm_success.html.twig')
+            ->context([
+                'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendDeletionConfirm(User $user)
+    {
+        $emailSubject = $this->translator->trans('deletion_confirm.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/deletion_confirm.html.twig')
+            ->context([
+                'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
+    }
+
+    public function sendDeletionConfirmSuccess(User $user)
+    {
+        $emailSubject = $this->translator->trans('deletion_confirm_success.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/deletion_confirm_success.html.twig')
+            ->context([
+                'user' => $user,
+            ])
+        ;
+
+        return $this->mailer->send($email);
     }
 }

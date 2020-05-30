@@ -141,9 +141,7 @@ class PasswordResetController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->emailManager->sendPasswordResetSuccess($user, [
-            'user' => $user,
-        ]);
+        $this->emailManager->sendPasswordResetSuccess($user);
 
         return $this->render('contents/password_reset/success.html.twig');
     }
@@ -187,9 +185,7 @@ class PasswordResetController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->emailManager->sendPasswordReset($user, [
-            'user' => $user,
-        ]);
+        $this->emailManager->sendPasswordReset($user);
 
         return $this->render('contents/password_reset/request_success.html.twig');
     }

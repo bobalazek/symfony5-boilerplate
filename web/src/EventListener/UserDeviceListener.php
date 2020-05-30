@@ -6,9 +6,9 @@ use App\Entity\User;
 use App\Entity\UserDevice;
 use App\Manager\UserDeviceManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -35,16 +35,12 @@ class UserDeviceListener
         EntityManagerInterface $em,
         TokenStorageInterface $tokenStorage,
         UserDeviceManager $userDeviceManager
-    )
-    {
+    ) {
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
         $this->userDeviceManager = $userDeviceManager;
     }
 
-    /**
-     * @param ControllerEvent $event
-     */
     public function onKernelController(ControllerEvent $event)
     {
         $request = $event->getRequest();
@@ -70,9 +66,6 @@ class UserDeviceListener
         $this->em->flush();
     }
 
-    /**
-     * @param ResponseEvent $event
-     */
     public function onKernelResponse(ResponseEvent $event)
     {
         /**
@@ -82,7 +75,7 @@ class UserDeviceListener
         $request = $event->getRequest();
         $response = $event->getResponse();
 
-        $cookieLifetime = 7776000; // 90 days
+        $cookieLifetime = 315569520; // 10 years
         $deviceUuid = $request->attributes->get(UserDevice::UUID_COOKIE_NAME);
         if (null === $deviceUuid) {
             return;

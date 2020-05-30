@@ -161,6 +161,10 @@
         <source>tfa.alert.tfa_not_enabled</source>
         <target>You have enabled at least one 2FA method, but the functionality itself is still disabled</target>
       </trans-unit>
+      <trans-unit id="tRF81bV" resname="devices.alert.no_user_devices_yet">
+        <source>devices.alert.no_user_devices_yet</source>
+        <target>No user devices yet</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

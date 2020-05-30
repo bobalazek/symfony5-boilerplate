@@ -7,7 +7,6 @@ use App\Entity\UserDevice;
 use Doctrine\ORM\EntityManagerInterface;
 use Jenssegers\Agent\Agent;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -23,21 +22,15 @@ class UserDeviceManager
     /**
      * @var UserDevice
      */
-    protected $currentUserDevice = null;
+    protected $currentUserDevice;
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
 
-    /**
-     * @param User    $user
-     * @param Request $request
-     */
-    public function get(User $user, Request $request) {
+    public function get(User $user, Request $request)
+    {
         if (null !== $this->currentUserDevice) {
             return $this->currentUserDevice;
         }
@@ -48,7 +41,8 @@ class UserDeviceManager
             ->findOneBy([
                 'user' => $user,
                 'uuid' => $uuid,
-            ]);
+            ])
+        ;
 
         if (null === $userDevice) {
             $userDevice = $this->create($user, $request, $uuid);
@@ -62,13 +56,12 @@ class UserDeviceManager
     /**
      * Creates a user device.
      *
-     * @param User    $user
-     * @param Request $request
-     * @param sting   $uuid
+     * @param sting $uuid
      *
      * @return UserDevice
      */
-    public function create(User $user, Request $request, $uuid = null) {
+    public function create(User $user, Request $request, $uuid = null)
+    {
         $session = $request->getSession();
 
         if (!$uuid) {
@@ -101,12 +94,10 @@ class UserDeviceManager
     /**
      * Is the current device trusted?
      *
-     * @param User    $user
-     * @param Request $request
-     *
      * @return bool
      */
-    public function isCurrentTrusted(User $user, Request $request) {
+    public function isCurrentTrusted(User $user, Request $request)
+    {
         $userDevice = $this->get($user, $request);
 
         return $userDevice->isTrusted();
@@ -115,12 +106,10 @@ class UserDeviceManager
     /**
      * Set the current device as trusted.
      *
-     * @param User    $user
-     * @param Request $request
-     *
      * @return bool
      */
-    public function setCurrentAsTrusted(User $user, Request $request) {
+    public function setCurrentAsTrusted(User $user, Request $request)
+    {
         $userDevice = $this->get($user, $request);
 
         $userDevice->setTrusted(true);

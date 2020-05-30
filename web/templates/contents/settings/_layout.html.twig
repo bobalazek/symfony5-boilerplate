@@ -61,6 +61,12 @@
               : '' }}">
             {{ 'Actions' | trans }}
           </a>
+          <a href="{{ url('settings.devices') }}"
+            class="list-group-item list-group-item-action {{ 'settings.devices' == app.request.attributes.get('_route')
+              ? 'active'
+              : '' }}">
+            {{ 'Devices' | trans }}
+          </a>
           <a href="{{ url('settings.export') }}"
             class="list-group-item list-group-item-action {{ 'settings.export' == app.request.attributes.get('_route')
               ? 'active'

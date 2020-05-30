@@ -9,6 +9,10 @@
         <source>no_threads_yet</source>
         <target>No threads yet</target>
       </trans-unit>
+      <trans-unit id="RqmyOIe" resname="no_thread_selected">
+        <source>no_thread_selected</source>
+        <target>No thread selected</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

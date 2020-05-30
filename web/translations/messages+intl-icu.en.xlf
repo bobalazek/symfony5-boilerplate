@@ -505,6 +505,18 @@
         <source>Messaging</source>
         <target>Messaging</target>
       </trans-unit>
+      <trans-unit id="FBOV6zV" resname="Cookies">
+        <source>Cookies</source>
+        <target>Cookies</target>
+      </trans-unit>
+      <trans-unit id="vN9wHE3" resname="Last active">
+        <source>Last active</source>
+        <target>Last active</target>
+      </trans-unit>
+      <trans-unit id="S6USHU0" resname="Devices">
+        <source>Devices</source>
+        <target>Devices</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

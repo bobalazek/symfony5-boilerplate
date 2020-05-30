@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Settings;
 
 use App\Entity\UserExport;
 use App\Manager\UserActionManager;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Settings;
 
-use App\Form\SettingsPasswordType;
+use App\Form\SettingsPrivacyType;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,13 +10,12 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class SettingsPasswordController.
+ * Class SettingsPrivacyController.
  */
-class SettingsPasswordController extends AbstractController
+class SettingsPrivacyController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -38,67 +37,49 @@ class SettingsPasswordController extends AbstractController
      */
     private $userActionManager;
 
-    /**
-     * @var \Swift_Mailer
-     */
-    private $mailer;
-
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        UserActionManager $userActionManager,
-        \Swift_Mailer $mailer
+        UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
-        $this->mailer = $mailer;
     }
 
     /**
-     * @Route("/settings/password", name="settings.password")
+     * @Route("/settings/privacy", name="settings.privacy")
      */
-    public function index(
-        Request $request,
-        UserPasswordEncoderInterface $passwordEncoder
-    ): Response {
+    public function index(Request $request): Response
+    {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
-        $form = $this->createForm(SettingsPasswordType::class, $user);
+        $form = $this->createForm(SettingsPrivacyType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user
-                ->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                )
-            ;
-
             $this->em->persist($user);
             $this->em->flush();
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('password.flash.success', [], 'settings')
+                $this->translator->trans('privacy.flash.success', [], 'settings')
             );
 
             $this->userActionManager->add(
-                'settings.password',
-                'User password was changed'
+                'settings.privacy',
+                'User privacy was changed'
             );
 
-            return $this->redirectToRoute('settings.password');
+            return $this->redirectToRoute('settings.privacy');
         }
 
         $this->em->refresh($user);
 
-        return $this->render('contents/settings/password.html.twig', [
+        return $this->render('contents/settings/privacy.html.twig', [
             'form' => $form->createView(),
         ]);
     }

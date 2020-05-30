@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Users;
 
 use App\Entity\Thread;
 use App\Entity\ThreadUser;

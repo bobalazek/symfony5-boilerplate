@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Settings;
 
 use App\Form\SettingsType;
 use App\Manager\UserActionManager;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Settings;
 
-use App\Entity\UserAction;
+use App\Entity\UserBlock;
+use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class SettingsActionsController.
+ * Class SettingsBlocksController.
  */
-class SettingsActionsController extends AbstractController
+class SettingsBlocksController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -32,39 +32,43 @@ class SettingsActionsController extends AbstractController
      */
     private $em;
 
+    /**
+     * @var UserActionManager
+     */
+    private $userActionManager;
+
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
+        $this->userActionManager = $userActionManager;
     }
 
     /**
-     * @Route("/settings/actions", name="settings.actions")
+     * @Route("/settings/blocks", name="settings.blocks")
      */
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $userActionsQueryBuilder = $this->em
-            ->getRepository(UserAction::class)
-            ->createQueryBuilder('ua')
-            ->where('ua.user = :user')
-            ->orderBy('ua.createdAt', 'DESC')
-            ->setParameter('user', $this->getUser())
+        $user = $this->getUser();
+
+        $usersBlocks = $this->em
+            ->getRepository(UserBlock::class)
+            ->findBy([
+                'user' => $user,
+            ], [
+                'createdAt' => 'DESC',
+            ])
         ;
 
-        $pagination = $paginator->paginate(
-            $userActionsQueryBuilder->getQuery(),
-            $request->query->getInt('page', 1),
-            20
-        );
-
-        return $this->render('contents/settings/actions.html.twig', [
-            'pagination' => $pagination,
+        return $this->render('contents/settings/blocks.html.twig', [
+            'users_blocks' => $usersBlocks,
         ]);
     }
 }

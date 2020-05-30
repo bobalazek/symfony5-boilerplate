@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Thread;
 use App\Entity\ThreadUserMessage;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class MessagingController.
  */
-class MessagingController extends AbstractUsersController
+class MessagingController extends AbstractController
 {
     /**
      * @var TranslatorInterface

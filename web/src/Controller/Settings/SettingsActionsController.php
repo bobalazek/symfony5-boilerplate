@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Settings;
 
-use App\Entity\UserDevice;
+use App\Entity\UserAction;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class SettingsDevicesController.
+ * Class SettingsActionsController.
  */
-class SettingsDevicesController extends AbstractController
+class SettingsActionsController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -43,27 +43,27 @@ class SettingsDevicesController extends AbstractController
     }
 
     /**
-     * @Route("/settings/devices", name="settings.devices")
+     * @Route("/settings/actions", name="settings.actions")
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $userDevicesQueryBuilder = $this->em
-            ->getRepository(UserDevice::class)
-            ->createQueryBuilder('ud')
-            ->where('ud.user = :user')
-            ->orderBy('ud.lastActiveAt', 'DESC')
+        $userActionsQueryBuilder = $this->em
+            ->getRepository(UserAction::class)
+            ->createQueryBuilder('ua')
+            ->where('ua.user = :user')
+            ->orderBy('ua.createdAt', 'DESC')
             ->setParameter('user', $this->getUser())
         ;
 
         $pagination = $paginator->paginate(
-            $userDevicesQueryBuilder->getQuery(),
+            $userActionsQueryBuilder->getQuery(),
             $request->query->getInt('page', 1),
             20
         );
 
-        return $this->render('contents/settings/devices.html.twig', [
+        return $this->render('contents/settings/actions.html.twig', [
             'pagination' => $pagination,
         ]);
     }

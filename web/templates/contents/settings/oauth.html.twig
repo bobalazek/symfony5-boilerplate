@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'OAuth' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {% for key, provider in providers %}
     {% if loop.first != true %}

@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'Exports' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {% if request_alert %}
     <div class="alert alert-info">

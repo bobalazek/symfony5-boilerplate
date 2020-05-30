@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'Devices' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {% if pagination.getTotalItemCount() %}
     <table class="table">

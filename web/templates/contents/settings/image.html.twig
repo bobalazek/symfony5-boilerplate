@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'Image' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {{ form_start(form) }}
     <div class="custom-file-wrapper">

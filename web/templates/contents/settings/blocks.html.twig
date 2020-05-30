@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'Blocks' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {% if users_blocks %}
     <div class="row">

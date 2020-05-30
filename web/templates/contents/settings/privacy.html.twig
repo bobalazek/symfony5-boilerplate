@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'Privacy' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {{ form_start(form) }}
     {{ form_row(form.private) }}

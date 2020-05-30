@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ '2FA' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {{ form_start(form) }}
     {% if app.user.isTfaEnabled() and methods_enabled is empty %}

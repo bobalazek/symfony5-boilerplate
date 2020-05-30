@@ -1,5 +1,7 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
+{% block title %}{{ 'Deletion' | trans }} | {{ parent() }}{% endblock %}
+
 {% block main %}
   {% if app.user.getDeletionConfirmCode() %}
     <div class="alert alert-info">

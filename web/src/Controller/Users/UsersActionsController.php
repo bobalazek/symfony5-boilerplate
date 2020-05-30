@@ -401,7 +401,7 @@ class UsersActionsController extends AbstractUsersController
             $this->em->flush();
         }
 
-        return $this->redirectToRoute('messaging.thread', [
+        return $this->redirectToRoute('messaging.threads.detail', [
             'id' => $thread->getId(),
         ]);
     }

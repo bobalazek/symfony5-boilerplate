@@ -60,12 +60,12 @@ class MessagingController extends AbstractController
     }
 
     /**
-     * @Route("/messaging/threads/{id}", name="messaging.thread")
+     * @Route("/messaging/threads/{id}", name="messaging.threads.detail")
      *
-     * @param mixed $thread_id
+     * @param mixed $id
      * @param mixed $id
      */
-    public function thread($id, Request $request)
+    public function threadsDetail($id, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -87,7 +87,7 @@ class MessagingController extends AbstractController
                     $this->translator->trans('thread.flash.message_text_can_not_be_empty', [], 'messaging')
                 );
 
-                return $this->redirectToRoute('messaging.thread', [
+                return $this->redirectToRoute('messaging.threads.detail', [
                     'id' => $thread->getId(),
                 ]);
             }
@@ -105,7 +105,7 @@ class MessagingController extends AbstractController
                     $this->translator->trans('thread.flash.thread_user_not_found', [], 'messaging')
                 );
 
-                return $this->redirectToRoute('messaging.thread', [
+                return $this->redirectToRoute('messaging.threads.detail', [
                     'id' => $thread->getId(),
                 ]);
             }
@@ -125,7 +125,7 @@ class MessagingController extends AbstractController
                 $this->translator->trans('thread.flash.message.success', [], 'messaging')
             );
 
-            return $this->redirectToRoute('messaging.thread', [
+            return $this->redirectToRoute('messaging.threads.detail', [
                 'id' => $thread->getId(),
             ]);
         }

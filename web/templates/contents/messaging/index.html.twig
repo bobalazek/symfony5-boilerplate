@@ -11,7 +11,7 @@
           <div class="list-group">
             {% for threadSingle in threads %}
               <a
-                href="{{ url('messaging.thread', {
+                href="{{ url('messaging.threads.detail', {
                   id: threadSingle.id,
                 }) }}"
                 class="list-group-item list-group-item-action
@@ -39,7 +39,7 @@
       <div class="col-md-8">
         {% if thread %}
           {% if thread_user_messages %}
-            <div>
+            <div id="messaging-messages-wrapper">
               {% for thread_user_message in thread_user_messages %}
                 {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
                 {% set is_myself = app.user == thread_message_user %}

@@ -79,7 +79,10 @@ class MessagingController extends AbstractController
             throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
         }
 
-        if ($request->isMethod('POST')) {
+        if (
+            $request->isMethod('POST') &&
+            'message' === $request->request->get('action')
+        ) {
             $text = $request->request->get('text');
             if (!$text) {
                 $this->addFlash(

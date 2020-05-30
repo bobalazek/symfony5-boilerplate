@@ -34,7 +34,7 @@ class ThreadUser
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ThreadUserMessage", mappedBy="threadUser")
+     * @ORM\OneToMany(targetEntity="App\Entity\ThreadUserMessage", mappedBy="threadUser", cascade={"persist"})
      */
     private $threadUserMessages;
 

@@ -13,6 +13,26 @@
         <source>no_thread_selected</source>
         <target>No thread selected</target>
       </trans-unit>
+      <trans-unit id="8.4s2Sy" resname="thread_not_found">
+        <source>thread_not_found</source>
+        <target>Thread not found</target>
+      </trans-unit>
+      <trans-unit id="WIfLhec" resname="thread.flash.message_text_can_not_be_empty">
+        <source>thread.flash.message_text_can_not_be_empty</source>
+        <target>Message text can not be empty</target>
+      </trans-unit>
+      <trans-unit id="m4pSkus" resname="thread.flash.thread_user_not_found">
+        <source>thread.flash.thread_user_not_found</source>
+        <target>Thread user not found</target>
+      </trans-unit>
+      <trans-unit id="9qjOT3n" resname="thread.flash.message.success">
+        <source>thread.flash.message.success</source>
+        <target>Message was successfully added</target>
+      </trans-unit>
+      <trans-unit id="Rk.cpKf" resname="no_thread_messages_yet">
+        <source>no_thread_messages_yet</source>
+        <target>This thread has no messages yet</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

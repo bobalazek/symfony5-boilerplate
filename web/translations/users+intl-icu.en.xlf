@@ -133,6 +133,10 @@
         <source>Please enter a reason</source>
         <target>Please enter a reason</target>
       </trans-unit>
+      <trans-unit id="gKKRfL9" resname="message.flash.user_does_not_exist">
+        <source>message.flash.user_does_not_exist</source>
+        <target>User does not exist</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

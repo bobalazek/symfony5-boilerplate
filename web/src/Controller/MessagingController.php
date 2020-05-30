@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Thread;
+use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -53,7 +55,7 @@ class MessagingController extends AbstractController
 
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => null,
-            'threads' => $this->_getThreads(),
+            'threads' => $this->_getThreads($this->getUser()),
         ]);
     }
 
@@ -67,12 +69,65 @@ class MessagingController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        $user = $this->getUser();
+
         $thread = $this->em
             ->getRepository(Thread::class)
-            ->getByIdAndUser($id, $this->getUser())
+            ->getByIdAndUser($id, $user)
         ;
         if (!$thread) {
             throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
+        }
+
+        if ($request->isMethod('POST')) {
+            $text = $request->request->get('text');
+            if (!$text) {
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('thread.flash.message_text_can_not_be_empty', [], 'messaging')
+                );
+
+                return $this->redirectToRoute('messaging.thread', [
+                    'id' => $thread->getId(),
+                ]);
+            }
+
+            $threadUser = $this->em
+                ->getRepository(ThreadUser::class)
+                ->findOneBy([
+                    'thread' => $thread,
+                    'user' => $user,
+                ])
+            ;
+            if (!$threadUser) {
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('thread.flash.thread_user_not_found', [], 'messaging')
+                );
+
+                return $this->redirectToRoute('messaging.thread', [
+                    'id' => $thread->getId(),
+                ]);
+            }
+
+            $threadUserMessage = new ThreadUserMessage();
+            $threadUserMessage
+                ->setBody($text)
+                ->setThreadUser($threadUser)
+            ;
+
+            $threadUser->addThreadUserMessage($threadUserMessage);
+
+            $this->em->flush();
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('thread.flash.message.success', [], 'messaging')
+            );
+
+            return $this->redirectToRoute('messaging.thread', [
+                'id' => $thread->getId(),
+            ]);
         }
 
         $threadUserMessages = $this->em
@@ -86,17 +141,17 @@ class MessagingController extends AbstractController
             ->getResult()
         ;
 
+        $threadUserMessages = array_reverse($threadUserMessages);
+
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => $thread,
             'thread_user_messages' => $threadUserMessages,
-            'threads' => $this->_getThreads(),
+            'threads' => $this->_getThreads($user),
         ]);
     }
 
-    private function _getThreads()
+    private function _getThreads(User $user)
     {
-        $user = $this->getUser();
-
         $threadUserMessageRepository = $this->em
             ->getRepository(ThreadUserMessage::class)
         ;
@@ -115,7 +170,7 @@ class MessagingController extends AbstractController
         ;
         foreach ($threads as $thread) {
             $lastMessage = null;
-            $lastMessageTime = null;
+            $lastMessageDatetime = null;
             $userNames = [];
 
             // TODO: we could probably cache that, since it's not going to change anyway?
@@ -133,21 +188,27 @@ class MessagingController extends AbstractController
                 ->createQueryBuilder('tum')
                 ->leftJoin('tum.threadUser', 'tu')
                 ->where('tu.thread = :thread')
+                ->orderBy('tum.createdAt', 'DESC')
                 ->setParameter('thread', $thread)
+                ->setMaxResults(1)
                 ->getQuery()
                 ->getOneOrNullResult()
             ;
 
             if ($threadUserMessage) {
-                $lastMessage = $threadUserMessage->getBody();
-                $lastMessageTime = $threadUserMessage->getCreatedAt();
+                $lastMessageUser = $threadUserMessage->getThreadUser()->getUser();
+                $lastMessagePrefix = $lastMessageUser === $user
+                    ? $this->translator->trans('You')
+                    : $lastMessageUser->getName();
+                $lastMessage = $lastMessagePrefix . ': ' . $threadUserMessage->getBody();
+                $lastMessageDatetime = $threadUserMessage->getCreatedAt();
             }
 
             $threadsArray[] = [
                 'id' => $thread->getId(),
                 'title' => implode(', ', $userNames),
                 'last_message' => $lastMessage,
-                'last_message_time' => $lastMessageTime,
+                'last_message_datetime' => $lastMessageDatetime,
             ];
         }
 

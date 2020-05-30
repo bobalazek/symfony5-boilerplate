@@ -32,7 +32,7 @@ class ThreadUserMessage
 
     public function __toString()
     {
-        return $this->getId();
+        return $this->getBody();
     }
 
     public function getId(): ?int

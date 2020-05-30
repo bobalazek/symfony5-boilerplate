@@ -517,6 +517,22 @@
         <source>Devices</source>
         <target>Devices</target>
       </trans-unit>
+      <trans-unit id="CLBBk1e" resname="You">
+        <source>You</source>
+        <target>You</target>
+      </trans-unit>
+      <trans-unit id="L03PWf8" resname="Exports">
+        <source>Exports</source>
+        <target>Exports</target>
+      </trans-unit>
+      <trans-unit id="wRtqewG" resname="Google authenticator">
+        <source>Google authenticator</source>
+        <target>Google authenticator</target>
+      </trans-unit>
+      <trans-unit id="NogNFci" resname="Recovery codes">
+        <source>Recovery codes</source>
+        <target>Recovery codes</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

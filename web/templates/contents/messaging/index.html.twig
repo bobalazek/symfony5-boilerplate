@@ -10,23 +10,24 @@
         {% if threads %}
           <div class="list-group">
             {% for threadSingle in threads %}
-            <a
-              href="{{ url('messaging.thread', {
-                id: threadSingle.id,
-              }) }}"
-              class="list-group-item list-group-item-action
-                {{ thread.getId() == threadSingle.id ? 'active' : '' }}"
-            >
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-0">{{ threadSingle.title }}</h5>
-                {% if threadSingle.last_message_time %}
-                  <small>{{ threadSingle.last_message_time }}</small>
+              <a
+                href="{{ url('messaging.thread', {
+                  id: threadSingle.id,
+                }) }}"
+                class="list-group-item list-group-item-action
+                  {{ thread and thread.getId() == threadSingle.id ? 'active' : '' }}"
+                data-id="{{ threadSingle.id }}"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-0">{{ threadSingle.title }}</h5>
+                  {% if threadSingle.last_message_datetime %}
+                    <small>{{ threadSingle.last_message_datetime | time_diff }}</small>
+                  {% endif %}
+                </div>
+                {% if threadSingle.last_message %}
+                  <p class="mt-1 mb-0">{{ threadSingle.last_message }}</p>
                 {% endif %}
-              </div>
-              {% if threadSingle.last_message %}
-                <p class="mt-1">{{ threadSingle.last_message }}</p>
-              {% endif %}
-            </a>
+              </a>
             {% endfor %}
           </div>
         {% else %}
@@ -38,31 +39,38 @@
       <div class="col-md-8">
         {% if thread %}
           {% if thread_user_messages %}
-            <ul class="list-unstyled">
+            <div>
               {% for thread_user_message in thread_user_messages %}
                 {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
-                <li class="media w-50 {{ app.user == thread_message_user ? 'mr-auto' : '' }}">
-                  <div class="media-body">
-                    {{ thread_user_message.getBody() }}
+                <div
+                  class="mb-4 {{ app.user == thread_message_user ? 'ml-auto text-right' : '' }}"
+                  data-id="{{ thread_user_message.getId() }}"
+                >
+                  <div class="card d-inline-block">
+                    <div class="card-body">
+                      {{ thread_user_message.getBody() }}
+                    </div>
                   </div>
-                </li>
+                </div>
               {% endfor %}
-            </li>
+            </div>
           {% else %}
             <div class="alert alert-info">
               {{ 'no_thread_messages_yet' | trans({}, 'messaging') }}
             </div>
           {% endif %}
-          <div class="row">
-            <div class="col-md-10">
-              <textarea class="form-control" rows="2"></textarea>
+          <form method="POST">
+            <div class="row">
+              <div class="col-md-10">
+                <textarea class="form-control" rows="2" name="text"></textarea>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-lg btn-block btn-primary" type="submit">
+                  {{ 'Send' | trans }}
+                </button>
+              </div>
             </div>
-            <div class="col-md-2">
-              <button class="btn btn-lg btn-block btn-primary" type="submit">
-                {{ 'Send' | trans }}
-              </button>
-            </div>
-          </div>
+          </form>
         {% else %}
           <div class="alert alert-info">
             {{ 'no_thread_selected' | trans({}, 'messaging') }}

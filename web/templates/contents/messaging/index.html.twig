@@ -42,15 +42,32 @@
             <div>
               {% for thread_user_message in thread_user_messages %}
                 {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
+                {% set is_myself = app.user == thread_message_user %}
                 <div
-                  class="mb-4 {{ app.user == thread_message_user ? 'ml-auto text-right' : '' }}"
+                  class="mb-4 {{ is_myself ? 'ml-auto text-right' : '' }}"
                   data-id="{{ thread_user_message.getId() }}"
                 >
+                  {% if not is_myself %}
+                    <div class="d-inline-block">
+                      {% include 'contents/_shared/user/user_avatar.html.twig' with {
+                        user: thread_message_user,
+                        size: '48px',
+                      } %}
+                    </div>
+                  {% endif %}
                   <div class="card d-inline-block">
                     <div class="card-body">
                       {{ thread_user_message.getBody() }}
                     </div>
                   </div>
+                  {% if is_myself %}
+                    <div class="d-inline-block">
+                      {% include 'contents/_shared/user/user_avatar.html.twig' with {
+                        user: thread_message_user,
+                        size: '48px',
+                      } %}
+                    </div>
+                  {% endif %}
                 </div>
               {% endfor %}
             </div>

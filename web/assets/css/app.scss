@@ -27,6 +27,7 @@ div.avatar-image {
   > div {
     position: relative;
     top: -1px;
+    width: 24px;
   }
 }
 
@@ -55,6 +56,7 @@ div.avatar-image {
 .users-detail-page .page-content-wrapper div.avatar-image > div,
 .card div.avatar-image > div {
   top: -10px;
+  width: auto;
 }
 
 .avatars-selector {
@@ -85,42 +87,6 @@ div.avatar-image {
     top: 50%;
     transform: translateY(-50%);
   }
-}
-
-/***** Media comment *****/
-.media-comment {
-  border-left: 6px solid transparent;
-  padding: 10px 20px;
-
-  &.media-comment--status-pending {
-    border-color: #ffeeba;
-    background-color: #fff3cd;
-  }
-
-  &.media-comment--status-ignored,
-  &.media-comment--status-deleted {
-    border-color: #f5c6cb;
-    background-color: #f8d7da;
-  }
-
-  .avatar-image {
-    max-width: 64px;
-    max-height: 64px;
-  }
-  div.avatar-image {
-    font-size: 64px;
-  }
-  div.avatar-image > div {
-    position: relative;
-    top: -3px;
-  }
-}
-
-/***** Tab content *****/
-.tab-content {
-  border-bottom: 1px solid #dee2e6;
-  border-left: 1px solid #dee2e6;
-  border-right: 1px solid #dee2e6;
 }
 
 /********** Footer **********/

@@ -1,15 +1,25 @@
 {% set class = class is defined ? class : '' %}
 {% set ignore_avatar = ignore_avatar is defined ? ignore_avatar : false %}
+{% set style = size is defined ? 'style="width: ' ~ size ~ '; max-width: ' ~ size ~ '; max-height: ' ~ size ~ '; font-size: ' ~ size ~ '"' : '' %}
 
 {% if user.getAvatarImage() and not ignore_avatar %}
-  <img src="{{ get_user_avatar_url(user) }}"
-    class="avatar-image img-fluid {{ class }}" />
+  <img
+    src="{{ get_user_avatar_url(user) }}"
+    class="avatar-image img-fluid {{ class }}"
+    {{ style | raw }}
+  />
 {% elseif user.getImageFileUrl() %}
-  <img src="{{ user.getImageFileUrl() }}"
-    class="avatar-image img-fluid {{ class }}" />
+  <img
+    src="{{ user.getImageFileUrl() }}"
+    class="avatar-image img-fluid {{ class }}"
+    {{ style | raw }}
+  />
 {% else %}
-  <div class="avatar-image {{ class }}">
-    <div>
+  <div
+    class="avatar-image {{ class }}"
+    {{ style | raw }}
+  >
+    <div {{ style | raw }}>
       {{ user.getUsername() | first }}
     </div>
   </div>

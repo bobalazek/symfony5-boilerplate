@@ -32,31 +32,39 @@ div.avatar-image {
 }
 
 /***** Select2 *****/
-.select2-container--bootstrap4.select2-container--focus .select2-selection {
-  -webkit-box-shadow: none;
-  box-shadow: none;
+.select2-container--bootstrap4.select2-container--focus {
+  .select2-selection {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 }
 
 /********** Header **********/
-.page-header .user-dropdown .avatar-image {
-  margin-right: 8px;
-  max-height: 24px;
-  width: 24px;
-  vertical-align: bottom;
+.page-header {
+  .user-dropdown {
+    .avatar-image {
+      margin-right: 8px;
+      max-height: 24px;
+      width: 24px;
+      vertical-align: bottom;
+    }
+  }
 }
 
 /********** Content **********/
 /***** Avatar *****/
-.users-detail-page .page-content-wrapper div.avatar-image,
-.card div.avatar-image {
-  font-size: 240px;
-  max-width: 240px;
-  max-height: 240px;
-}
-.users-detail-page .page-content-wrapper div.avatar-image > div,
-.card div.avatar-image > div {
-  top: -10px;
-  width: auto;
+.card,
+.users-detail-page .page-content-wrapper {
+  div.avatar-image {
+    font-size: 240px;
+    max-width: 240px;
+    max-height: 240px;
+
+    > div {
+      top: -10px;
+      width: auto;
+    }
+  }
 }
 
 .avatars-selector {
@@ -64,9 +72,11 @@ div.avatar-image {
     cursor: pointer;
     border: 3px solid transparent;
   }
+
   .single-avatar-image:hover {
     border-color: #e1e1e1;
   }
+
   .single-avatar-image.selected {
     border-color: #d1d1d1;
   }

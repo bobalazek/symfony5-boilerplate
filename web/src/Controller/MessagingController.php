@@ -60,7 +60,7 @@ class MessagingController extends AbstractController
     }
 
     /**
-     * @Route("/messaging/{id}", name="messaging.thread")
+     * @Route("/messaging/threads/{id}", name="messaging.thread")
      *
      * @param mixed $thread_id
      * @param mixed $id

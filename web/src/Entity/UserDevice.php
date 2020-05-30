@@ -27,7 +27,7 @@ class UserDevice
     /**
      * @ORM\Column(name="trusted", type="boolean")
      */
-    protected $trusted = false;
+    private $trusted = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userDevices")

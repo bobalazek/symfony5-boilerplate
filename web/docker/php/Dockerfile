@@ -37,6 +37,11 @@ RUN docker-php-ext-install intl
 RUN docker-php-ext-configure gd
 RUN docker-php-ext-install gd
 
+# XSL
+RUN apt-get install libxslt-dev -y
+RUN docker-php-ext-configure xsl
+RUN docker-php-ext-install xsl
+
 # Config
 COPY config/php.ini $PHP_INI_DIR/conf.d/
 COPY config/www.conf /usr/local/etc/php-fpm.d/

@@ -1,0 +1,12 @@
+{% trans_default_domain 'emails' %}
+
+<h1>
+  {{ 'greeting' | trans({
+    'user_username': user.getUsername(),
+  }) }}
+</h1>
+
+<p>{{ 'new_login.content' | trans }}</p>
+<p>{{ 'Browser' | trans }}: {{ browser }}</p>
+<p>{{ 'Operating system' | trans }}: {{ operating_system }}</p>
+<p>{{ 'IP' | trans }}: {{ ip }}</p>

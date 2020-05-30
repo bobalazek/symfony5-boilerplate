@@ -8,19 +8,17 @@ use App\Entity\UserTfaEmail;
 use App\Entity\UserTfaMethod;
 use App\Entity\UserTfaRecoveryCode;
 use App\Form\LoginTfaType;
+use App\Manager\EmailManager;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;
 use App\Manager\UserDeviceManager;
 use App\Manager\UserTfaManager;
 use App\Utils\StringHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -64,6 +62,11 @@ class LoginTfaController extends AbstractController
      */
     private $userTfaManager;
 
+    /**
+     * @var EmailManager
+     */
+    private $emailManager;
+
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
@@ -72,7 +75,7 @@ class LoginTfaController extends AbstractController
         UserDeviceManager $userDeviceManager,
         GoogleAuthenticatorManager $googleAuthenticatorManager,
         UserTfaManager $userTfaManager,
-        MailerInterface $mailer
+        EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
@@ -81,7 +84,7 @@ class LoginTfaController extends AbstractController
         $this->userDeviceManager = $userDeviceManager;
         $this->googleAuthenticatorManager = $googleAuthenticatorManager;
         $this->userTfaManager = $userTfaManager;
-        $this->mailer = $mailer;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -261,30 +264,20 @@ class LoginTfaController extends AbstractController
         $this->em->persist($userTfaEmail);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('tfa.email.flash.code_sent', [], 'login')
-        );
+        $this->emailManager->sendTfaConfirm($user, [
+            'user' => $user,
+            'user_tfa_email' => $userTfaEmail,
+        ]);
 
         $this->userActionManager->add(
             'login.tfa.email',
             'User was sent an TFA email'
         );
 
-        $emailSubject = $this->translator->trans('tfa_confirm.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
-            ->htmlTemplate('emails/tfa_confirm.html.twig')
-            ->context([
-                'user' => $user,
-                'user_tfa_email' => $userTfaEmail,
-            ])
-        ;
-        $this->mailer->send($email);
+        $this->addFlash(
+            'success',
+            $this->translator->trans('tfa.email.flash.code_sent', [], 'login')
+        );
 
         return $this->redirectToRoute('login.tfa');
     }

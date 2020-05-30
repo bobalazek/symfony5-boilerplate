@@ -3,14 +3,12 @@
 namespace App\Controller;
 
 use App\Form\ContactFormType;
+use App\Manager\EmailManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -35,20 +33,20 @@ class HomeController extends AbstractController
     private $em;
 
     /**
-     * @var MailerInterface
+     * @var EmailManager
      */
-    private $mailer;
+    private $emailManager;
 
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        MailerInterface $mailer
+        EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
-        $this->mailer = $mailer;
+        $this->emailManager = $emailManager;
     }
 
     /**
@@ -102,17 +100,7 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $emailSubject = $this->translator->trans('contact.subject', [
-                'app_name' => $this->params->get('app.name'),
-            ], 'emails');
-            $email = (new TemplatedEmail())
-                ->subject($emailSubject)
-                ->from(new Address($data['email'], $data['name']))
-                ->to($this->params->get('app.mailer_to'))
-                ->htmlTemplate('emails/contact.html.twig')
-                ->context($data)
-            ;
-            $this->mailer->send($email);
+            $this->emailManager->sendContact($data);
 
             $this->userActionManager->add(
                 'contact',

@@ -14,6 +14,9 @@ jobs:
       - name: Docker compose - Build & start the containers
         run: docker-compose up -d
 
+      - name: Backend - Install dependencies
+        run: docker exec -i cw_php composer install
+
       - name: Backend - Lint twig templates
         run: docker exec -i cw_php php bin/console lint:twig templates/
       - name: Backend - Lint yaml config
@@ -23,11 +26,9 @@ jobs:
       - name: Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
 
-      - name: Backend - Install dependencies
-        run: docker exec -i cw_php composer install
-      - name: Backend - Update the schema
+      - name: Backend - Update database schema
         run: docker exec -i cw_php php bin/console doctrine:schema:update --force
-      - name: Backend - Run fixtures
+      - name: Backend - Run database fixtures
         run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
 
       - name: Frontend (web) - Install dependencies

@@ -68,21 +68,32 @@ class UserDeviceListener
 
     public function onKernelResponse(ResponseEvent $event)
     {
-        /**
-         * Create the the user_device cookie if necessary
-         *   (will happen only when a new device is created).
-         */
         $request = $event->getRequest();
         $response = $event->getResponse();
 
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            return;
+        }
+
+        $user = $token->getUser();
+        if (
+            null === $user ||
+            !($user instanceof User)
+        ) {
+            return;
+        }
+
         $cookieLifetime = 315569520; // 10 years
-        $deviceUuid = $request->attributes->get(UserDevice::UUID_COOKIE_NAME);
+        $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
+
+        $deviceUuid = $request->attributes->get($cookieName);
         if (null === $deviceUuid) {
             return;
         }
 
         $cookie = new Cookie(
-            UserDevice::UUID_COOKIE_NAME,
+            $cookieName,
             $deviceUuid,
             time() + $cookieLifetime
         );

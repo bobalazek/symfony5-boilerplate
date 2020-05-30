@@ -12,7 +12,7 @@ class UserDevice
 {
     use Traits\TimestampsTrait;
 
-    const UUID_COOKIE_NAME = 'device_uuid';
+    const UUID_COOKIE_NAME_PREFIX = 'device_uuid_';
 
     /**
      * @ORM\Id()

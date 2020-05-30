@@ -9,21 +9,22 @@
       <div class="col-md-4">
         {% if threads %}
           <div class="list-group">
-            {% for thread in threads %}
+            {% for threadSingle in threads %}
             <a
               href="{{ url('messaging.thread', {
-                id: thread.id,
+                id: threadSingle.id,
               }) }}"
-              class="list-group-item list-group-item-action"
+              class="list-group-item list-group-item-action
+                {{ thread.getId() == threadSingle.id ? 'active' : '' }}"
             >
               <div class="d-flex w-100 justify-content-between">
-                <h5>{{ thread.title }}</h5>
-                {% if thread.last_message_time %}
-                  <small>{{ thread.last_message_time }}</small>
+                <h5 class="mb-0">{{ threadSingle.title }}</h5>
+                {% if threadSingle.last_message_time %}
+                  <small>{{ threadSingle.last_message_time }}</small>
                 {% endif %}
               </div>
-              {% if thread.last_message %}
-                <p class="mt-1">{{ thread.last_message }}</p>
+              {% if threadSingle.last_message %}
+                <p class="mt-1">{{ threadSingle.last_message }}</p>
               {% endif %}
             </a>
             {% endfor %}
@@ -36,7 +37,32 @@
       </div>
       <div class="col-md-8">
         {% if thread %}
-          TODO
+          {% if thread_user_messages %}
+            <ul class="list-unstyled">
+              {% for thread_user_message in thread_user_messages %}
+                {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
+                <li class="media w-50 {{ app.user == thread_message_user ? 'mr-auto' : '' }}">
+                  <div class="media-body">
+                    {{ thread_user_message.getBody() }}
+                  </div>
+                </li>
+              {% endfor %}
+            </li>
+          {% else %}
+            <div class="alert alert-info">
+              {{ 'no_thread_messages_yet' | trans({}, 'messaging') }}
+            </div>
+          {% endif %}
+          <div class="row">
+            <div class="col-md-10">
+              <textarea class="form-control" rows="2"></textarea>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-lg btn-block btn-primary" type="submit">
+                {{ 'Send' | trans }}
+              </button>
+            </div>
+          </div>
         {% else %}
           <div class="alert alert-info">
             {{ 'no_thread_selected' | trans({}, 'messaging') }}

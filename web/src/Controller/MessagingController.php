@@ -74,8 +74,20 @@ class MessagingController extends AbstractUsersController
             throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
         }
 
+        $threadUserMessages = $this->em
+            ->getRepository(ThreadUserMessage::class)
+            ->createQueryBuilder('tum')
+            ->leftJoin('tum.threadUser', 'tu')
+            ->where('tu.thread = :thread')
+            ->orderBy('tum.createdAt', 'DESC')
+            ->setParameter('thread', $thread)
+            ->getQuery()
+            ->getResult()
+        ;
+
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => $thread,
+            'thread_user_messages' => $threadUserMessages,
             'threads' => $this->_getThreads(),
         ]);
     }
@@ -104,6 +116,8 @@ class MessagingController extends AbstractUsersController
             $lastMessage = null;
             $lastMessageTime = null;
             $userNames = [];
+
+            // TODO: we could probably cache that, since it's not going to change anyway?
 
             $threadUsers = $thread->getThreadUsers();
             foreach ($threadUsers as $threadUser) {

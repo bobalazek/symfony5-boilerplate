@@ -35,13 +35,12 @@ class UserDeviceManager
             return $this->currentUserDevice;
         }
 
-        $uuid = $request->cookies->get(UserDevice::UUID_COOKIE_NAME);
+        $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
+
+        $uuid = $request->cookies->get($cookieName);
         $userDevice = $this->em
             ->getRepository(UserDevice::class)
-            ->findOneBy([
-                'user' => $user,
-                'uuid' => $uuid,
-            ])
+            ->findOneByUuid($uuid)
         ;
 
         if (null === $userDevice) {
@@ -79,12 +78,11 @@ class UserDeviceManager
             ->setUser($user)
         ;
 
-        /*
-         * Set the attribute, so we can create the cookie
-         *   at the end of the request (UserDeviceListener->onKernelResponse()).
-         */
+        $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
+
+        // We will use that in UserDeviceListener->onKernelResponse()
         $request->attributes->set(
-            UserDevice::UUID_COOKIE_NAME,
+            $cookieName,
             $userDevice->getUuid()
         );
 

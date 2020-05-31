@@ -52,8 +52,10 @@
               {% endfor %}
             </div>
           {% else %}
-            <div class="alert alert-info">
-              {{ 'no_threads_yet' | trans({}, 'messaging') }}
+            <div class="p-4">
+              <div class="alert alert-info">
+                {{ 'no_threads_yet' | trans({}, 'messaging') }}
+              </div>
             </div>
           {% endif %}
         </div>
@@ -95,8 +97,10 @@
                 {% endfor %}
               </div>
             {% else %}
-              <div class="alert alert-info">
-                {{ 'no_thread_messages_yet' | trans({}, 'messaging') }}
+              <div class="p-4">
+                <div class="alert alert-info">
+                  {{ 'no_thread_messages_yet' | trans({}, 'messaging') }}
+                </div>
               </div>
             {% endif %}
             <form method="POST">
@@ -113,8 +117,10 @@
               <input type="hidden" name="action" value="message" />
             </form>
           {% else %}
-            <div class="alert alert-info">
-              {{ 'no_thread_selected' | trans({}, 'messaging') }}
+            <div class="p-4">
+              <div class="alert alert-info">
+                {{ 'no_thread_selected' | trans({}, 'messaging') }}
+              </div>
             </div>
           {% endif %}
         </div>

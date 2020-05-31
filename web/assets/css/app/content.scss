@@ -70,16 +70,13 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      overflow-x: hidden;
+      position: relative;
 
       #messaging-thread-messages {
         position: relative;
         flex: 1 1 0;
-      }
-
-      form {
-        position: relative;
-        flex: none;
+        overflow-x: hidden;
+        padding: 20px;
       }
     }
   }

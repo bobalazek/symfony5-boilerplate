@@ -48,3 +48,39 @@
     transform: translateY(-50%);
   }
 }
+
+/***** Messaging *****/
+.messaging-page {
+  .page-content-wrapper {
+    height: calc(100vh - 71px);
+    padding-bottom: 0;
+
+    .container,
+    .container .row,
+    .container .row > div {
+      height: 100%;
+    }
+
+    #messaging-threads-wrapper {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    #messaging-thread-messages-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-x: hidden;
+
+      #messaging-thread-messages {
+        position: relative;
+        flex: 1 1 0;
+      }
+
+      form {
+        position: relative;
+        flex: none;
+      }
+    }
+  }
+}

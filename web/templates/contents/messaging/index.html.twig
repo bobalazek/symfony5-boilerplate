@@ -5,11 +5,11 @@
 {% block body_class %}messaging-page{% endblock %}
 
 {% block content %}
-  <div class="container pt-4 pb-4">
-    <h1>{{ 'Messaging' | trans }}</h1>
+  <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <div id="messaging-threads">
+        <div id="messaging-threads-wrapper">
+          <h1>{{ 'Messaging' | trans }}</h1>
           {% if threads %}
             <form method="POST" class="mb-3">
               <div class="input-group">
@@ -59,10 +59,10 @@
         </div>
       </div>
       <div class="col-md-8">
-        <div id="messaging-thread-messages">
+        <div id="messaging-thread-messages-wrapper">
           {% if thread %}
             {% if thread_user_messages %}
-              <div id="messaging-messages-wrapper">
+              <div id="messaging-thread-messages">
                 {% for thread_user_message in thread_user_messages %}
                   {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
                   {% set is_myself = app.user == thread_message_user %}

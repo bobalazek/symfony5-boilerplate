@@ -36,15 +36,47 @@ class UserDeviceManager
         }
 
         $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
-
+        $ip = $request->getClientIp();
+        $userAgent = $request->headers->get('User-Agent');
+        $sessionId = $request->getSession()->getId();
         $uuid = $request->cookies->get($cookieName);
+
         $userDevice = $this->em
             ->getRepository(UserDevice::class)
             ->findOneByUuid($uuid)
         ;
-
         if (null === $userDevice) {
-            $userDevice = $this->create($user, $request, $uuid);
+            $userDevice = $this->create(
+                $user,
+                $request,
+                $cookieName,
+                $ip,
+                $userAgent,
+                $sessionId,
+                $uuid
+            );
+        }
+
+        // Update user device if it was changed
+        $userDeviceChanged = false;
+        if ($userDevice->getIp() !== $ip) {
+            $userDevice->setIp($ip);
+            $userDeviceChanged = true;
+        }
+
+        if ($userDevice->getUserAgent() !== $userAgent) {
+            $userDevice->setUserAgent($userAgent);
+            $userDeviceChanged = true;
+        }
+
+        if ($userDevice->getSessionId() !== $sessionId) {
+            $userDevice->setSessionId($sessionId);
+            $userDeviceChanged = true;
+        }
+
+        if ($userDeviceChanged) {
+            $this->em->persist($userDevice);
+            $this->em->flush();
         }
 
         $this->currentUserDevice = $userDevice;
@@ -53,32 +85,42 @@ class UserDeviceManager
     }
 
     /**
-     * Creates a user device.
-     *
-     * @param sting $uuid
+     * Create an user device.
      *
      * @return UserDevice
      */
-    public function create(User $user, Request $request, $uuid = null)
-    {
+    public function create(
+        User $user,
+        Request $request,
+        string $cookieName,
+        string $ip,
+        string $userAgent,
+        string $sessionId,
+        string $uuid = null
+    ) {
         $session = $request->getSession();
 
         if (!$uuid) {
             $uuid = Uuid::uuid4();
         }
 
-        $userAgent = $request->headers->get('User-Agent');
         $agent = new Agent();
         $agent->setUserAgent($userAgent);
+
+        $platform = $agent->platform();
+        $browser = $agent->browser();
+
+        $name = $platform . ' - ' . $browser;
 
         $userDevice = new UserDevice();
         $userDevice
             ->setUuid($uuid)
-            ->setName($agent->platform() . ' - ' . $agent->browser())
+            ->setName($name)
+            ->setIp($ip)
+            ->setUserAgent($userAgent)
+            ->setSessionId($sessionId)
             ->setUser($user)
         ;
-
-        $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
 
         // We will use that in UserDeviceListener->onKernelResponse()
         $request->attributes->set(

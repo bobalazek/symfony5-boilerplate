@@ -237,7 +237,7 @@ class EmailManager
             ->context([
                 'user' => $user,
                 'browser' => $agent->browser(),
-                'operating_system' => $agent->platform(),
+                'platform' => $agent->platform(),
                 'ip' => $request->getClientIp(),
             ])
         ;

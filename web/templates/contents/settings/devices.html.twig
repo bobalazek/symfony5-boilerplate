@@ -8,6 +8,7 @@
       <thead>
         <tr>
           <th>{{ 'Key' | trans }}</th>
+          <th>{{ 'First active' | trans }}</th>
           <th>{{ 'Last active' | trans }}</th>
         </tr>
       </thead>
@@ -15,6 +16,7 @@
         {% for user_device in pagination.getItems() %}
           <tr>
             <td>{{ user_device.getName() }}</td>
+            <td>{{ user_device.getCreatedAt() | date() }}</td>
             <td>{{ user_device.getLastActiveAt() | date() }}</td>
           </tr>
         {% endfor %}

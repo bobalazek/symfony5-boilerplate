@@ -37,12 +37,10 @@ class UserActionManager
     public function __construct(
         Security $security,
         EntityManagerInterface $em,
-        SessionInterface $session,
         RequestStack $requestStack
     ) {
         $this->security = $security;
         $this->em = $em;
-        $this->session = $session;
         $this->requestStack = $requestStack;
     }
 
@@ -72,7 +70,7 @@ class UserActionManager
             ->setData($data)
             ->setIp($request->getClientIp())
             ->setUserAgent($request->headers->get('User-Agent'))
-            ->setSessionId($this->session->getId())
+            ->setSessionId($request->getSession()->getId())
             ->setUser($user)
         ;
 

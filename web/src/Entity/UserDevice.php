@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class UserDevice
 {
     use Traits\TimestampsTrait;
+    use Traits\RequestMetaTrait;
 
     const UUID_COOKIE_NAME_PREFIX = 'device_uuid_';
 

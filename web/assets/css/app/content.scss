@@ -1,0 +1,50 @@
+.page-content-wrapper {
+  padding-bottom: 20px;
+}
+
+/***** Avatar *****/
+.card,
+.users-detail-page .page-content-wrapper {
+  div.avatar-image {
+    font-size: 240px;
+    max-width: 240px;
+    max-height: 240px;
+
+    > div {
+      top: -10px;
+      width: auto;
+    }
+  }
+}
+
+.avatars-selector {
+  .single-avatar-image {
+    cursor: pointer;
+    border: 3px solid transparent;
+  }
+
+  .single-avatar-image:hover {
+    border-color: #e1e1e1;
+  }
+
+  .single-avatar-image.selected {
+    border-color: #d1d1d1;
+  }
+}
+
+/***** Card image wrapper *****/
+.card-img-wrapper {
+  overflow-y: hidden;
+  height: 240px;
+  text-align: center;
+  margin: 8px 8px 0;
+
+  img {
+    width: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

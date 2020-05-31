@@ -3,7 +3,7 @@
 {% block title %}{{ 'Follower requests' | trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-  <div class="container mt-4">
+  <div class="container pt-4 pb-4">
     <h1>
       <a href="{{ url('users.detail', {
           username: app.user.getUsername(),

@@ -63,46 +63,56 @@
       <div class="col-md-8">
         <div id="messaging-thread-messages-wrapper">
           {% if thread %}
-            {% if thread_user_messages %}
-              <div id="messaging-thread-messages">
-                {% for thread_user_message in thread_user_messages %}
-                  {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
-                  {% set is_myself = app.user == thread_message_user %}
-                  <div
-                    class="mb-4 {{ is_myself ? 'ml-auto text-right' : '' }}"
-                    data-id="{{ thread_user_message.getId() }}"
-                  >
-                    {% if not is_myself %}
-                      <div class="d-inline-block">
-                        {% include 'contents/_shared/user/user_avatar.html.twig' with {
-                          user: thread_message_user,
-                          size: '48px',
-                        } %}
-                      </div>
-                    {% endif %}
-                    <div class="card d-inline-block">
-                      <div class="card-body">
-                        {{ thread_user_message.getBody() | nl2br }}
+            <div id="messaging-thread-messages">
+              {% if thread_user_messages %}
+                <div id="messaging-thread-messages-down-pusher"></div>
+                <div id="messaging-thread-messages-inner">
+                  {% for thread_user_message in thread_user_messages %}
+                    {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
+                    {% set is_myself = app.user == thread_message_user %}
+                    <div
+                      class="mb-4 {{ is_myself ? 'ml-auto text-right' : '' }}"
+                      data-id="{{ thread_user_message.getId() }}"
+                    >
+                      <div>
+                        {% if not is_myself %}
+                          <div class="d-inline-block avatar-image-wrapper">
+                            {% include 'contents/_shared/user/user_avatar.html.twig' with {
+                              user: thread_message_user,
+                              size: '48px',
+                            } %}
+                          </div>
+                        {% endif %}
+                        <div class="d-inline-block">
+                          <div class="card">
+                            <div class="card-body">
+                              {{ thread_user_message.getBody() | nl2br }}
+                            </div>
+                          </div>
+                          <div class="{{ is_myself ? 'text-left' : 'text-right' }}">
+                            <small>{{ thread_user_message.getCreatedAt() | date() }}</small>
+                          </div>
+                        </div>
+                        {% if is_myself %}
+                          <div class="d-inline-block avatar-image-wrapper">
+                            {% include 'contents/_shared/user/user_avatar.html.twig' with {
+                              user: thread_message_user,
+                              size: '48px',
+                            } %}
+                          </div>
+                        {% endif %}
                       </div>
                     </div>
-                    {% if is_myself %}
-                      <div class="d-inline-block">
-                        {% include 'contents/_shared/user/user_avatar.html.twig' with {
-                          user: thread_message_user,
-                          size: '48px',
-                        } %}
-                      </div>
-                    {% endif %}
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <div class="p-4">
-                <div class="alert alert-info">
-                  {{ 'no_thread_messages_yet' | trans({}, 'messaging') }}
+                  {% endfor %}
                 </div>
-              </div>
-            {% endif %}
+              {% else %}
+                <div class="p-4">
+                  <div class="alert alert-info">
+                    {{ 'no_thread_messages_yet' | trans({}, 'messaging') }}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
             <form method="POST">
               <div class="row">
                 <div class="col-md-10">

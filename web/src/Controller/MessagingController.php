@@ -133,6 +133,9 @@ class MessagingController extends AbstractController
             ]);
         }
 
+        $limit = 20;
+        $offset = 0;
+
         $threadUserMessages = $this->em
             ->getRepository(ThreadUserMessage::class)
             ->createQueryBuilder('tum')
@@ -140,6 +143,8 @@ class MessagingController extends AbstractController
             ->where('tu.thread = :thread')
             ->orderBy('tum.createdAt', 'DESC')
             ->setParameter('thread', $thread)
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
             ->getQuery()
             ->getResult()
         ;

@@ -29,9 +29,6 @@ class AdminController extends EasyAdminController
      */
     private $userActionManager;
 
-    /**
-     * AdminController constructor.
-     */
     public function __construct(
         ContainerInterface $container,
         UserPasswordEncoderInterface $passwordEncoder,

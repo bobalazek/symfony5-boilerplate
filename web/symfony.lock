@@ -35,7 +35,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "1.0",
-            "ref": "cb4152ebcadbe620ea2261da1a1c5a9b8cea7672"
+            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
         },
         "files": [
             "config/routes/annotations.yaml"
@@ -200,7 +200,16 @@
         "version": "v2.6.3"
     },
     "karser/karser-recaptcha3-bundle": {
-        "version": "v0.1.4"
+        "version": "0.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.1",
+            "ref": "107a3a758fe331292f1c23c13d73c66cb3a268c7"
+        },
+        "files": [
+            "config/packages/karser_recaptcha3.yaml"
+        ]
     },
     "khanamiryan/qrcode-detector-decoder": {
         "version": "1.0.2"
@@ -222,6 +231,12 @@
         "files": [
             "config/packages/knpu_oauth2_client.yaml"
         ]
+    },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.3"
@@ -249,6 +264,9 @@
     },
     "nyholm/nsa": {
         "version": "1.1.0"
+    },
+    "ocramius/package-versions": {
+        "version": "1.8.0"
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
@@ -437,7 +455,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "1.0",
-            "ref": "19fa03bacd9a6619583d1e4939da4388df22984d"
+            "ref": "c0eeb50665f0f77226616b6038a9b06c03752d8e"
         },
         "files": [
             ".env"
@@ -447,15 +465,14 @@
         "version": "v4.4.2"
     },
     "symfony/framework-bundle": {
-        "version": "4.4",
+        "version": "5.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "4.4",
-            "ref": "23ecaccc551fe2f74baf613811ae529eb07762fa"
+            "version": "5.1",
+            "ref": "37b4ec59eda3eb89705f21a0da7231862495ce0a"
         },
         "files": [
-            "config/bootstrap.php",
             "config/packages/cache.yaml",
             "config/packages/framework.yaml",
             "config/packages/test/framework.yaml",

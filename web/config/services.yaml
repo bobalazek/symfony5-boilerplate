@@ -11,7 +11,6 @@ parameters:
     app.keywords: 'corcoviewer'
     app.mailer_from: Corcoviewer <mailer@corcoviewer.com>
     app.mailer_to: Borut <bobalazek124@gmail.com>
-    app.google.recaptcha.site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     # Credentials
     app.aws:
         key: '%env(AWS_KEY)%'
@@ -28,7 +27,13 @@ parameters:
     app.oauth.google:
         id: '%env(OAUTH_GOOGLE_ID)%'
         secret: '%env(OAUTH_GOOGLE_SECRET)%'
-    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    app.google.recaptcha.site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    # TFA
+    app.tfa.allowed_routes:
+        - null # error
+        - home
+        - logout
+        - login.tfa
 
 services:
     _defaults:
@@ -48,6 +53,10 @@ services:
 
     App\EventSubscriber\LocaleSubscriber:
         arguments: ['%kernel.default_locale%']
+
+    App\EventSubscriber\TfaSubscriber:
+        arguments:
+            $allowedRoutes: '%app.tfa.allowed_routes%'
 
     App\EventSubscriber\ImageUploadSubscriber:
         tags:

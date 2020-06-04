@@ -8,7 +8,6 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Http\AccessMapInterface;
 
 /**
  * Class TfaSubscriber.
@@ -16,23 +15,23 @@ use Symfony\Component\Security\Http\AccessMapInterface;
 class TfaSubscriber implements EventSubscriberInterface
 {
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * @var RouterInterface
      */
     private $router;
 
-    /**
-     * @var AccessMapInterface
-     */
-    private $accessMap;
-
     public function __construct(
         Security $security,
-        RouterInterface $router/*,
-        AccessMapInterface $accessMap*/
+        RouterInterface $router,
+        array $allowedRoutes = []
     ) {
         $this->security = $security;
         $this->router = $router;
-        //$this->accessMap = $accessMap;
+        $this->allowedRoutes = $allowedRoutes;
     }
 
     public function onKernelController(ControllerEvent $event)
@@ -42,26 +41,8 @@ class TfaSubscriber implements EventSubscriberInterface
             $this->security->getUser() &&
             $request->getSession()->get('tfa_in_progress')
         ) {
-            /*
-            // TODO: make that work
-            $patterns = $this->accessMap->getPatterns($request);
-            $roles = $patterns[0];
-            $roles = ['ROLE_USER'];
-
-            // Prevent the 2FA gate on pages, that do not require authentication
-            if (null === $roles) {
-                return;
-            }
-            */
-
-            $allowedRoutes = [
-                null, // ERROR
-                'logout',
-                'login.tfa',
-            ];
-
             $currentRoute = $request->get('_route');
-            if (in_array($currentRoute, $allowedRoutes)) {
+            if (in_array($currentRoute, $this->allowedRoutes)) {
                 return;
             }
 

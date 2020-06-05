@@ -29,23 +29,39 @@ class UserDeviceManager
         $this->em = $em;
     }
 
-    public function get(User $user, Request $request)
-    {
-        if (null !== $this->currentUserDevice) {
-            return $this->currentUserDevice;
-        }
-
+    /**
+     * Get the user device.
+     *
+     * @return UserDevice|null
+     */
+    public function get(
+        User $user,
+        Request $request,
+        bool $returnWithoutCreate = false
+    ) {
+        // TODO: abstract somewhere
         $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
         $ip = $request->getClientIp();
         $userAgent = $request->headers->get('User-Agent');
         $sessionId = $request->getSession()->getId();
         $uuid = $request->cookies->get($cookieName);
 
-        $userDevice = $this->em
-            ->getRepository(UserDevice::class)
-            ->findOneByUuid($uuid)
-        ;
-        if (null === $userDevice) {
+        if ($this->currentUserDevice) {
+            $userDevice = $this->currentUserDevice;
+        } else {
+            $userDevice = $this->em
+                ->getRepository(UserDevice::class)
+                ->findOneByUuid($uuid)
+            ;
+
+            $this->currentUserDevice = $userDevice;
+        }
+
+        if ($returnWithoutCreate) {
+            return $userDevice;
+        }
+
+        if (!$userDevice) {
             $userDevice = $this->create(
                 $user,
                 $request,
@@ -57,29 +73,45 @@ class UserDeviceManager
             );
         }
 
-        // Update user device if it was changed
-        $userDeviceChanged = false;
+        $this->currentUserDevice = $userDevice;
+
+        return $userDevice;
+    }
+
+    /**
+     * Get the user device.
+     *
+     * @return UserDevice|null
+     */
+    public function update(
+        User $user,
+        Request $request
+    ) {
+        // TODO: abstract somewhere
+        $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
+        $ip = $request->getClientIp();
+        $userAgent = $request->headers->get('User-Agent');
+        $sessionId = $request->getSession()->getId();
+        $uuid = $request->cookies->get($cookieName);
+
+        $userDevice = $this->get($user, $request);
+
         if ($userDevice->getIp() !== $ip) {
             $userDevice->setIp($ip);
-            $userDeviceChanged = true;
         }
 
         if ($userDevice->getUserAgent() !== $userAgent) {
             $userDevice->setUserAgent($userAgent);
-            $userDeviceChanged = true;
         }
 
         if ($userDevice->getSessionId() !== $sessionId) {
             $userDevice->setSessionId($sessionId);
-            $userDeviceChanged = true;
         }
 
-        if ($userDeviceChanged) {
-            $this->em->persist($userDevice);
-            $this->em->flush();
-        }
+        $userDevice->setLastActiveAt(new \Datetime());
 
-        $this->currentUserDevice = $userDevice;
+        $this->em->persist($userDevice);
+        $this->em->flush();
 
         return $userDevice;
     }

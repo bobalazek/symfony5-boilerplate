@@ -3,6 +3,7 @@
 namespace App\Controller\Settings;
 
 use App\Entity\UserDevice;
+use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,14 +33,21 @@ class SettingsDevicesController extends AbstractController
      */
     private $em;
 
+    /**
+     * @var UserActionManager
+     */
+    private $userActionManager;
+
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
+        $this->userActionManager = $userActionManager;
     }
 
     /**
@@ -52,7 +60,7 @@ class SettingsDevicesController extends AbstractController
         $userDevicesQueryBuilder = $this->em
             ->getRepository(UserDevice::class)
             ->createQueryBuilder('ud')
-            ->where('ud.user = :user')
+            ->where('ud.user = :user AND ud.invalidated = false')
             ->orderBy('ud.lastActiveAt', 'DESC')
             ->setParameter('user', $this->getUser())
         ;
@@ -66,5 +74,53 @@ class SettingsDevicesController extends AbstractController
         return $this->render('contents/settings/devices.html.twig', [
             'pagination' => $pagination,
         ]);
+    }
+    /**
+     * @Route("/settings/devices/{id}/invalidate", name="settings.devices.invalidate")
+     */
+    public function invalidate(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $userDevice = $this->em
+            ->getRepository(UserDevice::class)
+            ->findOneBy([
+                'user' => $this->getUser(),
+                'invalidated' => false,
+            ])
+        ;
+        if (!$userDevice) {
+            $this->em->remove($userDevice);
+            $this->em->flush();
+
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('devices.flash.invalidate.not_existing', [], 'settings')
+            );
+
+            return $this->redirectToRoute('settings.oauth');
+        }
+
+        $userDevice->setInvalidated(true);
+
+        $this->em->persist($userDevice);
+        $this->em->flush();
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('devices.flash.invalidate.success', [], 'settings')
+        );
+
+        $this->userActionManager->add(
+            'settings.devices.invalidate',
+            'User has successfully invalidated their device',
+            [
+                'id' => $userDevice->getId(),
+                'uuid' => $userDevice->getUuid(),
+                'name' => $userDevice->getName(),
+            ]
+        );
+
+        return $this->redirectToRoute('settings.devices');
     }
 }

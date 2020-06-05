@@ -58,12 +58,19 @@ class UserDeviceListener
             return;
         }
 
-        // User device - last active
+        // That basically means, that the user device token was invalidated
         $userDevice = $this->userDeviceManager->get($user, $request);
-        $userDevice->setLastActiveAt(new \Datetime());
+        if ($userDevice->isInvalidated()) {
+            $this->tokenStorage->setToken(null);
+            $request->getSession()->invalidate();
 
-        $this->em->persist($userDevice);
-        $this->em->flush();
+            $this->em->remove($userDevice);
+            $this->em->flush();
+
+            return;
+        }
+
+        $this->userDeviceManager->update($user, $request);
     }
 
     public function onKernelResponse(ResponseEvent $event)

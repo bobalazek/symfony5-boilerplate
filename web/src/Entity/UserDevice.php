@@ -38,6 +38,11 @@ class UserDevice
     private $trusted = false;
 
     /**
+     * @ORM\Column(name="invalidated", type="boolean")
+     */
+    private $invalidated = false;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $lastActiveAt;
@@ -95,6 +100,23 @@ class UserDevice
     public function setTrusted(bool $trusted): self
     {
         $this->trusted = $trusted;
+
+        return $this;
+    }
+
+    public function getInvalidated(): bool
+    {
+        return $this->invalidated;
+    }
+
+    public function isInvalidated(): bool
+    {
+        return $this->getInvalidated();
+    }
+
+    public function setInvalidated(bool $invalidated): self
+    {
+        $this->invalidated = $invalidated;
 
         return $this;
     }

@@ -29,7 +29,7 @@ class WebTestCase extends SymfonyWebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown(): void
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -37,10 +37,8 @@ class WebTestCase extends SymfonyWebTestCase
         $this->em = null;
     }
 
-    protected function loginAs(string $username, string $firewallContext = 'main')
+    public function loginAs(string $username)
     {
-        $session = self::$container->get('session');
-
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername($username)
@@ -49,13 +47,7 @@ class WebTestCase extends SymfonyWebTestCase
             throw new \LogicException(sprintf('The user with the username "%s" does not exist.', $username));
         }
 
-        $token = new PostAuthenticationGuardToken($user, $firewallContext, $user->getRoles());
-
-        $session->set('_security_' . $firewallContext, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
+        $this->client->loginUser($user);
 
         return $this;
     }

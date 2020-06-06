@@ -41,7 +41,6 @@ class LoggedUserControllerTest extends WebTestCase
     public function testIfPageIsNotSuccessful($url)
     {
         $this->client->request('GET', $url);
-
         $this->assertNotSame(200, $this->client->getResponse()->getStatusCode());
     }
 

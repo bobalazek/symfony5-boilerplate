@@ -18,15 +18,16 @@
         <div class="alert alert-danger">{{ error.messageKey | trans(error.messageData, 'security') }}</div>
       {% endif %}
       <div class="form-group">
-        <label for="email-input">
-          {{ 'Email' | trans }}:
+        <label for="username-input">
+          {{ 'Username or email' | trans }}:
         </label>
-        <input type="email"
+        <input
+          type="text"
           value="{{ last_username }}"
-          name="email"
-          id="email-input"
+          name="username"
+          id="username-input"
           class="form-control"
-          placeholder="{{ 'Email' | trans }}"
+          placeholder="{{ 'Username or email' | trans }}"
           required
           autofocus
         >
@@ -35,7 +36,8 @@
         <label for="password-input">
           {{ 'Password' | trans }}:
         </label>
-        <input type="password"
+        <input
+          type="password"
           name="password"
           id="password-input"
           class="form-control"
@@ -51,7 +53,10 @@
        <div class="float-left">
          <div class="checkbox">
            <label>
-             <input type="checkbox" name="_remember_me">
+             <input
+                type="checkbox"
+                name="_remember_me"
+              >
              {{ 'Remember me' | trans }}
            </label>
          </div>
@@ -62,7 +67,10 @@
          </a>
        </div>
       </div>
-      <button class="btn btn-lg btn-block btn-primary" type="submit">
+      <button
+        type="submit"
+        class="btn btn-lg btn-block btn-primary"
+      >
         {{ 'Login' | trans }}
       </button>
     </form>

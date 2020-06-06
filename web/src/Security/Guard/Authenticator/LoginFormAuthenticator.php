@@ -92,13 +92,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email' => $request->request->get('email'),
+            'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['email']
+            $credentials['username']
         );
 
         return $credentials;
@@ -111,12 +111,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->em->getRepository(User::class)
-            ->findOneByEmail($credentials['email'])
+        $user = $this->em
+            ->getRepository(User::class)
+            ->loadUserByUsername($credentials['username'])
         ;
 
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException('A user with this email could not be found.');
+            throw new CustomUserMessageAuthenticationException('A user with this username or email could not be found.');
         }
 
         return $user;
@@ -130,7 +131,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $user = $token->getUser();
-        $method = 'email';
+        $method = 'username';
 
         // If login happend via OAuth
         $route = $request->attributes->get('_route');
@@ -173,15 +174,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $credentials = $exception->getToken()->getCredentials();
-        $user = $this->em->getRepository(User::class)
-            ->findOneByEmail($credentials['email'])
+        $user = $this->em
+            ->getRepository(User::class)
+            ->loadUserByUsername($credentials['username'])
         ;
 
         $this->userActionManager->add(
             'login.fail',
             'A user has tried to login',
             [
-                'email' => $credentials['email'],
+                'username' => $credentials['username'],
             ],
             $user
         );

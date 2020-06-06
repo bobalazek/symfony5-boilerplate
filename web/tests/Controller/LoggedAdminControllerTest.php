@@ -24,7 +24,7 @@ class LoggedAdminControllerTest extends WebTestCase
      *
      * @param mixed $url
      */
-    public function testPageIsSuccessful($url)
+    public function testIfPageIsSuccessful($url)
     {
         $this->client->request('GET', $url);
         $this->assertResponseIsSuccessful();

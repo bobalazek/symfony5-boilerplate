@@ -15,6 +15,7 @@ The CorcoViewer project
 * Build the app
   * Docker (compose):
     * Run: `docker-compose pull` (pulls down the latest images)
+    * Run: `docker-compose build` (builds the images)
     * Run: `docker-compose up -d` (boots up all the images)
   * Web - Backend:
     * Run: `docker exec -ti cw_php composer install` (installs dependencies)

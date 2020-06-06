@@ -30,12 +30,7 @@ class LoggedUserControllerTest extends WebTestCase
     public function testPageIsSuccessful($url)
     {
         $this->client->request('GET', $url);
-
-        $this->assertSame(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Url "' . $url . '" failed'
-        );
+        $this->assertResponseIsSuccessful();
     }
 
     /**
@@ -47,11 +42,7 @@ class LoggedUserControllerTest extends WebTestCase
     {
         $this->client->request('GET', $url);
 
-        $this->assertNotSame(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Url "' . $url . '" failed'
-        );
+        $this->assertNotSame(200, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIfFollowAndUnfollowWorks()
@@ -79,9 +70,7 @@ class LoggedUserControllerTest extends WebTestCase
             ])
         ;
 
-        $this->assertTrue(
-            null !== $userFollow
-        );
+        $this->assertTrue(null !== $userFollow);
 
         // Unfollow
         $this->client->request(
@@ -97,9 +86,7 @@ class LoggedUserControllerTest extends WebTestCase
             ])
         ;
 
-        $this->assertTrue(
-            null === $userFollow
-        );
+        $this->assertTrue(null === $userFollow);
     }
 
     public function testIfBlockAndUnblockWorks()
@@ -114,10 +101,7 @@ class LoggedUserControllerTest extends WebTestCase
         ;
 
         // Block
-        $this->client->request(
-            'GET',
-            '/users/user2/block'
-        );
+        $this->client->request('GET', '/users/user2/block');
 
         $userBlock = $this->em
             ->getRepository(UserBlock::class)
@@ -127,15 +111,10 @@ class LoggedUserControllerTest extends WebTestCase
             ])
         ;
 
-        $this->assertTrue(
-            null !== $userBlock
-        );
+        $this->assertTrue(null !== $userBlock);
 
         // Unblock
-        $this->client->request(
-            'GET',
-            '/users/user2/unblock'
-        );
+        $this->client->request('GET', '/users/user2/unblock');
 
         $userBlock = $this->em
             ->getRepository(UserBlock::class)
@@ -145,9 +124,7 @@ class LoggedUserControllerTest extends WebTestCase
             ])
         ;
 
-        $this->assertTrue(
-            null === $userBlock
-        );
+        $this->assertTrue(null === $userBlock);
     }
 
     public function provideUrls()

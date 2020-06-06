@@ -20,12 +20,7 @@ class PublicControllerTest extends WebTestCase
     public function testPageIsSuccessful($url)
     {
         $this->client->request('GET', $url);
-
-        $this->assertSame(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Url "' . $url . '" failed'
-        );
+        $this->assertResponseIsSuccessful();
     }
 
     /**
@@ -36,12 +31,7 @@ class PublicControllerTest extends WebTestCase
     public function testPageIsNotSuccessful($url)
     {
         $this->client->request('GET', $url);
-
-        $this->assertNotSame(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Url "' . $url . '" failed'
-        );
+        $this->assertNotSame(200,$this->client->getResponse()->getStatusCode());
     }
 
     public function provideUrls()

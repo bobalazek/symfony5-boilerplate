@@ -28,50 +28,33 @@ class LoggedUserModeratorControllerTest extends WebTestCase
     public function testPageIsSuccessful($url)
     {
         $this->client->request('GET', $url);
-
-        $this->assertSame(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Url "' . $url . '" failed'
-        );
+        $this->assertResponseIsSuccessful();
     }
 
     public function testIfLockWorks()
     {
         $reason = 'YouGotBlocked';
-        $this->client->request(
-            'GET',
-            '/users/user/lock?reason=' . $reason
-        );
+        $this->client->request('GET', '/users/user/lock?reason=' . $reason);
 
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername('user')
         ;
 
-        $this->assertTrue(
-            $user->isLocked()
-        );
-        $this->assertTrue(
-            $user->getLockedReason() === $reason
-        );
+        $this->assertTrue($user->isLocked());
+        $this->assertTrue($user->getLockedReason() === $reason);
     }
 
     public function testIfDeleteWorks()
     {
-        $this->client->request(
-            'GET',
-            '/users/user/delete'
-        );
+        $this->client->request('GET', '/users/user/delete');
 
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername('user')
         ;
 
-        $this->assertTrue(
-            $user->isDeleted()
-        );
+        $this->assertTrue($user->isDeleted());
     }
 
     public function provideUrls()

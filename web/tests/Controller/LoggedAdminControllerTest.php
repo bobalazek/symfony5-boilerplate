@@ -27,12 +27,7 @@ class LoggedAdminControllerTest extends WebTestCase
     public function testPageIsSuccessful($url)
     {
         $this->client->request('GET', $url);
-
-        $this->assertSame(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Url "' . $url . '" failed'
-        );
+        $this->assertResponseIsSuccessful();
     }
 
     public function provideUrls()

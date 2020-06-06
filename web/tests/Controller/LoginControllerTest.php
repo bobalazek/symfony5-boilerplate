@@ -27,7 +27,7 @@ class LoginControllerTest extends WebTestCase
         ;
         $this->client->submit($form);
 
-        $this->assertTrue($crawler->filter('div.alert-danger')->count() === 0);
+        $this->assertTrue(0 === $crawler->filter('div.alert-danger')->count());
     }
 
     public function testWrongLoginAlertMessage()
@@ -61,7 +61,7 @@ class LoginControllerTest extends WebTestCase
         ;
         $tfaCrawler = $this->client->submit($form);
 
-        $this->assertTrue($tfaCrawler->filter('form')->attr('name') === 'login_tfa');
+        $this->assertTrue('login_tfa' === $tfaCrawler->filter('form')->attr('name'));
 
         // Send/create the user TFA email
         $form = $tfaCrawler
@@ -80,6 +80,6 @@ class LoginControllerTest extends WebTestCase
         // Visit that link, to confirm it was correct and it did not throw any error
         $tfaRedirectCrawler = $this->client->request('GET', '/login/tfa?code=' . $userTfaEmail->getCode());
 
-        $this->assertTrue($tfaRedirectCrawler->filter('div.alert-danger')->count() === 0);
+        $this->assertTrue(0 === $tfaRedirectCrawler->filter('div.alert-danger')->count());
     }
 }

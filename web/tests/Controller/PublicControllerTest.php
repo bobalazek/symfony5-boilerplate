@@ -31,7 +31,7 @@ class PublicControllerTest extends WebTestCase
     public function testIfPageIsNotSuccessful($url)
     {
         $this->client->request('GET', $url);
-        $this->assertNotSame(200,$this->client->getResponse()->getStatusCode());
+        $this->assertNotSame(200, $this->client->getResponse()->getStatusCode());
     }
 
     public function provideUrls()

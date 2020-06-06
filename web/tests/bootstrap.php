@@ -1,6 +1,6 @@
 <?php
 
-$appEnv = $_ENV['APP_ENV'] ?? 'test';
+$appEnv = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'test';
 
 // Cache clear
 passthru(sprintf(

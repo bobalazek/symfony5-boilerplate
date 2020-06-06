@@ -46,12 +46,7 @@ class WebTestCase extends SymfonyWebTestCase
             ->findOneByUsername($username)
         ;
         if (!$user) {
-            throw new \LogicException(
-                sprintf(
-                    'The user with the username "%s" does not exist.',
-                    $username
-                )
-            );
+            throw new \LogicException(sprintf('The user with the username "%s" does not exist.', $username));
         }
 
         $token = new PostAuthenticationGuardToken($user, $firewallContext, $user->getRoles());

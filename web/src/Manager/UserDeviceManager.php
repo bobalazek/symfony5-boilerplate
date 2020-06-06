@@ -154,6 +154,9 @@ class UserDeviceManager
             ->setUser($user)
         ;
 
+        $this->em->persist($userDevice);
+        $this->em->flush();
+
         // We will use that in UserDeviceListener->onKernelResponse()
         $request->attributes->set(
             $cookieName,

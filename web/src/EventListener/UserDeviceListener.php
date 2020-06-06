@@ -58,7 +58,8 @@ class UserDeviceListener
             return;
         }
 
-        // That basically means, that the user device token was invalidated
+        // If the current user device was invalidated,
+        // then log out the user and remove the user device
         $userDevice = $this->userDeviceManager->get($user, $request);
         if ($userDevice->isInvalidated()) {
             $this->tokenStorage->setToken(null);
@@ -70,6 +71,7 @@ class UserDeviceListener
             return;
         }
 
+        // Now we can update out current device
         $this->userDeviceManager->update($user, $request);
     }
 
@@ -94,16 +96,18 @@ class UserDeviceListener
         $cookieLifetime = 315569520; // 10 years
         $cookieName = UserDevice::UUID_COOKIE_NAME_PREFIX . $user->getId();
 
+        // This will only be set the first time a new user device was created.
+        // Check the UserDeviceManager::create() method
         $deviceUuid = $request->attributes->get($cookieName);
-        if (null === $deviceUuid) {
+        if ($deviceUuid) {
+            $cookie = new Cookie(
+                $cookieName,
+                $deviceUuid,
+                time() + $cookieLifetime
+            );
+            $response->headers->setCookie($cookie);
+
             return;
         }
-
-        $cookie = new Cookie(
-            $cookieName,
-            $deviceUuid,
-            time() + $cookieLifetime
-        );
-        $response->headers->setCookie($cookie);
     }
 }

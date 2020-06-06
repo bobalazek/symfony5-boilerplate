@@ -75,6 +75,7 @@ class SettingsDevicesController extends AbstractController
             'pagination' => $pagination,
         ]);
     }
+
     /**
      * @Route("/settings/devices/{id}/invalidate", name="settings.devices.invalidate")
      */

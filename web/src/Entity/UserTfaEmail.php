@@ -69,9 +69,9 @@ class UserTfaEmail implements Interfaces\StatusInterface
         return $this;
     }
 
-    public function isRead(): bool
+    public function isUsed(): bool
     {
-        return null !== $this->getReadAt();
+        return null !== $this->getUsedAt();
     }
 
     public function getUser(): ?User

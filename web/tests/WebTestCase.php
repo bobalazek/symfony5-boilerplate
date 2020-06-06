@@ -14,6 +14,11 @@ use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 class WebTestCase extends SymfonyWebTestCase
 {
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp(): void

@@ -1,5 +1,7 @@
 <?php
 
+use App\Entity\UserTfaMethod;
+
 return [
     [
         'name' => 'Corco',
@@ -49,5 +51,16 @@ return [
         'email' => 'user2@corcoviewer.com',
         'password' => 'password',
         'roles' => ['ROLE_USER'],
+    ],
+    [
+        'name' => 'User with TFA',
+        'username' => 'userwithtfaemail',
+        'email' => 'userwithtfa@corcoviewer.com',
+        'password' => 'password',
+        'roles' => ['ROLE_USER'],
+        'tfa_enabled' => true,
+        'tfa_methods' => [
+            UserTfaMethod::METHOD_EMAIL,
+        ],
     ],
 ];

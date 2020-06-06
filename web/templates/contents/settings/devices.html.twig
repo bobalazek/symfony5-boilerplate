@@ -15,8 +15,14 @@
       </thead>
       <tbody>
         {% for user_device in pagination.getItems() %}
+          {% set is_current = user_device == user_device_current %}
           <tr>
-            <td>{{ user_device.getName() }}</td>
+            <td>
+              {{ user_device.getName() }}
+              {% if is_current %}
+                <b>({{ 'current' }})</b>
+              {% endif %}
+            </td>
             <td>{{ user_device.getCreatedAt() | date() }}</td>
             <td>{{ user_device.getLastActiveAt() | date() }}</td>
             <td>

@@ -4,6 +4,7 @@ namespace App\Controller\Settings;
 
 use App\Entity\UserDevice;
 use App\Manager\UserActionManager;
+use App\Manager\UserDeviceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,16 +54,22 @@ class SettingsDevicesController extends AbstractController
     /**
      * @Route("/settings/devices", name="settings.devices")
      */
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(
+        Request $request,
+        PaginatorInterface $paginator,
+        UserDeviceManager $userDeviceManager
+    ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
 
         $userDevicesQueryBuilder = $this->em
             ->getRepository(UserDevice::class)
             ->createQueryBuilder('ud')
             ->where('ud.user = :user AND ud.invalidated = false')
             ->orderBy('ud.lastActiveAt', 'DESC')
-            ->setParameter('user', $this->getUser())
+            ->setParameter('user', $user)
         ;
 
         $pagination = $paginator->paginate(
@@ -73,6 +80,7 @@ class SettingsDevicesController extends AbstractController
 
         return $this->render('contents/settings/devices.html.twig', [
             'pagination' => $pagination,
+            'user_device_current' => $userDeviceManager->get($user, $request),
         ]);
     }
 

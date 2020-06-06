@@ -79,6 +79,7 @@ class PublicControllerTest extends WebTestCase
             ['/settings/tfa/recovery-codes'],
             ['/settings/blocks'],
             ['/settings/actions'],
+            ['/settings/devices'],
             ['/settings/export'],
             ['/settings/deletion'],
             ['/admin'],

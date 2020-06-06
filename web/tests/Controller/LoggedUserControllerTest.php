@@ -154,6 +154,7 @@ class LoggedUserControllerTest extends WebTestCase
     {
         return [
             ['/'],
+            ['/users/me'],
             ['/users/me/follower-requests'],
             ['/users/me/follower-requests?status=ignored'],
             ['/notifications'],

@@ -37,24 +37,31 @@ class WebTestCase extends SymfonyWebTestCase
         $this->em = null;
     }
 
-    protected function loginAs($username)
+    protected function loginAs(string $username, string $firewallContext = 'main')
     {
         $session = self::$container->get('session');
-
-        $firewallName = 'main';
-        $firewallContext = 'main';
 
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
+        if (!$user) {
+            throw new \LogicException(
+                sprintf(
+                    'The user with the username "%s" does not exist.',
+                    $username
+                )
+            );
+        }
 
-        $token = new PostAuthenticationGuardToken($user, $firewallName, $user->getRoles());
+        $token = new PostAuthenticationGuardToken($user, $firewallContext, $user->getRoles());
 
         $session->set('_security_' . $firewallContext, serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
+
+        return $this;
     }
 }

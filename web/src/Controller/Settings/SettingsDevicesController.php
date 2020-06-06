@@ -58,8 +58,7 @@ class SettingsDevicesController extends AbstractController
         Request $request,
         PaginatorInterface $paginator,
         UserDeviceManager $userDeviceManager
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();

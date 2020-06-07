@@ -1,5 +1,5 @@
 {% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
-  <wrapper>
+  <container>
     <div>
       <b>{{ 'Name' | trans }}:</b>
       {{ contact_name }}
@@ -16,5 +16,5 @@
       <b>{{ 'Message' | trans }}:</b>
       {{ message }}
     </div>
-  </wrapper>
+  </container>
 {% endapply %}

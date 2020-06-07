@@ -1,14 +1,15 @@
 {% trans_default_domain 'emails' %}
-
 {% set confirm_url = url('login.tfa', {
     code: user_tfa_email.getCode(),
 }) %}
-
-<h1>
-  {{ 'greeting' | trans({
-    'user_username': user.getUsername(),
-  }) }}
-</h1>
-
-<p>{{ 'tfa_confirm.content' | trans() }}</p>
-<p>{{ confirm_url | raw }}</p>
+{% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
+  <container>
+    <h1>
+      {{ 'greeting' | trans({
+        'user_username': user.getUsername(),
+      }) }}
+    </h1>
+    <p>{{ 'tfa_confirm.content' | trans() }}</p>
+    <p>{{ confirm_url | raw }}</p>
+  </container>
+{% endapply %}

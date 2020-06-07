@@ -1,9 +1,11 @@
 {% trans_default_domain 'emails' %}
-
-<h1>
-  {{ 'greeting' | trans({
-    'user_username': user.getUsername(),
-  }, 'emails') }}
-</h1>
-
-<p>{{ 'deletion_confirm_success.content' | trans }}</p>
+{% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
+  <container>
+    <h1>
+      {{ 'greeting' | trans({
+        'user_username': user.getUsername(),
+      }, 'emails') }}
+    </h1>
+    <p>{{ 'deletion_confirm_success.content' | trans }}</p>
+  </container>
+{% endapply %}

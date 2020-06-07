@@ -1,12 +1,14 @@
 {% trans_default_domain 'emails' %}
-
-<h1>
-  {{ 'greeting' | trans({
-    'user_username': user.getUsername(),
-  }) }}
-</h1>
-
-<p>{{ 'new_login.content' | trans }}</p>
-<p>{{ 'Browser' | trans }}: {{ browser }}</p>
-<p>{{ 'Platform' | trans }}: {{ platform }}</p>
-<p>{{ 'IP' | trans }}: {{ ip }}</p>
+{% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
+  <container>
+    <h1>
+      {{ 'greeting' | trans({
+        'user_username': user.getUsername(),
+      }) }}
+    </h1>
+    <p>{{ 'new_login.content' | trans }}</p>
+    <p>{{ 'Browser' | trans }}: {{ browser }}</p>
+    <p>{{ 'Platform' | trans }}: {{ platform }}</p>
+    <p>{{ 'IP' | trans }}: {{ ip }}</p>
+  </container>
+{% endapply %}

@@ -1,15 +1,16 @@
 {% trans_default_domain 'emails' %}
-
 {% set email_confirm_url = url('email_confirm', {
     email: user.getEmail(),
     email_confirm_code: user.getEmailConfirmCode(),
 }) %}
-
-<h1>
-  {{ 'greeting' | trans({
-    'user_username': user.getUsername(),
-  }) }}
-</h1>
-
-<p>{{ 'email_confirm.content' | trans }}</p>
-<p>{{ email_confirm_url | raw }}</p>
+{% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
+  <container>
+    <h1>
+      {{ 'greeting' | trans({
+        'user_username': user.getUsername(),
+      }) }}
+    </h1>
+    <p>{{ 'email_confirm.content' | trans }}</p>
+    <p>{{ email_confirm_url | raw }}</p>
+  </container>
+{% endapply %}

@@ -100,6 +100,7 @@ class UsersController extends AbstractUsersController
         $canBlock = false;
         $canUnblock = false;
         $isBlockedByUser = false;
+        $isBlockingUser = false;
 
         if (
             $userMyself &&
@@ -127,6 +128,7 @@ class UsersController extends AbstractUsersController
             ;
             if ($userBlock) {
                 $canUnblock = true;
+                $isBlockingUser = true;
             } else {
                 $canBlock = true;
             }
@@ -176,6 +178,7 @@ class UsersController extends AbstractUsersController
             'can_block' => $canBlock,
             'can_unblock' => $canUnblock,
             'is_blocked_by_user' => $isBlockedByUser,
+            'is_blocking_user' => $isBlockingUser,
             'can_view_details' => $canViewDetails,
             'followers_count' => $followersCount,
             'following_count' => $followingCount,

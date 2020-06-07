@@ -18,7 +18,7 @@
           <div class="mt-4">
             <div class="btn-group btn-group-lg" role="group">
               {% if can_follow and not is_blocked_by_user %}
-                <a class="btn btn-success"
+                <a class="btn btn-outline-success"
                   href="{{ url('users.follow', {
                     username: user.getUsername(),
                   }) }}">
@@ -27,14 +27,14 @@
               {% endif %}
               {% if can_unfollow %}
                 {% if user_follower and not user_follower.isStatusApproved() %}
-                  <a class="btn btn-danger"
+                  <a class="btn btn-outline-danger"
                     href="{{ url('users.unfollow', {
                       username: user.getUsername(),
                     }) }}">
                     {{ 'Requested' | trans }}
                   </a>
                 {% else %}
-                  <a class="btn btn-danger"
+                  <a class="btn btn-outline-danger"
                     href="{{ url('users.unfollow', {
                       username: user.getUsername(),
                     }) }}">
@@ -43,7 +43,7 @@
                 {% endif %}
               {% endif %}
               {% if can_block %}
-                <a class="btn btn-danger"
+                <a class="btn btn-outline-danger"
                   href="{{ url('users.block', {
                     username: user.getUsername(),
                   }) }}">
@@ -51,7 +51,7 @@
                 </a>
               {% endif %}
               {% if can_unblock %}
-                <a class="btn btn-danger"
+                <a class="btn btn-outline-danger"
                   href="{{ url('users.unblock', {
                     username: user.getUsername(),
                   }) }}">
@@ -59,7 +59,7 @@
                 </a>
               {% endif %}
               {% if not is_blocked_by_user %}
-                <a class="btn btn-secondary"
+                <a class="btn btn-outline-dark"
                   href="{{ url('users.message', {
                     username: user.getUsername(),
                   }) }}">

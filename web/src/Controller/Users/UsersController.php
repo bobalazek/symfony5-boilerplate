@@ -3,9 +3,8 @@
 namespace App\Controller\Users;
 
 use App\Entity\User;
-use App\Entity\UserBlock;
 use App\Entity\UserFollower;
-use App\Entity\UserPoint;
+use App\Manager\UserManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,7 +77,7 @@ class UsersController extends AbstractUsersController
      *
      * @param mixed $username
      */
-    public function detail($username): Response
+    public function detail($username, UserManager $userManager): Response
     {
         $userMyself = $this->getUser();
 
@@ -106,69 +105,27 @@ class UsersController extends AbstractUsersController
             $userMyself &&
             $user !== $userMyself
         ) {
-            $userFollower = $this->em
-                ->getRepository(UserFollower::class)
-                ->findOneBy([
-                    'user' => $user,
-                    'userFollowing' => $userMyself,
-                ])
-            ;
-            if ($userFollower) {
+            $isFollowing = $userManager->isFollowing($userMyself, $user);
+            if ($isFollowing) {
                 $canUnfollow = true;
             } else {
                 $canFollow = true;
             }
 
-            $userBlock = $this->em
-                ->getRepository(UserBlock::class)
-                ->findOneBy([
-                    'user' => $userMyself,
-                    'userBlocked' => $user,
-                ])
-            ;
-            if ($userBlock) {
+            $isBlocking = $userManager->isBlocking($userMyself, $user);
+            if ($isBlocking) {
                 $canUnblock = true;
                 $isBlockingUser = true;
             } else {
                 $canBlock = true;
             }
 
-            $userBlockedByUser = $this->em
-                ->getRepository(UserBlock::class)
-                ->findOneBy([
-                    'user' => $user,
-                    'userBlocked' => $userMyself,
-                ])
-            ;
-            if ($userBlockedByUser) {
-                $isBlockedByUser = true;
-            }
+            $isBlockedByUser = $userManager->isBlockedBy($userMyself, $user);
         }
 
-        $followersCount = count(
-            $this->em
-                ->getRepository(UserFollower::class)
-                ->findBy([
-                    'user' => $user,
-                    'status' => UserFollower::STATUS_APPROVED,
-                ])
-        );
-        $followingCount = count(
-            $this->em
-                ->getRepository(UserFollower::class)
-                ->findBy([
-                    'userFollowing' => $user,
-                    'status' => UserFollower::STATUS_APPROVED,
-                ])
-        );
-        $points = $this->em
-            ->getRepository(UserPoint::class)
-            ->createQueryBuilder('up')
-            ->select('SUM(up.amount) as amount')
-            ->where('up.user = :user')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->getSingleScalarResult() ?? 0;
+        $followersCount = $userManager->followersCount($user);
+        $followingCount = $userManager->followingCount($user);
+        $points = $userManager->pointsCount($user);
 
         return $this->render('contents/users/detail.html.twig', [
             'user' => $user,

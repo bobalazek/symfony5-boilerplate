@@ -1,11 +1,11 @@
 {% extends 'layouts/bootstrap4.html.twig' %}
 
-{% block title %}{{ user.getUsername() }} | {{ 'Users' | trans }} | {{ parent() }}{% endblock %}
-
 {% set meta = {
   description: user.getBio(),
   image: get_user_avatar_url(user),
 } %}
+
+{% block title %}{{ user.getUsername() }} | {{ 'Users' | trans }} | {{ parent() }}{% endblock %}
 
 {% block body_class %}users-detail-page{% endblock %}
 

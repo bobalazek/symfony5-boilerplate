@@ -4,6 +4,7 @@
 {% set show_moderator_actions = show_moderator_actions is defined
   ? show_moderator_actions and is_granted('ROLE_USER_MODERATOR')
   : false %}
+
 {% if actions %}
   <div class="mt-4">
     <div class="btn-group btn-group-sm" role="group">

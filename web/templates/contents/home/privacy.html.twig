@@ -1,7 +1,5 @@
 {% extends 'layouts/bootstrap4.html.twig' %}
 
-{% block title %}{{ 'Privacy' | trans }} | {{ parent() }}{% endblock %}
-
 {% set cookies = [
   {
     key: 'PHPSESSID',
@@ -18,6 +16,8 @@
       'process after every login.',
   },
 ] %}
+
+{% block title %}{{ 'Privacy' | trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
   <div class="container pt-4 pb-4">

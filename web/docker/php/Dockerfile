@@ -42,13 +42,13 @@ RUN apt-get install libxslt-dev -y
 RUN docker-php-ext-configure xsl
 RUN docker-php-ext-install xsl
 
-# Config
-COPY config/php.ini $PHP_INI_DIR/conf.d/
-COPY config/www.conf /usr/local/etc/php-fpm.d/
+# Copy config
+COPY config/php.ini $PHP_INI_DIR/conf.d/php.ini
+COPY config/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Supervisor
 RUN apt-get install supervisor -y
-COPY supervisor/supervisord.conf /etc/supervisor/conf.d/
+COPY supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1

@@ -1,4 +1,6 @@
-FROM phpmyadmin/phpmyadmin:latest
+ARG PHPMYADMIN_VERSION=latest
+
+FROM phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION}
 
 RUN echo -e "\
 file_uploads = On\n \

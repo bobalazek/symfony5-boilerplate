@@ -165,6 +165,14 @@
         <source>devices.alert.no_user_devices_yet</source>
         <target>No user devices yet</target>
       </trans-unit>
+      <trans-unit id="L.B8Yd4" resname="devices.flash.invalidate.device_not_found">
+        <source>devices.flash.invalidate.device_not_found</source>
+        <target>Device not found</target>
+      </trans-unit>
+      <trans-unit id="AvZNUQn" resname="devices.flash.invalidate.success">
+        <source>devices.flash.invalidate.success</source>
+        <target>You have successfully invalidated the device</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -97,13 +97,13 @@
         <source>Browser</source>
         <target>Browser</target>
       </trans-unit>
-      <trans-unit id="D8q.5uC" resname="Operating system">
-        <source>Operating system</source>
-        <target>Operating system</target>
-      </trans-unit>
       <trans-unit id="v1UFF0p" resname="IP">
         <source>IP</source>
         <target>IP</target>
+      </trans-unit>
+      <trans-unit id="x4._GVc" resname="Platform">
+        <source>Platform</source>
+        <target>Platform</target>
       </trans-unit>
     </body>
   </file>

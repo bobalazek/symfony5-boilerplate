@@ -85,28 +85,28 @@ class SettingsDevicesController extends AbstractController
 
     /**
      * @Route("/settings/devices/{id}/invalidate", name="settings.devices.invalidate")
+     *
+     * @param mixed $id
      */
-    public function invalidate(Request $request): Response
+    public function invalidate($id, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $userDevice = $this->em
             ->getRepository(UserDevice::class)
             ->findOneBy([
+                'id' => $id,
                 'user' => $this->getUser(),
                 'invalidated' => false,
             ])
         ;
         if (!$userDevice) {
-            $this->em->remove($userDevice);
-            $this->em->flush();
-
             $this->addFlash(
                 'danger',
-                $this->translator->trans('devices.flash.invalidate.not_existing', [], 'settings')
+                $this->translator->trans('devices.flash.invalidate.device_not_found', [], 'settings')
             );
 
-            return $this->redirectToRoute('settings.oauth');
+            return $this->redirectToRoute('settings.devices');
         }
 
         $userDevice->setInvalidated(true);

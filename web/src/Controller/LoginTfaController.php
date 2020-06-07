@@ -191,7 +191,7 @@ class LoginTfaController extends AbstractController
                     'login.tfa.fail',
                     'User tried to enter 2FA but failed',
                     [
-                        'method' => $method,
+                        'method' => UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR,
                         'code' => $code,
                     ]
                 );
@@ -217,7 +217,7 @@ class LoginTfaController extends AbstractController
                     'login.tfa.fail',
                     'User tried to enter 2FA but failed',
                     [
-                        'method' => $method,
+                        'method' => UserTfaMethod::METHOD_RECOVERY_CODES,
                         'code' => $code,
                     ]
                 );

@@ -63,8 +63,8 @@ The CorcoViewer project
 * Show database mapping: `docker exec -ti cw_php php bin/console doctrine:mapping:info`
 * Run database migrations: `docker exec -ti cw_php php bin/console doctrine:migrations:migrate`
 * Lint twig templates: `docker exec -ti cw_php php bin/console lint:twig templates/`
-* Lint yaml config: `docker exec -ti cw_php php bin/console lint:yaml config/`
-* Lint xliff translations: `docker exec -ti cw_php php bin/console lint:xliff translations/`
+* Lint YAML config: `docker exec -ti cw_php php bin/console lint:yaml config/`
+* Lint XLIFF translations: `docker exec -ti cw_php php bin/console lint:xliff translations/`
 * Messenger queue consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger queue stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
 

@@ -21,6 +21,10 @@
         <source>Each element of this collection should satisfy its own set of constraints.</source>
         <target>Each element of this collection should satisfy its own set of constraints.</target>
       </trans-unit>
+      <trans-unit id="eo1zeih" resname="This value is not a valid HTML5 color.">
+        <source>This value is not a valid HTML5 color.</source>
+        <target>This value is not a valid HTML5 color.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

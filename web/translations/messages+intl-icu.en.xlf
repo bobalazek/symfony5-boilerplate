@@ -537,6 +537,18 @@
         <source>Search threads</source>
         <target>Search threads</target>
       </trans-unit>
+      <trans-unit id="LUpG82i" resname="Username or email">
+        <source>Username or email</source>
+        <target>Username or email</target>
+      </trans-unit>
+      <trans-unit id="p7XRvJQ" resname="First active">
+        <source>First active</source>
+        <target>First active</target>
+      </trans-unit>
+      <trans-unit id="oxwzlMc" resname="Invalidate">
+        <source>Invalidate</source>
+        <target>Invalidate</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserTfaRecoveryCodeRepository")
  * @ORM\Table(name="user_tfa_recovery_codes")
  */
-class UserTfaRecoveryCode implements Interfaces\StatusInterface
+class UserTfaRecoveryCode implements Interfaces\StatusInterface, Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

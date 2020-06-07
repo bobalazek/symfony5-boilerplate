@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserTfaEmailRepository")
  * @ORM\Table(name="user_tfa_emails")
  */
-class UserTfaEmail implements Interfaces\StatusInterface
+class UserTfaEmail implements Interfaces\StatusInterface, Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

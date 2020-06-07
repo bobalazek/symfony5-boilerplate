@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserExportRepository")
  * @ORM\Table(name="user_exports")
  */
-class UserExport
+class UserExport implements Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

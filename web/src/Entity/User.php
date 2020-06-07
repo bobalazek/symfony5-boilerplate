@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   groups={"register", "settings"}
  * )
  */
-class User implements UserInterface, EquatableInterface, \Serializable
+class User implements UserInterface, EquatableInterface, \Serializable, Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
     use Traits\DeletedTrait;

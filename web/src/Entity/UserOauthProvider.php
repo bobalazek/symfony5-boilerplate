@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserOauthProviderRepository")
  * @ORM\Table(name="user_oauth_providers")
  */
-class UserOauthProvider implements Interfaces\StatusInterface
+class UserOauthProvider implements Interfaces\StatusInterface, Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

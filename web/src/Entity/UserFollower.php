@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserFollowerRepository")
  * @ORM\Table(name="user_followers")
  */
-class UserFollower implements Interfaces\StatusInterface
+class UserFollower implements Interfaces\StatusInterface, Interfaces\ArrayInterface
 {
     use Traits\StatusTrait;
     use Traits\TimestampsTrait;

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\ThreadUserMessageRepository")
  * @ORM\Table(name="thread_user_messages")
  */
-class ThreadUserMessage
+class ThreadUserMessage implements Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

@@ -96,7 +96,7 @@ class OauthController extends AbstractController
             ->getRepository(UserOauthProvider::class)
             ->findOneBy([
                 'provider' => $provider,
-                'providerId' => $oauthUser['id'],
+                'providerId' => $oauthUser->getId(),
             ])
         ;
 
@@ -106,7 +106,7 @@ class OauthController extends AbstractController
                 if ($userMyself) {
                     $userOauthProvider = new UserOauthProvider();
                     $userOauthProvider->setProvider($provider);
-                    $userOauthProvider->setProviderId($oauthUser['id']);
+                    $userOauthProvider->setProviderId($oauthUser->getId());
 
                     $userMyself->addUserOauthProvider($userOauthProvider);
 

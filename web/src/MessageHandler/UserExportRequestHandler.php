@@ -71,7 +71,7 @@ class UserExportRequestHandler implements MessageHandlerInterface
                 ->setExpiresAt($expiresAt)
             ;
 
-            // TODO: unset the zip locally
+            unlink($zipFilePath);
         } catch (\Exception $e) {
             $userExport
                 ->setStatus(UserExport::STATUS_FAILED)
@@ -84,7 +84,7 @@ class UserExportRequestHandler implements MessageHandlerInterface
         $this->em->flush();
     }
 
-    public function _saveZip(UserExport $userExport)
+    public function _saveZip(UserExport $userExport): string
     {
         $filesystem = new Filesystem();
 
@@ -132,8 +132,12 @@ class UserExportRequestHandler implements MessageHandlerInterface
                 'method' => 'getUserActions',
             ],
             [
-                'filename' => 'user_blocks.json',
-                'method' => 'getUserBlocks',
+                'filename' => 'user_devices.json',
+                'method' => 'getUserDevices',
+            ],
+            [
+                'filename' => 'user_exports.json',
+                'method' => 'getUserExports',
             ],
             [
                 'filename' => 'user_followers.json',

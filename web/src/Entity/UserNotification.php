@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserNotificationRepository")
  * @ORM\Table(name="user_notifications")
  */
-class UserNotification implements Interfaces\StatusInterface
+class UserNotification implements Interfaces\StatusInterface, Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

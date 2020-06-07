@@ -60,6 +60,7 @@ class OauthManager
         if ('facebook' === $provider) {
             return $this->getFacebookUser();
         }
+
         if ('google' === $provider) {
             return $this->getGoogleUser();
         }
@@ -104,6 +105,7 @@ class OauthManager
                 $scope
             );
         }
+
         if ('google' === $provider) {
             $googleClient = $this->getGoogleClient();
 
@@ -133,7 +135,7 @@ class OauthManager
         return $this->facebookClient;
     }
 
-    public function getFacebookUser(): array
+    public function getFacebookUser(): Oauth\OauthUser
     {
         $request = $this->requestStack->getCurrentRequest();
         $accessToken = $request->getSession()->get('_facebook_access_token');
@@ -150,19 +152,20 @@ class OauthManager
         $request->getSession()->set('_facebook_access_token', $accessTokenString);
 
         $facebookUserResponse = $facebookClient->get(
-            '/me?fields=id,name,first_name,middle_name,last_name,email',
+            '/me?fields=id,email,name',
             $accessToken
         );
+
         $facebookUser = $facebookUserResponse->getGraphUser();
 
-        return [
-            'id' => $facebookUser->getId(),
-            'name' => $facebookUser->getName(),
-            'first_name' => $facebookUser->getFirstName(),
-            'middle_name' => $facebookUser->getMiddleName(),
-            'last_name' => $facebookUser->getLastName(),
-            'email' => $facebookUser->getEmail(),
-        ];
+        $oauthUser = new Oauth\OauthUser();
+        $oauthUser
+            ->setId($facebookUser->getId())
+            ->setEmail($facebookUser->getEmail())
+            ->setName($facebookUser->getName())
+        ;
+
+        return $oauthUser;
     }
 
     public function getGoogleClient(): Google_Client
@@ -189,7 +192,7 @@ class OauthManager
         return $this->googleClient;
     }
 
-    public function getGoogleUser(): array
+    public function getGoogleUser(): Oauth\OauthUser
     {
         $request = $this->requestStack->getCurrentRequest();
         $accessToken = $request->getSession()->get('_google_access_token');
@@ -215,10 +218,12 @@ class OauthManager
 
         $googleUser = $oauth->tokeninfo();
 
-        return [
-            'id' => $googleUser->getUserId(),
-            'email' => $googleUser->getEmail(),
-            'verified_email' => $googleUser->getVerifiedEmail(),
-        ];
+        $oauthUser = new Oauth\OauthUser();
+        $oauthUser
+            ->setId($googleUser->getUserId())
+            ->setEmail($googleUser->getEmail())
+        ;
+
+        return $oauthUser;
     }
 }

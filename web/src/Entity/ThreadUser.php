@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\ThreadUserRepository")
  * @ORM\Table(name="thread_users")
  */
-class ThreadUser
+class ThreadUser implements Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

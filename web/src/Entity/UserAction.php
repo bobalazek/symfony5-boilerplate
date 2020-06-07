@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserActionRepository")
  * @ORM\Table(name="user_actions")
  */
-class UserAction
+class UserAction implements Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
     use Traits\RequestMetaTrait;

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserBlockRepository")
  * @ORM\Table(name="user_blocks")
  */
-class UserBlock implements Interfaces\StatusInterface
+class UserBlock implements Interfaces\StatusInterface, Interfaces\ArrayInterface
 {
     use Traits\TimestampsTrait;
 

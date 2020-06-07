@@ -33,6 +33,11 @@ class HomeController extends AbstractController
     private $em;
 
     /**
+     * @var UserActionManager
+     */
+    private $userActionManager;
+
+    /**
      * @var EmailManager
      */
     private $emailManager;
@@ -41,11 +46,13 @@ class HomeController extends AbstractController
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
+        UserActionManager $userActionManager,
         EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
+        $this->userActionManager = $userActionManager;
         $this->emailManager = $emailManager;
     }
 

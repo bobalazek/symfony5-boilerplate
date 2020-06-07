@@ -7,7 +7,7 @@
     <body>
       <trans-unit id=".a90OF." resname="home.contact.flash.success">
         <source>home.contact.flash.success</source>
-        <target>home.contact.flash.success</target>
+        <target>You have successfully sent the contact message.</target>
       </trans-unit>
       <trans-unit id="G89jNN." resname="not_allowed">
         <source>not_allowed</source>

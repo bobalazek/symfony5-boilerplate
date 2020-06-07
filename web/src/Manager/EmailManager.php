@@ -49,8 +49,8 @@ class EmailManager
         ], 'emails');
         $email = (new TemplatedEmail())
             ->subject($emailSubject)
-            ->from(new Address($context['email'], $context['name']))
-            ->to($this->params->get('app.mailer_to'))
+            ->from(new Address($context['contact_email'], $context['contact_name']))
+            ->to(Address::fromString($this->params->get('app.mailer_to')))
             ->htmlTemplate('emails/contact.html.twig')
             ->context($context)
         ;

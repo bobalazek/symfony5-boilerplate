@@ -6,6 +6,8 @@ twig:
     form_themes:
         - 'bootstrap_4_layout.html.twig'
         - 'form/fields.html.twig'
+    paths:
+        '%kernel.project_dir%/assets/css': css
     globals:
         app_environment: '%kernel.environment%'
         app_name: '%app.name%'

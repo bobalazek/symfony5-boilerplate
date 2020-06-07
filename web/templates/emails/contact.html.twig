@@ -1,11 +1,20 @@
-{{ 'Name' | trans }}
-{{ name }}
-
-{{ 'Email' | trans }}:
-{{ email }}
-
-{{ 'Subject' | trans }}:
-{{ subject }}
-
-{{ 'Message' | trans }}:
-{{ message }}
+{% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
+  <wrapper>
+    <div>
+      <b>{{ 'Name' | trans }}:</b>
+      {{ contact_name }}
+    </div>
+    <div>
+      <b>{{ 'Email' | trans }}:</b>
+      {{ contact_email }}
+    </div>
+    <div>
+      <b>{{ 'Subject' | trans }}:</b>
+      {{ subject }}
+    </div>
+    <div>
+      <b>{{ 'Message' | trans }}:</b>
+      {{ message }}
+    </div>
+  </wrapper>
+{% endapply %}

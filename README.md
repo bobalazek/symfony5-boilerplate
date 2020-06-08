@@ -1,8 +1,8 @@
-# CorcoViewer
+# Corcoviewer
 
 ![CI](https://github.com/bobalazek/corcoviewer/workflows/Development%20Workflow/badge.svg)
 
-The CorcoViewer project.
+The Corcoviewer project.
 
 ## Features
 

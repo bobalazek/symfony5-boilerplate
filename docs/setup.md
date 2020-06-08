@@ -1,4 +1,4 @@
-# CorcoViewer
+# Corcoviewer
 
 ## Setup
 
@@ -20,4 +20,4 @@
     * Run: `docker exec -ti cw_node_web yarn install` (installs dependencies)
   * Game:
     * Run: `docker exec -ti cw_node_game npm install` (installs dependencies)
-* You are ready to go to the next step - `Development`!
+* You are ready to go to the next step - [Development](development.md)!

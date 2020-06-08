@@ -63,6 +63,11 @@ easy_admin:
                       template: 'admin/fields/user_action_data.html.twig'
                     - createdAt
 
+        UserDevice:
+            class: App\Entity\UserDevice
+            label: 'User Devices'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
         UserOauthProvider:
             class: App\Entity\UserOauthProvider
             label: 'User OAuth providers'
@@ -73,9 +78,19 @@ easy_admin:
             label: 'User TFA methods'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
+        UserTfaRecoveryCode:
+            class: App\Entity\UserTfaRecoveryCode
+            label: 'User TFA recovery codes'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
         UserNotification:
             class: App\Entity\UserNotification
             label: 'User notifications'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        UserBlock:
+            class: App\Entity\UserBlock
+            label: 'User Blocks'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserFollower:
@@ -91,4 +106,19 @@ easy_admin:
         UserExport:
             class: App\Entity\UserExport
             label: 'User exports'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        Thread:
+            class: App\Entity\Thread
+            label: 'Threads'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        ThreadUser:
+            class: App\Entity\ThreadUser
+            label: 'Thread users'
+            disabled_actions: [ 'new', 'edit', 'delete' ]
+
+        ThreadUserMessage:
+            class: App\Entity\ThreadUserMessage
+            label: 'Thread user messages'
             disabled_actions: [ 'new', 'edit', 'delete' ]

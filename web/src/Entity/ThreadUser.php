@@ -45,7 +45,7 @@ class ThreadUser implements Interfaces\ArrayInterface
 
     public function __toString()
     {
-        return $this->getId();
+        return (string) $this->getThread() . ' @ ' . (string) $this->getUser();
     }
 
     public function getId(): ?int

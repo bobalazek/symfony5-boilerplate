@@ -1,15 +1,8 @@
-// jQuery
 import $ from 'jquery';
-
-// Bootstrap
 import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
-
-// Fontawesome
 import '@fortawesome/fontawesome-free/css/all.css';
-
-// App
-import '../css/app.scss';
+import '../css/index.scss';
 import './helpers';
 
 $(document).ready(function () {

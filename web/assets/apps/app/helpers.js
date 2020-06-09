@@ -1,7 +1,6 @@
-// jQuery
-import $ from 'jquery';
+/* global autocompleteUrl */
 
-// Select2
+import $ from 'jquery';
 import 'select2/dist/js/select2.full';
 import 'select2/dist/css/select2.css';
 import '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css';
@@ -85,7 +84,7 @@ $.fn.appCollection = function(options) {
         $entry.remove();
 
         var index = parseInt($collection.attr('data-index'));
-        //$wrapper.attr('data-index', index - 1);
+        $wrapper.attr('data-index', index - 1);
       });
 
       $entryRemoveButton.wrap(function() {
@@ -262,7 +261,7 @@ $.fn.appInfiniteScroll = function() {
     var isLoading = false;
     var hasMoreItems = true;
 
-    $(window).on('scroll', function(event) {
+    $(window).on('scroll', function() {
       if (isInViewport($this.find('.infinite-scroll-pagination'))) {
         loadNewItems();
       }

@@ -29,6 +29,8 @@
 * Upgrade yarn dependencies: `docker exec -ti cw_node_web yarn upgrade`
 * Watch & build static assets (CSS & JS) for development: `docker exec -ti cw_node_web yarn run watch`
 * Build static assets (CSS & JS) for production: `docker exec -ti cw_node_web yarn run build`
+* Lint JS files: `docker exec -ti cw_node_web yarn run lint`
+* Lint & fix JS files: `docker exec -ti cw_node_web yarn run lint-fix`
 
 ### Game
 

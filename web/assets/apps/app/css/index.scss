@@ -1,9 +1,7 @@
-/********** Bootstrap **********/
 $input-btn-focus-box-shadow: none !important;
 @import "~bootstrap/scss/bootstrap";
 
-/********** App **********/
-@import "./app/general";
-@import "./app/header";
-@import "./app/content";
-@import "./app/footer";
+@import "./general";
+@import "./header";
+@import "./content";
+@import "./footer";

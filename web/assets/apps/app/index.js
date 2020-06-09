@@ -2,7 +2,7 @@ import $ from 'jquery';
 import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
 import '@fortawesome/fontawesome-free/css/all.css';
-import '../css/index.scss';
+import './css/index.scss';
 import './helpers';
 
 $(document).ready(function () {

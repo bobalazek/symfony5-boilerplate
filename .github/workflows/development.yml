@@ -17,14 +17,17 @@ jobs:
       - name: Backend - Install dependencies
         run: docker exec -i cw_php composer install
 
-      - name: Backend - Lint twig templates
+      - name: Backend - Lint twig template files
         run: docker exec -i cw_php php bin/console lint:twig templates/
-      - name: Backend - Lint yaml config
+      - name: Backend - Lint YAML config files
         run: docker exec -i cw_php php bin/console lint:yaml config/
-      - name: Backend - Lint xliff translations
+      - name: Backend - Lint XLIFF translation files
         run: docker exec -i cw_php php bin/console lint:xliff translations/
       - name: Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
+
+      - name: Frontend - Lint JS files
+        run: docker exec -i cw_node_web yarn run lint
 
       - name: Backend - Update database schema
         run: docker exec -i cw_php php bin/console doctrine:schema:update --force

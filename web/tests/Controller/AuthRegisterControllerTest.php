@@ -47,6 +47,7 @@ class AuthRegisterControllerTest extends WebTestCase
 
         $this->assertTrue(0 !== count($messages));
 
+        // https://symfonycasts.com/screencast/mailer/unit-test
         // TODO: get the sent message, not the queued
         $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $messages[0]);
         $this->assertSame('testuser123@test.com', $messages[0]->getTo()[0]->getAddress());

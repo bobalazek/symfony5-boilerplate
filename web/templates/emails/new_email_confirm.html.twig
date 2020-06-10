@@ -1,7 +1,4 @@
 {% trans_default_domain 'emails' %}
-{% set new_email_confirm_url = url('settings', {
-    new_email_confirm_code: user.getNewEmailConfirmCode(),
-}) %}
 {% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
   <container>
     <h1>
@@ -10,6 +7,6 @@
       }) }}
     </h1>
     <p>{{ 'new_email_confirm.content' | trans }}</p>
-    <p>{{ new_email_confirm_url | raw }}</p>
+    <p>{{ url | raw }}</p>
   </container>
 {% endapply %}

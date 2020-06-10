@@ -2,7 +2,5 @@
 
 ## TODO
 
-* Prefix Login/Register/PasswordReset with Auth
-* Test OAuth functionality
-* Test emails
-* Move link generation out of template emails
+* Unit tests for OAuth functionality
+* Unit tests for emails

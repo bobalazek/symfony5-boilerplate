@@ -7,7 +7,8 @@
     <table class="table">
       <thead>
         <tr>
-          <th>{{ 'Key' | trans }}</th>
+          <th>{{ 'Action' | trans }}</th>
+          <th>{{ 'IP' | trans }}</th>
           <th>{{ 'Time' | trans }}</th>
         </tr>
       </thead>
@@ -15,6 +16,7 @@
         {% for user_action in pagination.getItems() %}
           <tr>
             <td>{{ user_action.getKey() }}</td>
+            <td>{{ user_action.getIp() }}</td>
             <td>{{ user_action.getCreatedAt() | date() }}</td>
           </tr>
         {% endfor %}

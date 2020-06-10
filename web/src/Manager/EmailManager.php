@@ -10,6 +10,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -23,6 +25,11 @@ class EmailManager
     private $translator;
 
     /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    /**
      * @var ParameterBagInterface
      */
     private $params;
@@ -34,10 +41,12 @@ class EmailManager
 
     public function __construct(
         TranslatorInterface $translator,
+        RouterInterface $router,
         ParameterBagInterface $params,
         MailerInterface $mailer
     ) {
         $this->translator = $translator;
+        $this->router = $router;
         $this->params = $params;
         $this->mailer = $mailer;
     }
@@ -71,6 +80,13 @@ class EmailManager
             ->context([
                 'user' => $user,
                 'user_tfa_email' => $userTfaEmail,
+                'url' => $this->router->generate(
+                    'auth.login.tfa',
+                    [
+                        'code' => $userTfaEmail->getCode(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ])
         ;
 
@@ -107,6 +123,14 @@ class EmailManager
             ->htmlTemplate('emails/password_reset.html.twig')
             ->context([
                 'user' => $user,
+                'url' => $this->router->generate(
+                    'password_reset',
+                    [
+                        'email' => $user->getEmail(),
+                        'password_reset_code' => $user->getPasswordResetCode(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ])
         ;
 
@@ -125,6 +149,14 @@ class EmailManager
             ->htmlTemplate('emails/email_confirm.html.twig')
             ->context([
                 'user' => $user,
+                'url' => $this->router->generate(
+                    'auth.email_confirm',
+                    [
+                        'email' => $user->getEmail(),
+                        'email_confirm_code' => $user->getEmailConfirmCode(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ])
         ;
 
@@ -161,6 +193,13 @@ class EmailManager
             ->htmlTemplate('emails/new_email_confirm.html.twig')
             ->context([
                 'user' => $user,
+                'url' => $this->router->generate(
+                    'settings',
+                    [
+                        'new_email_confirm_code' => $user->getNewEmailConfirmCode(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ])
         ;
 
@@ -197,6 +236,13 @@ class EmailManager
             ->htmlTemplate('emails/deletion_confirm.html.twig')
             ->context([
                 'user' => $user,
+                'url' => $this->router->generate(
+                    'settings.deletion',
+                    [
+                        'deletion_confirm_code' => $user->getDeletionConfirmCode(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ])
         ;
 

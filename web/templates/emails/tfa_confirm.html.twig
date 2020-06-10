@@ -1,7 +1,4 @@
 {% trans_default_domain 'emails' %}
-{% set confirm_url = url('auth.login.tfa', {
-    code: user_tfa_email.getCode(),
-}) %}
 {% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
   <container>
     <h1>
@@ -10,6 +7,6 @@
       }) }}
     </h1>
     <p>{{ 'tfa_confirm.content' | trans() }}</p>
-    <p>{{ confirm_url | raw }}</p>
+    <p>{{ url | raw }}</p>
   </container>
 {% endapply %}

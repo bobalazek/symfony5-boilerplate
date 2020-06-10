@@ -52,9 +52,6 @@ class GoogleAuthenticatorManager
     }
 
     /**
-     * @param string $accountName basically the id of a user in email format: [user_id]@[hostname]
-     * @param string $issuer
-     *
      * @return string
      */
     public function generateQrUrl(string $accountName, string $secret, string $issuer = null, int $size = 200)

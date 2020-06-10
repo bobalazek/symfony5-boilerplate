@@ -162,13 +162,27 @@ class SettingsTfaController extends AbstractController
         );
 
         $userTfaMethodData = $userTfaMethod->getData();
+        if (
+            !isset($userTfaMethodData['secret']) ||
+            !$userTfaMethodData['secret']
+        ) {
+            // In a strange case where the secret wouldn't be set yet
+            $userTfaMethodData = [
+                'secret' => $this->googleAuthenticatorManager->generateSecret(),
+            ];
+            $userTfaMethod->setData($userTfaMethodData);
+
+            $this->em->persist($userTfaMethod);
+            $this->em->flush();
+        }
+
         $secret = $userTfaMethodData['secret'];
 
         $methods = $this->params->get('app.tfa_methods');
         $googleAuthenticatorData = $methods[UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR];
 
         $qrCodeUrl = $this->googleAuthenticatorManager->generateQrUrl(
-            $user->getId() . '@' . $googleAuthenticatorData['hostname'],
+            $user->getEmail() . ' on ' . $googleAuthenticatorData['hostname'],
             $secret,
             $googleAuthenticatorData['issuer']
         );

@@ -6,16 +6,17 @@ use App\Entity\UserTfaEmail;
 use App\Tests\WebTestCase;
 
 /**
- * Class LoginControllerTest.
+ * Class AuthLoginControllerTest.
  *
  * @internal
  * @coversNothing
  */
-class LoginControllerTest extends WebTestCase
+class AuthLoginControllerTest extends WebTestCase
 {
     public function testLogin()
     {
         $this->client->followRedirects();
+
         $crawler = $this->client->request('GET', '/auth/login');
 
         $form = $crawler
@@ -25,14 +26,16 @@ class LoginControllerTest extends WebTestCase
                 'password' => 'password',
             ])
         ;
-        $this->client->submit($form);
 
-        $this->assertTrue(0 === $crawler->filter('div.alert-danger')->count());
+        $newCrawler = $this->client->submit($form);
+
+        $this->assertTrue(0 === $newCrawler->filter('div.alert-danger')->count());
     }
 
-    public function testWrongLoginAlertMessage()
+    public function testLoginNonExistingUserAlertMessage()
     {
         $this->client->followRedirects();
+
         $crawler = $this->client->request('GET', '/auth/login');
 
         $form = $crawler
@@ -42,6 +45,7 @@ class LoginControllerTest extends WebTestCase
                 'password' => 'somenonexistingpassword',
             ])
         ;
+
         $newCrawler = $this->client->submit($form);
 
         $this->assertTrue($newCrawler->filter('form > div.alert-danger')->count() > 0);
@@ -50,6 +54,7 @@ class LoginControllerTest extends WebTestCase
     public function testLoginTfa()
     {
         $this->client->followRedirects();
+
         $crawler = $this->client->request('GET', '/auth/login');
 
         $form = $crawler
@@ -59,6 +64,7 @@ class LoginControllerTest extends WebTestCase
                 'password' => 'password',
             ])
         ;
+
         $tfaCrawler = $this->client->submit($form);
 
         $this->assertTrue('login_tfa' === $tfaCrawler->filter('form')->attr('name'));

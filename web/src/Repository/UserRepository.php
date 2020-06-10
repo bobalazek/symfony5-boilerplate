@@ -25,6 +25,7 @@ class UserRepository extends ServiceEntityRepository
             ->createQueryBuilder('u')
             ->where('u.username = :usernameOrEmail OR u.email = :usernameOrEmail')
             ->setParameter('usernameOrEmail', $usernameOrEmail)
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;

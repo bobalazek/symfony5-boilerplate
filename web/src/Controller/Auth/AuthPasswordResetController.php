@@ -82,9 +82,7 @@ class AuthPasswordResetController extends AbstractController
                 ])
             ;
             if (!$user) {
-                throw $this->createNotFoundException(
-                    $this->translator->trans('password_reset.user_not_found', [], 'auth')
-                );
+                throw $this->createNotFoundException($this->translator->trans('password_reset.user_not_found', [], 'auth'));
             }
         }
 

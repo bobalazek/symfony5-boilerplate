@@ -153,9 +153,7 @@ class AuthRegisterController extends AbstractController
             ])
         ;
         if (!$user) {
-            throw $this->createNotFoundException(
-                $this->translator->trans('login.email_confirm.user_not_found', [], 'auth')
-            );
+            throw $this->createNotFoundException($this->translator->trans('login.email_confirm.user_not_found', [], 'auth'));
         }
 
         $user->setEmailConfirmedAt(new \DateTime());

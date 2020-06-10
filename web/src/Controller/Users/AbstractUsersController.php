@@ -37,25 +37,18 @@ class AbstractUsersController extends AbstractController
     protected $userActionManager;
 
     /**
-     * @var \Swift_Mailer
-     */
-    protected $mailer;
-
-    /**
      * AbstractUsersController constructor.
      */
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        UserActionManager $userActionManager,
-        \Swift_Mailer $mailer
+        UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
-        $this->mailer = $mailer;
     }
 
     /* Helpers */

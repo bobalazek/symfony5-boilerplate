@@ -40,18 +40,16 @@ class AuthRegisterControllerTest extends WebTestCase
 
         $this->assertTrue(null !== $user);
 
-// TODO: emails not working yet for some reason
-/*
-        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
+        // Check for the send emails to the user
+        $mailerCollector = $this->client->getProfile()->getCollector('mailer');
 
-        $this->assertSame(1, $mailCollector->getMessageCount());
+        $messages = $mailerCollector->getEvents()->getMessages();
 
-        $collectedMessages = $mailCollector->getMessages();
-        $message = $collectedMessages[0];
+        $this->assertTrue(0 !== count($messages));
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertSame('testuser123@test.com', key($message->getTo()));
-*/
+        // TODO: get the sent message, not the queued
+        $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $messages[0]);
+        $this->assertSame('testuser123@test.com', $message->getTo()[0]->getAddress());
     }
 
     public function testRegisterInvalidFieldsErrorMessage()

@@ -15,8 +15,6 @@ class AuthRegisterControllerTest extends WebTestCase
 {
     public function testRegister()
     {
-        $this->client->followRedirects();
-
         $crawler = $this->client->request('GET', '/auth/register');
 
         $form = $crawler
@@ -42,13 +40,22 @@ class AuthRegisterControllerTest extends WebTestCase
 
         $this->assertTrue(null !== $user);
 
-        // TODO: test/catch emails
+// TODO: emails not working yet for some reason
+/*
+        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
+
+        $this->assertSame(1, $mailCollector->getMessageCount());
+
+        $collectedMessages = $mailCollector->getMessages();
+        $message = $collectedMessages[0];
+
+        $this->assertInstanceOf('Swift_Message', $message);
+        $this->assertSame('testuser123@test.com', key($message->getTo()));
+*/
     }
 
     public function testRegisterInvalidFieldsErrorMessage()
     {
-        $this->client->followRedirects();
-
         $crawler = $this->client->request('GET', '/auth/register');
 
         $form = $crawler

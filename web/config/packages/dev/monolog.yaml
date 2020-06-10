@@ -1,9 +1,5 @@
 monolog:
     handlers:
-# TODO: not working. It somehow only clogs up the container
-#        es:
-#            type: service
-#            id: Symfony\Bridge\Monolog\Handler\ElasticsearchLogstashHandler
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"

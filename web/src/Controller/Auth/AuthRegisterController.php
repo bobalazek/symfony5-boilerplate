@@ -108,9 +108,6 @@ class AuthRegisterController extends AbstractController
             ;
 
             $this->em->persist($user);
-            $this->em->flush();
-
-            $this->emailManager->sendEmailConfirm($user);
 
             // The default user (corco) should follow the newly registered user
             $defaultUser = $this->em->getRepository(User::class)->findOneById(1);
@@ -123,8 +120,11 @@ class AuthRegisterController extends AbstractController
                 ;
 
                 $this->em->persist($userFollower);
-                $this->em->flush();
             }
+
+            $this->em->flush();
+
+            $this->emailManager->sendEmailConfirm($user);
 
             return $this->render('contents/auth/register/success.html.twig');
         }

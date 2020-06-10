@@ -49,7 +49,7 @@ class AuthRegisterControllerTest extends WebTestCase
 
         // TODO: get the sent message, not the queued
         $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $messages[0]);
-        $this->assertSame('testuser123@test.com', $message->getTo()[0]->getAddress());
+        $this->assertSame('testuser123@test.com', $messages[0]->getTo()[0]->getAddress());
     }
 
     public function testRegisterInvalidFieldsErrorMessage()

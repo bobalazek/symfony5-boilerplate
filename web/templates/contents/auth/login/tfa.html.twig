@@ -31,7 +31,7 @@
       <h5>{{ 'tfa.switch_method' | trans({}, 'login') }}</h5>
       {% for available_method in available_methods | filter(available_method => available_method != method) %}
         <a class="btn btn-light btn-block"
-          href="{{ url('login.tfa', {
+          href="{{ url('auth.login.tfa', {
             switch_method: available_method,
           }) }}">
           {{ methods[available_method].label }}

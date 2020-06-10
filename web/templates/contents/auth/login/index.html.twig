@@ -9,7 +9,7 @@
     </h1>
     <p>
       {{ 'Not registered yet?' | trans }}
-      <a href="{{ path('register') }}">
+      <a href="{{ url('auth.register') }}">
           {{ 'Signup' | trans }}
       </a>
     </p>
@@ -62,7 +62,7 @@
          </div>
        </div>
        <div class="float-right">
-         <a href="{{ path('password_reset') }}">
+         <a href="{{ url('auth.password_reset') }}">
              {{ 'Forgot your password?' | trans }}
          </a>
        </div>
@@ -79,7 +79,7 @@
       {{ 'or_login_with' | trans({}, 'login') }}
     </div>
     {% for key, provider in app_oauth_providers %}
-      <a href="{{ url('oauth', {
+      <a href="{{ url('auth.oauth', {
         provider: key,
         action: 'login',
       }) }}" class="btn btn-lg btn-block btn-block btn-primary">

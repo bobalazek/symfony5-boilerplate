@@ -31,8 +31,8 @@ parameters:
     # TFA
     app.tfa.allowed_routes:
         - null # error
-        - logout
-        - login.tfa
+        - auth.logout
+        - auth.login.tfa
 
 services:
     _defaults:

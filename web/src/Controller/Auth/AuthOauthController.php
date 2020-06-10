@@ -14,11 +14,9 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class OauthController.
- *
- * TODO: implement https://github.com/knpuniversity/oauth2-client-bundle
+ * Class AuthOauthController.
  */
-class OauthController extends AbstractController
+class AuthOauthController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -53,7 +51,7 @@ class OauthController extends AbstractController
     }
 
     /**
-     * @Route("/oauth/{provider}", name="oauth")
+     * @Route("/auth/oauth/{provider}", name="auth.oauth")
      *
      * @param mixed $provider
      */
@@ -65,7 +63,7 @@ class OauthController extends AbstractController
     }
 
     /**
-     * @Route("/oauth/{provider}/callback", name="oauth.callback")
+     * @Route("/auth/oauth/{provider}/callback", name="auth.oauth.callback")
      *
      * @param mixed $provider
      */
@@ -153,7 +151,7 @@ class OauthController extends AbstractController
             );
         } elseif ('register' === $action) {
             if (!$userOauthProvider) {
-                return $this->redirectToRoute('register', [
+                return $this->redirectToRoute('auth.register', [
                     'oauth' => $provider,
                 ]);
             }

@@ -1,5 +1,5 @@
 {% trans_default_domain 'emails' %}
-{% set confirm_url = url('login.tfa', {
+{% set confirm_url = url('auth.login.tfa', {
     code: user_tfa_email.getCode(),
 }) %}
 {% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}

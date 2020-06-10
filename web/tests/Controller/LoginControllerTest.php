@@ -16,7 +16,7 @@ class LoginControllerTest extends WebTestCase
     public function testLogin()
     {
         $this->client->followRedirects();
-        $crawler = $this->client->request('GET', '/login');
+        $crawler = $this->client->request('GET', '/auth/login');
 
         $form = $crawler
             ->selectButton('Login')
@@ -33,7 +33,7 @@ class LoginControllerTest extends WebTestCase
     public function testWrongLoginAlertMessage()
     {
         $this->client->followRedirects();
-        $crawler = $this->client->request('GET', '/login');
+        $crawler = $this->client->request('GET', '/auth/login');
 
         $form = $crawler
             ->selectButton('Login')
@@ -50,7 +50,7 @@ class LoginControllerTest extends WebTestCase
     public function testLoginTfa()
     {
         $this->client->followRedirects();
-        $crawler = $this->client->request('GET', '/login');
+        $crawler = $this->client->request('GET', '/auth/login');
 
         $form = $crawler
             ->selectButton('Login')
@@ -78,7 +78,7 @@ class LoginControllerTest extends WebTestCase
         $userTfaEmail = $userTfaEmails[0];
 
         // Visit that link, to confirm it was correct and it did not throw any error
-        $tfaRedirectCrawler = $this->client->request('GET', '/login/tfa?code=' . $userTfaEmail->getCode());
+        $tfaRedirectCrawler = $this->client->request('GET', '/auth/login/tfa?code=' . $userTfaEmail->getCode());
 
         $this->assertTrue(0 === $tfaRedirectCrawler->filter('div.alert-danger')->count());
     }

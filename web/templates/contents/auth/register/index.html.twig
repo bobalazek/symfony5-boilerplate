@@ -19,7 +19,7 @@
     </h1>
     <p>
       {{ 'Already have an account?' | trans }}
-      <a href="{{ path('login') }}">
+      <a href="{{ url('auth.login') }}">
         {{ 'Login' | trans }}
       </a>
     </p>
@@ -55,7 +55,7 @@
         {{ 'or_register_with' | trans({}, 'register') }}
       </div>
       {% for key, provider in app_oauth_providers %}
-        <a href="{{ url('oauth', {
+        <a href="{{ url('auth.oauth', {
           provider: key,
           action: 'register',
         }) }}" class="btn btn-lg btn-block btn-block btn-primary">

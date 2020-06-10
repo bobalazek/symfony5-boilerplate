@@ -60,13 +60,13 @@
               {% endif %}
             {% endif %}
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('logout') }}">
+            <a class="dropdown-item" href="{{ url('auth.logout') }}">
               {{ 'Logout' | trans }}
             </a>
           </div>
         </div>
       {% else %}
-        <a class="btn btn-outline-primary" href="{{ url('login') }}">
+        <a class="btn btn-outline-primary" href="{{ url('auth.login') }}">
           {{ 'Login / join' | trans }}
         </a>
       {% endif %}

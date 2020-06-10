@@ -20,9 +20,9 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class RegisterController.
+ * Class AuthRegisterController.
  */
-class RegisterController extends AbstractController
+class AuthRegisterController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -57,7 +57,7 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="register")
+     * @Route("/auth/register", name="auth.register")
      */
     public function index(
         Request $request,
@@ -126,17 +126,17 @@ class RegisterController extends AbstractController
                 $this->em->flush();
             }
 
-            return $this->render('contents/register/success.html.twig');
+            return $this->render('contents/auth/register/success.html.twig');
         }
 
-        return $this->render('contents/register/index.html.twig', [
+        return $this->render('contents/auth/register/index.html.twig', [
             'form' => $form->createView(),
             'oauth' => $oauth,
         ]);
     }
 
     /**
-     * @Route("/email-confirm", name="email_confirm")
+     * @Route("/auth/email-confirm", name="auth.email_confirm")
      */
     public function emailConfirm(
         Request $request,

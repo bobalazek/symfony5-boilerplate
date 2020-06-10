@@ -23,9 +23,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class LoginTfaController.
+ * Class AuthLoginTfaController.
  */
-class LoginTfaController extends AbstractController
+class AuthLoginTfaController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -88,13 +88,13 @@ class LoginTfaController extends AbstractController
     }
 
     /**
-     * @Route("/login/tfa", name="login.tfa")
+     * @Route("/auth/login/tfa", name="auth.login.tfa")
      */
     public function index(Request $request): Response
     {
         $user = $this->getUser();
         if (!$user) {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('auth.login');
         }
 
         $method = $request->getSession()->get('tfa_method');
@@ -125,7 +125,7 @@ class LoginTfaController extends AbstractController
         ) {
             $request->getSession()->set('tfa_method', $switchMethod);
 
-            return $this->redirectToRoute('login.tfa');
+            return $this->redirectToRoute('auth.login.tfa');
         }
 
         $isEmailMethod = UserTfaMethod::METHOD_EMAIL === $method;
@@ -150,7 +150,7 @@ class LoginTfaController extends AbstractController
             );
         }
 
-        return $this->render('contents/login/tfa.html.twig', [
+        return $this->render('contents/auth/login/tfa.html.twig', [
             'form' => $form->createView(),
             'method' => $method,
             'methods' => $methods,
@@ -167,7 +167,7 @@ class LoginTfaController extends AbstractController
                 $this->translator->trans('tfa.flash.too_many_attempts', [], 'login')
             );
 
-            return $this->redirectToRoute('login.tfa');
+            return $this->redirectToRoute('auth.login.tfa');
         }
 
         if (UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR === $method) {
@@ -196,7 +196,7 @@ class LoginTfaController extends AbstractController
                     ]
                 );
 
-                return $this->redirectToRoute('login.tfa');
+                return $this->redirectToRoute('auth.login.tfa');
             }
         } elseif (UserTfaMethod::METHOD_RECOVERY_CODES === $method) {
             $userTfaRecoveryCode = $this->em
@@ -222,7 +222,7 @@ class LoginTfaController extends AbstractController
                     ]
                 );
 
-                return $this->redirectToRoute('login.tfa');
+                return $this->redirectToRoute('auth.login.tfa');
             }
 
             $userTfaRecoveryCode->setUsedAt(new \DateTime());
@@ -252,7 +252,7 @@ class LoginTfaController extends AbstractController
                 $this->translator->trans('tfa.email.flash.code_already_sent_recently', [], 'login')
             );
 
-            return $this->redirectToRoute('login.tfa');
+            return $this->redirectToRoute('auth.login.tfa');
         }
 
         $userTfaEmail = new UserTfaEmail();
@@ -276,7 +276,7 @@ class LoginTfaController extends AbstractController
             $this->translator->trans('tfa.email.flash.code_sent', [], 'login')
         );
 
-        return $this->redirectToRoute('login.tfa');
+        return $this->redirectToRoute('auth.login.tfa');
     }
 
     private function _handleEmailCodeQuery(Request $request, User $user, string $code)
@@ -312,7 +312,7 @@ class LoginTfaController extends AbstractController
                 ]
             );
 
-            return $this->redirectToRoute('login.tfa');
+            return $this->redirectToRoute('auth.login.tfa');
         }
 
         $userTfaEmail->setUsedAt(new \DateTime());

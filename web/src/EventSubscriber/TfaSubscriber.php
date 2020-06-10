@@ -46,7 +46,7 @@ class TfaSubscriber implements EventSubscriberInterface
                 return;
             }
 
-            $url = $this->router->generate('login.tfa');
+            $url = $this->router->generate('auth.login.tfa');
             $response = new RedirectResponse($url);
             $event->setController(function () use ($response) {
                 return $response;

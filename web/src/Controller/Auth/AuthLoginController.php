@@ -8,12 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- * Class LoginController.
+ * Class AuthLoginController.
  */
-class LoginController extends AbstractController
+class AuthLoginController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/auth/login", name="auth.login")
      */
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
@@ -24,19 +24,19 @@ class LoginController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('contents/login/index.html.twig', [
+        return $this->render('contents/auth/login/index.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/auth/logout", name="auth.logout")
      */
     public function logout(): Response
     {
         // This method can be blank - it will be intercepted by the logout key on your firewall
 
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('auth.login');
     }
 }

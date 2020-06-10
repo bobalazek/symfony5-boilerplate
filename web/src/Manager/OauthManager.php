@@ -87,7 +87,7 @@ class OauthManager
 
         if ('facebook' === $provider) {
             $callbackUrl = $this->router->generate(
-                'oauth.callback',
+                'auth.oauth.callback',
                 [
                     'provider' => 'facebook',
                 ],
@@ -172,7 +172,7 @@ class OauthManager
     {
         if (!$this->googleClient) {
             $callbackUrl = $this->router->generate(
-                'oauth.callback',
+                'auth.oauth.callback',
                 [
                     'provider' => 'google',
                 ],

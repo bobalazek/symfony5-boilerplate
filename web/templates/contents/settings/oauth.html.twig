@@ -18,7 +18,7 @@
        }, 'settings') }}
       </a>
     {% else %}
-      <a href="{{ url('oauth', {
+      <a href="{{ url('auth.oauth', {
         action: 'link',
         provider: key,
       }) }}"

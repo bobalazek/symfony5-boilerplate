@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class PasswordResetController.
+ * Class AuthPasswordResetController.
  */
-class PasswordResetController extends AbstractController
+class AuthPasswordResetController extends AbstractController
 {
     /**
      * @var TranslatorInterface
@@ -61,7 +61,7 @@ class PasswordResetController extends AbstractController
     }
 
     /**
-     * @Route("/password-reset", name="password_reset")
+     * @Route("/auth/password-reset", name="auth.password_reset")
      */
     public function index(Request $request): Response
     {
@@ -120,7 +120,7 @@ class PasswordResetController extends AbstractController
             }
         }
 
-        return $this->render('contents/password_reset/index.html.twig', [
+        return $this->render('contents/auth/password_reset/index.html.twig', [
             'form' => $form->createView(),
             'form_errors' => $form->getErrors(),
         ]);
@@ -143,7 +143,7 @@ class PasswordResetController extends AbstractController
 
         $this->emailManager->sendPasswordResetSuccess($user);
 
-        return $this->render('contents/password_reset/success.html.twig');
+        return $this->render('contents/auth/password_reset/success.html.twig');
     }
 
     private function _handleRequest($form)
@@ -187,6 +187,6 @@ class PasswordResetController extends AbstractController
 
         $this->emailManager->sendPasswordReset($user);
 
-        return $this->render('contents/password_reset/request_success.html.twig');
+        return $this->render('contents/auth/password_reset/request_success.html.twig');
     }
 }

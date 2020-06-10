@@ -39,6 +39,9 @@ services:
         autowire: true
         autoconfigure: true
 
+    # Aliases
+    snc_redis.default_client: "@snc_redis.default"
+
     # App
     App\:
         resource: '../src/*'

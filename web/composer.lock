@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20f4bd65eae8f8c0b3f235b2994a01dd",
+    "content-hash": "94f012e64e58bf91f01dde68da2056ea",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.140.1",
+            "version": "3.140.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "52645498aea4dd2d090884322121270daf3e0f06"
+                "reference": "298ec070adad5760c4b90348219bb3e6bd7a9322"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/52645498aea4dd2d090884322121270daf3e0f06",
-                "reference": "52645498aea4dd2d090884322121270daf3e0f06",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/298ec070adad5760c4b90348219bb3e6bd7a9322",
+                "reference": "298ec070adad5760c4b90348219bb3e6bd7a9322",
                 "shasum": ""
             },
             "require": {
@@ -88,7 +88,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-06-04T18:19:47+00:00"
+            "time": "2020-06-09T18:11:16+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -594,16 +594,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "2.13.2",
+            "version": "2.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "6902fafacb43333d9dc3d949c0a06048a31549ac"
+                "reference": "f3812c026e557892c34ef37f6ab808a6b567da7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/6902fafacb43333d9dc3d949c0a06048a31549ac",
-                "reference": "6902fafacb43333d9dc3d949c0a06048a31549ac",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/f3812c026e557892c34ef37f6ab808a6b567da7f",
+                "reference": "f3812c026e557892c34ef37f6ab808a6b567da7f",
                 "shasum": ""
             },
             "require": {
@@ -687,7 +687,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-29T17:35:20+00:00"
+            "time": "2020-06-05T16:46:05+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -2168,16 +2168,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.138",
+            "version": "v0.139",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "9e7ea08fbd87e5926d14ef0674626e26843a5508"
+                "reference": "84e99f792cae7bd92b8b54c75b0ad3502d628db6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/9e7ea08fbd87e5926d14ef0674626e26843a5508",
-                "reference": "9e7ea08fbd87e5926d14ef0674626e26843a5508",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/84e99f792cae7bd92b8b54c75b0ad3502d628db6",
+                "reference": "84e99f792cae7bd92b8b54c75b0ad3502d628db6",
                 "shasum": ""
             },
             "require": {
@@ -2201,7 +2201,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2020-05-31T00:25:32+00:00"
+            "time": "2020-06-08T00:24:31+00:00"
         },
         {
             "name": "google/auth",
@@ -3581,21 +3581,79 @@
             "time": "2020-06-03T07:24:19+00:00"
         },
         {
-            "name": "nyholm/nsa",
-            "version": "1.1.0",
+            "name": "noxlogic/ratelimit-bundle",
+            "version": "1.15.1",
+            "target-dir": "Noxlogic/RateLimitBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Nyholm/NSA.git",
-                "reference": "213a70dee2dd04433d31a187e24e92c8b59d1655"
+                "url": "https://github.com/jaytaph/RateLimitBundle.git",
+                "reference": "167c16305604a7d04f7f9c7c5cbe4a280786789f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nyholm/NSA/zipball/213a70dee2dd04433d31a187e24e92c8b59d1655",
-                "reference": "213a70dee2dd04433d31a187e24e92c8b59d1655",
+                "url": "https://api.github.com/repos/jaytaph/RateLimitBundle/zipball/167c16305604a7d04f7f9c7c5cbe4a280786789f",
+                "reference": "167c16305604a7d04f7f9c7c5cbe4a280786789f",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3 || ^7.0",
+                "php": "^7.2",
+                "sensio/framework-extra-bundle": "^3.0|^4.0|^5.0",
+                "symfony/framework-bundle": "^3.4|^4.3|^5.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "^1.5",
+                "friendsofsymfony/oauth-server-bundle": "^1.5",
+                "phpunit/phpunit": "^8.5",
+                "predis/predis": "^0.8|^1.1",
+                "psr/cache": "^1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "suggest": {
+                "doctrine/doctrine-cache-bundle": "Use Doctrine Cache as a storage engine.",
+                "friendsofsymfony/oauth-server-bundle": "Throttle using OAuth access tokens.",
+                "leaseweb/memcache-bundle": "Use Memcache as a storage engine.",
+                "snc/redis-bundle": "Use Redis as a storage engine."
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Noxlogic\\RateLimitBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Thijssen",
+                    "email": "jthijssen@noxlogic.nl"
+                }
+            ],
+            "description": "This bundle provides functionality to limit calls to actions based on rate limits",
+            "keywords": [
+                "api",
+                "rest",
+                "x-rate-limit"
+            ],
+            "time": "2020-02-11T10:04:45+00:00"
+        },
+        {
+            "name": "nyholm/nsa",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/NSA.git",
+                "reference": "2606ebf15fb24e15a8ca8d02977ad77082d391ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/NSA/zipball/2606ebf15fb24e15a8ca8d02977ad77082d391ef",
+                "reference": "2606ebf15fb24e15a8ca8d02977ad77082d391ef",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
                 "webmozart/assert": "^1.1.0"
             },
             "require-dev": {
@@ -3625,7 +3683,13 @@
                 "reflection",
                 "test"
             ],
-            "time": "2017-04-13T17:21:01+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-05T07:41:45+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -3775,63 +3839,59 @@
         },
         {
             "name": "pagerfanta/pagerfanta",
-            "version": "v2.1.3",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BabDev/Pagerfanta.git",
-                "reference": "a53ff01d521648d9dbca19b93ac6bc75a59b0972"
+                "reference": "fd00eb74632fecc0265327e9fe0eddc08c72b238"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/a53ff01d521648d9dbca19b93ac6bc75a59b0972",
-                "reference": "a53ff01d521648d9dbca19b93ac6bc75a59b0972",
+                "url": "https://api.github.com/repos/BabDev/Pagerfanta/zipball/fd00eb74632fecc0265327e9fe0eddc08c72b238",
+                "reference": "fd00eb74632fecc0265327e9fe0eddc08c72b238",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "ext-json": "*",
+                "php": "^7.2",
+                "symfony/deprecation-contracts": "^2.1"
             },
             "require-dev": {
-                "doctrine/orm": "~2.3",
-                "doctrine/phpcr-odm": "1.*",
-                "jackalope/jackalope-doctrine-dbal": "1.*",
-                "jmikola/geojson": "~1.0",
-                "mandango/mandango": "~1.0@dev",
-                "mandango/mondator": "~1.0@dev",
-                "phpunit/phpunit": "^6.5",
-                "propel/propel": "~2.0@dev",
-                "propel/propel1": "~1.6",
-                "ruflin/elastica": "~1.3",
-                "solarium/solarium": "~3.1"
+                "doctrine/collections": "^1.4",
+                "doctrine/dbal": "^2.5",
+                "doctrine/orm": "^2.5",
+                "doctrine/phpcr-odm": "^1.3",
+                "friendsofphp/php-cs-fixer": "^2.16.3",
+                "jackalope/jackalope-doctrine-dbal": "^1.3",
+                "mandango/mandango": "^1.0@dev",
+                "phpunit/phpunit": "^8.5 || ^9.0",
+                "propel/propel": "^2.0@dev",
+                "propel/propel1": "^1.7",
+                "ruflin/elastica": "^1.3 || ^2.0 || ^3.0 || ^5.0 || ^6.0",
+                "solarium/solarium": "^2.3 || ^3.0 || ^4.0 || ^5.0"
             },
             "suggest": {
-                "doctrine/mongodb-odm": "To use the DoctrineODMMongoDBAdapter.",
-                "doctrine/orm": "To use the DoctrineORMAdapter.",
-                "doctrine/phpcr-odm": "To use the DoctrineODMPhpcrAdapter. >= 1.1.0",
-                "mandango/mandango": "To use the MandangoAdapter.",
-                "propel/propel": "To use the Propel2Adapter",
-                "propel/propel1": "To use the PropelAdapter",
+                "doctrine/collections": "To use the Doctrine Collection and Selectable adapter.",
+                "doctrine/dbal": "To use the Doctrine DBAL adapters.",
+                "doctrine/mongodb-odm": "To use the Doctrine MongoDB ODM Adapter.",
+                "doctrine/orm": "To use the Doctrine ORM Adapter.",
+                "doctrine/phpcr-odm": "To use the Doctrine PHPCR ODM Adapter.",
                 "solarium/solarium": "To use the SolariumAdapter."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-2.x": "2.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Pagerfanta\\": "src/Pagerfanta/"
+                    "Pagerfanta\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pablo Díez",
-                    "email": "pablodip@gmail.com"
-                }
             ],
             "description": "Pagination for PHP",
             "keywords": [
@@ -3840,7 +3900,13 @@
                 "paginator",
                 "paging"
             ],
-            "time": "2019-07-17T20:56:16+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/mbabker",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-09T15:25:12+00:00"
         },
         {
             "name": "php-translation/common",
@@ -5048,6 +5114,85 @@
                 "controllers"
             ],
             "time": "2020-05-06T12:12:33+00:00"
+        },
+        {
+            "name": "snc/redis-bundle",
+            "version": "3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/snc/SncRedisBundle.git",
+                "reference": "cd47f699eeb6cffa72eaa505d3dcf907b157339b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/cd47f699eeb6cffa72eaa505d3dcf907b157339b",
+                "reference": "cd47f699eeb6cffa72eaa505d3dcf907b157339b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/framework-bundle": "^3.4 || ^4.2 || ^5.0",
+                "symfony/http-foundation": "^3.4 || ^4.2 || ^5.0",
+                "symfony/yaml": "^3.4 || ^4.2 || ^5.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.11.2 || ^2.0",
+                "doctrine/orm": "^2.6.4",
+                "ext-pdo_sqlite": "*",
+                "phpunit/phpunit": "^7.5",
+                "predis/predis": "^1.1",
+                "swiftmailer/swiftmailer": "^6.0",
+                "symfony/browser-kit": "^3.4 || ^4.2 || ^5.0",
+                "symfony/console": "^3.4 || ^4.2 || ^5.0",
+                "symfony/dom-crawler": "^3.4 || ^4.2 || ^5.0",
+                "symfony/filesystem": "^3.4 || ^4.2 || ^5.0",
+                "symfony/phpunit-bridge": "^4.3.5",
+                "symfony/profiler-pack": "^1.0",
+                "symfony/swiftmailer-bundle": "^2.0 || ^3.0",
+                "symfony/twig-bundle": "^3.4 || ^4.2 || ^5.0"
+            },
+            "suggest": {
+                "monolog/monolog": "If you want to use the monolog redis handler.",
+                "predis/predis": "If you want to use predis.",
+                "symfony/console": "If you want to use commands to interact with the redis database",
+                "symfony/proxy-manager-bridge": "If you want to lazy-load some services"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Snc\\RedisBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Henrik Westphal",
+                    "email": "henrik.westphal@gmail.com"
+                },
+                {
+                    "name": "Community contributors",
+                    "homepage": "https://github.com/snc/SncRedisBundle/contributors"
+                }
+            ],
+            "description": "A Redis bundle for Symfony",
+            "homepage": "https://github.com/snc/SncRedisBundle",
+            "keywords": [
+                "nosql",
+                "redis",
+                "symfony"
+            ],
+            "time": "2020-06-05T06:53:24+00:00"
         },
         {
             "name": "sonata-project/google-authenticator",
@@ -11325,85 +11470,6 @@
                 }
             ],
             "time": "2020-04-02T16:40:37+00:00"
-        },
-        {
-            "name": "snc/redis-bundle",
-            "version": "3.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/snc/SncRedisBundle.git",
-                "reference": "cd47f699eeb6cffa72eaa505d3dcf907b157339b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/cd47f699eeb6cffa72eaa505d3dcf907b157339b",
-                "reference": "cd47f699eeb6cffa72eaa505d3dcf907b157339b",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/framework-bundle": "^3.4 || ^4.2 || ^5.0",
-                "symfony/http-foundation": "^3.4 || ^4.2 || ^5.0",
-                "symfony/yaml": "^3.4 || ^4.2 || ^5.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "^1.11.2 || ^2.0",
-                "doctrine/orm": "^2.6.4",
-                "ext-pdo_sqlite": "*",
-                "phpunit/phpunit": "^7.5",
-                "predis/predis": "^1.1",
-                "swiftmailer/swiftmailer": "^6.0",
-                "symfony/browser-kit": "^3.4 || ^4.2 || ^5.0",
-                "symfony/console": "^3.4 || ^4.2 || ^5.0",
-                "symfony/dom-crawler": "^3.4 || ^4.2 || ^5.0",
-                "symfony/filesystem": "^3.4 || ^4.2 || ^5.0",
-                "symfony/phpunit-bridge": "^4.3.5",
-                "symfony/profiler-pack": "^1.0",
-                "symfony/swiftmailer-bundle": "^2.0 || ^3.0",
-                "symfony/twig-bundle": "^3.4 || ^4.2 || ^5.0"
-            },
-            "suggest": {
-                "monolog/monolog": "If you want to use the monolog redis handler.",
-                "predis/predis": "If you want to use predis.",
-                "symfony/console": "If you want to use commands to interact with the redis database",
-                "symfony/proxy-manager-bridge": "If you want to lazy-load some services"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Snc\\RedisBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Henrik Westphal",
-                    "email": "henrik.westphal@gmail.com"
-                },
-                {
-                    "name": "Community contributors",
-                    "homepage": "https://github.com/snc/SncRedisBundle/contributors"
-                }
-            ],
-            "description": "A Redis bundle for Symfony",
-            "homepage": "https://github.com/snc/SncRedisBundle",
-            "keywords": [
-                "nosql",
-                "redis",
-                "symfony"
-            ],
-            "time": "2020-06-05T06:53:24+00:00"
         },
         {
             "name": "symfony/browser-kit",

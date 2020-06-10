@@ -165,7 +165,7 @@
         <source>devices.alert.no_user_devices_yet</source>
         <target>No user devices yet</target>
       </trans-unit>
-      <trans-unit id="L.B8Yd4" resname="devices.flash.invalidate.device_not_found">
+      <trans-unit id="mHCTOLi" resname="devices.flash.invalidate.device_not_found">
         <source>devices.flash.invalidate.device_not_found</source>
         <target>Device not found</target>
       </trans-unit>

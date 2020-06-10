@@ -102,7 +102,7 @@ class AuthLoginTfaController extends AbstractController
         if (!$inProgress) {
             $this->addFlash(
                 'danger',
-                $this->translator->trans('flash.already_logged_in', [], 'login')
+                $this->translator->trans('login.flash.already_logged_in', [], 'auth')
             );
 
             return $this->redirectToRoute('home');
@@ -164,7 +164,7 @@ class AuthLoginTfaController extends AbstractController
         if ($failedAttemptsCount > 5) {
             $this->addFlash(
                 'danger',
-                $this->translator->trans('tfa.flash.too_many_attempts', [], 'login')
+                $this->translator->trans('login.tfa.flash.too_many_attempts', [], 'auth')
             );
 
             return $this->redirectToRoute('auth.login.tfa');
@@ -184,7 +184,7 @@ class AuthLoginTfaController extends AbstractController
             if (!$isCodeValid) {
                 $this->addFlash(
                     'danger',
-                    $this->translator->trans('tfa.google_authenticator.flash.code_invalid', [], 'login')
+                    $this->translator->trans('login.tfa.google_authenticator.flash.code_invalid', [], 'auth')
                 );
 
                 $this->userActionManager->add(
@@ -210,7 +210,7 @@ class AuthLoginTfaController extends AbstractController
             if (!$userTfaRecoveryCode) {
                 $this->addFlash(
                     'danger',
-                    $this->translator->trans('tfa.recovery_codes.flash.code_invalid', [], 'login')
+                    $this->translator->trans('login.tfa.recovery_codes.flash.code_invalid', [], 'auth')
                 );
 
                 $this->userActionManager->add(
@@ -249,7 +249,7 @@ class AuthLoginTfaController extends AbstractController
         if ($recentUserTfaEmail) {
             $this->addFlash(
                 'danger',
-                $this->translator->trans('tfa.email.flash.code_already_sent_recently', [], 'login')
+                $this->translator->trans('login.tfa.email.flash.code_already_sent_recently', [], 'auth')
             );
 
             return $this->redirectToRoute('auth.login.tfa');
@@ -273,7 +273,7 @@ class AuthLoginTfaController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('tfa.email.flash.code_sent', [], 'login')
+            $this->translator->trans('login.tfa.email.flash.code_sent', [], 'auth')
         );
 
         return $this->redirectToRoute('auth.login.tfa');
@@ -300,7 +300,7 @@ class AuthLoginTfaController extends AbstractController
         if (!$userTfaEmail) {
             $this->addFlash(
                 'danger',
-                $this->translator->trans('tfa.email.flash.code_invalid', [], 'login')
+                $this->translator->trans('login.tfa.email.flash.code_invalid', [], 'auth')
             );
 
             $this->userActionManager->add(
@@ -353,7 +353,7 @@ class AuthLoginTfaController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('tfa.flash.success', [], 'login')
+            $this->translator->trans('login.tfa.flash.success', [], 'auth')
         );
 
         $this->userActionManager->add(

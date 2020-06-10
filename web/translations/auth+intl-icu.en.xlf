@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="tse1EOJ" resname="login.flash.already_logged_in">
+        <source>login.flash.already_logged_in</source>
+        <target>Already logged in</target>
+      </trans-unit>
+      <trans-unit id="T_v98Kj" resname="login.flash.user_with_this_id_not_found">
+        <source>login.flash.user_with_this_id_not_found</source>
+        <target>A user with this {provider} account was not found</target>
+      </trans-unit>
+      <trans-unit id="KZRVSB7" resname="login.flash.user_with_this_id_already_exists">
+        <source>login.flash.user_with_this_id_already_exists</source>
+        <target>A user with this {provider} account already exists</target>
+      </trans-unit>
+      <trans-unit id="Cnq40y6" resname="login.email_confirm.user_not_found">
+        <source>login.email_confirm.user_not_found</source>
+        <target>A user with this email and confirmation code was not found</target>
+      </trans-unit>
+      <trans-unit id="TGWUvWO" resname="login.email_confirm.flash.success">
+        <source>login.email_confirm.flash.success</source>
+        <target>You have successfully confirmed your email</target>
+      </trans-unit>
+      <trans-unit id="TaABr8T" resname="login.or_login_with">
+        <source>login.or_login_with</source>
+        <target>or login with</target>
+      </trans-unit>
+      <trans-unit id="U7rqoS2" resname="login.tfa.google_authenticator.alert.helper_text">
+        <source>login.tfa.google_authenticator.alert.helper_text</source>
+        <target>Please open your google authenticator application and enter the code below</target>
+      </trans-unit>
+      <trans-unit id="wYbghVw" resname="login.tfa.email.alert.helper_text">
+        <source>login.tfa.email.alert.helper_text</source>
+        <target>Please click the confim button below, so we can send you the 2FA email</target>
+      </trans-unit>
+      <trans-unit id="RtA2gKT" resname="login.tfa.recovery_codes.alert.helper_text">
+        <source>login.tfa.recovery_codes.alert.helper_text</source>
+        <target>Please enter one of your recovery codes below</target>
+      </trans-unit>
+      <trans-unit id="7JIb7Ru" resname="login.tfa.switch_method">
+        <source>login.tfa.switch_method</source>
+        <target>or switch to another method</target>
+      </trans-unit>
+      <trans-unit id="Wyf2t1P" resname="login.tfa.google_authenticator.flash.code_invalid">
+        <source>login.tfa.google_authenticator.flash.code_invalid</source>
+        <target>The code you entered is invalid</target>
+      </trans-unit>
+      <trans-unit id="MadLv84" resname="login.tfa.recovery_codes.flash.code_invalid">
+        <source>login.tfa.recovery_codes.flash.code_invalid</source>
+        <target>The code you entered is invalid</target>
+      </trans-unit>
+      <trans-unit id="lTktypt" resname="login.tfa.email.flash.code_sent">
+        <source>login.tfa.email.flash.code_sent</source>
+        <target>The code was successfuly sent to your email. Once you get it, please click the link inside</target>
+      </trans-unit>
+      <trans-unit id="tBHOH0D" resname="login.tfa.email.flash.code_invalid">
+        <source>login.tfa.email.flash.code_invalid</source>
+        <target>The link you were redirected from in invalid or already expeired. Please request a new code</target>
+      </trans-unit>
+      <trans-unit id="amBtEdw" resname="login.tfa.email.flash.code_already_sent_recently">
+        <source>login.tfa.email.flash.code_already_sent_recently</source>
+        <target>The code was already sent recently. Please check your email</target>
+      </trans-unit>
+      <trans-unit id="0ZzaMzF" resname="login.tfa.flash.success">
+        <source>login.tfa.flash.success</source>
+        <target>You have successfuly logged in</target>
+      </trans-unit>
+      <trans-unit id="maRvyDF" resname="login.tfa.flash.too_many_attempts">
+        <source>login.tfa.flash.too_many_attempts</source>
+        <target>You have tried too many attempts. Please try again in a few more minutes</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

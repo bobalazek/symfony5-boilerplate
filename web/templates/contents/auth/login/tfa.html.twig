@@ -8,15 +8,15 @@
     {{ form_start(form) }}
       {% if method == constant('App\\Entity\\UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR') %}
         <div class="alert alert-info">
-          {{ 'tfa.google_authenticator.alert.helper_text' | trans({}, 'login') }}
+          {{ 'login.tfa.google_authenticator.alert.helper_text' | trans({}, 'auth') }}
         </div>
       {% elseif method == constant('App\\Entity\\UserTfaMethod::METHOD_EMAIL') %}
         <div class="alert alert-info">
-          {{ 'tfa.email.alert.helper_text' | trans({}, 'login') }}
+          {{ 'login.tfa.email.alert.helper_text' | trans({}, 'auth') }}
         </div>
       {% elseif method == constant('App\\Entity\\UserTfaMethod::METHOD_RECOVERY_CODES') %}
       <div class="alert alert-info">
-        {{ 'tfa.recovery_codes.alert.helper_text' | trans({}, 'login') }}
+        {{ 'login.tfa.recovery_codes.alert.helper_text' | trans({}, 'auth') }}
       </div>
       {% endif %}
       {% if form.code is defined %}
@@ -28,7 +28,7 @@
     {{ form_end(form) }}
     {% if (available_methods | length) > 1 %}
       <hr />
-      <h5>{{ 'tfa.switch_method' | trans({}, 'login') }}</h5>
+      <h5>{{ 'login.tfa.switch_method' | trans({}, 'auth') }}</h5>
       {% for available_method in available_methods | filter(available_method => available_method != method) %}
         <a class="btn btn-light btn-block"
           href="{{ url('auth.login.tfa', {

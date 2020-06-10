@@ -197,7 +197,7 @@ class SettingsDeletionController extends AbstractController
                 $this->translator->trans('flash.deletion_confirmed_success', [], 'settings')
             );
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('auth.login');
         }
     }
 

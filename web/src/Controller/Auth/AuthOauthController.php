@@ -145,9 +145,9 @@ class AuthOauthController extends AbstractController
 
             $this->addFlash(
                 'danger',
-                $this->translator->trans('flash.user_with_this_id_not_found', [
+                $this->translator->trans('login.flash.user_with_this_id_not_found', [
                     'provider' => $provider,
-                ], 'login')
+                ], 'auth')
             );
         } elseif ('register' === $action) {
             if (!$userOauthProvider) {
@@ -161,9 +161,9 @@ class AuthOauthController extends AbstractController
 
             $this->addFlash(
                 'danger',
-                $this->translator->trans('flash.user_with_this_id_already_exists', [
+                $this->translator->trans('login.flash.user_with_this_id_already_exists', [
                     'provider' => $provider,
-                ], 'login')
+                ], 'auth')
             );
         }
 

@@ -153,7 +153,9 @@ class AuthRegisterController extends AbstractController
             ])
         ;
         if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('email_confirm.user_not_found', [], 'login'));
+            throw $this->createNotFoundException(
+                $this->translator->trans('login.email_confirm.user_not_found', [], 'auth')
+            );
         }
 
         $user->setEmailConfirmedAt(new \DateTime());
@@ -165,7 +167,7 @@ class AuthRegisterController extends AbstractController
 
         $this->addFlash(
             'success',
-            $this->translator->trans('email_confirm.flash.success', [], 'login')
+            $this->translator->trans('login.email_confirm.flash.success', [], 'auth')
         );
 
         return $guardHandler->authenticateUserAndHandleSuccess(

@@ -3,12 +3,12 @@
 {% form_theme form _self %}
 
 {# Strange hack. Doesn't seem to work otherwise #}
-{% set terms_label = 'terms.label' | trans({
+{% set terms_label = 'register.terms.label' | trans({
   terms_link_start: '<a target="_blank" href="' ~ url('terms') ~ '">',
   terms_link_end: '</a>',
   privacy_link_start: '<a target="_blank" href="' ~ url('privacy') ~ '">',
   privacy_link_end: '</a>',
-}, 'register') | raw %}
+}, 'auth') | raw %}
 
 {% block title %}{{ 'Signup' | trans }} | {{ parent() }}{% endblock %}
 
@@ -25,15 +25,15 @@
     </p>
     {% if oauth == 'facebook' %}
       <div class="alert alert-info">
-        {{ 'alert.linked_with' | trans({
+        {{ 'register.alert.linked_with' | trans({
           provider: 'facebook',
-        }, 'register') }}
+        }, 'auth') }}
       </div>
     {% elseif oauth == 'google' %}
       <div class="alert alert-info">
-        {{ 'alert.linked_with' | trans({
+        {{ 'register.alert.linked_with' | trans({
           provider: 'google',
-        }, 'register') }}
+        }, 'auth') }}
       </div>
     {% endif %}
     {{ form_start(form) }}
@@ -52,7 +52,7 @@
     {% if not oauth %}
       <hr />
       <div class="text-center mb-2">
-        {{ 'or_register_with' | trans({}, 'register') }}
+        {{ 'register.or_register_with' | trans({}, 'auth') }}
       </div>
       {% for key, provider in app_oauth_providers %}
         <a href="{{ url('auth.oauth', {

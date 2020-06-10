@@ -73,6 +73,22 @@
         <source>login.tfa.flash.too_many_attempts</source>
         <target>You have tried too many attempts. Please try again in a few more minutes</target>
       </trans-unit>
+      <trans-unit id="Xki3qPM" resname="register.alert.linked_with">
+        <source>register.alert.linked_with</source>
+        <target>Your account has been linked to {provider}. Please finish the signup below</target>
+      </trans-unit>
+      <trans-unit id="qhQH0ja" resname="register.terms.label">
+        <source>register.terms.label</source>
+        <target>I agree to the {terms_link_start}Terms{terms_link_end} and {privacy_link_start}Privacy{privacy_link_end} and default notification settings. I am 13+ years old</target>
+      </trans-unit>
+      <trans-unit id="gmf63qp" resname="register.or_register_with">
+        <source>register.or_register_with</source>
+        <target>or register with</target>
+      </trans-unit>
+      <trans-unit id="chmX7Kg" resname="register.alert.success">
+        <source>register.alert.success</source>
+        <target>You have successfully been registered. Before you can login, please confirm your email, by clicking the link we just sent you on your email</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

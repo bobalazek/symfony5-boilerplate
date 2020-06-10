@@ -73,6 +73,10 @@
         <source>login.tfa.flash.too_many_attempts</source>
         <target>You have tried too many attempts. Please try again in a few more minutes</target>
       </trans-unit>
+      <trans-unit id="XYvM58L" resname="login.oauth.flash.success">
+        <source>login.oauth.flash.success</source>
+        <target>You have successfully logged in via {provider}</target>
+      </trans-unit>
       <trans-unit id="Xki3qPM" resname="register.alert.linked_with">
         <source>register.alert.linked_with</source>
         <target>Your account has been linked to {provider}. Please finish the signup below</target>
@@ -111,7 +115,15 @@
       </trans-unit>
       <trans-unit id="pCliaRi" resname="password_reset.user_not_found">
         <source>password_reset.user_not_found</source>
-        <target>__password_reset.user_not_found</target>
+        <target>User not found</target>
+      </trans-unit>
+      <trans-unit id="Eb1vtie" resname="oauth.flash.linked_success">
+        <source>oauth.flash.linked_success</source>
+        <target>Your {provider} account was linked successfully</target>
+      </trans-unit>
+      <trans-unit id="iQTZH3L" resname="oauth.flash.user_with_this_id_already_exists">
+        <source>oauth.flash.user_with_this_id_already_exists</source>
+        <target>__oauth.flash.user_with_this_id_already_exists</target>
       </trans-unit>
     </body>
   </file>

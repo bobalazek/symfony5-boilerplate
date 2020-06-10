@@ -114,25 +114,25 @@ class AuthOauthController extends AbstractController
 
                 $this->addFlash(
                     'success',
-                    $this->translator->trans('flash.linked_success', [
+                    $this->translator->trans('oauth.flash.linked_success', [
                         'provider' => $provider,
-                    ], 'oauth')
+                    ], 'auth')
                 );
             } else {
                 $this->addFlash(
                     'danger',
-                    $this->translator->trans('flash.user_with_this_id_already_exists', [
+                    $this->translator->trans('oauth.flash.user_with_this_id_already_exists', [
                         'provider' => $provider,
-                    ], 'oauth')
+                    ], 'auth')
                 );
             }
         } elseif ('login' === $action) {
             if ($userOauthProvider) {
                 $this->addFlash(
                     'success',
-                    $this->translator->trans('flash.success', [
+                    $this->translator->trans('login.oauth.flash.success', [
                         'provider' => $provider,
-                    ], 'oauth')
+                    ], 'auth')
                 );
 
                 return $guardHandler->authenticateUserAndHandleSuccess(

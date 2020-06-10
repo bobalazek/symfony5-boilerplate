@@ -82,7 +82,9 @@ class AuthPasswordResetController extends AbstractController
                 ])
             ;
             if (!$user) {
-                throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'password_reset'));
+                throw $this->createNotFoundException(
+                    $this->translator->trans('password_reset.user_not_found', [], 'auth')
+                );
             }
         }
 
@@ -157,7 +159,7 @@ class AuthPasswordResetController extends AbstractController
         if (!$user) {
             $this->addFlash(
                 'danger',
-                $this->translator->trans('request.flash.non_existing_user', [], 'password_reset')
+                $this->translator->trans('password_reset.request.flash.non_existing_user', [], 'auth')
             );
 
             return null;
@@ -170,7 +172,7 @@ class AuthPasswordResetController extends AbstractController
             if ($difference < 900) {
                 $this->addFlash(
                     'danger',
-                    $this->translator->trans('request.flash.already_requested_recently', [], 'password_reset')
+                    $this->translator->trans('password_reset.request.flash.already_requested_recently', [], 'auth')
                 );
 
                 return null;

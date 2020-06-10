@@ -89,6 +89,30 @@
         <source>register.alert.success</source>
         <target>You have successfully been registered. Before you can login, please confirm your email, by clicking the link we just sent you on your email</target>
       </trans-unit>
+      <trans-unit id="dkLItjB" resname="user_not_found">
+        <source>user_not_found</source>
+        <target>User not found</target>
+      </trans-unit>
+      <trans-unit id="O.4WyjG" resname="password_reset.request.flash.non_existing_user">
+        <source>password_reset.request.flash.non_existing_user</source>
+        <target><![CDATA[>A user with this email does not exist]]></target>
+      </trans-unit>
+      <trans-unit id="Wqc9WO0" resname="password_reset.request.flash.already_requested_recently">
+        <source>password_reset.request.flash.already_requested_recently</source>
+        <target>You have already requested a password reset few minutes ago. Please check your email</target>
+      </trans-unit>
+      <trans-unit id="jzHE_PM" resname="password_reset.request.alert.success">
+        <source>password_reset.request.alert.success</source>
+        <target>You have successfully requested a new password. Please check your email and follow the steps</target>
+      </trans-unit>
+      <trans-unit id="EHIgTty" resname="password_reset.alert.success">
+        <source>password_reset.alert.success</source>
+        <target>You have successfully reset your password. Go back to the login page and login with your new credentials</target>
+      </trans-unit>
+      <trans-unit id="pCliaRi" resname="password_reset.user_not_found">
+        <source>password_reset.user_not_found</source>
+        <target>__password_reset.user_not_found</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

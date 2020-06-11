@@ -31,26 +31,23 @@ class AuthRegisterControllerTest extends WebTestCase
 
         $newCrawler = $this->client->submit($form);
 
+        // Did we get the success message?
         $this->assertTrue($newCrawler->filter('div.alert-success')->count() > 0);
 
+        // Was the user created successfully?
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername('testuser123')
         ;
-
         $this->assertTrue(null !== $user);
 
-        // Check for the send emails to the user
-        $mailerCollector = $this->client->getProfile()->getCollector('mailer');
-
-        $messages = $mailerCollector->getEvents()->getMessages();
-
+        // Check if we sent the email_confim email
+        $messages = $this->getSentEmailMessages();
         $this->assertTrue(0 !== count($messages));
 
-        // https://symfonycasts.com/screencast/mailer/unit-test
-        // TODO: get the sent message, not the queued
-        $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $messages[0]);
-        $this->assertSame('testuser123@test.com', $messages[0]->getTo()[0]->getAddress());
+        $message = $messages[0];
+        $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $message);
+        $this->assertSame('testuser123@test.com', $message->getTo()[0]->getAddress());
     }
 
     public function testRegisterInvalidFieldsErrorMessage()
@@ -71,6 +68,7 @@ class AuthRegisterControllerTest extends WebTestCase
 
         $newCrawler = $this->client->submit($form);
 
+        // Did we get any errors in the form?
         $this->assertTrue($newCrawler->filter('form .form-error-message')->count() > 0);
     }
 }

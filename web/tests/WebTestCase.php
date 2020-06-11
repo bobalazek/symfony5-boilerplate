@@ -54,4 +54,22 @@ class WebTestCase extends SymfonyWebTestCase
 
         return $this;
     }
+
+    public function getSentEmailMessages()
+    {
+        $messages = [];
+        $mailerCollector = $this->client->getProfile()->getCollector('mailer');
+
+        $messageEvents = $mailerCollector->getEvents();
+        $messageEventsEvents = $messageEvents->getEvents();
+        foreach ($messageEventsEvents as $messageEventsEvent) {
+            if ($messageEventsEvent->isQueued()) {
+                continue;
+            }
+
+            $messages[] = $messageEventsEvent->getMessage();
+        }
+
+        return $messages;
+    }
 }

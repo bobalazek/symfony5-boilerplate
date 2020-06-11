@@ -125,7 +125,7 @@ class SettingsController extends AbstractController
             );
 
             $this->userActionManager->add(
-                'settings.new_email',
+                'settings.new_email.request',
                 'New user email was set. Awaiting confirmation for it'
             );
         }
@@ -166,7 +166,7 @@ class SettingsController extends AbstractController
             );
 
             $this->userActionManager->add(
-                'settings.new_email_cancel',
+                'settings.new_email.cancel',
                 'New user email was canceled'
             );
 
@@ -209,7 +209,7 @@ class SettingsController extends AbstractController
             );
 
             $this->userActionManager->add(
-                'settings.new_email_resend',
+                'settings.new_email.resend',
                 'New user email was resend'
             );
 
@@ -244,7 +244,7 @@ class SettingsController extends AbstractController
             );
 
             $this->userActionManager->add(
-                'settings.new_email_confirm',
+                'settings.new_email.confirm',
                 'New user email was confirmed',
                 [
                     'old' => $userOld->toArray(),

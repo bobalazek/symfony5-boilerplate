@@ -189,7 +189,7 @@ class EmailManager
         $email = (new TemplatedEmail())
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
+            ->to($user->getNewEmail())
             ->htmlTemplate('emails/new_email_confirm.html.twig')
             ->context([
                 'user' => $user,

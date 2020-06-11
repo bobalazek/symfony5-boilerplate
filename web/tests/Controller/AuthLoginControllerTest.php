@@ -29,6 +29,7 @@ class AuthLoginControllerTest extends WebTestCase
 
         $newCrawler = $this->client->submit($form);
 
+        // Did we get any error?
         $this->assertTrue(0 === $newCrawler->filter('div.alert-danger')->count());
     }
 
@@ -48,6 +49,7 @@ class AuthLoginControllerTest extends WebTestCase
 
         $newCrawler = $this->client->submit($form);
 
+        // Did we get any error?
         $this->assertTrue($newCrawler->filter('form > div.alert-danger')->count() > 0);
     }
 
@@ -60,7 +62,7 @@ class AuthLoginControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Login')
             ->form([
-                'username' => 'userwithtfaemail',
+                'username' => 'userwithtfa@corcoviewer.com',
                 'password' => 'password',
             ])
         ;
@@ -81,11 +83,24 @@ class AuthLoginControllerTest extends WebTestCase
             ->getRepository(UserTfaEmail::class)
             ->findBy([], ['id' => 'DESC'], 1, 0)
         ;
+
+        $this->assertTrue(isset($userTfaEmails[0]));
+
         $userTfaEmail = $userTfaEmails[0];
 
-        // Visit that link, to confirm it was correct and it did not throw any error
-        $tfaRedirectCrawler = $this->client->request('GET', '/auth/login/tfa?code=' . $userTfaEmail->getCode());
+        $this->client->followRedirects(false);
 
-        $this->assertTrue(0 === $tfaRedirectCrawler->filter('div.alert-danger')->count());
+        $this->client->request('GET', '/auth/login/tfa?code=' . $userTfaEmail->getCode());
+
+        // Check if we get redirected to the home route
+        $this->assertTrue($this->client->getResponse()->isRedirect('/'));
+
+        // Check if we sent the new_login email
+        $messages = $this->getSentEmailMessages();
+        $this->assertTrue(0 !== count($messages));
+
+        $message = $messages[0];
+        $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $message);
+        $this->assertSame('userwithtfa@corcoviewer.com', $message->getTo()[0]->getAddress());
     }
 }

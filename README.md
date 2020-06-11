@@ -14,7 +14,7 @@ The Corcoviewer project.
   * Notifications
   * Messaging
   * Profile
-    * Following, followers & follower requests (if account private)
+    * Following, followers & follower requests
     * Blocking
   * OAuth
     * Facebook
@@ -25,9 +25,10 @@ The Corcoviewer project.
     * Recovery codes
   * Action auditing (logs every action the user does: login, reset password, setting changes, ...)
   * Device sessions (allows the user to invalidate sessions from current or other devices they are logged in)
+  * Points (allows awarding points to users)
 * Moderation
   * User locking & deletion (allow moderators with certain roles to lock or delete the users)
-* Administration
+* Administration via EasyAdmin
 * Multilanguage ready
 
 ## Resources

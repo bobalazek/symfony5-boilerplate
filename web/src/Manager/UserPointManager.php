@@ -3,14 +3,14 @@
 namespace App\Manager;
 
 use App\Entity\User;
-use App\Entity\UserNotification;
+use App\Entity\UserPoint;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Class UserNotificationManager.
+ * Class UserPointManager.
  */
-class UserNotificationManager
+class UserPointManager
 {
     /**
      * @var Security
@@ -34,7 +34,8 @@ class UserNotificationManager
      * @return bool
      */
     public function add(
-        string $type,
+        string $key,
+        int $amount,
         array $data = [],
         User $user = null
     ) {
@@ -42,14 +43,15 @@ class UserNotificationManager
             $user = $this->security->getUser();
         }
 
-        $userNotification = new UserNotification();
-        $userNotification
-            ->setType($type)
+        $userPoint = new UserPoint();
+        $userPoint
+            ->setKey($key)
+            ->setAmount($amount)
             ->setData($data)
             ->setUser($user)
         ;
 
-        $this->em->persist($userNotification);
+        $this->em->persist($userPoint);
         $this->em->flush();
 
         return true;

@@ -70,22 +70,22 @@ easy_admin:
 
         UserOauthProvider:
             class: App\Entity\UserOauthProvider
-            label: 'User OAuth providers'
+            label: 'User OAuth Providers'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserTfaMethod:
             class: App\Entity\UserTfaMethod
-            label: 'User TFA methods'
+            label: 'User TFA Methods'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserTfaRecoveryCode:
             class: App\Entity\UserTfaRecoveryCode
-            label: 'User TFA recovery codes'
+            label: 'User TFA Recovery Codes'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserNotification:
             class: App\Entity\UserNotification
-            label: 'User notifications'
+            label: 'User Notifications'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserBlock:
@@ -95,17 +95,17 @@ easy_admin:
 
         UserFollower:
             class: App\Entity\UserFollower
-            label: 'User followers'
+            label: 'User Followers'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserPoint:
             class: App\Entity\UserPoint
-            label: 'User points'
+            label: 'User Points'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         UserExport:
             class: App\Entity\UserExport
-            label: 'User exports'
+            label: 'User Exports'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         Thread:
@@ -115,10 +115,10 @@ easy_admin:
 
         ThreadUser:
             class: App\Entity\ThreadUser
-            label: 'Thread users'
+            label: 'Thread Users'
             disabled_actions: [ 'new', 'edit', 'delete' ]
 
         ThreadUserMessage:
             class: App\Entity\ThreadUserMessage
-            label: 'Thread user messages'
+            label: 'Thread User Messages'
             disabled_actions: [ 'new', 'edit', 'delete' ]

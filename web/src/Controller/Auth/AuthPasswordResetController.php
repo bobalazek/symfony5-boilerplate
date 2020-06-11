@@ -4,6 +4,7 @@ namespace App\Controller\Auth;
 
 use App\Entity\User;
 use App\Manager\EmailManager;
+use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -42,6 +43,11 @@ class AuthPasswordResetController extends AbstractController
     private $passwordEncoder;
 
     /**
+     * @var UserActionManager
+     */
+    private $userActionManager;
+
+    /**
      * @var EmailManager
      */
     private $emailManager;
@@ -51,12 +57,14 @@ class AuthPasswordResetController extends AbstractController
         ParameterBagInterface $params,
         EntityManagerInterface $em,
         UserPasswordEncoderInterface $passwordEncoder,
+        UserActionManager $userActionManager,
         EmailManager $emailManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->passwordEncoder = $passwordEncoder;
+        $this->userActionManager = $userActionManager;
         $this->emailManager = $emailManager;
     }
 
@@ -143,6 +151,11 @@ class AuthPasswordResetController extends AbstractController
 
         $this->emailManager->sendPasswordResetSuccess($user);
 
+        $this->userActionManager->add(
+            'password_reset.confirm',
+            'User successfully reset their password'
+        );
+
         return $this->render('contents/auth/password_reset/success.html.twig');
     }
 
@@ -184,6 +197,11 @@ class AuthPasswordResetController extends AbstractController
 
         $this->em->persist($user);
         $this->em->flush();
+
+        $this->userActionManager->add(
+            'password_reset.request',
+            'User requested a password reset'
+        );
 
         $this->emailManager->sendPasswordReset($user);
 

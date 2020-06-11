@@ -124,7 +124,7 @@ class EmailManager
             ->context([
                 'user' => $user,
                 'url' => $this->router->generate(
-                    'password_reset',
+                    'auth.password_reset',
                     [
                         'email' => $user->getEmail(),
                         'password_reset_code' => $user->getPasswordResetCode(),

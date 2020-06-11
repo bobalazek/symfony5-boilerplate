@@ -99,7 +99,7 @@
       </trans-unit>
       <trans-unit id="O.4WyjG" resname="password_reset.request.flash.non_existing_user">
         <source>password_reset.request.flash.non_existing_user</source>
-        <target><![CDATA[>A user with this email does not exist]]></target>
+        <target>A user with this email does not exist</target>
       </trans-unit>
       <trans-unit id="Wqc9WO0" resname="password_reset.request.flash.already_requested_recently">
         <source>password_reset.request.flash.already_requested_recently</source>
@@ -123,7 +123,7 @@
       </trans-unit>
       <trans-unit id="iQTZH3L" resname="oauth.flash.user_with_this_id_already_exists">
         <source>oauth.flash.user_with_this_id_already_exists</source>
-        <target>__oauth.flash.user_with_this_id_already_exists</target>
+        <target>A user with this {provider} account was already linked</target>
       </trans-unit>
     </body>
   </file>

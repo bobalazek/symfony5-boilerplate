@@ -148,7 +148,7 @@ class LoggedUserControllerTest extends WebTestCase
             ->getRepository(User::class)
             ->findOneByUsername('user')
         ;
-        $this->assertTrue($user->getNewEmail() === 'user+newemail@corcoviewer.com');
+        $this->assertTrue('user+newemail@corcoviewer.com' === $user->getNewEmail());
 
         // Check if we sent the new_email_confirm email
         $messages = $this->getSentEmailMessages();

@@ -7,11 +7,7 @@ namespace App\Utils;
  */
 class StringHelper
 {
-    /**
-     * @param bool  $length
-     * @param mixed $onlyUpperCase
-     */
-    public static function generate(int $length = 10, $onlyUpperCase = true): string
+    public static function generate(int $length = 10, bool $onlyUpperCase = true): string
     {
         $characters = $onlyUpperCase
             ? '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'

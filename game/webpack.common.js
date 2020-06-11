@@ -28,11 +28,11 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
-          from: path.resolve(__dirname, 'src', 'Game', 'Resources'),
-          to: 'static',
-          ignore: [
-            'index.html', // already handled by HtmlWebpackPlugin
-          ],
+        from: path.resolve(__dirname, 'src', 'Game', 'Resources'),
+        to: 'static',
+        ignore: [
+          'index.html', // already handled by HtmlWebpackPlugin
+        ],
       },
     ], {
       copyUnmodified: true,

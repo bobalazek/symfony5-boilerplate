@@ -30,10 +30,6 @@ Encore
     .enableIntegrityHashes(Encore.isProduction())
 
     .autoProvidejQuery()
-
-    // uncomment if you use API Platform Admin (composer req api-admin)
-    //.enableReactPreset()
-    //.addEntry('admin', './assets/js/admin.js')
 ;
 
 Encore.configureWatchOptions(watchOptions => {

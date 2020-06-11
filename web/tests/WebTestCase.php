@@ -3,6 +3,8 @@
 namespace App\Tests;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
 
 /**
@@ -12,9 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
 class WebTestCase extends SymfonyWebTestCase
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     protected $em;
+
+    /**
+     * @var KernelBrowser
+     */
+    protected $client;
 
     /**
      * {@inheritdoc}

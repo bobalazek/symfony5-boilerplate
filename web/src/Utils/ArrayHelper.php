@@ -7,11 +7,7 @@ namespace App\Utils;
  */
 class ArrayHelper
 {
-    /**
-     * @param $array1
-     * @param $array2
-     */
-    public static function changes($array1, $array2): array
+    public static function changes(array $array1, array $array2): array
     {
         $changes = [];
 

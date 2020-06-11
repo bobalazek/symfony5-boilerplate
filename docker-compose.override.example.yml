@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  # For easier DB managament, let's also add PHPMyAdmin
+  # For easier DB management, let's also add PHPMyAdmin
   phpmyadmin:
     container_name: cw_phpmyadmin
     build: ./web/docker/phpmyadmin

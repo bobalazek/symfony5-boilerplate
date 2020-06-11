@@ -24,14 +24,10 @@ class AuthPasswordResetControllerTest extends WebTestCase
             ])
         ;
 
-        $this->client->submit($form);
+        $newCrawler = $this->client->submit($form);
 
-        // Was the user created successfully?
-        $user = $this->em
-            ->getRepository(User::class)
-            ->findOneByEmail('user@corcoviewer.com')
-        ;
-        $this->assertTrue(null !== $user);
+        // Did we get the success message?
+        $this->assertTrue($newCrawler->filter('div.alert-success')->count() > 0);
 
         // Check if we sent the password_reset email
         $messages = $this->getSentEmailMessages();

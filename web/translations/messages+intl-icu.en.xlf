@@ -357,22 +357,6 @@
         <source>Login / join</source>
         <target>Login / join</target>
       </trans-unit>
-      <trans-unit id="CQ7UMW8" resname="Brand">
-        <source>Brand</source>
-        <target>Brand</target>
-      </trans-unit>
-      <trans-unit id="DWK7Ad9" resname="Packaging">
-        <source>Packaging</source>
-        <target>Packaging</target>
-      </trans-unit>
-      <trans-unit id="h2dduDo" resname="Ingredients">
-        <source>Ingredients</source>
-        <target>Ingredients</target>
-      </trans-unit>
-      <trans-unit id="fgt9.Nv" resname="Allergens">
-        <source>Allergens</source>
-        <target>Allergens</target>
-      </trans-unit>
       <trans-unit id="uLHYlMa" resname="Categories">
         <source>Categories</source>
         <target>Categories</target>

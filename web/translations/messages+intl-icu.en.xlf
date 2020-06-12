@@ -197,21 +197,9 @@
         <source>Clear image</source>
         <target>Clear image</target>
       </trans-unit>
-      <trans-unit id="7ofBSKu" resname="or select a new one below, to replace the existing image">
-        <source>or select a new one below, to replace the existing image</source>
-        <target>or select a new one below, to replace the existing image</target>
-      </trans-unit>
-      <trans-unit id="Kdf2udz" resname="or select an existing avatar below">
-        <source>or select an existing avatar below</source>
-        <target>or select an existing avatar below</target>
-      </trans-unit>
       <trans-unit id="FQn1YfJ" resname="Save">
         <source>Save</source>
         <target>Save</target>
-      </trans-unit>
-      <trans-unit id="ctvBGHE" resname="settings.alert.new_email">
-        <source>settings.alert.new_email</source>
-        <target>settings.alert.new_email</target>
       </trans-unit>
       <trans-unit id="dKiDoDe" resname="Settings">
         <source>Settings</source>
@@ -461,10 +449,6 @@
         <source>Search</source>
         <target>Search</target>
       </trans-unit>
-      <trans-unit id="xK_axX8" resname="Seach">
-        <source>Seach</source>
-        <target>Seach</target>
-      </trans-unit>
       <trans-unit id="PEgjRvN" resname="back">
         <source>back</source>
         <target>back</target>
@@ -532,6 +516,26 @@
       <trans-unit id="oxwzlMc" resname="Invalidate">
         <source>Invalidate</source>
         <target>Invalidate</target>
+      </trans-unit>
+      <trans-unit id="ZM.xMZ0" resname="Action">
+        <source>Action</source>
+        <target>Action</target>
+      </trans-unit>
+      <trans-unit id="v1UFF0p" resname="IP">
+        <source>IP</source>
+        <target>IP</target>
+      </trans-unit>
+      <trans-unit id="47ienTP" resname="Username">
+        <source>Username</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="OTOxgCF" resname="Bio">
+        <source>Bio</source>
+        <target>Bio</target>
+      </trans-unit>
+      <trans-unit id="yo6CbZw" resname="Avatar">
+        <source>Avatar</source>
+        <target>Avatar</target>
       </trans-unit>
     </body>
   </file>

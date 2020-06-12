@@ -131,7 +131,7 @@
       </trans-unit>
       <trans-unit id="jl.iN6g" resname="deletion.alert.warning">
         <source>deletion.alert.warning</source>
-        <target>This action is permanent. You will not be able to retrieve any of the content or inforation you shared with this platform. An email will be sent to you, so you can confirm your action</target>
+        <target>This action is permanent. You will not be able to retrieve any of the content or information you shared with this platform. An email will be sent to you, so you can confirm your action</target>
       </trans-unit>
       <trans-unit id="ETp1jt0" resname="alert.new_email">
         <source>alert.new_email</source>

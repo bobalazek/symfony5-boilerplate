@@ -128,12 +128,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         $user = $token->getUser();
         $method = 'username';
 
-        // If login happend via OAuth
+        // If login happened via OAuth
         $route = $request->attributes->get('_route');
         if (
             'oauth.' === substr($route, 0, 6) &&

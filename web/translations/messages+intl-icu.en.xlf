@@ -537,6 +537,38 @@
         <source>Avatar</source>
         <target>Avatar</target>
       </trans-unit>
+      <trans-unit id="8RhOomP" resname="Old password">
+        <source>Old password</source>
+        <target>Old password</target>
+      </trans-unit>
+      <trans-unit id="PdnfREH" resname="New password">
+        <source>New password</source>
+        <target>New password</target>
+      </trans-unit>
+      <trans-unit id="DInsk4R" resname="Repeat new password">
+        <source>Repeat new password</source>
+        <target>Repeat new password</target>
+      </trans-unit>
+      <trans-unit id="dEhhHV_" resname="Visibility">
+        <source>Visibility</source>
+        <target>Visibility</target>
+      </trans-unit>
+      <trans-unit id="xj62cgx" resname="Private">
+        <source>Private</source>
+        <target>Private</target>
+      </trans-unit>
+      <trans-unit id="WRk1sVs" resname="Public">
+        <source>Public</source>
+        <target>Public</target>
+      </trans-unit>
+      <trans-unit id="dQgbWT0" resname="Disabled">
+        <source>Disabled</source>
+        <target>Disabled</target>
+      </trans-unit>
+      <trans-unit id="Iqlw0uW" resname="Completed">
+        <source>Completed</source>
+        <target>Completed</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

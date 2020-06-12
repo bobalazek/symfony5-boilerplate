@@ -9,6 +9,7 @@ use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -36,9 +37,6 @@ class AbstractUsersController extends AbstractController
      */
     protected $userActionManager;
 
-    /**
-     * AbstractUsersController constructor.
-     */
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
@@ -52,14 +50,20 @@ class AbstractUsersController extends AbstractController
     }
 
     /* Helpers */
-    protected function _get($username)
+
+    /**
+     * @throws NotFoundHttpException
+     */
+    protected function _get(string $username): User
     {
         $user = null;
         if ($this->isGranted('ROLE_USER_MODERATOR')) {
             $this->em->getFilters()->disable('gedmo_softdeletable');
         }
 
-        $user = $this->em->getRepository(User::class)
+        /** @var User|null $user */
+        $user = $this->em
+            ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
         if (!$user) {
@@ -69,7 +73,7 @@ class AbstractUsersController extends AbstractController
         return $user;
     }
 
-    protected function _canViewDetails($user, $userMyself = null)
+    protected function _canViewDetails($user, $userMyself = null): bool
     {
         if (!$userMyself) {
             $userMyself = $this->getUser();
@@ -82,6 +86,7 @@ class AbstractUsersController extends AbstractController
             return true;
         }
 
+        /** @var UserBlock $userBlock */
         $userBlock = $this->em
             ->getRepository(UserBlock::class)
             ->findOneBy([
@@ -97,7 +102,9 @@ class AbstractUsersController extends AbstractController
             return true;
         }
 
-        $userFollower = $this->em->getRepository(UserFollower::class)
+        /** @var UserFollower $userFollower */
+        $userFollower = $this->em
+            ->getRepository(UserFollower::class)
             ->findOneBy([
                 'user' => $user,
                 'userFollowing' => $userMyself,

@@ -9,10 +9,6 @@
         <source>new_email_resend.flash.already_requested_recently</source>
         <target>You have already requested a new email confirmation few minutes ago. Please check your email</target>
       </trans-unit>
-      <trans-unit id="n9QwJWs" resname="flash.new_email_success">
-        <source>flash.new_email_success</source>
-        <target>You have successfully set a new email</target>
-      </trans-unit>
       <trans-unit id="g4ahva6" resname="flash.success">
         <source>flash.success</source>
         <target>You have successfully saved your settings</target>
@@ -180,6 +176,10 @@
       <trans-unit id="vDRXGUS" resname="image.or_select_a_new_one_below">
         <source>image.or_select_a_new_one_below</source>
         <target>or select a new one below, to replace the existing image</target>
+      </trans-unit>
+      <trans-unit id="l0_hYSk" resname="flash.new_email_already_in_use_by_another_user">
+        <source>flash.new_email_already_in_use_by_another_user</source>
+        <target>The new email is already in use by another user. Please select another email or if that other user is you, change the email there first to another one, before changing it for this user</target>
       </trans-unit>
     </body>
   </file>

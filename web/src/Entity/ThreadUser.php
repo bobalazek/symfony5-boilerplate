@@ -22,6 +22,16 @@ class ThreadUser implements Interfaces\ArrayInterface
     private $id;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastSeenAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastActiveAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Thread", inversedBy="threadUsers")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -51,6 +61,30 @@ class ThreadUser implements Interfaces\ArrayInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getLastSeenAt(): ?\DateTimeInterface
+    {
+        return $this->lastSeenAt;
+    }
+
+    public function setLastSeenAt(?\DateTimeInterface $lastSeenAt): self
+    {
+        $this->lastSeenAt = $lastSeenAt;
+
+        return $this;
+    }
+
+    public function getLastActiveAt(): ?\DateTimeInterface
+    {
+        return $this->lastActiveAt;
+    }
+
+    public function setLastActiveAt(?\DateTimeInterface $lastActiveAt): self
+    {
+        $this->lastActiveAt = $lastActiveAt;
+
+        return $this;
     }
 
     public function getThread(): ?Thread

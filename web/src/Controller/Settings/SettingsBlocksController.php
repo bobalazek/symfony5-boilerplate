@@ -56,8 +56,10 @@ class SettingsBlocksController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
+        /** @var UserBlock[] $usersBlocks */
         $usersBlocks = $this->em
             ->getRepository(UserBlock::class)
             ->findBy([

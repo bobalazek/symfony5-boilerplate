@@ -101,17 +101,17 @@ class NotificationsController extends AbstractController
         $this->em->persist($userNotification);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('read.flash.success', [], 'notifications')
-        );
-
         $this->userActionManager->add(
             'notifications.read',
             'The user has read the notification',
             [
                 'id' => $userNotification->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('read.flash.success', [], 'notifications')
         );
 
         $referer = $request->headers->get('referer');
@@ -136,17 +136,17 @@ class NotificationsController extends AbstractController
         $this->em->persist($userNotification);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('unread.flash.success', [], 'notifications')
-        );
-
         $this->userActionManager->add(
             'notifications.unread',
             'The user has unread the notification',
             [
                 'id' => $userNotification->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('unread.flash.success', [], 'notifications')
         );
 
         $referer = $request->headers->get('referer');
@@ -160,7 +160,9 @@ class NotificationsController extends AbstractController
     /* Helpers */
     private function _get($id)
     {
-        $userNotification = $this->em->getRepository(UserNotification::class)
+        /** @var UserNotification $userNotification */
+        $userNotification = $this->em
+            ->getRepository(UserNotification::class)
             ->findOneBy([
                 'id' => $id,
                 'user' => $this->getUser(),

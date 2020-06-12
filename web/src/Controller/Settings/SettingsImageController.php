@@ -65,6 +65,7 @@ class SettingsImageController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $action = $request->query->get('action');
@@ -96,6 +97,7 @@ class SettingsImageController extends AbstractController
             return $this->redirectToRoute('settings.image');
         }
 
+        /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(SettingsImageType::class, $user);
         $form->handleRequest($request);

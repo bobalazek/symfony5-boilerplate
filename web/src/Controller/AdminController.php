@@ -7,6 +7,7 @@ use App\Manager\UserActionManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 /**
@@ -28,6 +29,11 @@ class AdminController extends EasyAdminController
      * @var UserActionManager
      */
     private $userActionManager;
+
+    /**
+     * @var object|UserInterface|null
+     */
+    private $userMyself;
 
     public function __construct(
         ContainerInterface $container,

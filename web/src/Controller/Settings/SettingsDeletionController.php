@@ -64,6 +64,7 @@ class SettingsDeletionController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
         $queryParamsResponse = $this->_handleDeletionQueryParams(
             $request,
@@ -102,14 +103,14 @@ class SettingsDeletionController extends AbstractController
 
             $this->emailManager->sendDeletionConfirm($user);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('deletion.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.deletion',
                 'User send a deletion request'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('deletion.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.deletion');
@@ -129,15 +130,16 @@ class SettingsDeletionController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
+            $this->userActionManager->add(
+                'settings.deletion.cancel',
+                'User deletion was canceled'
+            );
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('deletion.flash.cancel_deletion_success', [], 'settings')
             );
 
-            $this->userActionManager->add(
-                'settings.deletion.cancel',
-                'User deletion was canceled'
-            );
 
             return $this->redirectToRoute('settings.deletion');
         }
@@ -164,14 +166,14 @@ class SettingsDeletionController extends AbstractController
 
             $this->emailManager->sendDeletionConfirm($user);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('deletion.flash.resend_deletion_email_success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.deletion.email_resend',
                 'New user email was resend'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('deletion.flash.resend_deletion_email_success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings');
@@ -209,12 +211,11 @@ class SettingsDeletionController extends AbstractController
 
         $this->em->getFilters()->disable('gedmo_softdeletable');
 
-        // TODO
+        // TODO: actually delete the user
+        // TODO: flag this it somewhere, so that in case of a backup rollback,
+        //   you can delete this user again.
 
         $this->em->remove($user);
         $this->em->flush();
-
-        // TODO: flag this it somewhere, so that in case of a backup rollback,
-        //   you can delete this user again.
     }
 }

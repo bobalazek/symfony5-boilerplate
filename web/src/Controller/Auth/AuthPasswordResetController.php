@@ -83,7 +83,8 @@ class AuthPasswordResetController extends AbstractController
 
         $user = null;
         if (!$isRequest) {
-            $user = $this->em->getRepository(User::class)
+            $user = $this->em
+                ->getRepository(User::class)
                 ->findOneBy([
                     'email' => $email,
                     'passwordResetCode' => $passwordResetCode,

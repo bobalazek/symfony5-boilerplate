@@ -92,10 +92,10 @@ class AuthLoginTfaController extends AbstractController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        /** @var User $user */
         $user = $this->getUser();
-        if (!$user) {
-            return $this->redirectToRoute('auth.login');
-        }
 
         $method = $request->getSession()->get('tfa_method');
         $inProgress = $request->getSession()->get('tfa_in_progress');
@@ -108,6 +108,7 @@ class AuthLoginTfaController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        /** @var array $methods */
         $methods = $this->params->get('app.tfa_methods');
         $availableMethods = $this->userTfaManager->getAvailableMethods();
 
@@ -182,11 +183,6 @@ class AuthLoginTfaController extends AbstractController
             $secret = $userTfaMethodData['secret'];
             $isCodeValid = $this->googleAuthenticatorManager->checkCode($secret, $code);
             if (!$isCodeValid) {
-                $this->addFlash(
-                    'danger',
-                    $this->translator->trans('login.tfa.google_authenticator.flash.code_invalid', [], 'auth')
-                );
-
                 $this->userActionManager->add(
                     'login.tfa.fail',
                     'User tried to enter 2FA but failed',
@@ -194,6 +190,11 @@ class AuthLoginTfaController extends AbstractController
                         'method' => UserTfaMethod::METHOD_GOOGLE_AUTHENTICATOR,
                         'code' => $code,
                     ]
+                );
+
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('login.tfa.google_authenticator.flash.code_invalid', [], 'auth')
                 );
 
                 return $this->redirectToRoute('auth.login.tfa');
@@ -208,11 +209,6 @@ class AuthLoginTfaController extends AbstractController
                 ])
             ;
             if (!$userTfaRecoveryCode) {
-                $this->addFlash(
-                    'danger',
-                    $this->translator->trans('login.tfa.recovery_codes.flash.code_invalid', [], 'auth')
-                );
-
                 $this->userActionManager->add(
                     'login.tfa.fail',
                     'User tried to enter 2FA but failed',
@@ -220,6 +216,11 @@ class AuthLoginTfaController extends AbstractController
                         'method' => UserTfaMethod::METHOD_RECOVERY_CODES,
                         'code' => $code,
                     ]
+                );
+
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('login.tfa.recovery_codes.flash.code_invalid', [], 'auth')
                 );
 
                 return $this->redirectToRoute('auth.login.tfa');
@@ -298,11 +299,6 @@ class AuthLoginTfaController extends AbstractController
             ->getOneOrNullResult()
         ;
         if (!$userTfaEmail) {
-            $this->addFlash(
-                'danger',
-                $this->translator->trans('login.tfa.email.flash.code_invalid', [], 'auth')
-            );
-
             $this->userActionManager->add(
                 'login.tfa.fail',
                 'User tried to enter 2FA but failed',
@@ -310,6 +306,11 @@ class AuthLoginTfaController extends AbstractController
                     'method' => UserTfaMethod::METHOD_EMAIL,
                     'code' => $code,
                 ]
+            );
+
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('login.tfa.email.flash.code_invalid', [], 'auth')
             );
 
             return $this->redirectToRoute('auth.login.tfa');
@@ -347,14 +348,10 @@ class AuthLoginTfaController extends AbstractController
         $request->getSession()->remove('tfa_method');
         $request->getSession()->remove('tfa_in_progress');
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $this->userDeviceManager->setCurrentAsTrusted($user, $request);
-
-        $this->addFlash(
-            'success',
-            $this->translator->trans('login.tfa.flash.success', [], 'auth')
-        );
 
         $this->userActionManager->add(
             'login.tfa',
@@ -365,6 +362,11 @@ class AuthLoginTfaController extends AbstractController
         );
 
         $this->emailManager->sendNewLogin($user, $request);
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('login.tfa.flash.success', [], 'auth')
+        );
 
         return $this->redirectToRoute('home');
     }

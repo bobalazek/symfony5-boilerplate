@@ -110,7 +110,11 @@ class AuthRegisterController extends AbstractController
             $this->em->persist($user);
 
             // The default user (corco) should follow the newly registered user
-            $defaultUser = $this->em->getRepository(User::class)->findOneById(1);
+            /** @var User|null $defaultUser */
+            $defaultUser = $this->em
+                ->getRepository(User::class)
+                ->findOneById(1)
+            ;
             if ($defaultUser) {
                 $userFollower = new UserFollower();
                 $userFollower
@@ -146,7 +150,9 @@ class AuthRegisterController extends AbstractController
         $email = $request->query->get('email');
         $emailConfirmCode = $request->query->get('email_confirm_code');
 
-        $user = $this->em->getRepository(User::class)
+        /** @var User $user */
+        $user = $this->em
+            ->getRepository(User::class)
             ->findOneBy([
                 'email' => $email,
                 'emailConfirmCode' => $emailConfirmCode,

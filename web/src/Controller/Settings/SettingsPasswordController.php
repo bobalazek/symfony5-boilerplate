@@ -59,6 +59,7 @@ class SettingsPasswordController extends AbstractController
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(SettingsPasswordType::class, $user);
         $form->handleRequest($request);
@@ -76,19 +77,20 @@ class SettingsPasswordController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('password.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.password',
                 'User password was changed'
             );
 
+            $this->addFlash(
+                'success',
+                $this->translator->trans('password.flash.success', [], 'settings')
+            );
+
             return $this->redirectToRoute('settings.password');
         }
 
+        // Fix to prevent the user impersonating, if you would set an email from an existing user
         $this->em->refresh($user);
 
         return $this->render('contents/settings/password.html.twig', [

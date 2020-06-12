@@ -61,6 +61,7 @@ class SettingsDevicesController extends AbstractController
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $userDevicesQueryBuilder = $this->em
@@ -92,6 +93,7 @@ class SettingsDevicesController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var UserDevice $userDevice */
         $userDevice = $this->em
             ->getRepository(UserDevice::class)
             ->findOneBy([
@@ -114,11 +116,6 @@ class SettingsDevicesController extends AbstractController
         $this->em->persist($userDevice);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('devices.flash.invalidate.success', [], 'settings')
-        );
-
         $this->userActionManager->add(
             'settings.devices.invalidate',
             'User has successfully invalidated their device',
@@ -127,6 +124,11 @@ class SettingsDevicesController extends AbstractController
                 'uuid' => $userDevice->getUuid(),
                 'name' => $userDevice->getName(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('devices.flash.invalidate.success', [], 'settings')
         );
 
         return $this->redirectToRoute('settings.devices');

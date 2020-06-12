@@ -6,6 +6,7 @@ use App\Entity\Thread;
 use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
 use App\Entity\User;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -49,7 +50,7 @@ class MessagingController extends AbstractController
     /**
      * @Route("/messaging", name="messaging")
      */
-    public function index(Request $request)
+    public function index()
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -62,7 +63,6 @@ class MessagingController extends AbstractController
     /**
      * @Route("/messaging/threads/{id}", name="messaging.threads.detail")
      *
-     * @param mixed $id
      * @param mixed $id
      */
     public function threadsDetail($id, Request $request)
@@ -78,6 +78,27 @@ class MessagingController extends AbstractController
         if (!$thread) {
             throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
         }
+
+        /** @var ThreadUser $threadUser */
+        $threadUser = $this->em
+            ->getRepository(ThreadUser::class)
+            ->findOneBy([
+                'thread' => $thread,
+                'user' => $user,
+            ])
+        ;
+        if (!$threadUser) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('thread.flash.thread_user_not_found', [], 'messaging')
+            );
+
+            return $this->redirectToRoute('messaging.threads.detail', [
+                'id' => $thread->getId(),
+            ]);
+        }
+
+        $threadUser->setLastSeenAt(new DateTime());
 
         if (
             $request->isMethod('POST') &&
@@ -95,23 +116,7 @@ class MessagingController extends AbstractController
                 ]);
             }
 
-            $threadUser = $this->em
-                ->getRepository(ThreadUser::class)
-                ->findOneBy([
-                    'thread' => $thread,
-                    'user' => $user,
-                ])
-            ;
-            if (!$threadUser) {
-                $this->addFlash(
-                    'danger',
-                    $this->translator->trans('thread.flash.thread_user_not_found', [], 'messaging')
-                );
-
-                return $this->redirectToRoute('messaging.threads.detail', [
-                    'id' => $thread->getId(),
-                ]);
-            }
+            $threadUser->setLastActiveAt(new DateTime());
 
             $threadUserMessage = new ThreadUserMessage();
             $threadUserMessage
@@ -133,9 +138,12 @@ class MessagingController extends AbstractController
             ]);
         }
 
+        $this->em->flush();
+
         $limit = 20;
         $offset = 0;
 
+        /** @var ThreadUserMessage[] $threadUserMessages */
         $threadUserMessages = $this->em
             ->getRepository(ThreadUserMessage::class)
             ->createQueryBuilder('tum')
@@ -160,11 +168,13 @@ class MessagingController extends AbstractController
 
     private function _getThreads(User $user)
     {
+        $threadsArray = [];
+
         $threadUserMessageRepository = $this->em
             ->getRepository(ThreadUserMessage::class)
         ;
 
-        $threadsArray = [];
+        /** @var Thread[] $threads */
         $threads = $this->em
             ->getRepository(Thread::class)
             ->createQueryBuilder('t')
@@ -192,6 +202,7 @@ class MessagingController extends AbstractController
                 $userNames[] = $threadUser->getUser()->getName();
             }
 
+            /** @var ThreadUserMessage|null $threadUserMessage */
             $threadUserMessage = $threadUserMessageRepository
                 ->createQueryBuilder('tum')
                 ->leftJoin('tum.threadUser', 'tu')
@@ -202,7 +213,6 @@ class MessagingController extends AbstractController
                 ->getQuery()
                 ->getOneOrNullResult()
             ;
-
             if ($threadUserMessage) {
                 $lastMessageUser = $threadUserMessage->getThreadUser()->getUser();
                 $lastMessagePrefix = $lastMessageUser === $user

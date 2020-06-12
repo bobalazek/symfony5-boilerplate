@@ -69,6 +69,7 @@ class SettingsTfaController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $methods = $this->params->get('app.tfa_methods');
@@ -88,14 +89,14 @@ class SettingsTfaController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('tfa.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.tfa',
                 'User 2FA was changed'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.tfa');
@@ -128,14 +129,14 @@ class SettingsTfaController extends AbstractController
             $this->em->persist($userTfaMethod);
             $this->em->flush();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('tfa.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.tfa.email',
                 'User 2FA method "email" was edited.'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.tfa.email');
@@ -188,20 +189,20 @@ class SettingsTfaController extends AbstractController
         );
 
         if ('reset' === $action) {
-            $this->addFlash(
-                'success',
-                $this->translator->trans('tfa.flash.success', [], 'settings')
-            );
+            $userTfaMethod->setEnabled(false);
+
+            $this->em->persist($userTfaMethod);
+            $this->em->flush();
 
             $this->userActionManager->add(
                 'settings.tfa.google_authenticator.reset',
                 'User 2FA google authenticator was successfully reset.'
             );
 
-            $userTfaMethod->setEnabled(false);
-
-            $this->em->persist($userTfaMethod);
-            $this->em->flush();
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
+            );
 
             return $this->redirectToRoute('settings.tfa.google_authenticator');
         }
@@ -232,14 +233,14 @@ class SettingsTfaController extends AbstractController
             $this->em->persist($userTfaMethod);
             $this->em->flush();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('tfa.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.tfa.google_authenticator',
                 'User 2FA method "google_authenticator" was edited.'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.tfa.google_authenticator');
@@ -268,20 +269,19 @@ class SettingsTfaController extends AbstractController
             foreach ($userTfaRecoveryCodes as $userTfaRecoveryCode) {
                 $this->em->remove($userTfaRecoveryCode);
             }
+
             $this->em->flush();
 
-            $this->_generateUserTfaRecoveryCodes(
-                $user
+            $this->_generateUserTfaRecoveryCodes($user);
+
+            $this->userActionManager->add(
+                'settings.tfa.recovery_codes.regenerate',
+                'User 2FA recovery codes were successfully regenerated.'
             );
 
             $this->addFlash(
                 'success',
                 $this->translator->trans('tfa.recovery_codes.regenerate.flash.success', [], 'settings')
-            );
-
-            $this->userActionManager->add(
-                'settings.tfa.recovery_codes.regenerate',
-                'User 2FA recovery codes were successfully regenerated.'
             );
 
             return $this->redirectToRoute('settings.tfa.recovery_codes');
@@ -299,14 +299,14 @@ class SettingsTfaController extends AbstractController
             $this->em->persist($userTfaMethod);
             $this->em->flush();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('tfa.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.tfa.recovery_codes',
                 'User 2FA method "recovery_codes" was edited.'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('tfa.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.tfa.recovery_codes');
@@ -368,6 +368,7 @@ class SettingsTfaController extends AbstractController
                 '-' .
                 StringHelper::generate(4);
 
+            /** @var UserTfaRecoveryCode|null $existingUserTfaRecoveryCode */
             $existingUserTfaRecoveryCode = $this->em
                 ->getRepository(UserTfaRecoveryCode::class)
                 ->findOneBy([
@@ -375,7 +376,6 @@ class SettingsTfaController extends AbstractController
                     'user' => $user,
                 ])
             ;
-
             if ($existingUserTfaRecoveryCode) {
                 continue;
             }

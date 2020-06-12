@@ -2,6 +2,7 @@
 
 namespace App\Controller\Users;
 
+use App\Entity\User;
 use App\Entity\UserFollower;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $status = $request->query->get('status', UserFollower::STATUS_PENDING);
@@ -29,7 +31,8 @@ class UsersFollowerRequestsController extends AbstractUsersController
             throw $this->createNotFoundException($this->translator->trans('status_not_found'));
         }
 
-        $query = $this->em->getRepository(UserFollower::class)
+        $query = $this->em
+            ->getRepository(UserFollower::class)
             ->findBy([
                 'user' => $user,
                 'status' => $status,
@@ -59,9 +62,12 @@ class UsersFollowerRequestsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
-        $userFollower = $this->em->getRepository(UserFollower::class)
+        /** @var UserFollower $userFollower */
+        $userFollower = $this->em
+            ->getRepository(UserFollower::class)
             ->findOneBy([
                 'id' => $id,
                 'user' => $user,
@@ -74,15 +80,15 @@ class UsersFollowerRequestsController extends AbstractUsersController
         $this->em->remove($userFollower);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('follower_requests.delete.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.follower_requests.delete',
             'A user follow was deleted',
             $userFollower->toArray()
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('follower_requests.delete.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -102,9 +108,12 @@ class UsersFollowerRequestsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
-        $userFollower = $this->em->getRepository(UserFollower::class)
+        /** @var UserFollower|null $userFollower */
+        $userFollower = $this->em
+            ->getRepository(UserFollower::class)
             ->findOneBy([
                 'id' => $id,
                 'user' => $user,
@@ -119,15 +128,15 @@ class UsersFollowerRequestsController extends AbstractUsersController
         $this->em->persist($userFollower);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('follower_requests.approve.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.follower_requests.approve',
             'A user follow was approved',
             $userFollower->toArray()
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('follower_requests.approve.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -147,8 +156,10 @@ class UsersFollowerRequestsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
+        /** @var UserFollower $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([
@@ -165,15 +176,15 @@ class UsersFollowerRequestsController extends AbstractUsersController
         $this->em->persist($userFollower);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('follower_requests.ignore.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.follower_requests.ignore',
             'A user follow was ignored',
             $userFollower->toArray()
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('follower_requests.ignore.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');

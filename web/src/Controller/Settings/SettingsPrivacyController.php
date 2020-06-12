@@ -56,6 +56,7 @@ class SettingsPrivacyController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(SettingsPrivacyType::class, $user);
         $form->handleRequest($request);
@@ -64,14 +65,14 @@ class SettingsPrivacyController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('privacy.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.privacy',
                 'User privacy was changed'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('privacy.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.privacy');

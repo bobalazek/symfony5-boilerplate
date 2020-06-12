@@ -30,8 +30,10 @@ class UsersActionsController extends AbstractUsersController
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $userMyself */
         $userMyself = $this->getUser();
 
+        /** @var User|null $user */
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername($username)
@@ -56,6 +58,7 @@ class UsersActionsController extends AbstractUsersController
             ]);
         }
 
+        /** @var UserFollower $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([
@@ -93,14 +96,6 @@ class UsersActionsController extends AbstractUsersController
         $this->em->persist($userFollower);
         $this->em->flush();
 
-        $text = $isPendingRequest
-            ? $this->translator->trans('follow.flash.request_success', [], 'users')
-            : $this->translator->trans('follow.flash.success', [], 'users');
-        $this->addFlash(
-            'success',
-            $text
-        );
-
         $this->userActionManager->add(
             'users.follow',
             'The user followed a user',
@@ -117,6 +112,14 @@ class UsersActionsController extends AbstractUsersController
                 'user_id' => $userMyself->getId(),
             ],
             $user
+        );
+
+        $text = $isPendingRequest
+            ? $this->translator->trans('follow.flash.request_success', [], 'users')
+            : $this->translator->trans('follow.flash.success', [], 'users');
+        $this->addFlash(
+            'success',
+            $text
         );
 
         $referer = $request->headers->get('referer');
@@ -138,9 +141,12 @@ class UsersActionsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
-        $userToUnfollow = $this->em->getRepository(User::class)
+        /** @var User|null $userToUnfollow */
+        $userToUnfollow = $this->em
+            ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
         if (!$userToUnfollow) {
@@ -152,6 +158,7 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
+        /** @var UserFollower $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([
@@ -173,17 +180,17 @@ class UsersActionsController extends AbstractUsersController
         $this->em->remove($userFollower);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('unfollow.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.unfollow',
             'The user unfollowed a user',
             [
                 'id' => $userToUnfollow->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('unfollow.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -205,8 +212,10 @@ class UsersActionsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $userMyself */
         $userMyself = $this->getUser();
 
+        /** @var User|null $user */
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername($username)
@@ -258,17 +267,17 @@ class UsersActionsController extends AbstractUsersController
         $this->em->persist($userBlock);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('block.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.block',
             'The user blocked a user',
             [
                 'id' => $user->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('block.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -290,9 +299,12 @@ class UsersActionsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
-        $userToUnblock = $this->em->getRepository(User::class)
+        /** @var User|null $userToUnblock */
+        $userToUnblock = $this->em
+            ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
         if (!$userToUnblock) {
@@ -304,6 +316,7 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
+        /** @var User|null $userBlock */
         $userBlock = $this->em
             ->getRepository(UserBlock::class)
             ->findOneBy([
@@ -325,17 +338,17 @@ class UsersActionsController extends AbstractUsersController
         $this->em->remove($userBlock);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('unblock.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.unblock',
             'The user unblocked a user',
             [
                 'id' => $userToUnblock->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('unblock.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -357,8 +370,10 @@ class UsersActionsController extends AbstractUsersController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
+        /** @var User|null $userToMessage */
         $userToMessage = $this->em
             ->getRepository(User::class)
             ->findOneByUsername($username)
@@ -372,6 +387,7 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
+        /** @var Thread|null $thread */
         $thread = $this->em
             ->getRepository(Thread::class)
             ->getByUserOneAndTwo($user, $userToMessage)
@@ -431,11 +447,6 @@ class UsersActionsController extends AbstractUsersController
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('lock.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.lock',
             'A user was locked',
@@ -443,6 +454,11 @@ class UsersActionsController extends AbstractUsersController
                 'id' => $user->getId(),
                 'reason' => $reason,
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('lock.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -472,17 +488,17 @@ class UsersActionsController extends AbstractUsersController
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('unlock.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.unlock',
             'A user was unlocked',
             [
                 'id' => $user->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('unlock.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -509,7 +525,7 @@ class UsersActionsController extends AbstractUsersController
         }
 
         if (null !== $user->getDeletedAt()) {
-            // If it's already deleted and we would accidentially delete it again,
+            // If it's already deleted and we would accidentally delete it again,
             //   like pressing twice on the delete link, it would hard delete the product,
             //   which (at the moment) we do not want.
             throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
@@ -518,17 +534,17 @@ class UsersActionsController extends AbstractUsersController
         $this->em->remove($user);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('delete.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.delete',
             'A user was deleted',
             [
                 'id' => $user->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('delete.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');
@@ -555,17 +571,17 @@ class UsersActionsController extends AbstractUsersController
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('undelete.flash.success', [], 'users')
-        );
-
         $this->userActionManager->add(
             'users.undelete',
             'A user was undeleted',
             [
                 'id' => $user->getId(),
             ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('undelete.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');

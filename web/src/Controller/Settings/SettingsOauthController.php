@@ -56,6 +56,7 @@ class SettingsOauthController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
 
         $providers = $this->params->get('app.oauth_providers');
@@ -88,16 +89,16 @@ class SettingsOauthController extends AbstractController
             $this->em->remove($userOauthProvider);
             $this->em->flush();
 
+            $this->userActionManager->add(
+                'settings.oauth.facebook.unlink',
+                'User has successfully unlinked their facebook account'
+            );
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('oauth.flash.unlinked_success', [
                     '{provider}' => 'facebook',
                 ], 'settings')
-            );
-
-            $this->userActionManager->add(
-                'settings.oauth.facebook.unlink',
-                'User has successfully unlinked their facebook account'
             );
 
             return $this->redirectToRoute('settings.oauth');

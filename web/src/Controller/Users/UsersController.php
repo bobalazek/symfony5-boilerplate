@@ -5,6 +5,7 @@ namespace App\Controller\Users;
 use App\Entity\User;
 use App\Entity\UserFollower;
 use App\Manager\UserManager;
+use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ class UsersController extends AbstractUsersController
         $search = $request->get('search', '');
         $status = $request->query->get('status', 'active');
 
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->em
             ->getRepository(User::class)
             ->createQueryBuilder('u')
@@ -79,11 +81,15 @@ class UsersController extends AbstractUsersController
      */
     public function detail($username, UserManager $userManager): Response
     {
+        /** @var User|null $userMyself */
         $userMyself = $this->getUser();
 
         $user = 'me' === $username
             ? $userMyself
-            : $this->em->getRepository(User::class)->findOneByUsername($username);
+            : $this->em
+                ->getRepository(User::class)
+                ->findOneByUsername($username)
+        ;
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'users'));
         }
@@ -150,7 +156,9 @@ class UsersController extends AbstractUsersController
      */
     public function followers($username, Request $request, PaginatorInterface $paginator)
     {
-        $user = $this->em->getRepository(User::class)
+        /** @var User|null $user */
+        $user = $this->em
+            ->getRepository(User::class)
             ->findOneByUsername($username)
         ;
         if (!$user) {
@@ -166,7 +174,8 @@ class UsersController extends AbstractUsersController
             throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
         }
 
-        $query = $this->em->getRepository(UserFollower::class)
+        $query = $this->em
+            ->getRepository(UserFollower::class)
             ->findBy([
                 'user' => $user,
                 'status' => UserFollower::STATUS_APPROVED,
@@ -193,6 +202,7 @@ class UsersController extends AbstractUsersController
      */
     public function following($username, Request $request, PaginatorInterface $paginator)
     {
+        /** @var User|null $user */
         $user = $this->em
             ->getRepository(User::class)
             ->findOneByUsername($username)
@@ -210,7 +220,8 @@ class UsersController extends AbstractUsersController
             throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
         }
 
-        $query = $this->em->getRepository(UserFollower::class)
+        $query = $this->em
+            ->getRepository(UserFollower::class)
             ->findBy([
                 'userFollowing' => $user,
             ], [

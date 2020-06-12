@@ -61,6 +61,8 @@ class SettingsExportController extends AbstractController
         $user = $this->getUser();
 
         $requestAlert = null;
+
+        /** @var UserExport[] $userExports */
         $userExports = $this->em
             ->getRepository(UserExport::class)
             ->findBy([
@@ -98,7 +100,6 @@ class SettingsExportController extends AbstractController
             }
 
             $userExport = new UserExport();
-
             $userExport
                 ->setStatus(UserExport::STATUS_PENDING)
                 ->setToken(md5(random_bytes(32)))
@@ -112,14 +113,14 @@ class SettingsExportController extends AbstractController
                 new UserExportRequest($userExport->getId())
             );
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('export.flash.success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.export',
                 'User export was requested'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('export.flash.success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings.export');

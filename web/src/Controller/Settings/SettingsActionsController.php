@@ -4,6 +4,7 @@ namespace App\Controller\Settings;
 
 use App\Entity\UserAction;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -49,6 +50,7 @@ class SettingsActionsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var QueryBuilder $userActionsQueryBuilder */
         $userActionsQueryBuilder = $this->em
             ->getRepository(UserAction::class)
             ->createQueryBuilder('ua')

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Settings;
 
+use App\Entity\User;
 use App\Form\SettingsType;
 use App\Manager\EmailManager;
 use App\Manager\UserActionManager;
@@ -64,16 +65,19 @@ class SettingsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        /** @var User $user */
         $user = $this->getUser();
+        $userOld = clone $user;
+
         $queryParamsResponse = $this->_handleQueryParams(
             $request,
-            $user
+            $user,
+            $userOld
         );
         if ($queryParamsResponse) {
             return $queryParamsResponse;
         }
 
-        $userOld = clone $user;
         $userOldArray = $userOld->toArray();
 
         $form = $this->createForm(SettingsType::class, $user);
@@ -119,11 +123,6 @@ class SettingsController extends AbstractController
 
             $this->emailManager->sendNewEmailConfirm($user);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('flash.new_email_success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.new_email.request',
                 'New user email was set. Awaiting confirmation for it'
@@ -148,7 +147,7 @@ class SettingsController extends AbstractController
         );
     }
 
-    private function _handleQueryParams($request, $user)
+    private function _handleQueryParams(Request $request, User $user, User $userOld)
     {
         $action = $request->query->get('action');
         if ('cancel_new_email' === $action) {
@@ -203,14 +202,14 @@ class SettingsController extends AbstractController
 
             $this->emailManager->sendNewEmailConfirm($user);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('flash.resend_new_email_success', [], 'settings')
-            );
-
             $this->userActionManager->add(
                 'settings.new_email.resend',
                 'New user email was resend'
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('flash.resend_new_email_success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings');
@@ -234,22 +233,34 @@ class SettingsController extends AbstractController
             ;
 
             $this->em->persist($user);
-            $this->em->flush();
+
+            try {
+                $this->em->flush();
+            } catch (\Exception $e) {
+                // The most common cause for this will be an already existing user already using this email,
+                // so let' just unset it and prompt the user to select a new one.
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('flash.new_email_already_in_use_by_another_user', [], 'settings')
+                );
+
+                return $this->redirectToRoute('settings');
+            }
 
             $this->emailManager->sendNewEmailConfirmSuccess($user);
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('flash.new_email_confirmed_success', [], 'settings')
-            );
 
             $this->userActionManager->add(
                 'settings.new_email.confirm',
                 'New user email was confirmed',
                 [
-                    'old' => $userOld->toArray(),
-                    'new' => $user->toArray(),
+                    'old' => $userOld->getEmail(),
+                    'new' => $user->getEmail(),
                 ]
+            );
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('flash.new_email_confirmed_success', [], 'settings')
             );
 
             return $this->redirectToRoute('settings');

@@ -41,6 +41,7 @@ class SettingsUserTfaMethodType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => true,
             'data_class' => UserTfaMethod::class,
             'validation_groups' => ['settings.tfa'],
             'hide_enabled_field' => false,

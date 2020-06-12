@@ -29,7 +29,8 @@ The Corcoviewer project.
 * Moderation
   * User locking & deletion (allow moderators with certain roles to lock or delete the users)
 * Administration via EasyAdmin
-* Multilanguage ready
+* Multi language ready
+* Contact form
 
 ## Resources
 

@@ -29,6 +29,7 @@ class SettingsPrivacyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => true,
             'data_class' => User::class,
             'validation_groups' => ['settings.privacy'],
         ]);

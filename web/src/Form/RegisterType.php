@@ -51,6 +51,7 @@ class RegisterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => true,
             'data_class' => User::class,
             'validation_groups' => ['register'],
         ]);

@@ -27,6 +27,7 @@ class LoginTfaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => true,
             'validation_groups' => ['login.tfa'],
             'show_code_field' => true,
         ]);

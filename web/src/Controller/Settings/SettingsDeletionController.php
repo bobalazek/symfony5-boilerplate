@@ -140,7 +140,6 @@ class SettingsDeletionController extends AbstractController
                 $this->translator->trans('deletion.flash.cancel_deletion_success', [], 'settings')
             );
 
-
             return $this->redirectToRoute('settings.deletion');
         }
 

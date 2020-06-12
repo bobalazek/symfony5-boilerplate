@@ -47,7 +47,7 @@
             </td>
             <td>
               {% if status == constant('App\\Entity\\UserExport::STATUS_COMPLETED') %}
-                {% if (user_export.getExpiresAt() | date) > ('now' | date) %}
+                {% if (user_export.getExpiresAt() | date) < ('now' | date) %}
                   <a href="{{ user_export.getFileUrl() }}" target="_blank">
                     {{ 'Download' | trans }}
                   </a>

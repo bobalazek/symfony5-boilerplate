@@ -14,8 +14,10 @@ The Corcoviewer project.
   * Notifications
   * Messaging
   * Profile
-    * Following, followers & follower requests
-    * Blocking
+  * Following, followers & follower requests
+  * User blocking
+  * Account data export
+  * Account deletion
   * OAuth
     * Facebook
     * Twitter
@@ -28,8 +30,8 @@ The Corcoviewer project.
   * Points (allows awarding points to users)
 * Moderation
   * User locking & deletion (allow moderators with certain roles to lock or delete the users)
-* Administration via EasyAdmin
-* Multi language ready
+* Administration (EasyAdmin)
+* Multi language support
 * Contact form
 
 ## Resources

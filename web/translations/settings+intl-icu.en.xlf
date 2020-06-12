@@ -75,7 +75,7 @@
       </trans-unit>
       <trans-unit id="RrzSgLH" resname="export.alert.already_requested_recently">
         <source>export.alert.already_requested_recently</source>
-        <target>You have already requested a export recently. Please wait a few minutes before trying again</target>
+        <target>You have already requested an export recently. Please wait a few minutes before trying again</target>
       </trans-unit>
       <trans-unit id="j9UM_ON" resname="export.flash.success">
         <source>export.flash.success</source>

@@ -7,7 +7,7 @@ use App\Entity\UserAction;
 use App\Entity\UserTfaEmail;
 use App\Entity\UserTfaMethod;
 use App\Entity\UserTfaRecoveryCode;
-use App\Form\LoginTfaType;
+use App\Form\Type\LoginTfaType;
 use App\Manager\EmailManager;
 use App\Manager\GoogleAuthenticatorManager;
 use App\Manager\UserActionManager;

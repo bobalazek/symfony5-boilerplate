@@ -3,7 +3,7 @@
 namespace App\Controller\Settings;
 
 use App\Entity\User;
-use App\Form\SettingsType;
+use App\Form\Type\SettingsType;
 use App\Manager\EmailManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;

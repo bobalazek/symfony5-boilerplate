@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
@@ -9,18 +9,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class SettingsTfaType.
+ * Class SettingsPrivacyType.
  */
-class SettingsTfaType extends AbstractType
+class SettingsPrivacyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tfaEnabled', ChoiceType::class, [
-                'label' => false,
+            ->add('private', ChoiceType::class, [
+                'label' => 'Visibility',
                 'choices' => [
-                    'Enabled' => true,
-                    'Disabled' => false,
+                    'Private' => true,
+                    'Public' => false,
                 ],
             ])
         ;
@@ -31,7 +31,7 @@ class SettingsTfaType extends AbstractType
         $resolver->setDefaults([
             'csrf_protection' => true,
             'data_class' => User::class,
-            'validation_groups' => ['settings.tfa'],
+            'validation_groups' => ['settings.privacy'],
         ]);
     }
 }

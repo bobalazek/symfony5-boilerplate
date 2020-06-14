@@ -2,7 +2,7 @@
 
 namespace App\Controller\Settings;
 
-use App\Form\SettingsPasswordType;
+use App\Form\Type\SettingsPasswordType;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

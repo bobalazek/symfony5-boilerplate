@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Entity\User;
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Settings;
 
-use App\Form\SettingsPrivacyType;
+use App\Form\Type\SettingsPrivacyType;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

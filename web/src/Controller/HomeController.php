@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\ContactFormType;
+use App\Form\Type\ContactFormType;
 use App\Manager\EmailManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;

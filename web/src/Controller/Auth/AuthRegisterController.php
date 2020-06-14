@@ -5,7 +5,7 @@ namespace App\Controller\Auth;
 use App\Entity\User;
 use App\Entity\UserFollower;
 use App\Entity\UserOauthProvider;
-use App\Form\RegisterType;
+use App\Form\Type\RegisterType;
 use App\Manager\EmailManager;
 use App\Manager\OauthManager;
 use App\Security\Guard\Authenticator\LoginFormAuthenticator;

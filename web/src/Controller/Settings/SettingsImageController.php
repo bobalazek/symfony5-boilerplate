@@ -2,7 +2,7 @@
 
 namespace App\Controller\Settings;
 
-use App\Form\SettingsImageType;
+use App\Form\Type\SettingsImageType;
 use App\Manager\AvatarManager;
 use App\Manager\FileUploadManager;
 use App\Manager\UserActionManager;

@@ -106,7 +106,7 @@ class UserExportRequestHandler implements MessageHandlerInterface
         $zip = new \ZipArchive();
 
         $zipResponse = $zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-        if ($zipResponse !== true) {
+        if (true !== $zipResponse) {
             throw new \Exception('Could not create .zip file. Error: ' . $zipResponse);
         }
 

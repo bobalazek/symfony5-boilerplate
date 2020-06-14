@@ -12,13 +12,6 @@ parameters:
     app.mailer_from: Corcoviewer <mailer@corcoviewer.com>
     app.mailer_to: Borut <bobalazek124@gmail.com>
     # Credentials
-    app.aws:
-        key: '%env(AWS_KEY)%'
-        secret: '%env(AWS_SECRET)%'
-    app.aws.s3:
-        version: '%env(AWS_S3_VERSION)%'
-        region: '%env(AWS_S3_REGION)%'
-        bucket: '%env(AWS_S3_BUCKET)%'
     app.oauth.facebook:
         id: '%env(OAUTH_FACEBOOK_ID)%'
         secret: '%env(OAUTH_FACEBOOK_SECRET)%'
@@ -56,10 +49,6 @@ services:
     App\EventSubscriber\TfaSubscriber:
         arguments:
             $allowedRoutes: '%app.tfa.allowed_routes%'
-
-    App\EventSubscriber\ImageUploadSubscriber:
-        tags:
-            - { name: 'doctrine.event_subscriber' }
 
     App\EventListener\UserDeviceListener:
         tags:

@@ -1,4 +1,5 @@
 .php_cs.cache
+/public/uploads/
 
 ###> symfony/framework-bundle ###
 /.env.local

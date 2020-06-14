@@ -4,13 +4,13 @@ namespace App\MessageHandler;
 
 use App\Entity\User;
 use App\Entity\UserExport;
-use App\Manager\FileUploadManager;
 use App\Message\UserExportRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
  * Class UserExportRequestHandler.
@@ -23,16 +23,16 @@ class UserExportRequestHandler implements MessageHandlerInterface
     private $em;
 
     /**
-     * @var FileUploadManager
+     * @var UploaderHelper
      */
-    private $fileUploadManager;
+    private $uploaderHelper;
 
     public function __construct(
         EntityManagerInterface $em,
-        FileUploadManager $fileUploadManager
+        UploaderHelper $uploaderHelper
     ) {
         $this->em = $em;
-        $this->fileUploadManager = $fileUploadManager;
+        $this->uploaderHelper = $uploaderHelper;
     }
 
     public function __invoke(UserExportRequest $userExportRequest)
@@ -49,29 +49,27 @@ class UserExportRequestHandler implements MessageHandlerInterface
             ->setStatus(UserExport::STATUS_IN_PROGRESS)
             ->setStartedAt(new \DateTime())
         ;
+
+        // Persist & save so we can use and forward the ID when creating the zip
         $this->em->persist($userExport);
         $this->em->flush();
 
         try {
             $zipFilePath = $this->_saveZip($userExport);
-            $file = new File($zipFilePath);
-
-            $response = $this->fileUploadManager->upload(
-                $file,
-                'export_' . md5($userExport->getId() . '.' . $userExport->getToken()) . '.zip',
-                'user_exports/'
+            $file = new UploadedFile(
+                $zipFilePath,
+                $userExport->getId() . '.zip',
+                null,
+                null,
+                true
             );
-            $expiresAt = (new \DateTime())->modify('+30 days');
 
             $userExport
                 ->setStatus(UserExport::STATUS_COMPLETED)
-                ->setFileKey($response['key'])
-                ->setFileUrl($response['url'])
+                ->setFile($file)
                 ->setCompletedAt(new \DateTime())
-                ->setExpiresAt($expiresAt)
+                ->setExpiresAt((new \DateTime())->modify('+30 days'))
             ;
-
-            unlink($zipFilePath);
         } catch (\Exception $e) {
             $userExport
                 ->setStatus(UserExport::STATUS_FAILED)
@@ -82,14 +80,18 @@ class UserExportRequestHandler implements MessageHandlerInterface
 
         $this->em->persist($userExport);
         $this->em->flush();
+
+        // TODO: remove the archive and contents in the tmp file once it's uploaded
+        // Can't do it in this request, as we would then remove the zip file,
+        // because the upload happens later in the listerner!
     }
 
     public function _saveZip(UserExport $userExport): string
     {
         $filesystem = new Filesystem();
 
-        $sysTempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR;
-        $exportsDir = $sysTempDir . 'exports' . DIRECTORY_SEPARATOR;
+        $tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR;
+        $exportsDir = $tmpDir . 'exports' . DIRECTORY_SEPARATOR;
         $exportsContentsDir = $exportsDir . 'contents' . DIRECTORY_SEPARATOR;
         $exportsArchivesDir = $exportsDir . 'archives' . DIRECTORY_SEPARATOR;
         $exportDir = $exportsContentsDir . $userExport->getId() . DIRECTORY_SEPARATOR;
@@ -102,7 +104,11 @@ class UserExportRequestHandler implements MessageHandlerInterface
 
         $zipFile = $exportsArchivesDir . $userExport->getId() . '.zip';
         $zip = new \ZipArchive();
-        $zip->open($zipFile, \ZipArchive::CREATE);
+
+        $zipResponse = $zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        if ($zipResponse !== true) {
+            throw new \Exception('Could not create .zip file. Error: ' . $zipResponse);
+        }
 
         // User
         $userJson = $exportDir . 'user.json';
@@ -113,8 +119,8 @@ class UserExportRequestHandler implements MessageHandlerInterface
         $zip->addFile($userJson, 'user.json');
 
         // User - avatar
-        if ($user->getImageFileKey()) {
-            $url = $user->getImageFileUrl();
+        $userImageUrl = $this->uploaderHelper->asset($user, 'imageFile');
+        if ($userImageUrl) {
             $ext = pathinfo($url, PATHINFO_EXTENSION);
             $name = 'avatar.' . $ext;
             $path = $exportDir . $name;
@@ -136,10 +142,6 @@ class UserExportRequestHandler implements MessageHandlerInterface
                 'method' => 'getUserDevices',
             ],
             [
-                'filename' => 'user_exports.json',
-                'method' => 'getUserExports',
-            ],
-            [
                 'filename' => 'user_followers.json',
                 'method' => 'getUserFollowers',
             ],
@@ -154,39 +156,16 @@ class UserExportRequestHandler implements MessageHandlerInterface
         ];
 
         foreach ($files as $fileData) {
-            if (isset($fileData['directory'])) {
-                $imagesDir = $exportsDir . $fileData['directory'] . DIRECTORY_SEPARATOR;
-                $filesystem->mkdir($imagesDir);
+            $fileJson = $exportDir . $fileData['filename'];
+            $array = $user->{$fileData['method']}()->toArray();
 
-                $images = $user->{$fileData['method']}()->toArray();
-                foreach ($images as $image) {
-                    if (!$image->getImageFileKey()) {
-                        continue;
-                    }
-
-                    $url = $image->getImageFileUrl();
-                    $ext = pathinfo($url, PATHINFO_EXTENSION);
-                    $name = $image->getId() . '.' . $ext;
-                    $path = $imagesDir . $name;
-
-                    file_put_contents(
-                        $path,
-                        file_get_contents($url)
-                    );
-                    $zip->addFile($path, $fileData['directory'] . '/' . $name);
-                }
-            } else {
-                $fileJson = $exportDir . $fileData['filename'];
-                $array = $user->{$fileData['method']}()->toArray();
-
-                file_put_contents(
-                    $fileJson,
-                    json_encode(array_map(function ($entry) {
-                        return $entry->toArray();
-                    }, $array), JSON_PRETTY_PRINT)
-                );
-                $zip->addFile($fileJson, $fileData['filename']);
-            }
+            file_put_contents(
+                $fileJson,
+                json_encode(array_map(function ($entry) {
+                    return $entry->toArray();
+                }, $array), JSON_PRETTY_PRINT)
+            );
+            $zip->addFile($fileJson, $fileData['filename']);
         }
 
         $zip->close();

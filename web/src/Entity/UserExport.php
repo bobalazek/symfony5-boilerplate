@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserExportRepository")
  * @ORM\Table(name="user_exports")
+ * @Vich\Uploadable()
  */
 class UserExport implements Interfaces\ArrayInterface
 {
@@ -40,14 +44,23 @@ class UserExport implements Interfaces\ArrayInterface
     private $failedMessage;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @Vich\UploadableField(
+     *   mapping="user_export",
+     *   fileNameProperty="embeddedFile.name",
+     *   size="embeddedFile.size",
+     *   mimeType="embeddedFile.mimeType",
+     *   originalName="embeddedFile.originalName",
+     *   dimensions="embeddedFile.dimensions"
+     * )
      */
-    private $fileKey;
+    private $file;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
+     *
+     * @var EmbeddedFile
      */
-    private $fileUrl;
+    private $embeddedFile;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -74,6 +87,11 @@ class UserExport implements Interfaces\ArrayInterface
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $user;
+
+    public function __construct()
+    {
+        $this->embeddedFile = new EmbeddedFile();
+    }
 
     public function __toString()
     {
@@ -121,26 +139,26 @@ class UserExport implements Interfaces\ArrayInterface
         return $this;
     }
 
-    public function getFileKey(): ?string
+    public function getFile(): ?File
     {
-        return $this->fileKey;
+        return $this->file;
     }
 
-    public function setFileKey(?string $fileKey): self
+    public function setFile(?File $file): self
     {
-        $this->fileKey = $fileKey;
+        $this->file = $file;
 
         return $this;
     }
 
-    public function getFileUrl(): ?string
+    public function getEmbeddedFile(): ?EmbeddedFile
     {
-        return $this->fileUrl;
+        return $this->embeddedFile;
     }
 
-    public function setFileUrl(?string $fileUrl): self
+    public function setEmbeddedFile(?EmbeddedFile $embeddedFile): self
     {
-        $this->fileUrl = $fileUrl;
+        $this->embeddedFile = $embeddedFile;
 
         return $this;
     }

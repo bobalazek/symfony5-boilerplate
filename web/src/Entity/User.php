@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 
 /**
  * We need the \Serializable interface, because the user is also in the abstracttoken
@@ -21,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @Vich\Uploadable()
  * @UniqueEntity(
  *   fields={"username"},
  *   message="There is already an account with this username",
@@ -116,6 +119,14 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
     private $passwordResetCode;
 
     /**
+     * @Vich\UploadableField(
+     *   mapping="user_image",
+     *   fileNameProperty="embeddedFile.name",
+     *   size="embeddedFile.size",
+     *   mimeType="embeddedFile.mimeType",
+     *   originalName="embeddedFile.originalName",
+     *   dimensions="embeddedFile.dimensions"
+     * )
      * @Assert\Image(
      *     maxSize="4M",
      *     allowLandscape=false,
@@ -128,14 +139,11 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
     private $imageFile;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
+     *
+     * @var EmbeddedFile
      */
-    private $imageFileKey;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $imageFileUrl;
+    private $embeddedFile;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -274,6 +282,7 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
 
     public function __construct()
     {
+        $this->embeddedFile = new EmbeddedFile();
         $this->userActions = new ArrayCollection();
         $this->userExports = new ArrayCollection();
         $this->userBlocks = new ArrayCollection();
@@ -475,26 +484,14 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
         return $this;
     }
 
-    public function getImageFileKey(): ?string
+    public function getEmbeddedFile(): ?EmbeddedFile
     {
-        return $this->imageFileKey;
+        return $this->embeddedFile;
     }
 
-    public function setImageFileKey(?string $imageFileKey): self
+    public function setEmbeddedFile(?EmbeddedFile $embeddedFile): self
     {
-        $this->imageFileKey = $imageFileKey;
-
-        return $this;
-    }
-
-    public function getImageFileUrl(): ?string
-    {
-        return $this->imageFileUrl;
-    }
-
-    public function setImageFileUrl(?string $imageFileUrl): self
-    {
-        $this->imageFileUrl = $imageFileUrl;
+        $this->embeddedFile = $embeddedFile;
 
         return $this;
     }
@@ -1143,7 +1140,6 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
             'bio' => $this->getBio(),
             'city' => $this->getCity(),
             'country_code' => $this->getCountryCode(),
-            'image_file_url' => $this->getImageFileUrl(),
             'locked' => $this->isLocked(),
             'locked_reason' => $this->getLockedReason(),
             'created_at' => $this->getCreatedAt()

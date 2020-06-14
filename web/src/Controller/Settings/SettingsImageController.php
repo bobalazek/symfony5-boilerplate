@@ -4,7 +4,6 @@ namespace App\Controller\Settings;
 
 use App\Form\Type\SettingsImageType;
 use App\Manager\AvatarManager;
-use App\Manager\FileUploadManager;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,23 +38,16 @@ class SettingsImageController extends AbstractController
      */
     private $userActionManager;
 
-    /**
-     * @var FileUploadManager
-     */
-    private $fileUploadManager;
-
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        UserActionManager $userActionManager,
-        FileUploadManager $fileUploadManager
+        UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
-        $this->fileUploadManager = $fileUploadManager;
     }
 
     /**
@@ -70,15 +62,9 @@ class SettingsImageController extends AbstractController
 
         $action = $request->query->get('action');
         if ('clear_image_file' === $action) {
-            if ($user->getImageFileKey()) {
-                $this->fileUploadManager->delete(
-                    $user->getImageFileKey()
-                );
-            }
-
             $user
-                ->setImageFileKey(null)
-                ->setImageFileUrl(null)
+                ->setImageFile(null)
+                ->setEmbeddedFile(null)
             ;
 
             $this->em->persist($user);

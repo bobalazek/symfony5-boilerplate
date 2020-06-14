@@ -32,6 +32,7 @@
       <tbody>
         {% for user_export in user_exports %}
           {% set status = user_export.getStatus() %}
+          {% set file_url = vich_uploader_asset(user_export, 'file') %}
           <tr>
             <td>{{ user_export.getCreatedAt() | date }}</td>
             <td>{{ user_export.getStartedAt()
@@ -48,7 +49,7 @@
             <td>
               {% if status == constant('App\\Entity\\UserExport::STATUS_COMPLETED') %}
                 {% if (user_export.getExpiresAt() | date) < ('now' | date) %}
-                  <a href="{{ user_export.getFileUrl() }}" target="_blank">
+                  <a href="{{ file_url }}" target="_blank">
                     {{ 'Download' | trans }}
                   </a>
                   <small>({{ 'expires on' | trans }} {{ user_export.getExpiresAt() | date }})</small>

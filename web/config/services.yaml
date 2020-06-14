@@ -74,13 +74,6 @@ services:
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
 
-    Gedmo\Tree\TreeListener:
-        class: Gedmo\Tree\TreeListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
-
     Gedmo\SoftDeleteable\SoftDeleteableListener:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
         tags:

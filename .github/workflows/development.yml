@@ -15,34 +15,34 @@ jobs:
       - name: Docker compose - Build & start the containers
         run: docker-compose up -d
 
-      # Backend - Install dependencies, lint files & prepare database
-      - name: Backend - Install dependencies
+      # App Backend - Install dependencies, lint files & prepare database
+      - name: App Backend - Install dependencies
         run: docker exec -i cw_php composer install
 
-      - name: Backend - Lint twig template files
+      - name: App Backend - Lint twig template files
         run: docker exec -i cw_php php bin/console lint:twig templates/
-      - name: Backend - Lint YAML config files
+      - name: App Backend - Lint YAML config files
         run: docker exec -i cw_php php bin/console lint:yaml config/
-      - name: Backend - Lint XLIFF translation files
+      - name: App Backend - Lint XLIFF translation files
         run: docker exec -i cw_php php bin/console lint:xliff translations/
-      - name: Backend - Lint PHP files
+      - name: App Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
 
-      - name: Backend - Update database schema
+      - name: App Backend - Update database schema
         run: docker exec -i cw_php php bin/console doctrine:schema:update --force
-      - name: Backend - Load database fixtures
+      - name: App Backend - Load database fixtures
         run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
 
-      # Frontend - Install dependencies, lint files & build the app
-      - name: Frontend - Install dependencies
+      # App Frontend - Install dependencies, lint files & build the app
+      - name: App Frontend - Install dependencies
         run: docker exec -i cw_node yarn install --frozen-lockfile
 
-      - name: Frontend - Lint JS files
+      - name: App Frontend - Lint JS files
         run: docker exec -i cw_node yarn run lint
 
-      - name: Frontend - Build the app
+      - name: App Frontend - Build the app
         run: docker exec -i cw_node yarn run build
 
-      # Backend - Run tests
-      - name: Backend - Run tests
+      # App Backend - Run tests
+      - name: App Backend - Run tests
         run: docker exec -i cw_php php bin/phpunit

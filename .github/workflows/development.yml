@@ -9,11 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Docker compose - Prepare containers
       - name: Docker compose - Prepare .env file
         run: cp -b .env.ci .env
       - name: Docker compose - Build & start the containers
         run: docker-compose up -d
 
+      # Backend - Install dependencies, lint files & prepare database
       - name: Backend - Install dependencies
         run: docker exec -i cw_php composer install
 
@@ -26,23 +28,28 @@ jobs:
       - name: Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
 
-      - name: Frontend - Lint JS files
-        run: docker exec -i cw_node_web yarn run lint
-
       - name: Backend - Update database schema
         run: docker exec -i cw_php php bin/console doctrine:schema:update --force
-      - name: Backend - Run database fixtures
+      - name: Backend - Load database fixtures
         run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
 
+      # Frontend (web) - Install dependencies, lint files & build the app
       - name: Frontend (web) - Install dependencies
         run: docker exec -i cw_node_web yarn install --frozen-lockfile
+
+      - name: Frontend (web) - Lint JS files
+        run: docker exec -i cw_node_web yarn run lint
+
       - name: Frontend (web) - Build the app
         run: docker exec -i cw_node_web yarn run build
 
+      # Frontend (game) - Install dependencies & build the app
       - name: Frontend (game) - Install dependencies
         run: docker exec -i cw_node_game npm ci
+
       - name: Frontend (game) - Build the app
         run: docker exec -i cw_node_game npm run build
 
+      # Backend - Run tests
       - name: Backend - Run tests
         run: docker exec -i cw_php php bin/phpunit

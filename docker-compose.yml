@@ -3,11 +3,11 @@ version: '3.7'
 services:
   php:
     container_name: cw_php
-    build: ./web/docker/php
+    build: ./docker/php
     env_file:
       - .env
     volumes:
-      - .:/var/www
+      - ./app:/var/www/web
     links:
       - mysql
       - redis
@@ -18,9 +18,9 @@ services:
 
   nginx:
     container_name: cw_nginx
-    build: ./web/docker/nginx
+    build: ./docker/nginx
     volumes:
-      - .:/var/www
+      - ./app:/var/www/web
     links:
       - php
     depends_on:
@@ -33,7 +33,7 @@ services:
 
   mysql:
     container_name: cw_mysql
-    build: ./web/docker/mysql
+    build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
       - MYSQL_USER=${MYSQL_USER:-user}
@@ -46,7 +46,7 @@ services:
 
   mysql-test:
     container_name: cw_mysql_test
-    build: ./web/docker/mysql
+    build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
       - MYSQL_USER=${MYSQL_USER:-user}
@@ -57,13 +57,13 @@ services:
     networks:
       - cw-app-network
 
-  node-web:
-    container_name: cw_node_web
-    build: ./web/docker/node
+  node:
+    container_name: cw_node
+    build: ./docker/node
     env_file:
       - .env
     volumes:
-      - ./web:/usr/src/app
+      - ./app:/usr/src/app
     networks:
       - cw-app-network
     command: tail -f /dev/null
@@ -84,7 +84,7 @@ services:
 
   elasticsearch:
     container_name: cw_elasticsearch
-    build: ./web/docker/elasticsearch
+    build: ./docker/elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "ELASTIC_PASSWORD=changeme" # username is "elastic"
@@ -96,20 +96,6 @@ services:
     ports:
       - '${ELASTICSEARCH_PORT_9200:-9200}:9200'
       - '${ELASTICSEARCH_PORT_9300:-9300}:9300'
-    networks:
-      - cw-app-network
-
-  node-game:
-    container_name: cw_node_game
-    build: ./game
-    env_file:
-      - .env
-    volumes:
-      - ./game:/usr/src/app
-    ports:
-      - '${GAME_CLIENT_PORT_8080:-8080}:8080'
-      - '${GAME_SERVER_PORT_1248:-1248}:1248'
-    command: tail -f /dev/null
     networks:
       - cw-app-network
 

@@ -2,9 +2,7 @@
 
 ## Commands
 
-### Web
-
-#### PHP
+### PHP
 
 * Install composer dependencies: `docker exec -ti cw_php composer install`
 * Update composer dependencies: `docker exec -ti cw_php composer update`
@@ -24,20 +22,11 @@
 * Messenger queue consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger queue stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
 
-#### Node
+### Node
 
-* Install yarn dependencies: `docker exec -ti cw_node_web yarn install`
-* Upgrade yarn dependencies: `docker exec -ti cw_node_web yarn upgrade`
-* Watch & build static assets (CSS & JS) for development: `docker exec -ti cw_node_web yarn run watch`
-* Build static assets (CSS & JS) for production: `docker exec -ti cw_node_web yarn run build`
-* Lint JS files: `docker exec -ti cw_node_web yarn run lint`
-* Lint & fix JS files: `docker exec -ti cw_node_web yarn run lint-fix`
-
-### Game
-
-* Install npm dependencies: `docker exec -ti cw_node_game npm install`
-* Update npm dependencies: `docker exec -ti cw_node_game npm update`
-* Watch & build for development: `docker exec -ti cw_node_game npm start`
-  * Watch & build only client: `docker exec -ti cw_node_game npm run start-client`
-  * Watch & build only server: `docker exec -ti cw_node_game npm run start-server`
-* Build for production: `docker exec -ti cw_node_game npm run build`
+* Install yarn dependencies: `docker exec -ti cw_node yarn install`
+* Upgrade yarn dependencies: `docker exec -ti cw_node yarn upgrade`
+* Watch & build static assets (CSS & JS) for development: `docker exec -ti cw_node yarn run watch`
+* Build static assets (CSS & JS) for production: `docker exec -ti cw_node yarn run build`
+* Lint JS files: `docker exec -ti cw_node yarn run lint`
+* Lint & fix JS files: `docker exec -ti cw_node yarn run lint-fix`

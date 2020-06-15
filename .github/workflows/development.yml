@@ -33,22 +33,15 @@ jobs:
       - name: Backend - Load database fixtures
         run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
 
-      # Frontend (web) - Install dependencies, lint files & build the app
-      - name: Frontend (web) - Install dependencies
-        run: docker exec -i cw_node_web yarn install --frozen-lockfile
+      # Frontend - Install dependencies, lint files & build the app
+      - name: Frontend - Install dependencies
+        run: docker exec -i cw_node yarn install --frozen-lockfile
 
-      - name: Frontend (web) - Lint JS files
-        run: docker exec -i cw_node_web yarn run lint
+      - name: Frontend - Lint JS files
+        run: docker exec -i cw_node yarn run lint
 
-      - name: Frontend (web) - Build the app
-        run: docker exec -i cw_node_web yarn run build
-
-      # Frontend (game) - Install dependencies & build the app
-      - name: Frontend (game) - Install dependencies
-        run: docker exec -i cw_node_game npm ci
-
-      - name: Frontend (game) - Build the app
-        run: docker exec -i cw_node_game npm run build
+      - name: Frontend - Build the app
+        run: docker exec -i cw_node yarn run build
 
       # Backend - Run tests
       - name: Backend - Run tests

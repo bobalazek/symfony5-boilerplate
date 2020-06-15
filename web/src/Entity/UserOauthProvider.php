@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserOauthProviderRepository")
  * @ORM\Table(name="user_oauth_providers")
  */
-class UserOauthProvider implements Interfaces\StatusInterface, Interfaces\ArrayInterface
+class UserOauthProvider implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
 
     const PROVIDER_FACEBOOK = 'facebook';
     const PROVIDER_GOOGLE = 'google';

@@ -93,6 +93,10 @@
         <source>detail.user_is_locked</source>
         <target>User is locked</target>
       </trans-unit>
+      <trans-unit id="yrsa5u6" resname="detail.user_is_deleted">
+        <source>detail.user_is_deleted</source>
+        <target>User is deleted</target>
+      </trans-unit>
       <trans-unit id="7QCKUu." resname="users.detail.blocked_by_user">
         <source>users.detail.blocked_by_user</source>
         <target>You are blocked by this user</target>

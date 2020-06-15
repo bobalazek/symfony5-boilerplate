@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserTfaRecoveryCodeRepository")
  * @ORM\Table(name="user_tfa_recovery_codes")
  */
-class UserTfaRecoveryCode implements Interfaces\StatusInterface, Interfaces\ArrayInterface
+class UserTfaRecoveryCode implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id()

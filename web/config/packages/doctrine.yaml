@@ -24,10 +24,6 @@ doctrine:
                 month: DoctrineExtensions\Query\Mysql\Month
                 year: DoctrineExtensions\Query\Mysql\Year
                 date_format: DoctrineExtensions\Query\Mysql\DateFormat
-        filters:
-            gedmo_softdeletable:
-                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                enabled: true
         mappings:
             App:
                 is_bundle: false

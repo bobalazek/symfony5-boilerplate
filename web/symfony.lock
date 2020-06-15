@@ -2,8 +2,20 @@
     "jms/metadata": {
         "version": "2.3.0"
     },
+    "knplabs/doctrine-behaviors": {
+        "version": "v2.0.4"
+    },
+    "nette/finder": {
+        "version": "v2.5.2"
+    },
+    "nette/utils": {
+        "version": "v3.1.2"
+    },
     "php": {
         "version": "7.4"
+    },
+    "symplify/package-builder": {
+        "version": "v7.3.18"
     },
     "vich/uploader-bundle": {
         "version": "1.5",

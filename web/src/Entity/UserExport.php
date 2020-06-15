@@ -6,15 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserExportRepository")
  * @ORM\Table(name="user_exports")
  * @Vich\Uploadable()
  */
-class UserExport implements Interfaces\ArrayInterface
+class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
 
     const STATUS_PENDING = 'pending';
     const STATUS_IN_PROGRESS = 'in_progress';

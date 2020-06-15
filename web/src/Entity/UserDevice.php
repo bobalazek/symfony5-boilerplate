@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserDeviceRepository")
  * @ORM\Table(name="user_devices")
  */
-class UserDevice implements Interfaces\ArrayInterface
+class UserDevice implements Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
     use Traits\RequestMetaTrait;
 
     const UUID_COOKIE_NAME_PREFIX = 'device_uuid_';

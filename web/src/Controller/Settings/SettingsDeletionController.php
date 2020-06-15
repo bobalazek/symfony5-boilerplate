@@ -208,8 +208,6 @@ class SettingsDeletionController extends AbstractController
             throw new \Exception('A moderator user or higher can not be deleted.');
         }
 
-        $this->em->getFilters()->disable('gedmo_softdeletable');
-
         // TODO: actually delete the user
         // TODO: flag this it somewhere, so that in case of a backup rollback,
         //   you can delete this user again.

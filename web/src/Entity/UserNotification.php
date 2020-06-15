@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserNotificationRepository")
  * @ORM\Table(name="user_notifications")
  */
-class UserNotification implements Interfaces\StatusInterface, Interfaces\ArrayInterface
+class UserNotification implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
 
     const TYPE_USER_FOLLOW = 'user.follow'; // When a new user follows you
     const TYPE_USER_FOLLOW_REQUEST = 'user.follow.request'; // When a new user requests to follow you

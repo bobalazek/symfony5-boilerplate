@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ThreadUserMessageRepository")
  * @ORM\Table(name="thread_user_messages")
  */
-class ThreadUserMessage implements Interfaces\ArrayInterface
+class ThreadUserMessage implements Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id()

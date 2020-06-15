@@ -56,11 +56,6 @@ class AbstractUsersController extends AbstractController
      */
     protected function _get(string $username): User
     {
-        $user = null;
-        if ($this->isGranted('ROLE_USER_MODERATOR')) {
-            $this->em->getFilters()->disable('gedmo_softdeletable');
-        }
-
         /** @var User|null $user */
         $user = $this->em
             ->getRepository(User::class)

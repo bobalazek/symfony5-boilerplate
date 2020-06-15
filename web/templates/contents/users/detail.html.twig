@@ -11,6 +11,11 @@
 
 {% block content %}
   <div class="container pt-4 pb-4">
+    {% if user.isDeleted() %}
+      <div class="alert alert-danger mb-4">
+        {{ 'detail.user_is_deleted' | trans({}, 'users') }}
+      </div>
+    {% endif %}
     <div class="row">
       <div class="col-md-4 text-center mb-4">
         {% include 'contents/_shared/user/user_avatar.html.twig' %}

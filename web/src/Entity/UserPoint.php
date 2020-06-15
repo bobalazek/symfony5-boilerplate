@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserPointRepository")
  * @ORM\Table(name="user_points")
  */
-class UserPoint implements Interfaces\StatusInterface, Interfaces\ArrayInterface
+class UserPoint implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\TimestampsTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id()

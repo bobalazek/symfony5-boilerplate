@@ -8,18 +8,19 @@
 
 * Install composer dependencies: `docker exec -ti cw_php composer install`
 * Update composer dependencies: `docker exec -ti cw_php composer update`
-* Run database schema update: `docker exec -ti cw_php php bin/console doctrine:schema:update --force`
-* Run tests: `docker exec -ti cw_php php bin/phpunit`
-* PHP-CS-Fixer: `docker exec -ti cw_php php-cs-fixer fix`
-* Make translations: `docker exec -ti cw_php php bin/console translation:update --dump-messages en --force`
-* Load fixtures: `docker exec -ti cw_php php bin/console doctrine:fixtures:load`
+* Update database schema: `docker exec -ti cw_php php bin/console doctrine:schema:update --force`
 * Drop database schema: `docker exec -ti cw_php php bin/console doctrine:schema:drop --force`
 * Validate database schema: `docker exec -ti cw_php php bin/console doctrine:schema:validate`
 * Show database mapping: `docker exec -ti cw_php php bin/console doctrine:mapping:info`
 * Run database migrations: `docker exec -ti cw_php php bin/console doctrine:migrations:migrate`
-* Lint twig templates: `docker exec -ti cw_php php bin/console lint:twig templates/`
-* Lint YAML config: `docker exec -ti cw_php php bin/console lint:yaml config/`
-* Lint XLIFF translations: `docker exec -ti cw_php php bin/console lint:xliff translations/`
+* Load fixtures: `docker exec -ti cw_php php bin/console doctrine:fixtures:load`
+* Make translations: `docker exec -ti cw_php php bin/console translation:update --dump-messages en --force`
+* Lint twig template files: `docker exec -ti cw_php php bin/console lint:twig templates/`
+* Lint YAML config files: `docker exec -ti cw_php php bin/console lint:yaml config/`
+* Lint XLIFF translation files: `docker exec -ti cw_php php bin/console lint:xliff translations/`
+* Lint PHP files: `docker exec -i cw_php php-cs-fixer fix --dry-run`
+* Run PHP-CS-Fixer: `docker exec -ti cw_php php-cs-fixer fix`
+* Run tests: `docker exec -ti cw_php php bin/phpunit`
 * Messenger queue consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger queue stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
 

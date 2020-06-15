@@ -55,21 +55,6 @@ services:
             - { name: kernel.event_listener, event: kernel.controller }
             - { name: kernel.event_listener, event: kernel.response }
 
-    # Gedmo
-    Gedmo\Timestampable\TimestampableListener:
-        class: Gedmo\Timestampable\TimestampableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
-
-    Gedmo\SoftDeleteable\SoftDeleteableListener:
-        class: Gedmo\SoftDeleteable\SoftDeleteableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
-
     # Symfony
     Symfony\Bridge\Monolog\Handler\ElasticsearchLogstashHandler:
         arguments:

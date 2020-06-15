@@ -45,7 +45,6 @@ class UsersController extends AbstractUsersController
         }
 
         if ('deleted' === $status) {
-            $this->em->getFilters()->disable('gedmo_softdeletable');
             $queryBuilder = $queryBuilder
                 ->andWhere('u.deletedAt IS NOT NULL')
             ;
@@ -84,11 +83,21 @@ class UsersController extends AbstractUsersController
         /** @var User|null $userMyself */
         $userMyself = $this->getUser();
 
+        $where = 'u.username = :username AND u.deletedAt IS NULL';
+        if ($this->isGranted('ROLE_USER_MODERATOR')) {
+            $where = 'u.username = :username';
+        }
+
         $user = 'me' === $username
             ? $userMyself
             : $this->em
                 ->getRepository(User::class)
-                ->findOneByUsername($username)
+                ->createQueryBuilder('u')
+                ->where($where)
+                ->setMaxResults(1)
+                ->setParameter('username', $username)
+                ->getQuery()
+                ->getOneOrNullResult()
         ;
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'users'));
@@ -111,6 +120,13 @@ class UsersController extends AbstractUsersController
             $userMyself &&
             $user !== $userMyself
         ) {
+            $userFollower = $this->em
+                ->getRepository(UserFollower::class)
+                ->findOneBy([
+                    'user' => $user,
+                    'userFollowing' => $userMyself,
+                ]);
+
             $isFollowing = $userManager->isFollowing($userMyself, $user);
             if ($isFollowing) {
                 $canUnfollow = true;

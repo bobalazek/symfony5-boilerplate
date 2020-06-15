@@ -125,7 +125,8 @@ class UsersController extends AbstractUsersController
                 ->findOneBy([
                     'user' => $user,
                     'userFollowing' => $userMyself,
-                ]);
+                ])
+            ;
 
             $isFollowing = $userManager->isFollowing($userMyself, $user);
             if ($isFollowing) {

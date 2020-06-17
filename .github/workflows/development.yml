@@ -27,8 +27,6 @@ jobs:
         run: docker exec -i cw_php php bin/console lint:xliff translations/
       - name: App Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
-      - name: App Backend - Lint PHP files (with PHPStan)
-        run: docker exec -i cw_php vendor/bin/phpstan analyse -c phpstan.neon
 
       - name: App Backend - Update database schema
         run: docker exec -i cw_php php bin/console doctrine:schema:update --force
@@ -48,3 +46,9 @@ jobs:
       # App Backend - Run tests
       - name: App Backend - Run tests
         run: docker exec -i cw_php php bin/phpunit
+
+      # App Backend - Lint PHP files (with PHP Stan)
+      # This one needs to be at the end, because the tests above
+      # will create the autoload.php file in /bin/.phpunit/.../vendor
+      - name: App Backend - Lint PHP files (with PHPStan)
+        run: docker exec -i cw_php vendor/bin/phpstan analyse -c phpstan.neon

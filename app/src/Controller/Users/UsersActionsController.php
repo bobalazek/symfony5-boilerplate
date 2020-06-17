@@ -9,6 +9,7 @@ use App\Entity\UserBlock;
 use App\Entity\UserFollower;
 use App\Entity\UserNotification;
 use App\Manager\UserNotificationManager;
+use App\Repository\ThreadRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -387,11 +388,11 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
+        /** @var ThreadRepository $threadRepository */
+        $threadRepository = $this->em->getRepository(Thread::class);
+
         /** @var Thread|null $thread */
-        $thread = $this->em
-            ->getRepository(Thread::class)
-            ->getByUserOneAndTwo($user, $userToMessage)
-        ;
+        $thread = $threadRepository->getByUserOneAndTwo($user, $userToMessage);
         if (!$thread) {
             $threadUserOne = new ThreadUser();
             $threadUserOne

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Manager\UserActionManager;
 use App\Manager\UserDeviceManager;
 use App\Manager\UserTfaManager;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,11 +112,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->em
-            ->getRepository(User::class)
-            ->loadUserByUsername($credentials['username'])
-        ;
-
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $user = $userRepository->loadUserByUsername($credentials['username']);
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('A user with this username or email could not be found.');
         }
@@ -174,10 +173,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $credentials = $exception->getToken()->getCredentials();
-        $user = $this->em
-            ->getRepository(User::class)
-            ->loadUserByUsername($credentials['username'])
-        ;
+
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+        $user = $userRepository->loadUserByUsername($credentials['username']);
 
         $this->userActionManager->add(
             'login.fail',

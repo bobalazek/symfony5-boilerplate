@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
+use Symfony\Component\Mailer\DataCollector\MessageDataCollector;
 
 /**
  * @internal
@@ -65,6 +66,8 @@ class WebTestCase extends SymfonyWebTestCase
     public function getSentEmailMessages()
     {
         $messages = [];
+
+        /** @var MessageDataCollector $mailerCollector */
         $mailerCollector = $this->client->getProfile()->getCollector('mailer');
 
         $messageEvents = $mailerCollector->getEvents();

@@ -18,15 +18,9 @@ parameters:
         - %rootDir%/../../../src/Migrations/*
 
     ignoreErrors:
-        # TODO: actually fix those errors
         - '#findOneById()#'
         - '#findOneByUuid()#'
         - '#findOneByEmail()#'
         - '#findOneByUsername()#'
-        - '#loadUserByUsername()#'
-        - '#getByUserOneAndTwo()#'
-        - '#getByIdAndUser()#'
-        - '#App\\Tests\\WebTestCase#'
-        - '#Symfony\\Component\\HttpKernel\\DataCollector\\DataCollectorInterface::getEvents()#'
-        - '#Symfony\\Component\\Security\\Core\\User\\UserInterface::isLocked()#'
         - '#tick()#'
+        - '#App\\Tests\\WebTestCase#'

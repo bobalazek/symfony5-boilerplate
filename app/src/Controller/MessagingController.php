@@ -6,7 +6,8 @@ use App\Entity\Thread;
 use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
 use App\Entity\User;
-use DateTime;
+use App\Repository\ThreadRepository;
+use App\Repository\ThreadUserMessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -71,10 +72,11 @@ class MessagingController extends AbstractController
 
         $user = $this->getUser();
 
-        $thread = $this->em
-            ->getRepository(Thread::class)
-            ->getByIdAndUser($id, $user)
-        ;
+        /** @var ThreadRepository $threadRepository */
+        $threadRepository = $this->em->getRepository(Thread::class);
+
+        /** @var Thread|null $thread */
+        $thread = $threadRepository->getByIdAndUser($id, $user);
         if (!$thread) {
             throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
         }
@@ -98,7 +100,7 @@ class MessagingController extends AbstractController
             ]);
         }
 
-        $threadUser->setLastSeenAt(new DateTime());
+        $threadUser->setLastSeenAt(new \DateTime());
 
         if (
             $request->isMethod('POST') &&
@@ -116,7 +118,7 @@ class MessagingController extends AbstractController
                 ]);
             }
 
-            $threadUser->setLastActiveAt(new DateTime());
+            $threadUser->setLastActiveAt(new \DateTime());
 
             $threadUserMessage = new ThreadUserMessage();
             $threadUserMessage
@@ -170,9 +172,8 @@ class MessagingController extends AbstractController
     {
         $threadsArray = [];
 
-        $threadUserMessageRepository = $this->em
-            ->getRepository(ThreadUserMessage::class)
-        ;
+        /** @var ThreadUserMessageRepository $threadUserMessageRepository */
+        $threadUserMessageRepository = $this->em->getRepository(ThreadUserMessage::class);
 
         /** @var Thread[] $threads */
         $threads = $this->em

@@ -20,7 +20,7 @@ class UserDeviceManager
     protected $em;
 
     /**
-     * @var UserDevice
+     * @var UserDevice|null
      */
     protected $currentUserDevice;
 
@@ -53,7 +53,6 @@ class UserDeviceManager
                 ->getRepository(UserDevice::class)
                 ->findOneByUuid($uuid)
             ;
-
             $this->currentUserDevice = $userDevice;
         }
 

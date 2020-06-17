@@ -92,9 +92,7 @@ class UserOauthProvider implements Interfaces\StatusInterface, Interfaces\ArrayI
             'id' => $this->getId(),
             'provider' => $this->getProvider(),
             'provider_id' => $this->getProviderId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

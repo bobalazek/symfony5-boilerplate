@@ -135,8 +135,8 @@ class ThreadUser implements Interfaces\ArrayInterface, TimestampableInterface
     {
         if ($this->threadUserMessages->contains($threadUserMessage)) {
             $this->threadUserMessages->removeElement($threadUserMessage);
-            if ($threadUserMessage->getThreadMessage() === $this) {
-                $threadUserMessage->setThreadMessage(null);
+            if ($threadUserMessage->getThreadUser() === $this) {
+                $threadUserMessage->setThreadUser(null);
             }
         }
 
@@ -147,9 +147,7 @@ class ThreadUser implements Interfaces\ArrayInterface, TimestampableInterface
     {
         return [
             'id' => $this->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

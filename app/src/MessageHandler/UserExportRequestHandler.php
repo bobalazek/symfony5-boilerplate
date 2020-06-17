@@ -121,13 +121,13 @@ class UserExportRequestHandler implements MessageHandlerInterface
         // User - avatar
         $userImageUrl = $this->uploaderHelper->asset($user, 'imageFile');
         if ($userImageUrl) {
-            $ext = pathinfo($url, PATHINFO_EXTENSION);
+            $ext = pathinfo($userImageUrl, PATHINFO_EXTENSION);
             $name = 'avatar.' . $ext;
             $path = $exportDir . $name;
 
             file_put_contents(
                 $path,
-                file_get_contents($url)
+                file_get_contents($userImageUrl)
             );
             $zip->addFile($path, $name);
         }

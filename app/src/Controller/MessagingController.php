@@ -79,7 +79,7 @@ class MessagingController extends AbstractController
             throw $this->createNotFoundException($this->translator->trans('thread_not_found', [], 'messaging'));
         }
 
-        /** @var ThreadUser $threadUser */
+        /** @var ThreadUser|null $threadUser */
         $threadUser = $this->em
             ->getRepository(ThreadUser::class)
             ->findOneBy([

@@ -64,7 +64,9 @@ class EmailManager
             ->context($context)
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendTfaConfirm(User $user, UserTfaEmail $userTfaEmail)
@@ -90,7 +92,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendPasswordResetSuccess(User $user)
@@ -108,7 +112,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendPasswordReset(User $user)
@@ -134,7 +140,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendEmailConfirm(User $user)
@@ -160,7 +168,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendEmailConfirmSuccess(User $user)
@@ -178,7 +188,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendNewEmailConfirm(User $user)
@@ -203,7 +215,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendNewEmailConfirmSuccess(User $user)
@@ -221,7 +235,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendDeletionConfirm(User $user)
@@ -246,7 +262,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendDeletionConfirmSuccess(User $user)
@@ -264,7 +282,9 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 
     public function sendNewLogin(User $user, Request $request)
@@ -288,6 +308,8 @@ class EmailManager
             ])
         ;
 
-        return $this->mailer->send($email);
+        $this->mailer->send($email);
+
+        return true;
     }
 }

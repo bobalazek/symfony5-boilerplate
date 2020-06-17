@@ -160,7 +160,7 @@ class NotificationsController extends AbstractController
     /* Helpers */
     private function _get($id)
     {
-        /** @var UserNotification $userNotification */
+        /** @var UserNotification|null $userNotification */
         $userNotification = $this->em
             ->getRepository(UserNotification::class)
             ->findOneBy([

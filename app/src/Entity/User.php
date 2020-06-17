@@ -742,6 +742,7 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
      */
     public function isEqualTo(UserInterface $user)
     {
+        /** @var User $user */
         if ($this->isLocked() !== $user->isLocked()) {
             return false;
         }
@@ -1000,8 +1001,8 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
 
     public function removeUserOauthProvider(UserOauthProvider $userOauthProvider): self
     {
-        if ($this->userOauthProvider->contains($userOauthProvider)) {
-            $this->userOauthProvider->removeElement($userOauthProvider);
+        if ($this->userOauthProviders->contains($userOauthProvider)) {
+            $this->userOauthProviders->removeElement($userOauthProvider);
             if ($userOauthProvider->getUser() === $this) {
                 $userOauthProvider->setUser(null);
             }
@@ -1144,9 +1145,7 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
             'country_code' => $this->getCountryCode(),
             'locked' => $this->isLocked(),
             'locked_reason' => $this->getLockedReason(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

@@ -31,12 +31,12 @@ class OauthManager
     private $requestStack;
 
     /**
-     * @var Facebook
+     * @var Facebook|null
      */
     private $facebookClient;
 
     /**
-     * @var Google_Client
+     * @var Google_Client|null
      */
     private $googleClient;
 
@@ -53,7 +53,7 @@ class OauthManager
     /**
      * @param string $provider
      *
-     * @return array
+     * @return Oauth\OauthUser
      */
     public function getUser($provider)
     {

@@ -2,7 +2,6 @@
 
 namespace App\Twig;
 
-use App\Entity\Report;
 use App\Entity\User;
 use App\Entity\UserNotification;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,8 +47,6 @@ class AppExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('get_entity', [$this, 'getEntityFunction']),
-            new TwigFunction('get_entity_route', [$this, 'getEntityRouteFunction']),
             new TwigFunction('get_notification_information', [$this, 'getNotificationInformationFunction']),
             new TwigFunction('get_countries', [$this, 'getCountriesFunction']),
             new TwigFunction('get_user_avatar_url', [$this, 'getUserAvatarUrlFunction']),
@@ -63,24 +60,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('singularize', [$this, 'singularizeFilter']),
             new TwigFilter('only_with_values', [$this, 'onlyWithValuesFilter']),
         ];
-    }
-
-    /**
-     * @return object
-     */
-    public function getEntityFunction(string $entityType, int $entityId)
-    {
-        $entityClass = Report::getEntityClass($entityType);
-
-        return $this->em->getRepository($entityClass)->findOneById($entityId);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEntityRouteFunction(string $entityType)
-    {
-        return Report::getEntityRoute($entityType);
     }
 
     /**

@@ -231,9 +231,7 @@ class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
             'id' => $this->getId(),
             'status' => $this->getStatus(),
             'user_id' => $this->getUser()->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

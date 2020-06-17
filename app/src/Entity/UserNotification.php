@@ -137,9 +137,7 @@ class UserNotification implements Interfaces\StatusInterface, Interfaces\ArrayIn
             'type' => $this->getType(),
             'data' => $this->getData(),
             'user_id' => $this->getUser()->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

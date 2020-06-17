@@ -65,7 +65,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
         /** @var User $user */
         $user = $this->getUser();
 
-        /** @var UserFollower $userFollower */
+        /** @var UserFollower|null $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([
@@ -159,7 +159,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
         /** @var User $user */
         $user = $this->getUser();
 
-        /** @var UserFollower $userFollower */
+        /** @var UserFollower|null $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([

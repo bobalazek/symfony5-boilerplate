@@ -74,9 +74,7 @@ class UserFollower implements Interfaces\StatusInterface, Interfaces\ArrayInterf
             'id' => $this->getId(),
             'user_id' => $this->getUser()->getId(),
             'user_following_id' => $this->getUserFollowing()->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

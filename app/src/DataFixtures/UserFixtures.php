@@ -19,6 +19,11 @@ class UserFixtures extends Fixture
      */
     private $passwordEncoder;
 
+    /**
+     * @var array
+     */
+    private $users;
+
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;

@@ -40,7 +40,7 @@ class UserManager
     /**
      * @return bool
      */
-    public function isFollowedBy(User $user, User $userFollowedBy)
+    public function isFollowedBy(User $user, User $userFollowing)
     {
         return (bool) $this->em
             ->getRepository(UserFollower::class)

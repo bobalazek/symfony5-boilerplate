@@ -73,9 +73,7 @@ class UserBlock implements Interfaces\StatusInterface, Interfaces\ArrayInterface
             'id' => $this->getId(),
             'user_id' => $this->getUser()->getId(),
             'user_blocked_id' => $this->getUserBlocked()->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

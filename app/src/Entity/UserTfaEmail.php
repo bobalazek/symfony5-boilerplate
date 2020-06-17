@@ -92,10 +92,8 @@ class UserTfaEmail implements Interfaces\StatusInterface, Interfaces\ArrayInterf
     {
         return [
             'id' => $this->getId(),
-            'token' => $this->getToken(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'code' => $this->getCode(),
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

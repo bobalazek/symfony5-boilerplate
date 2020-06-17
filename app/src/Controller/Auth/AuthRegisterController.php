@@ -76,11 +76,11 @@ class AuthRegisterController extends AbstractController
             try {
                 $oauthUser = $oauthManager->getUser($oauth);
 
-                $user->setEmail($oauthUser['email']);
+                $user->setEmail($oauthUser->getEmail());
 
                 $userOauthProvider = new UserOauthProvider();
                 $userOauthProvider->setProvider($oauth);
-                $userOauthProvider->setProviderId($oauthUser['id']);
+                $userOauthProvider->setProviderId($oauthUser->getId());
 
                 $user->addUserOauthProvider($userOauthProvider);
             } catch (\Exception $e) {
@@ -150,7 +150,7 @@ class AuthRegisterController extends AbstractController
         $email = $request->query->get('email');
         $emailConfirmCode = $request->query->get('email_confirm_code');
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $this->em
             ->getRepository(User::class)
             ->findOneBy([

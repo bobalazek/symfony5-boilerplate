@@ -81,7 +81,7 @@ class AbstractUsersController extends AbstractController
             return true;
         }
 
-        /** @var UserBlock $userBlock */
+        /** @var UserBlock|null $userBlock */
         $userBlock = $this->em
             ->getRepository(UserBlock::class)
             ->findOneBy([
@@ -97,7 +97,7 @@ class AbstractUsersController extends AbstractController
             return true;
         }
 
-        /** @var UserFollower $userFollower */
+        /** @var UserFollower|null $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([

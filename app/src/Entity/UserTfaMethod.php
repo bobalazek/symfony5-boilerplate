@@ -130,11 +130,9 @@ class UserTfaMethod implements Interfaces\StatusInterface, Interfaces\ArrayInter
     {
         return [
             'id' => $this->getId(),
-            'provider' => $this->getProvider(),
-            'provider_id' => $this->getProviderId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'method' => $this->getMethod(),
+            'data' => $this->getData(),
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

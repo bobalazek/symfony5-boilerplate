@@ -2,6 +2,7 @@
 
 namespace App\Controller\Settings;
 
+use App\Entity\User;
 use App\Entity\UserOauthProvider;
 use App\Manager\UserActionManager;
 use Doctrine\ORM\EntityManagerInterface;

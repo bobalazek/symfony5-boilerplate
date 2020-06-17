@@ -152,9 +152,7 @@ class UserDevice implements Interfaces\ArrayInterface, TimestampableInterface
         return [
             'id' => $this->getId(),
             'uuid' => $this->getUuid(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

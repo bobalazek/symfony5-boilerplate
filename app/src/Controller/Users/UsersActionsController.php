@@ -58,7 +58,7 @@ class UsersActionsController extends AbstractUsersController
             ]);
         }
 
-        /** @var UserFollower $userFollower */
+        /** @var UserFollower|null $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([
@@ -158,7 +158,7 @@ class UsersActionsController extends AbstractUsersController
             return $this->redirectToRoute('home');
         }
 
-        /** @var UserFollower $userFollower */
+        /** @var UserFollower|null $userFollower */
         $userFollower = $this->em
             ->getRepository(UserFollower::class)
             ->findOneBy([

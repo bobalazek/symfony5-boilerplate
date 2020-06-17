@@ -86,10 +86,7 @@ class UserDeviceListener
         }
 
         $user = $token->getUser();
-        if (
-            null === $user ||
-            !($user instanceof User)
-        ) {
+        if (!($user instanceof User)) {
             return;
         }
 

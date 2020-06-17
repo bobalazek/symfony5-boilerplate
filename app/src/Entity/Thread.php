@@ -77,9 +77,7 @@ class Thread implements Interfaces\StatusInterface, Interfaces\ArrayInterface, T
     {
         return [
             'id' => $this->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

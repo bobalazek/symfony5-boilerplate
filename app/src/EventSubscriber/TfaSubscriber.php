@@ -24,6 +24,11 @@ class TfaSubscriber implements EventSubscriberInterface
      */
     private $router;
 
+    /**
+     * @var array
+     */
+    private $allowedRoutes;
+
     public function __construct(
         Security $security,
         RouterInterface $router,

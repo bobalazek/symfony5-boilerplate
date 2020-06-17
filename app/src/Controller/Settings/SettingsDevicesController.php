@@ -2,6 +2,7 @@
 
 namespace App\Controller\Settings;
 
+use App\Entity\User;
 use App\Entity\UserDevice;
 use App\Manager\UserActionManager;
 use App\Manager\UserDeviceManager;
@@ -93,7 +94,7 @@ class SettingsDevicesController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        /** @var UserDevice $userDevice */
+        /** @var UserDevice|null $userDevice */
         $userDevice = $this->em
             ->getRepository(UserDevice::class)
             ->findOneBy([

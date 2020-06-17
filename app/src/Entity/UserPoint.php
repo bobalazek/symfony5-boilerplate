@@ -108,9 +108,7 @@ class UserPoint implements Interfaces\StatusInterface, Interfaces\ArrayInterface
             'amount' => $this->getAmount(),
             'data' => $this->getData(),
             'user_id' => $this->getUser()->getId(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

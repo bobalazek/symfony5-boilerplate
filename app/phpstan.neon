@@ -1,0 +1,32 @@
+parameters:
+    level: 4
+
+    paths:
+        - src
+        - tests
+
+    symfony:
+        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+
+    scanDirectories:
+        - %rootDir%/../../../tests
+
+    bootstrapFiles:
+        - %rootDir%/../../../bin/.phpunit/phpunit-7.5/vendor/autoload.php
+
+    excludes_analyse:
+        - %rootDir%/../../../src/Migrations/*
+
+    ignoreErrors:
+        # TODO: actually fix those errors
+        - '#findOneById()#'
+        - '#findOneByUuid()#'
+        - '#findOneByEmail()#'
+        - '#findOneByUsername()#'
+        - '#loadUserByUsername()#'
+        - '#getByUserOneAndTwo()#'
+        - '#getByIdAndUser()#'
+        - '#App\\Tests\\WebTestCase#'
+        - '#Symfony\\Component\\HttpKernel\\DataCollector\\DataCollectorInterface::getEvents()#'
+        - '#Symfony\\Component\\Security\\Core\\User\\UserInterface::isLocked()#'
+        - '#tick()#'

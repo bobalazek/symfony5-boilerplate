@@ -71,9 +71,9 @@ class UserTfaRecoveryCode implements Interfaces\StatusInterface, Interfaces\Arra
         return $this;
     }
 
-    public function isRead(): bool
+    public function isUsed(): bool
     {
-        return null !== $this->getReadAt();
+        return null !== $this->getUsedAt();
     }
 
     public function getUser(): ?User
@@ -93,9 +93,7 @@ class UserTfaRecoveryCode implements Interfaces\StatusInterface, Interfaces\Arra
         return [
             'id' => $this->getId(),
             'recovery_code' => $this->getRecoveryCode(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

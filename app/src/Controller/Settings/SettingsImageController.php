@@ -2,6 +2,7 @@
 
 namespace App\Controller\Settings;
 
+use App\Entity\User;
 use App\Form\Type\SettingsImageType;
 use App\Manager\AvatarManager;
 use App\Manager\UserActionManager;

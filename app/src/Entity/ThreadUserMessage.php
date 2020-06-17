@@ -71,9 +71,7 @@ class ThreadUserMessage implements Interfaces\ArrayInterface, TimestampableInter
         return [
             'id' => $this->getId(),
             'body' => $this->getBody(),
-            'created_at' => $this->getCreatedAt()
-                ? $this->getCreatedAt()->format(DATE_ATOM)
-                : null,
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }
 }

@@ -14,6 +14,21 @@
     "php": {
         "version": "7.4"
     },
+    "phpstan/extension-installer": {
+        "version": "1.0.4"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.29"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "0.12.16"
+    },
+    "phpstan/phpstan-phpunit": {
+        "version": "0.12.11"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.6"
+    },
     "symplify/package-builder": {
         "version": "v7.3.18"
     },

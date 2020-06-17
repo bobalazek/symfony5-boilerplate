@@ -28,7 +28,7 @@ jobs:
       - name: App Backend - Lint PHP files
         run: docker exec -i cw_php php-cs-fixer fix --dry-run
       - name: App Backend - Lint PHP files (with PHPStan)
-        run: docker exec -ti cw_php vendor/bin/phpstan analyse -c phpstan.neon
+        run: docker exec -i cw_php vendor/bin/phpstan analyse -c phpstan.neon
 
       - name: App Backend - Update database schema
         run: docker exec -i cw_php php bin/console doctrine:schema:update --force

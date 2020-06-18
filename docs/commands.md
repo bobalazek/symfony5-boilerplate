@@ -19,7 +19,7 @@
 * Lint PHP files: `docker exec -i cw_php php-cs-fixer fix --dry-run`
 * Run PHP-CS-Fixer: `docker exec -ti cw_php php-cs-fixer fix`
 * Run PHPStan: `docker exec -ti cw_php vendor/bin/phpstan analyse -c phpstan.neon`
-* Run tests: `docker exec -ti cw_php php bin/phpunit`
+* Run PHPUnit tests: `docker exec -ti cw_php php bin/phpunit`
 * Messenger queue consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger queue stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
 

@@ -12,7 +12,8 @@ parameters:
         - %rootDir%/../../../tests
 
     bootstrapFiles:
-        - %rootDir%/../../../bin/.phpunit/phpunit-7.5/vendor/autoload.php
+        - %rootDir%/../../../bin/.phpunit/phpunit-7.5-0/vendor/autoload.php
+#        - %rootDir%/../../../vendor/autoload.php # Try that one instead if it works
 
     excludes_analyse:
         - %rootDir%/../../../src/Migrations/*

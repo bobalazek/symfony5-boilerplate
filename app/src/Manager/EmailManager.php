@@ -60,7 +60,7 @@ class EmailManager
             ->subject($emailSubject)
             ->from(new Address($context['contact_email'], $context['contact_name']))
             ->to(Address::fromString($this->params->get('app.mailer_to')))
-            ->htmlTemplate('emails/contact.html.twig')
+            ->htmlTemplate('emails/home/contact.html.twig')
             ->context($context)
         ;
 
@@ -78,7 +78,7 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/tfa_confirm.html.twig')
+            ->htmlTemplate('emails/auth/tfa_confirm.html.twig')
             ->context([
                 'user' => $user,
                 'user_tfa_email' => $userTfaEmail,
@@ -86,6 +86,34 @@ class EmailManager
                     'auth.login.tfa',
                     [
                         'code' => $userTfaEmail->getCode(),
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+            ])
+        ;
+
+        $this->mailer->send($email);
+
+        return true;
+    }
+
+    public function sendPasswordReset(User $user)
+    {
+        $emailSubject = $this->translator->trans('password_reset.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/auth/password_reset.html.twig')
+            ->context([
+                'user' => $user,
+                'url' => $this->router->generate(
+                    'auth.password_reset',
+                    [
+                        'email' => $user->getEmail(),
+                        'password_reset_code' => $user->getPasswordResetCode(),
                     ],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
@@ -106,37 +134,9 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/password_reset_success.html.twig')
+            ->htmlTemplate('emails/auth/password_reset_success.html.twig')
             ->context([
                 'user' => $user,
-            ])
-        ;
-
-        $this->mailer->send($email);
-
-        return true;
-    }
-
-    public function sendPasswordReset(User $user)
-    {
-        $emailSubject = $this->translator->trans('password_reset.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
-            ->htmlTemplate('emails/password_reset.html.twig')
-            ->context([
-                'user' => $user,
-                'url' => $this->router->generate(
-                    'auth.password_reset',
-                    [
-                        'email' => $user->getEmail(),
-                        'password_reset_code' => $user->getPasswordResetCode(),
-                    ],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
             ])
         ;
 
@@ -154,7 +154,7 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/email_confirm.html.twig')
+            ->htmlTemplate('emails/auth/email_confirm.html.twig')
             ->context([
                 'user' => $user,
                 'url' => $this->router->generate(
@@ -182,9 +182,35 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/email_confirm_success.html.twig')
+            ->htmlTemplate('emails/auth/email_confirm_success.html.twig')
             ->context([
                 'user' => $user,
+            ])
+        ;
+
+        $this->mailer->send($email);
+
+        return true;
+    }
+
+    public function sendNewLogin(User $user, Request $request)
+    {
+        $agent = new Agent();
+        $agent->setUserAgent($request->headers->get('User-Agent'));
+
+        $emailSubject = $this->translator->trans('new_login.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/auth/new_login.html.twig')
+            ->context([
+                'user' => $user,
+                'browser' => $agent->browser(),
+                'platform' => $agent->platform(),
+                'ip' => $request->getClientIp(),
             ])
         ;
 
@@ -202,7 +228,7 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getNewEmail())
-            ->htmlTemplate('emails/new_email_confirm.html.twig')
+            ->htmlTemplate('emails/settings/new_email_confirm.html.twig')
             ->context([
                 'user' => $user,
                 'url' => $this->router->generate(
@@ -229,7 +255,7 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/new_email_confirm_success.html.twig')
+            ->htmlTemplate('emails/settings/new_email_confirm_success.html.twig')
             ->context([
                 'user' => $user,
             ])
@@ -249,7 +275,7 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/deletion_confirm.html.twig')
+            ->htmlTemplate('emails/settings/deletion_confirm.html.twig')
             ->context([
                 'user' => $user,
                 'url' => $this->router->generate(
@@ -276,35 +302,9 @@ class EmailManager
             ->subject($emailSubject)
             ->from(Address::fromString($this->params->get('app.mailer_from')))
             ->to($user->getEmail())
-            ->htmlTemplate('emails/deletion_confirm_success.html.twig')
+            ->htmlTemplate('emails/settings/deletion_confirm_success.html.twig')
             ->context([
                 'user' => $user,
-            ])
-        ;
-
-        $this->mailer->send($email);
-
-        return true;
-    }
-
-    public function sendNewLogin(User $user, Request $request)
-    {
-        $agent = new Agent();
-        $agent->setUserAgent($request->headers->get('User-Agent'));
-
-        $emailSubject = $this->translator->trans('new_login.subject', [
-            'app_name' => $this->params->get('app.name'),
-        ], 'emails');
-        $email = (new TemplatedEmail())
-            ->subject($emailSubject)
-            ->from(Address::fromString($this->params->get('app.mailer_from')))
-            ->to($user->getEmail())
-            ->htmlTemplate('emails/new_login.html.twig')
-            ->context([
-                'user' => $user,
-                'browser' => $agent->browser(),
-                'platform' => $agent->platform(),
-                'ip' => $request->getClientIp(),
             ])
         ;
 

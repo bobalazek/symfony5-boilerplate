@@ -129,6 +129,10 @@ class SettingsController extends AbstractController
             );
         }
 
+        if ($user->getLocale() !== $userOld->getLocale()) {
+            $request->getSession()->set('_locale', $user->getLocale());
+        }
+
         $this->em->persist($user);
         $this->em->flush();
 
@@ -145,6 +149,8 @@ class SettingsController extends AbstractController
             'success',
             $this->translator->trans('flash.success', [], 'settings')
         );
+
+        return $this->redirectToRoute('settings');
     }
 
     private function _handleQueryParams(Request $request, User $user, User $userOld)

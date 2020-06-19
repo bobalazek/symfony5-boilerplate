@@ -81,6 +81,12 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
     private $roles = [];
 
     /**
+     * @ORM\Column(type="string", length=16, nullable=true)
+     * @Assert\Locale(canonicalize = true)
+     */
+    private $locale = 'en';
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -385,6 +391,18 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
     public function isSuperAdmin(): bool
     {
         return in_array('ROLE_SUPER_ADMIN', $this->getRoles());
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
     }
 
     /**

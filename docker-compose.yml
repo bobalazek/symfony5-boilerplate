@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app:/var/www/web
+      - ./web:/var/www/web
     links:
       - mysql
       - redis
@@ -20,7 +20,7 @@ services:
     container_name: cw_nginx
     build: ./docker/nginx
     volumes:
-      - ./app:/var/www/web
+      - ./web:/var/www/web
     links:
       - php
     depends_on:
@@ -63,7 +63,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app:/usr/src/app
+      - ./web:/usr/src/web
     networks:
       - cw-app-network
     command: tail -f /dev/null

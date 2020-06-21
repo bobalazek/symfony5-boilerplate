@@ -29,6 +29,9 @@
     "phpstan/phpstan-symfony": {
         "version": "0.12.6"
     },
+    "symfony/twig-pack": {
+        "version": "v1.0.0"
+    },
     "symplify/package-builder": {
         "version": "v7.3.18"
     },

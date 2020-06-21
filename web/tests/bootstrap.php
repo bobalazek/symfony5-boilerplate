@@ -25,7 +25,7 @@ passthru(sprintf(
 
 // Doctrine fixtures load
 passthru(sprintf(
-    'APP_ENV=%s php "%s/../bin/console" doctrine:fixtures:load -n',
+    'APP_ENV=%s php "%s/../bin/console" doctrine:fixtures:load --no-interaction',
     $appEnv,
     __DIR__
 ));

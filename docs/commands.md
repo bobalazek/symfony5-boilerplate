@@ -11,7 +11,7 @@
 * Validate database schema: `docker exec -ti cw_php php bin/console doctrine:schema:validate`
 * Show database mapping: `docker exec -ti cw_php php bin/console doctrine:mapping:info`
 * Run database migrations: `docker exec -ti cw_php php bin/console doctrine:migrations:migrate`
-* Load fixtures: `docker exec -ti cw_php php bin/console doctrine:fixtures:load`
+* Load fixtures: `docker exec -ti cw_php php bin/console doctrine:fixtures:load --no-interaction`
 * Make translations: `docker exec -ti cw_php php bin/console translation:update --dump-messages en --force`
 * Lint twig template files: `docker exec -ti cw_php php bin/console lint:twig templates/`
 * Lint YAML config files: `docker exec -ti cw_php php bin/console lint:yaml config/`

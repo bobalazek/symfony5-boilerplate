@@ -12,7 +12,7 @@
 * Show database mapping: `docker exec -ti cw_php php bin/console doctrine:mapping:info`
 * Run database migrations: `docker exec -ti cw_php php bin/console doctrine:migrations:migrate`
 * Load fixtures: `docker exec -ti cw_php php bin/console doctrine:fixtures:load --no-interaction`
-* Make translations: `docker exec -ti cw_php php bin/console translation:update --dump-messages en --force`
+* Generate/update translations: `docker exec -ti cw_php php bin/console translation:update --dump-messages en --force`
 * Lint twig template files: `docker exec -ti cw_php php bin/console lint:twig templates/`
 * Lint YAML config files: `docker exec -ti cw_php php bin/console lint:yaml config/`
 * Lint XLIFF translation files: `docker exec -ti cw_php php bin/console lint:xliff translations/`
@@ -22,6 +22,19 @@
 * Run PHPUnit tests: `docker exec -ti cw_php php bin/phpunit`
 * Messenger queue consume: `docker exec -ti cw_php php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger queue stop workers: `docker exec -ti cw_php php bin/console messenger:stop-workers`
+
+#### Quick commands
+
+* Recreate the database: `docker exec -ti cw_php composer run-script database-recreate`
+  * Drops the schema, updates the schema & loads the fixtures
+* Lint: `docker exec -ti cw_php composer run-script lint`
+  * Lints YAML config files, XLIFF translations files & PHP files
+* Test: `docker exec -ti cw_php composer run-script test`
+  * Runs PHPUnit tests
+* CS-Fix: `docker exec -ti cw_php composer run-script cs-fix`
+  * Runs PHP-CS-Fixer
+* Generate translations: `docker exec -ti cw_php composer run-script translations-generate`
+  * Generates the translations
 
 ### Node
 

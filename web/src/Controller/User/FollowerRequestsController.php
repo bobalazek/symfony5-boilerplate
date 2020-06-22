@@ -4,15 +4,52 @@ namespace App\Controller\User;
 
 use App\Entity\User;
 use App\Entity\UserFollower;
+use App\Entity\UserNotification;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class FollowerRequestsController.
  */
-class FollowerRequestsController extends AbstractUsersController
+class FollowerRequestsController extends AbstractController
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var ParameterBagInterface
+     */
+    private $params;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var UserActionManager
+     */
+    private $userActionManager;
+
+    public function __construct(
+        TranslatorInterface $translator,
+        ParameterBagInterface $params,
+        EntityManagerInterface $em,
+        UserActionManager $userActionManager
+    ) {
+        $this->translator = $translator;
+        $this->params = $params;
+        $this->em = $em;
+        $this->userActionManager = $userActionManager;
+    }
+
     /**
      * @Route("/follower-requests", name="follower_requests")
      */

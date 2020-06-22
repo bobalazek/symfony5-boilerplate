@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Users;
+namespace App\Controller\User;
 
 use App\Entity\User;
 use App\Entity\UserFollower;
@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class UsersFollowerRequestsController.
+ * Class FollowerRequestsController.
  */
-class UsersFollowerRequestsController extends AbstractUsersController
+class FollowerRequestsController extends AbstractUsersController
 {
     /**
-     * @Route("/users/me/follower-requests", name="users.follower_requests")
+     * @Route("/follower-requests", name="follower_requests")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
@@ -54,7 +54,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
     }
 
     /**
-     * @Route("/follower-requests/{id}/delete", name="users.follower_requests.delete")
+     * @Route("/follower-requests/{id}/delete", name="follower_requests.delete")
      *
      * @param mixed $id
      */
@@ -81,7 +81,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
         $this->em->flush();
 
         $this->userActionManager->add(
-            'users.follower_requests.delete',
+            'follower_requests.delete',
             'A user follow was deleted',
             $userFollower->toArray()
         );
@@ -96,11 +96,11 @@ class UsersFollowerRequestsController extends AbstractUsersController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('users.follower_requests');
+        return $this->redirectToRoute('follower_requests');
     }
 
     /**
-     * @Route("/follower-requests/{id}/approve", name="users.follower_requests.approve")
+     * @Route("/follower-requests/{id}/approve", name="follower_requests.approve")
      *
      * @param mixed $id
      */
@@ -129,7 +129,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
         $this->em->flush();
 
         $this->userActionManager->add(
-            'users.follower_requests.approve',
+            'follower_requests.approve',
             'A user follow was approved',
             $userFollower->toArray()
         );
@@ -144,11 +144,11 @@ class UsersFollowerRequestsController extends AbstractUsersController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('users.follower_requests');
+        return $this->redirectToRoute('follower_requests');
     }
 
     /**
-     * @Route("/follower-requests/{id}/ignore", name="users.follower_requests.ignore")
+     * @Route("/follower-requests/{id}/ignore", name="follower_requests.ignore")
      *
      * @param mixed $id
      */
@@ -177,7 +177,7 @@ class UsersFollowerRequestsController extends AbstractUsersController
         $this->em->flush();
 
         $this->userActionManager->add(
-            'users.follower_requests.ignore',
+            'follower_requests.ignore',
             'A user follow was ignored',
             $userFollower->toArray()
         );
@@ -192,6 +192,6 @@ class UsersFollowerRequestsController extends AbstractUsersController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('users.follower_requests');
+        return $this->redirectToRoute('follower_requests');
     }
 }

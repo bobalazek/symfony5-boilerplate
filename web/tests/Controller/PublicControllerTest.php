@@ -56,7 +56,7 @@ class PublicControllerTest extends WebTestCase
     {
         return [
             ['/users/me'],
-            ['/users/me/follower-requests'],
+            ['/follower-requests'],
             ['/notifications'],
             ['/messaging'],
             ['/settings'],

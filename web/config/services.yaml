@@ -5,10 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     # General
-    app.name: 'Corcosoft'
+    app.name: 'Corcosoft Boilerplate'
     app.twitter_handle: 'corcosoft'
-    app.description: 'Just your usual corcosoft'
-    app.keywords: 'corcosoft'
+    app.description: 'Just your usual corcosoft boilerplate'
+    app.keywords: 'corcosoft boilerplate'
     app.mailer_from: Corcosoft <mailer@corcosoft.com>
     app.mailer_to: Borut <bobalazek124@gmail.com>
     # Credentials

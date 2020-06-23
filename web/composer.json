@@ -1,6 +1,6 @@
 {
-    "name": "bobalazek/corcosoft",
-    "description": "Corcosoft project",
+    "name": "bobalazek/corcosoft-boilerplate",
+    "description": "Corcosoft Boilerplate",
     "type": "project",
     "license": "proprietary",
     "require": {

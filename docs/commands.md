@@ -1,4 +1,4 @@
-# Corcosoft
+# Corcosoft Boilerplate
 
 ## Commands
 

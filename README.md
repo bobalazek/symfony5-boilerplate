@@ -1,8 +1,8 @@
-# Corcosoft
+# Corcosoft Boilerplate
 
 ![CI](https://github.com/bobalazek/corcosoft-boilerplate/workflows/Development%20Workflow/badge.svg)
 
-The Corcosoft project.
+The Corcosoft Boilerplate template.
 
 ## Features
 

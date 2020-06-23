@@ -1,9 +1,8 @@
 version: '3.7'
 
 services:
-  # For easier DB management, let's also add PHPMyAdmin
   phpmyadmin:
-    container_name: cw_phpmyadmin
+    container_name: csbp_phpmyadmin
     build: ./docker/phpmyadmin
     depends_on:
       - mysql
@@ -13,4 +12,4 @@ services:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
     networks:
-      - cw-app-network
+      - csbp-app-network

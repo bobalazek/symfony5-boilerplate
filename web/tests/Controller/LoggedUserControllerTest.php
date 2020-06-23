@@ -135,7 +135,7 @@ class LoggedUserControllerTest extends WebTestCase
             ->form([
                 'settings[name]' => 'User',
                 'settings[username]' => 'user',
-                'settings[email]' => 'user+newemail@corcoviewer.com',
+                'settings[email]' => 'user+newemail@corcosoft.com',
             ])
         ;
 
@@ -148,7 +148,7 @@ class LoggedUserControllerTest extends WebTestCase
             ->getRepository(User::class)
             ->findOneByUsername('user')
         ;
-        $this->assertTrue('user+newemail@corcoviewer.com' === $user->getNewEmail());
+        $this->assertTrue('user+newemail@corcosoft.com' === $user->getNewEmail());
 
         // Check if we sent the new_email_confirm email
         $messages = $this->getSentEmailMessages();
@@ -156,7 +156,7 @@ class LoggedUserControllerTest extends WebTestCase
 
         $message = $messages[0];
         $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $message);
-        $this->assertSame('user+newemail@corcoviewer.com', $message->getTo()[0]->getAddress());
+        $this->assertSame('user+newemail@corcosoft.com', $message->getTo()[0]->getAddress());
     }
 
     public function provideUrls()

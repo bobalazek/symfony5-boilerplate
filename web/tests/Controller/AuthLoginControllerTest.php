@@ -62,7 +62,7 @@ class AuthLoginControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Login')
             ->form([
-                'username' => 'userwithtfa@corcoviewer.com',
+                'username' => 'userwithtfa@corcosoft.com',
                 'password' => 'password',
             ])
         ;
@@ -101,6 +101,6 @@ class AuthLoginControllerTest extends WebTestCase
 
         $message = $messages[0];
         $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $message);
-        $this->assertSame('userwithtfa@corcoviewer.com', $message->getTo()[0]->getAddress());
+        $this->assertSame('userwithtfa@corcosoft.com', $message->getTo()[0]->getAddress());
     }
 }

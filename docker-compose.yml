@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   php:
-    container_name: cw_php
+    container_name: csbp_php
     build: ./docker/php
     env_file:
       - .env
@@ -14,10 +14,10 @@ services:
     depends_on:
       - mysql
     networks:
-      - cw-app-network
+      - csbp-app-network
 
   nginx:
-    container_name: cw_nginx
+    container_name: csbp_nginx
     build: ./docker/nginx
     volumes:
       - ./web:/var/www/web
@@ -26,13 +26,13 @@ services:
     depends_on:
       - php
     networks:
-      - cw-app-network
+      - csbp-app-network
     ports:
       - '${NGINX_PORT_80:-80}:80'
       - '${NGINX_PORT_443:-443}:443'
 
   mysql:
-    container_name: cw_mysql
+    container_name: csbp_mysql
     build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
@@ -42,10 +42,10 @@ services:
     volumes:
       - mysql-volume:/var/lib/mysql
     networks:
-      - cw-app-network
+      - csbp-app-network
 
   mysql-test:
-    container_name: cw_mysql_test
+    container_name: csbp_mysql_test
     build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
@@ -55,35 +55,35 @@ services:
     volumes:
       - mysql-test-volume:/var/lib/mysql
     networks:
-      - cw-app-network
+      - csbp-app-network
 
   node:
-    container_name: cw_node
+    container_name: csbp_node
     build: ./docker/node
     env_file:
       - .env
     volumes:
       - ./web:/usr/src/web
     networks:
-      - cw-app-network
+      - csbp-app-network
     command: tail -f /dev/null
 
   redis:
-    container_name: cw_redis
+    container_name: csbp_redis
     image: redis
     volumes:
       - redis-volume:/data
     networks:
-      - cw-app-network
+      - csbp-app-network
 
   smtp-server:
-    container_name: cw_smtp_server
+    container_name: csbp_smtp_server
     image: namshi/smtp
     networks:
-      - cw-app-network
+      - csbp-app-network
 
   elasticsearch:
-    container_name: cw_elasticsearch
+    container_name: csbp_elasticsearch
     build: ./docker/elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -97,11 +97,11 @@ services:
       - '${ELASTICSEARCH_PORT_9200:-9200}:9200'
       - '${ELASTICSEARCH_PORT_9300:-9300}:9300'
     networks:
-      - cw-app-network
+      - csbp-app-network
 
 networks:
-  cw-app-network:
-    name: cw_app_network
+  csbp-app-network:
+    name: csbp_app_network
     driver: bridge
 
 volumes:

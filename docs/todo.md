@@ -1,4 +1,4 @@
-# Corcoviewer
+# Corcosoft
 
 ## TODO
 

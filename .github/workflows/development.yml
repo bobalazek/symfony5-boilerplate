@@ -17,38 +17,38 @@ jobs:
 
       # App Backend - Install dependencies, lint files & prepare database
       - name: App Backend - Install dependencies
-        run: docker exec -i cw_php composer install
+        run: docker exec -i csbp_php composer install
 
       - name: App Backend - Lint twig template files
-        run: docker exec -i cw_php php bin/console lint:twig templates/
+        run: docker exec -i csbp_php php bin/console lint:twig templates/
       - name: App Backend - Lint YAML config files
-        run: docker exec -i cw_php php bin/console lint:yaml config/
+        run: docker exec -i csbp_php php bin/console lint:yaml config/
       - name: App Backend - Lint XLIFF translation files
-        run: docker exec -i cw_php php bin/console lint:xliff translations/
+        run: docker exec -i csbp_php php bin/console lint:xliff translations/
       - name: App Backend - Lint PHP files
-        run: docker exec -i cw_php php-cs-fixer fix --dry-run
+        run: docker exec -i csbp_php php-cs-fixer fix --dry-run
 
       - name: App Backend - Update database schema
-        run: docker exec -i cw_php php bin/console doctrine:schema:update --force
+        run: docker exec -i csbp_php php bin/console doctrine:schema:update --force
       - name: App Backend - Load database fixtures
-        run: docker exec -i cw_php php bin/console doctrine:fixtures:load --no-interaction
+        run: docker exec -i csbp_php php bin/console doctrine:fixtures:load --no-interaction
 
       # App Frontend - Install dependencies, lint files & build the app
       - name: App Frontend - Install dependencies
-        run: docker exec -i cw_node yarn install --frozen-lockfile
+        run: docker exec -i csbp_node yarn install --frozen-lockfile
 
       - name: App Frontend - Lint JS files
-        run: docker exec -i cw_node yarn run lint
+        run: docker exec -i csbp_node yarn run lint
 
       - name: App Frontend - Build the app
-        run: docker exec -i cw_node yarn run build
+        run: docker exec -i csbp_node yarn run build
 
       # App Backend - Run tests
       - name: App Backend - Run tests
-        run: docker exec -i cw_php php bin/phpunit
+        run: docker exec -i csbp_php php bin/phpunit
 
       # App Backend - Lint PHP files (with PHP Stan)
       # This one needs to be at the end, because the tests above
       # will create the autoload.php file in /bin/.phpunit/.../vendor
       - name: App Backend - Lint PHP files (with PHPStan)
-        run: docker exec -i cw_php vendor/bin/phpstan analyse -c phpstan.neon
+        run: docker exec -i csbp_php vendor/bin/phpstan analyse -c phpstan.neon

@@ -19,7 +19,7 @@ class AuthPasswordResetControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Reset password')
             ->form([
-                'form[email]' => 'user@corcoviewer.com',
+                'form[email]' => 'user@corcosoft.com',
             ])
         ;
 
@@ -34,7 +34,7 @@ class AuthPasswordResetControllerTest extends WebTestCase
 
         $message = $messages[0];
         $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $message);
-        $this->assertSame('user@corcoviewer.com', $message->getTo()[0]->getAddress());
+        $this->assertSame('user@corcosoft.com', $message->getTo()[0]->getAddress());
     }
 
     public function testRegisterInvalidFieldsErrorMessage()
@@ -44,7 +44,7 @@ class AuthPasswordResetControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Reset password')
             ->form([
-                'form[email]' => 'nonexistingemail@corcoviewer.com',
+                'form[email]' => 'nonexistingemail@corcosoft.com',
             ])
         ;
 

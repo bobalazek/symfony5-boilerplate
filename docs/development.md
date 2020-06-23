@@ -1,10 +1,10 @@
-# Corcoviewer
+# Corcosoft
 
 ## Development
 
 ### App
 
-* Before you start working on the web frontend run: `docker exec -ti cw_node yarn run watch`
+* Before you start working on the web frontend run: `docker exec -ti csbp_node yarn run watch`
 * Go to your browser and open http://localhost:80 (or whichever port you set in `.env` for the `NGINX_PORT_80` variable)
 
 ### PhpMyAdmin

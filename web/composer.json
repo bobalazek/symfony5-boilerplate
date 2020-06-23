@@ -126,8 +126,8 @@
         "test": [
             "php bin/phpunit"
         ],
-        "cs-fix": [
-              "php-cs-fixer fix --dry-run"
+        "php-cs-fix": [
+              "php-cs-fixer fix"
         ],
         "translations-generate": [
               "php bin/console translation:update --dump-messages en --force"

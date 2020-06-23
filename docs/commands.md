@@ -31,7 +31,7 @@
   * Lints YAML config files, XLIFF translations files & PHP files
 * Test: `docker exec -ti cw_php composer run-script test`
   * Runs PHPUnit tests
-* CS-Fix: `docker exec -ti cw_php composer run-script cs-fix`
+* PHP-CS-Fix: `docker exec -ti cw_php composer run-script php-cs-fix`
   * Runs PHP-CS-Fixer
 * Generate translations: `docker exec -ti cw_php composer run-script translations-generate`
   * Generates the translations

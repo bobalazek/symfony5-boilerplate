@@ -4,9 +4,9 @@ use App\Entity\UserTfaMethod;
 
 return [
     [
-        'name' => 'Corco',
-        'username' => 'corco',
-        'email' => 'corco@corcoviewer.com',
+        'name' => 'Corcoviewer',
+        'username' => 'corcoviewer',
+        'email' => 'corcoviewer@corcoviewer.com',
         'password' => substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 1, 16),
         'roles' => ['ROLE_USER'],
     ],

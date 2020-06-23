@@ -3,7 +3,6 @@
 namespace App\Controller\Auth;
 
 use App\Entity\User;
-use App\Entity\UserFollower;
 use App\Entity\UserOauthProvider;
 use App\Form\Type\RegisterType;
 use App\Manager\EmailManager;
@@ -108,23 +107,6 @@ class AuthRegisterController extends AbstractController
             ;
 
             $this->em->persist($user);
-
-            // The default user (corco) should follow the newly registered user
-            /** @var User|null $defaultUser */
-            $defaultUser = $this->em
-                ->getRepository(User::class)
-                ->findOneById(1)
-            ;
-            if ($defaultUser) {
-                $userFollower = new UserFollower();
-                $userFollower
-                    ->setUser($user)
-                    ->setUserFollowing($defaultUser)
-                    ->setStatus(UserFollower::STATUS_APPROVED)
-                ;
-
-                $this->em->persist($userFollower);
-            }
 
             $this->em->flush();
 

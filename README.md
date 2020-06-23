@@ -1,6 +1,6 @@
 # Corcosoft
 
-![CI](https://github.com/bobalazek/corcosoft/workflows/Development%20Workflow/badge.svg)
+![CI](https://github.com/bobalazek/corcosoft-boilerplate/workflows/Development%20Workflow/badge.svg)
 
 The Corcosoft project.
 

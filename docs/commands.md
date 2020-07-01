@@ -16,7 +16,7 @@
 * Lint twig template files: `docker exec -ti csbp_php php bin/console lint:twig templates/`
 * Lint YAML config files: `docker exec -ti csbp_php php bin/console lint:yaml config/`
 * Lint XLIFF translation files: `docker exec -ti csbp_php php bin/console lint:xliff translations/`
-* Lint PHP files: `docker exec -i csbp_php php-cs-fixer fix --dry-run`
+* Lint PHP files: `docker exec -i csbp_php php-cs-fixer fix --dry-run --diff`
 * Lint PHP files with PHPStan: `docker exec -ti csbp_php vendor/bin/phpstan analyse -c phpstan.neon`
 * Run PHP-CS-Fixer: `docker exec -ti csbp_php php-cs-fixer fix`
 * Run PHPUnit tests: `docker exec -ti csbp_php php bin/phpunit`

@@ -164,7 +164,7 @@ class AppExtension extends AbstractExtension
             $html .= $data;
         } elseif (null === $data) {
             $html .= '<i>null</i>';
-        } elseif ($data === []) {
+        } elseif ([] === $data) {
             $html .= '<i>[]</i>';
         }
 

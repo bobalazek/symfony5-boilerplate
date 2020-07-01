@@ -1,26 +1,4 @@
 parameters:
-    # General
-    app.name: 'Corcosoft Boilerplate'
-    app.twitter_handle: 'corcosoft'
-    app.description: 'Just your usual corcosoft boilerplate'
-    app.keywords: 'corcosoft boilerplate'
-    app.mailer_from: Corcosoft <mailer@corcosoft.com>
-    app.mailer_to: Borut <bobalazek124@gmail.com>
-    # Credentials
-    app.oauth.facebook:
-        id: '%env(OAUTH_FACEBOOK_ID)%'
-        secret: '%env(OAUTH_FACEBOOK_SECRET)%'
-        version: '%env(OAUTH_FACEBOOK_VERSION)%'
-        scope: '%env(OAUTH_FACEBOOK_SCOPE)%'
-    app.oauth.google:
-        id: '%env(OAUTH_GOOGLE_ID)%'
-        secret: '%env(OAUTH_GOOGLE_SECRET)%'
-    app.google.recaptcha.site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
-    # TFA
-    app.tfa.allowed_routes:
-        - null # error
-        - auth.logout
-        - auth.login.tfa
 
 services:
     _defaults:

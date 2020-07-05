@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   phpmyadmin:
-    container_name: csbp_phpmyadmin
+    container_name: s5bp_phpmyadmin
     build: ./docker/phpmyadmin
     depends_on:
       - mysql
@@ -12,4 +12,4 @@ services:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
     networks:
-      - csbp-app-network
+      - s5bp-app-network

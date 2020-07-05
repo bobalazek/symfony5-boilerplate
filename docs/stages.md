@@ -1,4 +1,4 @@
-# Corcosoft Boilerplate
+# Symfony5 boilerplate
 
 ## Stages
 

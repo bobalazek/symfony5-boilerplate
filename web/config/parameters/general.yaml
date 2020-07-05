@@ -1,9 +1,9 @@
 parameters:
     # General
-    app.name: 'Corcosoft Boilerplate'
+    app.name: 'Symfony5 boilerplate'
     app.twitter_handle: 'corcosoft'
-    app.description: 'Just your usual corcosoft boilerplate'
-    app.keywords: 'corcosoft boilerplate'
+    app.description: 'Just your usual symfony5 boilerplate'
+    app.keywords: 'symfony5 boilerplate'
     app.mailer_from: Corcosoft <mailer@corcosoft.com>
     app.mailer_to: Borut <bobalazek124@gmail.com>
     app.roles:

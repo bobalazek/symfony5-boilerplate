@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   php:
-    container_name: csbp_php
+    container_name: s5bp_php
     build: ./docker/php
     env_file:
       - .env
@@ -14,10 +14,10 @@ services:
     depends_on:
       - mysql
     networks:
-      - csbp-app-network
+      - s5bp-app-network
 
   nginx:
-    container_name: csbp_nginx
+    container_name: s5bp_nginx
     build: ./docker/nginx
     volumes:
       - ./web:/var/www/web
@@ -26,13 +26,13 @@ services:
     depends_on:
       - php
     networks:
-      - csbp-app-network
+      - s5bp-app-network
     ports:
       - '${NGINX_PORT_80:-80}:80'
       - '${NGINX_PORT_443:-443}:443'
 
   mysql:
-    container_name: csbp_mysql
+    container_name: s5bp_mysql
     build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
@@ -42,10 +42,10 @@ services:
     volumes:
       - mysql-volume:/var/lib/mysql
     networks:
-      - csbp-app-network
+      - s5bp-app-network
 
   mysql-test:
-    container_name: csbp_mysql_test
+    container_name: s5bp_mysql_test
     build: ./docker/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-database}
@@ -55,35 +55,35 @@ services:
     volumes:
       - mysql-test-volume:/var/lib/mysql
     networks:
-      - csbp-app-network
+      - s5bp-app-network
 
   node:
-    container_name: csbp_node
+    container_name: s5bp_node
     build: ./docker/node
     env_file:
       - .env
     volumes:
       - ./web:/usr/src/web
     networks:
-      - csbp-app-network
+      - s5bp-app-network
     command: tail -f /dev/null
 
   redis:
-    container_name: csbp_redis
+    container_name: s5bp_redis
     image: redis
     volumes:
       - redis-volume:/data
     networks:
-      - csbp-app-network
+      - s5bp-app-network
 
   smtp-server:
-    container_name: csbp_smtp_server
+    container_name: s5bp_smtp_server
     image: namshi/smtp
     networks:
-      - csbp-app-network
+      - s5bp-app-network
 
   elasticsearch:
-    container_name: csbp_elasticsearch
+    container_name: s5bp_elasticsearch
     build: ./docker/elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -97,11 +97,11 @@ services:
       - '${ELASTICSEARCH_PORT_9200:-9200}:9200'
       - '${ELASTICSEARCH_PORT_9300:-9300}:9300'
     networks:
-      - csbp-app-network
+      - s5bp-app-network
 
 networks:
-  csbp-app-network:
-    name: csbp_app_network
+  s5bp-app-network:
+    name: s5bp_app_network
     driver: bridge
 
 volumes:

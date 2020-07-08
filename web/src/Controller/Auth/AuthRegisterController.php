@@ -79,7 +79,7 @@ class AuthRegisterController extends AbstractController
 
                 $userOauthProvider = new UserOauthProvider();
                 $userOauthProvider
-                    ->setProvider($provider)
+                    ->setProvider($oauth)
                     ->setProviderId($oauthUser->getId())
                     ->setData($oauthUser->getRawData())
                 ;

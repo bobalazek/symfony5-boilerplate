@@ -29,10 +29,6 @@ services:
             - { name: kernel.event_listener, event: kernel.response }
 
     # Symfony
-    Symfony\Bridge\Monolog\Handler\ElasticsearchLogstashHandler:
-        arguments:
-            - 'http://elasticsearch:9200'
-
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - '%env(DATABASE_URL)%'

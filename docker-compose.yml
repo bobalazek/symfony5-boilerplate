@@ -82,23 +82,6 @@ services:
     networks:
       - s5bp-app-network
 
-  elasticsearch:
-    container_name: s5bp_elasticsearch
-    build: ./docker/elasticsearch
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "ELASTIC_PASSWORD=changeme" # username is "elastic"
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - transport.host=localhost
-    volumes:
-      - elasticsearch-volume:/usr/share/elasticsearch/data
-    ports:
-      - '${ELASTICSEARCH_PORT_9200:-9200}:9200'
-      - '${ELASTICSEARCH_PORT_9300:-9300}:9300'
-    networks:
-      - s5bp-app-network
-
 networks:
   s5bp-app-network:
     name: s5bp_app_network
@@ -108,4 +91,3 @@ volumes:
   mysql-volume:
   mysql-test-volume:
   redis-volume:
-  elasticsearch-volume:

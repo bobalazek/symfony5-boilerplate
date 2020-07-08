@@ -103,8 +103,11 @@ class AuthOauthController extends AbstractController
                 $userMyself = $this->getUser();
                 if ($userMyself) {
                     $userOauthProvider = new UserOauthProvider();
-                    $userOauthProvider->setProvider($provider);
-                    $userOauthProvider->setProviderId($oauthUser->getId());
+                    $userOauthProvider
+                        ->setProvider($provider)
+                        ->setProviderId($oauthUser->getId())
+                        ->setData($oauthUser->getRawData())
+                    ;
 
                     $userMyself->addUserOauthProvider($userOauthProvider);
 

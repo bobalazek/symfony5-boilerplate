@@ -78,8 +78,11 @@ class AuthRegisterController extends AbstractController
                 $user->setEmail($oauthUser->getEmail());
 
                 $userOauthProvider = new UserOauthProvider();
-                $userOauthProvider->setProvider($oauth);
-                $userOauthProvider->setProviderId($oauthUser->getId());
+                $userOauthProvider
+                    ->setProvider($provider)
+                    ->setProviderId($oauthUser->getId())
+                    ->setData($oauthUser->getRawData())
+                ;
 
                 $user->addUserOauthProvider($userOauthProvider);
             } catch (\Exception $e) {

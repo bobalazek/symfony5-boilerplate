@@ -35,6 +35,11 @@ class UserOauthProvider implements Interfaces\StatusInterface, Interfaces\ArrayI
     private $providerId;
 
     /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $data = [];
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userOauthProviders")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
@@ -70,6 +75,18 @@ class UserOauthProvider implements Interfaces\StatusInterface, Interfaces\ArrayI
     public function setProviderId(string $providerId): self
     {
         $this->providerId = $providerId;
+
+        return $this;
+    }
+
+    public function getData(): ?array
+    {
+        return $this->data;
+    }
+
+    public function setData(?array $data): self
+    {
+        $this->data = $data;
 
         return $this;
     }

@@ -22,6 +22,11 @@ class OauthUser
      */
     private $name;
 
+    /**
+     * @return array
+     */
+    private $rawData;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -54,6 +59,18 @@ class OauthUser
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getRawData(): ?array
+    {
+        return $this->rawData;
+    }
+
+    public function setRawData(array $rawData): self
+    {
+        $this->rawData = $rawData;
 
         return $this;
     }

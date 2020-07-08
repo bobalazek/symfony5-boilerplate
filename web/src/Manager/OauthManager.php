@@ -163,6 +163,7 @@ class OauthManager
             ->setId($facebookUser->getId())
             ->setEmail($facebookUser->getEmail())
             ->setName($facebookUser->getName())
+            ->setRawData($facebookUser->asArray())
         ;
 
         return $oauthUser;
@@ -183,6 +184,7 @@ class OauthManager
             $this->googleClient = new Google_Client();
             $this->googleClient->setClientId($googleCredentials['id']);
             $this->googleClient->setClientSecret($googleCredentials['secret']);
+            $this->googleClient->addScope('openid');
             $this->googleClient->addScope('https://www.googleapis.com/auth/userinfo.email');
             $this->googleClient->addScope('https://www.googleapis.com/auth/userinfo.profile');
             $this->googleClient->setIncludeGrantedScopes(true);
@@ -217,11 +219,17 @@ class OauthManager
         $oauth = new \Google_Service_Oauth2($client);
 
         $googleUser = $oauth->tokeninfo();
+        $googleUserinfo = $oauth->userinfo->get();
 
         $oauthUser = new Oauth\OauthUser();
         $oauthUser
             ->setId($googleUser->getUserId())
             ->setEmail($googleUser->getEmail())
+            ->setName($googleUserinfo->getName())
+            ->setRawData([
+                'tokeninfo' => json_decode(json_encode($googleUser), true),
+                'userinfo' => json_decode(json_encode($googleUserinfo), true),
+            ])
         ;
 
         return $oauthUser;

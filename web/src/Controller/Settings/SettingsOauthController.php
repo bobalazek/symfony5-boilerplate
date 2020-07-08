@@ -91,14 +91,14 @@ class SettingsOauthController extends AbstractController
             $this->em->flush();
 
             $this->userActionManager->add(
-                'settings.oauth.facebook.unlink',
-                'User has successfully unlinked their facebook account'
+                'settings.oauth.' . $provider . '.unlink',
+                'User has successfully unlinked their ' . $provider . ' account'
             );
 
             $this->addFlash(
                 'success',
                 $this->translator->trans('oauth.flash.unlinked_success', [
-                    '{provider}' => 'facebook',
+                    '{provider}' => $provider,
                 ], 'settings')
             );
 

@@ -23,16 +23,16 @@
         {{ 'Login' | trans }}
       </a>
     </p>
-    {% if oauth == 'facebook' %}
+    {% if oauth == constant('App\\Entity\\UserOauthProvider::PROVIDER_FACEBOOK') %}
       <div class="alert alert-info">
         {{ 'register.alert.linked_with' | trans({
-          provider: 'facebook',
+          provider: constant('App\\Entity\\UserOauthProvider::PROVIDER_FACEBOOK'),
         }, 'auth') }}
       </div>
-    {% elseif oauth == 'google' %}
+    {% elseif oauth == constant('App\\Entity\\UserOauthProvider::PROVIDER_GOOGLE') %}
       <div class="alert alert-info">
         {{ 'register.alert.linked_with' | trans({
-          provider: 'google',
+          provider: constant('App\\Entity\\UserOauthProvider::PROVIDER_GOOGLE'),
         }, 'auth') }}
       </div>
     {% endif %}

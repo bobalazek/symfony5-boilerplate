@@ -4,7 +4,8 @@
 
 {% block main %}
   <h2>
-    {{ 'Email' | trans }}
+    {{ '2FA' | trans }}
+    <small>{{ 'Email' | trans }}</small>
     <a class="btn btn-light btn-sm"
       href="{{ url('settings.tfa') }}">
       {{ 'back' | trans }}

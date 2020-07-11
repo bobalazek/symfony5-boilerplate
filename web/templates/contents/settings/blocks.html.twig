@@ -3,6 +3,7 @@
 {% block title %}{{ 'Blocks' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
+  <h2>{{ 'Blocks' | trans }}</h2>
   {% if users_blocks %}
     <div class="row">
       {% for user_block in users_blocks %}

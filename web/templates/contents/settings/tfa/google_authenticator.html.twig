@@ -4,7 +4,8 @@
 
 {% block main %}
   <h2>
-    {{ 'Google Authenticator' | trans }}
+    {{ '2FA' | trans }}
+    <small>{{ 'Google Authenticator' | trans }}</small>
     <a class="btn btn-light btn-sm"
       href="{{ url('settings.tfa') }}">
       {{ 'back' | trans }}

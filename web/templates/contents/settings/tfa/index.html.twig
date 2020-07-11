@@ -3,6 +3,7 @@
 {% block title %}{{ '2FA' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
+  <h2>{{ '2FA' | trans }}</h2>
   {{ form_start(form) }}
     {% if app.user.isTfaEnabled() and methods_enabled is empty %}
       <div class="alert alert-danger">

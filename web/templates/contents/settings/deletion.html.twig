@@ -3,6 +3,7 @@
 {% block title %}{{ 'Deletion' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
+  <h2>{{ 'Deletion' | trans }}</h2>
   {% if app.user.getDeletionConfirmCode() %}
     <div class="alert alert-info">
       {{ 'deletion.alert.confirmation_sent' | trans({

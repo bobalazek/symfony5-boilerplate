@@ -3,6 +3,7 @@
 {% block title %}{{ 'Actions' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
+  <h2>{{ 'Actions' | trans }}</h2>
   {% if pagination.getTotalItemCount() %}
     <table class="table">
       <thead>

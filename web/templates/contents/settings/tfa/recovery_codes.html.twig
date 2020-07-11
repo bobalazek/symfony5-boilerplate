@@ -4,7 +4,8 @@
 
 {% block main %}
   <h2>
-    {{ 'Recovery Codes' | trans }}
+    {{ '2FA' | trans }}
+    <small>{{ 'Recovery Codes' | trans }}</span>
     <a class="btn btn-light btn-sm"
       href="{{ url('settings.tfa') }}">
       {{ 'back' | trans }}

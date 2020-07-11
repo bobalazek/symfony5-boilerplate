@@ -3,30 +3,29 @@
 {% block title %}{{ 'OAuth' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
-  {% for key, provider in providers %}
-    {% if loop.first != true %}
-      <hr />
-    {% endif %}
-    <h2>{{ provider.label }}</h2>
-    {% if provider._is_linked %}
-      <a href="{{ url('settings.oauth', {
-        action: 'unlink',
-        provider: key,
-      }) }}" class="btn btn-danger">
-       {{ 'oauth.unlink' | trans({
-        '{provider}': key,
-       }, 'settings') }}
-      </a>
-    {% else %}
-      <a href="{{ url('auth.oauth', {
-        action: 'link',
-        provider: key,
-      }) }}"
-        class="btn btn-primary">
-        {{ 'oauth.link' | trans({
-         '{provider}': key,
-        }, 'settings') }}
-      </a>
-    {% endif %}
-  {% endfor %}
+  <h2>{{ 'OAuth' | trans }}</h2>
+  <ul class="list-group">
+    {% for key, provider in providers %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ provider.label }}
+        {% if provider._is_linked %}
+          <a href="{{ url('settings.oauth', {
+            action: 'unlink',
+            provider: key,
+          }) }}" class="btn btn-danger">
+            <i class="fab fa-{{ key }}"></i>
+            {{ 'oauth.unlink' | trans({}, 'settings') }}
+          </a>
+        {% else %}
+          <a href="{{ url('auth.oauth', {
+            action: 'link',
+            provider: key,
+          }) }}" class="btn btn-primary">
+            <i class="fab fa-{{ key }}"></i>
+            {{ 'oauth.link' | trans({}, 'settings') }}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

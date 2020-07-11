@@ -3,6 +3,7 @@
 {% block title %}{{ 'Exports' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
+  <h2>{{ 'Export' | trans }}</h2>
   {% if request_alert %}
     <div class="alert alert-info">
       {{ request_alert }}

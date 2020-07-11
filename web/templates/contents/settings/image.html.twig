@@ -5,6 +5,7 @@
 {% block title %}{{ 'Image' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
+  <h2>{{ 'Image' | trans }}</h2>
   {{ form_start(form) }}
     <div class="custom-file-wrapper">
       {% if image_url %}

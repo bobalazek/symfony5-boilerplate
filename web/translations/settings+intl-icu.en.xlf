@@ -115,11 +115,11 @@
       </trans-unit>
       <trans-unit id="SeuhF79" resname="oauth.unlink">
         <source>oauth.unlink</source>
-        <target>Unlink your {provider} account</target>
+        <target>Unlink your account</target>
       </trans-unit>
       <trans-unit id="Rk155t8" resname="oauth.link">
         <source>oauth.link</source>
-        <target>Link your {provider} account</target>
+        <target>Link your account</target>
       </trans-unit>
       <trans-unit id="tHt8DjT" resname="deletion.alert.confirmation_sent">
         <source>deletion.alert.confirmation_sent</source>

@@ -4,6 +4,7 @@ namespace App\Controller\Auth;
 
 use App\Entity\UserOauthProvider;
 use App\Manager\OauthManager;
+use App\Manager\UserActionManager;
 use App\Security\Guard\Authenticator\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,16 +39,23 @@ class AuthOauthController extends AbstractController
      */
     private $oauthManager;
 
+    /**
+     * @var UserActionManager
+     */
+    private $userActionManager;
+
     public function __construct(
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
-        OauthManager $oauthManager
+        OauthManager $oauthManager,
+        UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
         $this->oauthManager = $oauthManager;
+        $this->userActionManager = $userActionManager;
     }
 
     /**
@@ -99,21 +107,33 @@ class AuthOauthController extends AbstractController
         ;
 
         if ('link' === $action) {
+            $userMyself = $this->getUser();
+            if (!$userMyself) {
+                $this->addFlash(
+                    'danger',
+                    $this->translator->trans('oauth.flash.not_logged_in', [], 'auth')
+                );
+
+                return $this->redirectToRoute('auth.login');
+            }
+
             if (!$userOauthProvider) {
-                $userMyself = $this->getUser();
-                if ($userMyself) {
-                    $userOauthProvider = new UserOauthProvider();
-                    $userOauthProvider
-                        ->setProvider($provider)
-                        ->setProviderId($oauthUser->getId())
-                        ->setData($oauthUser->getRawData())
-                    ;
+                $userOauthProvider = new UserOauthProvider();
+                $userOauthProvider
+                    ->setProvider($provider)
+                    ->setProviderId($oauthUser->getId())
+                    ->setData($oauthUser->getRawData())
+                ;
 
-                    $userMyself->addUserOauthProvider($userOauthProvider);
+                $userMyself->addUserOauthProvider($userOauthProvider);
 
-                    $this->em->persist($userMyself);
-                    $this->em->flush();
-                }
+                $this->em->persist($userMyself);
+                $this->em->flush();
+
+                $this->userActionManager->add(
+                    'settings.oauth.' . $provider . '.link',
+                    'User has successfully linked their ' . $provider . ' account'
+                );
 
                 $this->addFlash(
                     'success',

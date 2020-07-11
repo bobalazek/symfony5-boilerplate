@@ -125,6 +125,10 @@
         <source>oauth.flash.user_with_this_id_already_exists</source>
         <target>A user with this {provider} account was already linked</target>
       </trans-unit>
+      <trans-unit id="dFIeAU_" resname="oauth.flash.not_logged_in">
+        <source>oauth.flash.not_logged_in</source>
+        <target>You need to be logged in to link your account</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -132,7 +132,10 @@ class AuthOauthController extends AbstractController
 
                 $this->userActionManager->add(
                     'settings.oauth.' . $provider . '.link',
-                    'User has successfully linked their ' . $provider . ' account'
+                    'User has successfully linked their ' . $provider . ' account',
+                    [
+                        'provider' => $provider,
+                    ]
                 );
 
                 $this->addFlash(

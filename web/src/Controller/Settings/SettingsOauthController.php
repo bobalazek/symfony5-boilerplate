@@ -92,7 +92,10 @@ class SettingsOauthController extends AbstractController
 
             $this->userActionManager->add(
                 'settings.oauth.' . $provider . '.unlink',
-                'User has successfully unlinked their ' . $provider . ' account'
+                'User has successfully unlinked their ' . $provider . ' account',
+                [
+                    'provider' => $provider,
+                ]
             );
 
             $this->addFlash(

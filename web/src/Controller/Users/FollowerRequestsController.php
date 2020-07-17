@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\User;
+namespace App\Controller\Users;
 
 use App\Entity\User;
 use App\Entity\UserFollower;

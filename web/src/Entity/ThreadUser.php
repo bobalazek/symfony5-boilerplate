@@ -34,6 +34,11 @@ class ThreadUser implements Interfaces\ArrayInterface, TimestampableInterface
     private $lastActiveAt;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastNewMessageEmailSentAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Thread", inversedBy="threadUsers")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -85,6 +90,18 @@ class ThreadUser implements Interfaces\ArrayInterface, TimestampableInterface
     public function setLastActiveAt(?\DateTimeInterface $lastActiveAt): self
     {
         $this->lastActiveAt = $lastActiveAt;
+
+        return $this;
+    }
+
+    public function getLastNewMessageEmailSentAt(): ?\DateTimeInterface
+    {
+        return $this->lastNewMessageEmailSentAt;
+    }
+
+    public function setLastNewMessageEmailSentAt(?\DateTimeInterface $lastNewMessageEmailSentAt): self
+    {
+        $this->lastNewMessageEmailSentAt = $lastNewMessageEmailSentAt;
 
         return $this;
     }

@@ -105,6 +105,14 @@
         <source>Platform</source>
         <target>Platform</target>
       </trans-unit>
+      <trans-unit id="KcP6UOV" resname="messaging_new_message.subject">
+        <source>messaging_new_message.subject</source>
+        <target>{app_name} | New message</target>
+      </trans-unit>
+      <trans-unit id="UcsWqgQ" resname="messaging_new_message.content">
+        <source>messaging_new_message.content</source>
+        <target>You have a new message from user {user_username}</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

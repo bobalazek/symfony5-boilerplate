@@ -24,6 +24,11 @@ class Thread implements Interfaces\StatusInterface, Interfaces\ArrayInterface, T
     private $id;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastNewMessageEmailCheckedAt;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ThreadUser", mappedBy="thread")
      */
     private $threadUsers;
@@ -41,6 +46,18 @@ class Thread implements Interfaces\StatusInterface, Interfaces\ArrayInterface, T
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getLastNewMessageEmailCheckedAt(): ?\DateTimeInterface
+    {
+        return $this->lastNewMessageEmailCheckedAt;
+    }
+
+    public function setLastNewMessageEmailCheckedAt(?\DateTimeInterface $llastNewMessageEmailCheckedAt): self
+    {
+        $this->lastNewMessageEmailCheckedAt = $lastNewMessageEmailCheckedAt;
+
+        return $this;
     }
 
     /**

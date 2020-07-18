@@ -4,6 +4,8 @@ namespace App\Manager;
 
 use App\Entity\User;
 use App\Entity\UserTfaEmail;
+use App\Entity\ThreadUser;
+use App\Entity\ThreadUserMessage;
 use Jenssegers\Agent\Agent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -305,6 +307,42 @@ class EmailManager
             ->htmlTemplate('emails/settings/deletion_confirm_success.html.twig')
             ->context([
                 'user' => $user,
+            ])
+        ;
+
+        $this->mailer->send($email);
+
+        return true;
+    }
+
+    /**
+     * @param ThreadUser $threadUser The recipient for the email
+     * @param ThreadUserMessage $threadUserMessage The sender message that triggered it
+     */
+    public function sendMessagingNewMessage(
+        ThreadUser $threadUser,
+        ThreadUserMessage $threadUserMessage
+    )
+    {
+        $user = $threadUser->getUser();
+
+        $emailSubject = $this->translator->trans('messaging_new_message.subject', [
+            'app_name' => $this->params->get('app.name'),
+        ], 'emails');
+        $email = (new TemplatedEmail())
+            ->subject($emailSubject)
+            ->from(Address::fromString($this->params->get('app.mailer_from')))
+            ->to($user->getEmail())
+            ->htmlTemplate('emails/messaging/new_message.html.twig')
+            ->context([
+                'user' => $user,
+                'thread_user' => $threadUser,
+                'thread_user_message' => $threadUserMessage,
+                'url' => $this->router->generate(
+                    'messaging',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ])
         ;
 

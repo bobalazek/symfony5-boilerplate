@@ -1,0 +1,14 @@
+{% trans_default_domain 'emails' %}
+{% apply inky_to_html | inline_css(source('@css/vendor/foundation-emails.css')) %}
+  <container>
+    <h1>
+      {{ 'greeting' | trans({
+        'user_username': user.getUsername(),
+      }) }}
+    </h1>
+    <p>{{ 'messaging_new_message.content' | trans({
+      'user_username': thread_user_message.getThreadUser().getUser().getUsername(),
+    }) }}</p>
+    <p>{{ url | raw }}</p>
+  </container>
+{% endapply %}

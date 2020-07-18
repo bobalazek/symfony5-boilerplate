@@ -53,7 +53,7 @@ class Thread implements Interfaces\StatusInterface, Interfaces\ArrayInterface, T
         return $this->lastNewMessageEmailCheckedAt;
     }
 
-    public function setLastNewMessageEmailCheckedAt(?\DateTimeInterface $llastNewMessageEmailCheckedAt): self
+    public function setLastNewMessageEmailCheckedAt(?\DateTimeInterface $lastNewMessageEmailCheckedAt): self
     {
         $this->lastNewMessageEmailCheckedAt = $lastNewMessageEmailCheckedAt;
 

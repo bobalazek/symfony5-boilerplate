@@ -84,7 +84,7 @@ class CronMessagingNewMessageEmail extends Command
                 $hasAlreadyBeenSent = true;
 
                 if ($lastSeenAt) {
-                    $lastHour = (clone $now)->sub(new DateInterval('PT1H'));
+                    $lastHour = (clone $now)->sub(new \DateInterval('PT1H'));
                     $hasBeenSeenMoreThanAnHourAgo = $lastSeenAt < $lastHour;
                     $hasAlreadyBeenSent = $lastSeenAt < $lastNewMessageEmailSentAt;
                 }

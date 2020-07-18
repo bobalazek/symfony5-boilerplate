@@ -2,10 +2,10 @@
 
 namespace App\Manager;
 
-use App\Entity\User;
-use App\Entity\UserTfaEmail;
 use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
+use App\Entity\User;
+use App\Entity\UserTfaEmail;
 use Jenssegers\Agent\Agent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -316,14 +316,13 @@ class EmailManager
     }
 
     /**
-     * @param ThreadUser $threadUser The recipient for the email
+     * @param ThreadUser        $threadUser        The recipient for the email
      * @param ThreadUserMessage $threadUserMessage The sender message that triggered it
      */
     public function sendMessagingNewMessage(
         ThreadUser $threadUser,
         ThreadUserMessage $threadUserMessage
-    )
-    {
+    ) {
         $user = $threadUser->getUser();
 
         $emailSubject = $this->translator->trans('messaging_new_message.subject', [

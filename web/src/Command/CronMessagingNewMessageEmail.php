@@ -7,7 +7,6 @@ use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
 use App\Manager\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,8 +28,7 @@ class CronMessagingNewMessageEmail extends Command
     public function __construct(
         EntityManagerInterface $em,
         EmailManager $emailManager
-    )
-    {
+    ) {
         $this->em = $em;
         $this->emailManager = $emailManager;
 

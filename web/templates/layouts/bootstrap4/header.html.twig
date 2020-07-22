@@ -50,7 +50,7 @@
               </a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-              <a class="dropdown-item" href="{{ url('easyadmin') }}">
+              <a class="dropdown-item" href="{{ url('admin') }}">
                 {{ 'Admin' | trans }}
               </a>
               {% if app_environment == 'dev' %}

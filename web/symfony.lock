@@ -32,8 +32,14 @@
     "psr/http-client": {
         "version": "1.0.1"
     },
+    "symfony/polyfill-uuid": {
+        "version": "v1.18.0"
+    },
     "symfony/twig-pack": {
         "version": "v1.0.0"
+    },
+    "symfony/uid": {
+        "version": "v5.1.2"
     },
     "symplify/package-builder": {
         "version": "v7.3.18"

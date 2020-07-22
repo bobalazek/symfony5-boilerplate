@@ -107,6 +107,7 @@ class UserAction implements Interfaces\ArrayInterface, TimestampableInterface
             'id' => $this->getId(),
             'key' => $this->getKey(),
             'message' => $this->getMessage(),
+            'data' => $this->getData(),
             'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }

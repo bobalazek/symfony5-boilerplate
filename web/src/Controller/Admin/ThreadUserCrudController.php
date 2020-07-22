@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class ThreadUserCrudController extends AbstractCrudController
 {
@@ -33,27 +33,24 @@ class ThreadUserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
         $lastSeenAt = DateTimeField::new('lastSeenAt');
         $lastActiveAt = DateTimeField::new('lastActiveAt');
         $lastNewMessageEmailSentAt = DateTimeField::new('lastNewMessageEmailSentAt');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
         $thread = AssociationField::new('thread');
         $user = AssociationField::new('user');
         $threadUserMessages = AssociationField::new('threadUserMessages');
-        $id = IntegerField::new('id', 'ID');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $lastSeenAt, $lastActiveAt, $lastNewMessageEmailSentAt, $createdAt, $thread, $user];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $lastSeenAt, $lastActiveAt, $lastNewMessageEmailSentAt, $createdAt, $updatedAt, $thread, $user, $threadUserMessages];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$lastSeenAt, $lastActiveAt, $lastNewMessageEmailSentAt, $createdAt, $updatedAt, $thread, $user, $threadUserMessages];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$lastSeenAt, $lastActiveAt, $lastNewMessageEmailSentAt, $createdAt, $updatedAt, $thread, $user, $threadUserMessages];
-        }
+        return [
+            $id,
+            $lastSeenAt,
+            $lastActiveAt,
+            $lastNewMessageEmailSentAt,
+            $thread,
+            $user,
+            $threadUserMessages,
+            $createdAt,
+        ];
     }
 }

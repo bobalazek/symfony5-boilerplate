@@ -19,9 +19,9 @@ parameters:
         - %rootDir%/../../../src/Migrations/*
 
     ignoreErrors:
-        - '#findOneById()#'
-        - '#findOneByUuid()#'
-        - '#findOneByEmail()#'
-        - '#findOneByUsername()#'
-        - '#tick()#'
+        - '#findOneById#'
+        - '#findOneByUuid#'
+        - '#findOneByEmail#'
+        - '#findOneByUsername#'
+        - '#tick#'
         - '#App\\Tests\\WebTestCase#'

@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -34,25 +35,20 @@ class UserPointCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
         $key = TextField::new('key');
         $amount = IntegerField::new('amount');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
-        $user = AssociationField::new('user');
-        $id = IntegerField::new('id', 'ID');
         $data = TextField::new('data');
+        $user = AssociationField::new('user');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $key, $amount, $createdAt, $user];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $key, $amount, $data, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$key, $amount, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$key, $amount, $createdAt, $updatedAt, $user];
-        }
+        return [
+            $id,
+            $key,
+            $amount,
+            $data,
+            $user,
+            $createdAt,
+        ];
     }
 }

@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -24,6 +24,7 @@ class UserActionCrudController extends AbstractCrudController
     {
         return $crud
             ->setSearchFields(['id', 'key', 'message', 'data', 'ip', 'userAgent', 'sessionId'])
+            ->setDefaultSort(['id' => 'DESC'])
         ;
     }
 
@@ -36,28 +37,28 @@ class UserActionCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
+        $user = AssociationField::new('user');
         $key = TextField::new('key');
         $message = TextareaField::new('message');
+        $data = ArrayField::new('data')
+            ->setTemplatePath('contents/admin/fields/data_field.html.twig')
+        ;
         $ip = TextField::new('ip');
         $userAgent = TextareaField::new('userAgent');
         $sessionId = TextField::new('sessionId');
         $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
-        $user = AssociationField::new('user');
-        $id = IntegerField::new('id', 'ID');
-        $data = ArrayField::new('data')->setTemplatePath('contents/admin/fields/user_action_data.html.twig');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $user, $message, $key, $ip, $userAgent, $sessionId, $data, $createdAt];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $key, $message, $data, $ip, $userAgent, $sessionId, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$key, $message, $ip, $userAgent, $sessionId, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$key, $message, $ip, $userAgent, $sessionId, $createdAt, $updatedAt, $user];
-        }
+        return [
+            $id,
+            $user,
+            $key,
+            $message,
+            // $data, // TODO: reenable when fixed
+            $ip,
+            $userAgent,
+            $sessionId,
+            $createdAt,
+        ];
     }
 }

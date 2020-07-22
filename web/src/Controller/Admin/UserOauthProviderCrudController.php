@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserOauthProviderCrudController extends AbstractCrudController
@@ -34,25 +34,20 @@ class UserOauthProviderCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
         $provider = TextField::new('provider');
         $providerId = TextField::new('providerId');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
-        $user = AssociationField::new('user');
-        $id = IntegerField::new('id', 'ID');
         $data = TextField::new('data');
+        $user = AssociationField::new('user');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $provider, $providerId, $createdAt, $user];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $provider, $providerId, $data, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$provider, $providerId, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$provider, $providerId, $createdAt, $updatedAt, $user];
-        }
+        return [
+            $id,
+            $provider,
+            $providerId,
+            $data,
+            $user,
+            $createdAt,
+        ];
     }
 }

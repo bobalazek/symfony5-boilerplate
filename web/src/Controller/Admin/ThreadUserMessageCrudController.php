@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 class ThreadUserMessageCrudController extends AbstractCrudController
@@ -34,23 +34,16 @@ class ThreadUserMessageCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
         $body = TextareaField::new('body');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
         $threadUser = AssociationField::new('threadUser');
-        $id = IntegerField::new('id', 'ID');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $body, $createdAt, $threadUser];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $body, $createdAt, $updatedAt, $threadUser];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$body, $createdAt, $updatedAt, $threadUser];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$body, $createdAt, $updatedAt, $threadUser];
-        }
+        return [
+            $id,
+            $body,
+            $threadUser,
+            $createdAt,
+        ];
     }
 }

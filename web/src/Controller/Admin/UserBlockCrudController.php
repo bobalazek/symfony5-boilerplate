@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 
 class UserBlockCrudController extends AbstractCrudController
 {
@@ -33,23 +33,16 @@ class UserBlockCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
+        $id = IdField::new('id');
         $user = AssociationField::new('user');
         $userBlocked = AssociationField::new('userBlocked');
-        $id = IntegerField::new('id', 'ID');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $createdAt, $user, $userBlocked];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $createdAt, $updatedAt, $user, $userBlocked];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$createdAt, $updatedAt, $user, $userBlocked];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$createdAt, $updatedAt, $user, $userBlocked];
-        }
+        return [
+            $id,
+            $user,
+            $userBlocked,
+            $createdAt,
+        ];
     }
 }

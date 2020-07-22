@@ -34,53 +34,9 @@ class AdminDashboardSubscriber implements EventSubscriberInterface
         EntityManagerInterface $em,
         UserActionManager $userActionManager
     ) {
+        $this->security = $security;
         $this->em = $em;
         $this->userActionManager = $userActionManager;
-    }
-
-        public function beforeEntityPersisted(BeforeEntityPersistedEvent $event)
-    {
-        $entity = $event->getEntityInstance();
-
-        $userMyself = $this->security->getUser();
-        $uow = $this->em->getUnitOfWork();
-        $uow->computeChangeSets();
-        $changeset = $uow->getEntityChangeSet($entity);
-
-        if (!($entity instanceof User)) {
-            return;
-        }
-
-        if (
-            $userMyself === $entity &&
-            $entity->isLocked()
-        ) {
-            throw new \Exception('You can not lock yourself');
-        }
-
-        if (
-            $entity->isSuperAdmin() &&
-            $entity->isLocked()
-        ) {
-            throw new \Exception('You can not lock a super admin user');
-        }
-
-        if (!isset($changeset['roles'])) {
-            return;
-        }
-
-        $oldRoles = $changeset['roles'][0];
-        $newRoles = $changeset['roles'][1];
-
-        foreach ($newRoles as $newRole) {
-            if (
-                in_array($newRole, ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']) &&
-                !in_array($newRole, $oldRoles) &&
-                !$userMyself->isSuperAdmin()
-            ) {
-                throw new \Exception('Only a super admin can assign new admin users');
-            }
-        }
     }
 
     public function afterEntityPersisted(AfterEntityPersistedEvent $event)

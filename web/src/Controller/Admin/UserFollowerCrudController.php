@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserFollowerCrudController extends AbstractCrudController
@@ -34,24 +34,18 @@ class UserFollowerCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
         $status = TextField::new('status');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
         $user = AssociationField::new('user');
         $userFollowing = AssociationField::new('userFollowing');
-        $id = IntegerField::new('id', 'ID');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $status, $createdAt, $user, $userFollowing];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $status, $createdAt, $updatedAt, $user, $userFollowing];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$status, $createdAt, $updatedAt, $user, $userFollowing];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$status, $createdAt, $updatedAt, $user, $userFollowing];
-        }
+        return [
+            $id,
+            $status,
+            $user,
+            $userFollowing,
+            $createdAt,
+        ];
     }
 }

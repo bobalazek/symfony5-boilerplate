@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -47,36 +47,37 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
+        $name = TextField::new('name');
         $username = TextField::new('username');
         $email = TextField::new('email');
-        $roles = ChoiceField::new('roles')->setChoices(array_flip($this->params->get('app.roles')))->allowMultipleChoices(true);
+        $roles = ChoiceField::new('roles')
+            ->setChoices(array_flip($this->params->get('app.roles')))
+            ->allowMultipleChoices(true)
+        ;
+        $locale = TextField::new('locale');
         $countryCode = TextField::new('countryCode');
         $city = TextField::new('city');
         $private = Field::new('private');
         $locked = Field::new('locked');
         $lockedReason = TextField::new('lockedReason');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
-        $emailConfirmedAt = DateTimeField::new('emailConfirmedAt');
-        $id = IntegerField::new('id', 'ID');
-        $name = TextField::new('name');
-        $locale = TextField::new('locale');
-        $newEmail = TextField::new('newEmail');
-        $bio = TextareaField::new('bio');
-        $tfaEnabled = Field::new('tfaEnabled');
         $deletedAt = DateTimeField::new('deletedAt');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $username, $email, $roles, $countryCode, $city, $private, $locked, $lockedReason, $createdAt, $updatedAt];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $username, $email, $name, $roles, $locale, $newEmail, $bio, $city, $countryCode, $locked, $lockedReason, $private, $tfaEnabled, $emailConfirmedAt, $deletedAt, $createdAt, $updatedAt];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$username, $email, $roles, $countryCode, $city, $private, $locked, $lockedReason];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$username, $email, $roles, $countryCode, $city, $locked, $lockedReason];
-        }
+        return [
+            $id,
+            $name,
+            $username,
+            $email,
+            $roles,
+            $locale,
+            $countryCode,
+            $city,
+            $private,
+            $locked,
+            $lockedReason,
+            $deletedAt,
+            $createdAt,
+        ];
     }
 }

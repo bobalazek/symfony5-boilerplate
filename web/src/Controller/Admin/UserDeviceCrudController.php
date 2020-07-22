@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -36,6 +36,7 @@ class UserDeviceCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $id = IdField::new('id');
         $uuid = TextField::new('uuid');
         $name = TextField::new('name');
         $trusted = BooleanField::new('trusted');
@@ -44,22 +45,21 @@ class UserDeviceCrudController extends AbstractCrudController
         $ip = TextField::new('ip');
         $userAgent = TextareaField::new('userAgent');
         $sessionId = TextField::new('sessionId');
-        $createdAt = DateTimeField::new('createdAt');
-        $updatedAt = DateTimeField::new('updatedAt');
         $user = AssociationField::new('user');
-        $id = IntegerField::new('id', 'ID');
+        $createdAt = DateTimeField::new('createdAt');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $name, $trusted, $invalidated, $lastActiveAt, $ip, $sessionId];
-        }
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $uuid, $name, $trusted, $invalidated, $lastActiveAt, $ip, $userAgent, $sessionId, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_NEW === $pageName) {
-            return [$uuid, $name, $trusted, $invalidated, $lastActiveAt, $ip, $userAgent, $sessionId, $createdAt, $updatedAt, $user];
-        }
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [$uuid, $name, $trusted, $invalidated, $lastActiveAt, $ip, $userAgent, $sessionId, $createdAt, $updatedAt, $user];
-        }
+        return [
+            $id,
+            $uuid,
+            $name,
+            $trusted,
+            $invalidated,
+            $lastActiveAt,
+            $ip,
+            $userAgent,
+            $sessionId,
+            $user,
+            $createdAt,
+        ];
     }
 }

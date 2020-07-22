@@ -55,6 +55,12 @@
           }) }}" class="btn btn-danger">
             {{ 'Delete' | trans }}
           </a>
+          <a href="{{ url('home', {
+            _switch_user: user.getUsername(),
+          }) }}"
+            class="btn btn-dark">
+            {{ 'Impersonate' | trans }}
+          </a>
         {% endif %}
       {% endif %}
     </div>

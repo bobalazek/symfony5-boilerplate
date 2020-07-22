@@ -59,6 +59,15 @@
                 </a>
               {% endif %}
             {% endif %}
+            {% if is_granted('IS_IMPERSONATOR') %}
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item"
+                href="{{ url('home', {
+                  _switch_user: '_exit',
+                }) }}">
+                {{ 'Back to Admin' | trans }}
+              </a>
+            {% endif %}
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ url('auth.logout') }}">
               {{ 'Logout' | trans }}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\ComplexArrayField;
 use App\Entity\UserOauthProvider;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -37,7 +38,7 @@ class UserOauthProviderCrudController extends AbstractCrudController
         $id = IdField::new('id');
         $provider = TextField::new('provider');
         $providerId = TextField::new('providerId');
-        $data = TextField::new('data');
+        $data = ComplexArrayField::new('data');
         $user = AssociationField::new('user');
         $createdAt = DateTimeField::new('createdAt');
 

@@ -10,7 +10,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\LocaleField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -55,13 +56,13 @@ class UserCrudController extends AbstractCrudController
             ->setChoices(array_flip($this->params->get('app.roles')))
             ->allowMultipleChoices(true)
         ;
-        $locale = TextField::new('locale');
-        $countryCode = TextField::new('countryCode');
+        $locale = LocaleField::new('locale');
+        $countryCode = CountryField::new('countryCode');
         $city = TextField::new('city');
+        $bio = TextField::new('bio');
         $private = Field::new('private');
         $locked = Field::new('locked');
         $lockedReason = TextField::new('lockedReason');
-        $deletedAt = DateTimeField::new('deletedAt');
         $createdAt = DateTimeField::new('createdAt');
 
         return [
@@ -73,10 +74,10 @@ class UserCrudController extends AbstractCrudController
             $locale,
             $countryCode,
             $city,
+            $bio,
             $private,
             $locked,
             $lockedReason,
-            $deletedAt,
             $createdAt,
         ];
     }

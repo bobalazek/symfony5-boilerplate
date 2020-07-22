@@ -2,11 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\ComplexArrayField;
 use App\Entity\UserAction;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -41,9 +41,7 @@ class UserActionCrudController extends AbstractCrudController
         $user = AssociationField::new('user');
         $key = TextField::new('key');
         $message = TextareaField::new('message');
-        $data = ArrayField::new('data')
-            ->setTemplatePath('contents/admin/fields/data_field.html.twig')
-        ;
+        $data = ComplexArrayField::new('data');
         $ip = TextField::new('ip');
         $userAgent = TextareaField::new('userAgent');
         $sessionId = TextField::new('sessionId');
@@ -54,7 +52,7 @@ class UserActionCrudController extends AbstractCrudController
             $user,
             $key,
             $message,
-            // $data, // TODO: reenable when fixed
+            $data,
             $ip,
             $userAgent,
             $sessionId,

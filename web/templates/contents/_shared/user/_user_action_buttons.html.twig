@@ -55,12 +55,6 @@
           }) }}" class="btn btn-danger">
             {{ 'Delete' | trans }}
           </a>
-        {% else %}
-          <a href="{{ url('users.undelete', {
-            username: user.getUsername(),
-          }) }}" class="btn btn-warning">
-            {{ 'Undelete' | trans }}
-          </a>
         {% endif %}
       {% endif %}
     </div>

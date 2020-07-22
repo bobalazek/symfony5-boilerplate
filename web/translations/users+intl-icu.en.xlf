@@ -85,10 +85,6 @@
         <source>delete.flash.success</source>
         <target>You have successfully deleted this user</target>
       </trans-unit>
-      <trans-unit id="d1yr8Dr" resname="undelete.flash.success">
-        <source>undelete.flash.success</source>
-        <target>You have successfully undeleted this user</target>
-      </trans-unit>
       <trans-unit id="crsUuu2" resname="detail.user_is_locked">
         <source>detail.user_is_locked</source>
         <target>User is locked</target>

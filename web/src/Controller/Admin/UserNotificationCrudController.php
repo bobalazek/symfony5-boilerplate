@@ -2,11 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Admin\Field\ComplexArrayField;
 use App\Entity\UserNotification;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -37,9 +37,7 @@ class UserNotificationCrudController extends AbstractCrudController
     {
         $id = IdField::new('id');
         $type = TextField::new('type');
-        $data = ArrayField::new('data')
-            ->setTemplatePath('contents/admin/fields/data_field.html.twig')
-        ;
+        $data = ComplexArrayField::new('data');
         $seenAt = DateTimeField::new('seenAt');
         $readAt = DateTimeField::new('readAt');
         $user = AssociationField::new('user');
@@ -48,7 +46,7 @@ class UserNotificationCrudController extends AbstractCrudController
         return [
             $id,
             $type,
-            // $data, // TODO: see UserActionCrudController.php
+            $data,
             $seenAt,
             $readAt,
             $user,

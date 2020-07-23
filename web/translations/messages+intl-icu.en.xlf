@@ -297,6 +297,10 @@
         <source>Lock</source>
         <target>Lock</target>
       </trans-unit>
+      <trans-unit id="Mc3G5YF" resname="Undelete">
+        <source>Undelete</source>
+        <target>Undelete</target>
+      </trans-unit>
       <trans-unit id="3NHVIj9" resname="Name">
         <source>Name</source>
         <target>Name</target>

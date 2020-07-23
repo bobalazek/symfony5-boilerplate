@@ -525,6 +525,13 @@ class UsersActionsController extends AbstractUsersController
             throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
         }
 
+        if (null !== $user->getDeletedAt()) {
+            // If it's already deleted and we would accidentally delete it again,
+            //   like pressing twice on the delete link, it would hard delete the product,
+            //   which (at the moment) we do not want.
+            throw $this->createAccessDeniedException($this->translator->trans('not_allowed'));
+        }
+
         $this->em->remove($user);
         $this->em->flush();
 
@@ -539,6 +546,43 @@ class UsersActionsController extends AbstractUsersController
         $this->addFlash(
             'success',
             $this->translator->trans('delete.flash.success', [], 'users')
+        );
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('users');
+    }
+
+    /**
+     * @Route("/users/{username}/undelete", name="users.undelete")
+     *
+     * @param mixed $username
+     */
+    public function undelete($username, Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER_MODERATOR');
+
+        $user = $this->_get($username);
+
+        $user->setDeletedAt(null);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $this->userActionManager->add(
+            'users.undelete',
+            'A user was undeleted',
+            [
+                'id' => $user->getId(),
+            ]
+        );
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans('undelete.flash.success', [], 'users')
         );
 
         $referer = $request->headers->get('referer');

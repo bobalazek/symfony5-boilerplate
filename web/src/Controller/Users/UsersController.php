@@ -44,14 +44,18 @@ class UsersController extends AbstractUsersController
             ;
         }
 
-        if ('locked' === $status) {
+        if ('deleted' === $status) {
             $queryBuilder = $queryBuilder
-                ->andWhere('u.locked = :locked')
+                ->andWhere('u.deletedAt IS NOT NULL')
+            ;
+        } elseif ('locked' === $status) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('u.locked = :locked AND u.deletedAt IS NULL')
                 ->setParameter('locked', true)
             ;
         } else {
             $queryBuilder = $queryBuilder
-                ->andWhere('u.locked = :locked')
+                ->andWhere('u.locked = :locked AND u.deletedAt IS NULL')
                 ->setParameter('locked', false)
             ;
         }
@@ -79,12 +83,17 @@ class UsersController extends AbstractUsersController
         /** @var User|null $userMyself */
         $userMyself = $this->getUser();
 
+        $where = 'u.username = :username AND u.deletedAt IS NULL';
+        if ($this->isGranted('ROLE_USER_MODERATOR')) {
+            $where = 'u.username = :username';
+        }
+
         $user = 'me' === $username
             ? $userMyself
             : $this->em
                 ->getRepository(User::class)
                 ->createQueryBuilder('u')
-                ->where('u.username = :username')
+                ->where($where)
                 ->setMaxResults(1)
                 ->setParameter('username', $username)
                 ->getQuery()

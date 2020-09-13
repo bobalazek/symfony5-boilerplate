@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "cocur/slugify": "^4.0",
+        "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "easycorp/easyadmin-bundle": "^3.0",
         "endroid/qr-code": "^3.7",

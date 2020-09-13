@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use App\Entity\UserTfaMethod;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

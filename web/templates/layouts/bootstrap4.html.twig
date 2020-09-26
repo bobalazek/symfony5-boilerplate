@@ -16,7 +16,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     {% block head_stylesheets %}
-      {{ encore_entry_link_tags('app') }}
+      {{ encore_entry_link_tags('main') }}
     {% endblock %}
     <title>{% block title %}{{ app_name }}{% endblock %}</title>
     <meta name="description" content="{{ meta.description }}" />
@@ -48,7 +48,7 @@
       {% endblock %}
     {% endblock %}
     {% block body_javascripts %}
-      {{ encore_entry_script_tags('app') }}
+      {{ encore_entry_script_tags('main') }}
     {% endblock %}
   </body>
 </html>

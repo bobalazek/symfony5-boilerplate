@@ -57,6 +57,28 @@ services:
     networks:
       - s5bp-app-network
 
+  mongo:
+    container_name: s5bp_mongo
+    image: mongo:4.4
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME:-root}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD:-rootpassword}
+    volumes:
+      - mongo-volume:/data/db
+    networks:
+      - s5bp-app-network
+
+  mongo-test:
+    container_name: s5bp_mongo_test
+    image: mongo:4.4
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME:-root}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD:-rootpassword}
+    volumes:
+      - mongo-test-volume:/data/db
+    networks:
+      - s5bp-app-network
+
   node:
     container_name: s5bp_node
     build: ./docker/node
@@ -91,3 +113,5 @@ volumes:
   mysql-volume:
   mysql-test-volume:
   redis-volume:
+  mongo-volume:
+  mongo-test-volume:

@@ -10,7 +10,3 @@
 ### PhpMyAdmin
 
 * Go to your browser and open http://localhost:81 (or whichever port you set in `.env` for the `PHPMYADMIN_PORT_80` variable)
-
-### Mongo Express
-
-* Go to your browser and open http://localhost:8181 (or whichever port you set in `.env` for the `MONGO_EXPRESS_PORT_8081` variable)

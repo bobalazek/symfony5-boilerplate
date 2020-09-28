@@ -2,34 +2,11 @@
     "cweagans/composer-patches": {
         "version": "1.6.7"
     },
-    "doctrine/mongodb-odm": {
-        "version": "2.1.2"
-    },
-    "doctrine/mongodb-odm-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "1fd8598bf42227a1c8905edd32f640e4c5d15eff"
-        },
-        "files": [
-            "config/packages/doctrine_mongodb.yaml",
-            "config/packages/prod/doctrine_mongodb.yaml",
-            "src/Document/.gitignore"
-        ]
-    },
-    "jean85/pretty-package-versions": {
-        "version": "1.5.1"
-    },
     "jms/metadata": {
         "version": "2.3.0"
     },
     "knplabs/doctrine-behaviors": {
         "version": "v2.0.4"
-    },
-    "mongodb/mongodb": {
-        "version": "1.7.0"
     },
     "nette/finder": {
         "version": "v2.5.2"

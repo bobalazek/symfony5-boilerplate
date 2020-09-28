@@ -42,10 +42,6 @@ RUN apt-get install libxslt-dev -y
 RUN docker-php-ext-configure xsl
 RUN docker-php-ext-install xsl
 
-# MongoDB
-RUN pecl install mongodb
-RUN docker-php-ext-enable mongodb
-
 # Copy config
 COPY config/php.ini $PHP_INI_DIR/conf.d/php.ini
 COPY config/www.conf /usr/local/etc/php-fpm.d/www.conf

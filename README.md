@@ -1,6 +1,6 @@
 # Symfony5 boilerplate
 
-![CI](https://github.com/bobalazek/corcosoft-boilerplate/workflows/Development%20Workflow/badge.svg)
+![CI](https://github.com/bobalazek/symfony5-boilerplate/workflows/Development%20Workflow/badge.svg)
 
 The Symfony5 boilerplate template.
 

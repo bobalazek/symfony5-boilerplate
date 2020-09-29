@@ -18,4 +18,5 @@
     * Run: `docker exec -ti s5bp_php php bin/console doctrine:fixtures:load --no-interaction` (loads the fixtures)
   * App - Frontend:
     * Run: `docker exec -ti s5bp_node yarn install` (installs dependencies)
+    * Run: `docker exec -ti s5bp_node yarn run build` (build the frontend app)
 * You are ready to go to the next step - [Development](development.md)!

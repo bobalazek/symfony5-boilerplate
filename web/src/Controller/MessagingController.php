@@ -145,6 +145,9 @@ class MessagingController extends AbstractController
         $limit = 20;
         $offset = 0;
 
+        $untilId = (int)$request->get('until_id');
+        $sinceId = (int)$request->get('since_id');
+
         /** @var ThreadUserMessage[] $threadUserMessages */
         $threadUserMessages = $this->em
             ->getRepository(ThreadUserMessage::class)
@@ -155,6 +158,23 @@ class MessagingController extends AbstractController
             ->setParameter('thread', $thread)
             ->setMaxResults($limit)
             ->setFirstResult($offset)
+        ;
+
+        if ($untilId) {
+            $threadUserMessages
+                ->andWhere('tum.id < :untilId')
+                ->setParameter('untilId', $untilId)
+            ;
+        }
+
+        if ($sinceId) {
+            $threadUserMessages
+                ->andWhere('tum.id > :sinceId')
+                ->setParameter('sinceId', $sinceId)
+            ;
+        }
+
+        $threadUserMessages = $threadUserMessages
             ->getQuery()
             ->getResult()
         ;

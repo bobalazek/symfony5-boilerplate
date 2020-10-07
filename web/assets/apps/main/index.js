@@ -59,6 +59,7 @@ $(document).ready(function () {
   }
 
   /********** Specific **********/
+  // Settings - Avatar Image
   if ($('#settings_image_avatarImage').length) {
     $('.avatars-selector .single-avatar-image').on('click', function() {
       var name = $(this).attr('data-name');
@@ -70,19 +71,80 @@ $(document).ready(function () {
     });
   }
 
-  if ($('#country-codes-modal').length) {
-    $('#country-codes-modal-save-button').on('click', function(e) {
+  // Messaging
+  var $messagingThreadMessages = $('#messaging-thread-messages');
+  if ($messagingThreadMessages.length) {
+    var $messagingThreadMessagesInner = $('#messaging-thread-messages-inner');
+    $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+
+    $messagingThreadMessages.on('scroll', function() {
+      var scrollTop = $(this).scrollTop();
+
+      if (scrollTop <= 0) {
+        loadMessages('prepend');
+      }
+    });
+
+    var $messagingThreadMessagesForm = $('#messaging-thread-messages-wrapper form');
+    $messagingThreadMessagesForm.on('submit', function(e) {
       e.preventDefault();
 
-      var $modal = $('#country-codes-modal');
-      var url = $(this).attr('data-url');
-      var value = $modal.find('select').val();
+      var $messagingThreadMessagesFormSubmitButton = $messagingThreadMessagesForm.find('[type="submit"]');
 
-      if (value.length !== 0) {
-        url = url.replace('*', value.join(','));
+      $messagingThreadMessagesFormSubmitButton.prop('disabled', true);
+
+      $.ajax({
+        type: 'POST',
+        data: $messagingThreadMessagesForm.serialize(),
+        success: function(responseHtml) {
+          var $responseHtml = $(responseHtml);
+
+          $('#messaging-thread-messages-inner').html(
+            $responseHtml.find('#messaging-thread-messages-inner').html()
+          );
+
+          $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
+          $messagingThreadMessagesForm.find('textarea').val('');
+          $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+        },
+      });
+    });
+
+    function loadMessages(type) {
+      var url = window.location.href;
+
+      if (type === 'append') {
+        var id = $messagingThreadMessagesInner.find('.thread-user-message:last')
+          ? $messagingThreadMessagesInner.find('.thread-user-message:last').attr('data-id')
+          : 0;
+        url += '?since_id=' + id;
+      } else if (type === 'prepend') {
+        var id = $messagingThreadMessagesInner.find('.thread-user-message:first')
+          ? $messagingThreadMessagesInner.find('.thread-user-message:first').attr('data-id')
+          : 0;
+        url += '?until_id=' + id;
       }
 
-      window.location.href = url;
-    });
+      $.get(url, function (responseHtml) {
+        var $responseHtml = $(responseHtml);
+
+        var $messagingThreadMessagesInner = $responseHtml.find('#messaging-thread-messages-inner');
+        var newMessagingThreadMessagesHtml = $messagingThreadMessagesInner
+          ? $messagingThreadMessagesInner.html()
+          : '';
+
+        if (type === 'append') {
+          $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
+        } else if (type === 'prepend') {
+          $('#messaging-thread-messages-inner').prepend(newMessagingThreadMessagesHtml);
+        } else {
+          $('#messaging-thread-messages-inner').html(newMessagingThreadMessagesHtml);
+        }
+      });
+    }
+
+    setInterval(function() {
+      loadMessages('append');
+    }, 15000);
   }
 });

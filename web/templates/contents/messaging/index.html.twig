@@ -71,7 +71,7 @@
                     {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
                     {% set is_myself = app.user == thread_message_user %}
                     <div
-                      class="mb-4 {{ is_myself ? 'ml-auto text-right' : '' }}"
+                      class="thread-user-message mb-4 {{ is_myself ? 'ml-auto text-right' : '' }}"
                       data-id="{{ thread_user_message.getId() }}"
                     >
                       <div>

@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Repository\ThreadRepository;
 use App\Repository\ThreadUserMessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -148,8 +149,8 @@ class MessagingController extends AbstractController
         $untilId = (int) $request->get('until_id');
         $sinceId = (int) $request->get('since_id');
 
-        /** @var ThreadUserMessage[] $threadUserMessages */
-        $threadUserMessages = $this->em
+        /** @var QueryBuilder $threadUserMessagesQueryBuilder */
+        $threadUserMessagesQueryBuilder = $this->em
             ->getRepository(ThreadUserMessage::class)
             ->createQueryBuilder('tum')
             ->leftJoin('tum.threadUser', 'tu')
@@ -161,20 +162,21 @@ class MessagingController extends AbstractController
         ;
 
         if ($untilId) {
-            $threadUserMessages
+            $threadUserMessagesQueryBuilder
                 ->andWhere('tum.id < :untilId')
                 ->setParameter('untilId', $untilId)
             ;
         }
 
         if ($sinceId) {
-            $threadUserMessages
+            $threadUserMessagesQueryBuilder
                 ->andWhere('tum.id > :sinceId')
                 ->setParameter('sinceId', $sinceId)
             ;
         }
 
-        $threadUserMessages = $threadUserMessages
+        /** @var ThreadUserMessage[] $threadUserMessages */
+        $threadUserMessages = $threadUserMessagesQueryBuilder
             ->getQuery()
             ->getResult()
         ;

@@ -110,41 +110,40 @@ $(document).ready(function () {
       });
     });
 
-    function loadMessages(type) {
-      var url = window.location.href;
-
-      if (type === 'append') {
-        var id = $messagingThreadMessagesInner.find('.thread-user-message:last')
-          ? $messagingThreadMessagesInner.find('.thread-user-message:last').attr('data-id')
-          : 0;
-        url += '?since_id=' + id;
-      } else if (type === 'prepend') {
-        var id = $messagingThreadMessagesInner.find('.thread-user-message:first')
-          ? $messagingThreadMessagesInner.find('.thread-user-message:first').attr('data-id')
-          : 0;
-        url += '?until_id=' + id;
-      }
-
-      $.get(url, function (responseHtml) {
-        var $responseHtml = $(responseHtml);
-
-        var $messagingThreadMessagesInner = $responseHtml.find('#messaging-thread-messages-inner');
-        var newMessagingThreadMessagesHtml = $messagingThreadMessagesInner
-          ? $messagingThreadMessagesInner.html()
-          : '';
-
-        if (type === 'append') {
-          $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
-        } else if (type === 'prepend') {
-          $('#messaging-thread-messages-inner').prepend(newMessagingThreadMessagesHtml);
-        } else {
-          $('#messaging-thread-messages-inner').html(newMessagingThreadMessagesHtml);
-        }
-      });
-    }
-
     setInterval(function() {
       loadMessages('append');
     }, 15000);
   }
 });
+
+/********** Functions **********/
+function loadMessages(type) {
+  var url = window.location.href;
+
+  if (type === 'append') {
+    url += '?since_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:last')
+      ? $messagingThreadMessagesInner.find('.thread-user-message:last').attr('data-id')
+      : 0);
+  } else if (type === 'prepend') {
+    url += '?until_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:first')
+      ? $messagingThreadMessagesInner.find('.thread-user-message:first').attr('data-id')
+      : 0);
+  }
+
+  $.get(url, function (responseHtml) {
+    var $responseHtml = $(responseHtml);
+
+    var $messagingThreadMessagesInner = $responseHtml.find('#messaging-thread-messages-inner');
+    var newMessagingThreadMessagesHtml = $messagingThreadMessagesInner
+      ? $messagingThreadMessagesInner.html()
+      : '';
+
+    if (type === 'append') {
+      $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
+    } else if (type === 'prepend') {
+      $('#messaging-thread-messages-inner').prepend(newMessagingThreadMessagesHtml);
+    } else {
+      $('#messaging-thread-messages-inner').html(newMessagingThreadMessagesHtml);
+    }
+  });
+}

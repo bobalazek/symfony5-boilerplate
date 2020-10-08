@@ -145,8 +145,8 @@ class MessagingController extends AbstractController
         $limit = 20;
         $offset = 0;
 
-        $untilId = (int)$request->get('until_id');
-        $sinceId = (int)$request->get('since_id');
+        $untilId = (int) $request->get('until_id');
+        $sinceId = (int) $request->get('since_id');
 
         /** @var ThreadUserMessage[] $threadUserMessages */
         $threadUserMessages = $this->em

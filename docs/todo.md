@@ -2,6 +2,8 @@
 
 ## TODO
 
+* Websocket
+* Messaging and/or live chat
 * Database indexes
 * Global notifications
 * Github actions workflow optimization - build containers & then reuse those containers in separate jobs for parallel execution

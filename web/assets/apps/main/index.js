@@ -118,8 +118,9 @@ $(document).ready(function () {
 
 /********** Functions **********/
 function loadMessages(type) {
-  var url = window.location.href;
+  var $messagingThreadMessagesInner = $('#messaging-thread-messages-inner');
 
+  var url = window.location.href;
   if (type === 'append') {
     url += '?since_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:last')
       ? $messagingThreadMessagesInner.find('.thread-user-message:last').attr('data-id')

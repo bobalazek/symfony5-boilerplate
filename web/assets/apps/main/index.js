@@ -80,7 +80,11 @@ $(document).ready(function () {
     $messagingThreadMessages.on('scroll', function() {
       var scrollTop = $(this).scrollTop();
 
-      if (scrollTop <= 0) {
+      if (scrollTop === 0) {
+        if ($messagingThreadMessagesInner.attr('data-has-more-prepend-entries') === 'false') {
+          return;
+        }
+
         loadMessages('prepend');
       }
     });
@@ -96,16 +100,12 @@ $(document).ready(function () {
       $.ajax({
         type: 'POST',
         data: $messagingThreadMessagesForm.serialize(),
-        success: function(responseHtml) {
-          var $responseHtml = $(responseHtml);
-
-          $('#messaging-thread-messages-inner').html(
-            $responseHtml.find('#messaging-thread-messages-inner').html()
-          );
-
-          $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
-          $messagingThreadMessagesForm.find('textarea').val('');
-          $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+        success: function() {
+          loadMessages('append', function() {
+            $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
+            $messagingThreadMessagesForm.find('textarea').val('');
+            $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+          });
         },
       });
     });
@@ -117,7 +117,11 @@ $(document).ready(function () {
 });
 
 /********** Functions **********/
-function loadMessages(type) {
+function loadMessages(type, callback) {
+  var loaderHtml = '<div class="loader text-center">' +
+    '<i class="fas fa-spinner fa-spin fa-3x"></i>' +
+  '<div>';
+  var $messagingThreadMessages = $('#messaging-thread-messages');
   var $messagingThreadMessagesInner = $('#messaging-thread-messages-inner');
 
   var url = window.location.href;
@@ -125,26 +129,49 @@ function loadMessages(type) {
     url += '?since_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:last')
       ? $messagingThreadMessagesInner.find('.thread-user-message:last').attr('data-id')
       : 0);
+
+    $messagingThreadMessagesInner.append(loaderHtml);
   } else if (type === 'prepend') {
     url += '?until_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:first')
       ? $messagingThreadMessagesInner.find('.thread-user-message:first').attr('data-id')
       : 0);
+
+    $messagingThreadMessagesInner.prepend(loaderHtml);
   }
 
   $.get(url, function (responseHtml) {
-    var $responseHtml = $(responseHtml);
-
-    var $messagingThreadMessagesInner = $responseHtml.find('#messaging-thread-messages-inner');
-    var newMessagingThreadMessagesHtml = $messagingThreadMessagesInner
-      ? $messagingThreadMessagesInner.html()
+    var $messagingThreadMessagesInnerResponse = $(responseHtml).find('#messaging-thread-messages-inner');
+    var newMessagingThreadMessagesHtml = $messagingThreadMessagesInnerResponse
+      ? $messagingThreadMessagesInnerResponse.html()
       : '';
 
     if (type === 'append') {
       $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
     } else if (type === 'prepend') {
+      var messagesCurrentHeight = $messagingThreadMessagesInner.outerHeight();
+
       $('#messaging-thread-messages-inner').prepend(newMessagingThreadMessagesHtml);
+
+      $messagingThreadMessagesInner.attr(
+        'data-has-more-prepend-entries',
+        $messagingThreadMessagesInnerResponse.attr('data-has-more')
+      );
+
+      setTimeout(function () {
+        $messagingThreadMessages.scrollTop(
+          $messagingThreadMessagesInner.outerHeight() - messagesCurrentHeight
+        );
+      });
     } else {
       $('#messaging-thread-messages-inner').html(newMessagingThreadMessagesHtml);
+
+      $messagingThreadMessagesInner.removeAttr('data-has-more-prepend-entries');
+    }
+
+    $('#messaging-thread-messages-inner').find('.loader').remove();
+
+    if (callback) {
+      callback();
     }
   });
 }

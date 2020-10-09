@@ -66,7 +66,9 @@
             <div id="messaging-thread-messages">
               {% if thread_user_messages %}
                 <div id="messaging-thread-messages-down-pusher"></div>
-                <div id="messaging-thread-messages-inner">
+                <div id="messaging-thread-messages-inner"
+                  data-count="{{ thread_user_messages_count }}"
+                  data-has-more="{{ thread_user_messages_has_more ? 'true' : 'false'}}">
                   {% for thread_user_message in thread_user_messages %}
                     {% set thread_message_user = thread_user_message.getThreadUser().getUser() %}
                     {% set is_myself = app.user == thread_message_user %}

@@ -144,10 +144,8 @@ class MessagingController extends AbstractController
         $this->em->flush();
 
         $limit = 20;
-        $offset = 0;
-
-        $untilId = (int) $request->get('until_id');
-        $sinceId = (int) $request->get('since_id');
+        $untilId = (int)$request->get('until_id');
+        $sinceId = (int)$request->get('since_id');
 
         /** @var QueryBuilder $threadUserMessagesQueryBuilder */
         $threadUserMessagesQueryBuilder = $this->em
@@ -158,7 +156,7 @@ class MessagingController extends AbstractController
             ->orderBy('tum.createdAt', 'DESC')
             ->setParameter('thread', $thread)
             ->setMaxResults($limit)
-            ->setFirstResult($offset)
+            ->setFirstResult(0)
         ;
 
         if ($untilId) {
@@ -182,10 +180,13 @@ class MessagingController extends AbstractController
         ;
 
         $threadUserMessages = array_reverse($threadUserMessages);
+        $threadUserMessagesCount = count($threadUserMessages);
 
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => $thread,
             'thread_user_messages' => $threadUserMessages,
+            'thread_user_messages_count' => $threadUserMessagesCount,
+            'thread_user_messages_has_more' => $threadUserMessagesCount === $limit,
             'threads' => $this->_getThreads($user),
         ]);
     }

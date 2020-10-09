@@ -144,8 +144,8 @@ class MessagingController extends AbstractController
         $this->em->flush();
 
         $limit = 20;
-        $untilId = (int)$request->get('until_id');
-        $sinceId = (int)$request->get('since_id');
+        $untilId = (int) $request->get('until_id');
+        $sinceId = (int) $request->get('since_id');
 
         /** @var QueryBuilder $threadUserMessagesQueryBuilder */
         $threadUserMessagesQueryBuilder = $this->em

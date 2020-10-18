@@ -1,5 +1,4 @@
 ARG PHP_VERSION=7.4
-ARG COMPOSER_HASH=c31c1e292ad7be5f49291169c0ac8f683499edddcfd4e42232982d0fd193004208a58ff6f353fde0012d35fdd72bc394
 
 FROM php:${PHP_VERSION}-fpm
 
@@ -52,11 +51,7 @@ RUN apt-get install supervisor -y
 COPY supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '${COMPOSER_HASH}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php
-RUN php -r "unlink('composer-setup.php');"
-RUN mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer
 
 ## Install Symfony Flex
 RUN composer global require symfony/flex --prefer-dist --no-progress --no-suggest --classmap-authoritative

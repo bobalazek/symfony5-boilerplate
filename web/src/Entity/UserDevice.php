@@ -25,22 +25,32 @@ class UserDevice implements Interfaces\ArrayInterface, TimestampableInterface
     private $id;
 
     /**
-     * @ORM\Column(name="uuid", type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $uuid;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(name="trusted", type="boolean")
+     * @ORM\Column(type="string", length=16)
+     */
+    private $platform;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $platformVersion;
+
+    /**
+     * @ORM\Column(type="boolean")
      */
     private $trusted = false;
 
     /**
-     * @ORM\Column(name="invalidated", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $invalidated = false;
 
@@ -85,6 +95,30 @@ class UserDevice implements Interfaces\ArrayInterface, TimestampableInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPlatform(): ?string
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(string $platform): self
+    {
+        $this->platform = $platform;
+
+        return $this;
+    }
+
+    public function getPlatformVersion(): ?string
+    {
+        return $this->platformVersion;
+    }
+
+    public function setPlatformVersion(string $platformVersion): self
+    {
+        $this->platformVersion = $platformVersion;
 
         return $this;
     }
@@ -152,6 +186,8 @@ class UserDevice implements Interfaces\ArrayInterface, TimestampableInterface
         return [
             'id' => $this->getId(),
             'uuid' => $this->getUuid(),
+            'platform' => $this->getPlatform(),
+            'platform_version' => $this->getPlatformVersion(),
             'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
         ];
     }

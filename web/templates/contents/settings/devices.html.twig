@@ -11,6 +11,8 @@
           <th>{{ 'Name' | trans }}</th>
           <th>{{ 'First active' | trans }}</th>
           <th>{{ 'Last active' | trans }}</th>
+          <th>{{ 'Platform' | trans }}</th>
+          <th>{{ 'Platform version' | trans }}</th>
           <th>{{ 'Actions' | trans }}</th>
         </tr>
       </thead>
@@ -26,6 +28,8 @@
             </td>
             <td>{{ user_device.getCreatedAt() | date() }}</td>
             <td>{{ user_device.getLastActiveAt() | date() }}</td>
+            <td>{{ user_device.getPlatform() }}</td>
+            <td>{{ user_device.getPlatformVersion() }}</td>
             <td>
               <a class="btn btn-danger btn-sm btn-confirm"
                 data-confirm-text="{{ 'Are you sure?' | trans }}"

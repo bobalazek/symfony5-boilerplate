@@ -93,6 +93,9 @@ class UserDeviceManager
         $sessionId = $request->getSession()->getId();
         $uuid = $request->cookies->get($cookieName);
 
+        $platform = $request->headers->get('X-Platform');
+        $platformVersion = $request->headers->get('X-Platform-Version');
+
         $userDevice = $this->get($user, $request);
 
         if ($userDevice->getIp() !== $ip) {
@@ -105,6 +108,20 @@ class UserDeviceManager
 
         if ($userDevice->getSessionId() !== $sessionId) {
             $userDevice->setSessionId($sessionId);
+        }
+
+        if (
+            $platform &&
+            $userDevice->getPlatform() !== $platform
+        ) {
+            $userDevice->setPlatform($platform);
+        }
+
+        if (
+            $platformVersion &&
+            $userDevice->getPlatformVersion() !== $platformVersion
+        ) {
+            $userDevice->setPlatformVersion($platformVersion);
         }
 
         $userDevice->setLastActiveAt(new \Datetime());
@@ -127,7 +144,9 @@ class UserDeviceManager
         string $ip,
         string $userAgent,
         string $sessionId,
-        string $uuid = null
+        string $uuid = null,
+        string $platform = null,
+        string $platformVersion = null
     ) {
         $session = $request->getSession();
 
@@ -135,13 +154,18 @@ class UserDeviceManager
             $uuid = Uuid::uuid4();
         }
 
+        if (!$platform) {
+            $platform = $request->headers->get('X-Platform', 'web');
+        }
+
+        if (!$platformVersion) {
+            $platformVersion = $request->headers->get('X-Platform-Version', '1.0');
+        }
+
         $agent = new Agent();
         $agent->setUserAgent($userAgent);
 
-        $platform = $agent->platform();
-        $browser = $agent->browser();
-
-        $name = $platform . ' - ' . $browser;
+        $name = $agent->platform() . ' - ' . $agent->browser();
 
         $userDevice = new UserDevice();
         $userDevice
@@ -151,6 +175,8 @@ class UserDeviceManager
             ->setUserAgent($userAgent)
             ->setSessionId($sessionId)
             ->setUser($user)
+            ->setPlatform($platform)
+            ->setPlatformVersion($platformVersion)
         ;
 
         $this->em->persist($userDevice);

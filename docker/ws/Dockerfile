@@ -2,8 +2,12 @@ ARG NODE_VERSION=12
 
 FROM node:${NODE_VERSION}
 
+RUN npm install pm2 -g
+
+RUN npm install ws
+
 WORKDIR /usr/src/web
 
 RUN mkdir -p /usr/src/web
 
-CMD ["tail", "-f", "/dev/null"]
+CMD ["pm2-runtime", "server.js", "--name", "server"]

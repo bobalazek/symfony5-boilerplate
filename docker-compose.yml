@@ -66,7 +66,18 @@ services:
       - ./web:/usr/src/web
     networks:
       - s5bp-app-network
-    command: tail -f /dev/null
+
+  ws:
+    container_name: s5bp_ws
+    build: ./docker/ws
+    env_file:
+      - .env
+    volumes:
+      - ./ws:/usr/src/web
+    networks:
+      - s5bp-app-network
+    ports:
+      - '${WS_PORT_80:-80}:80'
 
   redis:
     container_name: s5bp_redis

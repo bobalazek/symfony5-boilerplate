@@ -10,6 +10,7 @@ $(document).ready(function () {
   setupTabHash();
   setupSettingsAvatarImage();
   setupMessaging();
+  prepareWebSocket();
 });
 
 /********** Functions **********/
@@ -127,6 +128,26 @@ function setupMessaging() {
   setInterval(function () {
     loadMessages('append');
   }, 15000);
+}
+
+function prepareWebSocket() {
+  var socket = new WebSocket('ws://ws');
+
+  socket.onopen = function (e) {
+    console.log('Socket open: ', e);
+  };
+
+  socket.onmessage = function (e) {
+    console.log('Socket message: ', e);
+  };
+
+  socket.onclose = function (e) {
+    console.log('Socket close: ', e);
+  };
+
+  socket.onerror = function (error) {
+    console.log('Socket error: ', error);
+  };
 }
 
 function loadMessages(type, callback) {

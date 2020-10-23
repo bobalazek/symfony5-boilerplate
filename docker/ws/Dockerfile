@@ -10,4 +10,6 @@ WORKDIR /usr/src/web
 
 RUN mkdir -p /usr/src/web
 
+EXPOSE 80
+
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]

@@ -6,117 +6,129 @@ import './css/index.scss';
 import './helpers';
 
 $(document).ready(function () {
-  /********** General **********/
-  function attachEvents() {
-    bsCustomFileInput.init();
-    $('select').appSelect();
-    $('.autocomplete-input').appAutocomplete();
-    $('.custom-file-input, .custom-file-url-input').appCustomFile();
-    $('.collection').appCollection({
-      onAddCallback: attachEvents,
-    });
-    $('.btn-confirm').on('click', function(e) {
-      e.preventDefault();
-
-      var href = $(this).attr('href');
-      var text = $(this).attr('data-confirm-text');
-
-      var response = confirm(text);
-      if (!response) {
-        return;
-      }
-
-      window.location.href = href;
-    });
-    $('.btn-prompt-add-query').on('click', function(e) {
-      e.preventDefault();
-
-      var href = $(this).attr('href');
-      var text = $(this).attr('data-promt-add-query-text');
-      var parameter = $(this).attr('data-promt-add-query-parameter');
-      var defaultValue = $(this).attr('data-promt-add-query-default-value');
-
-      var response = prompt(text, defaultValue);
-      if (response === null) {
-        return;
-      }
-
-      window.location.href = href +
-        (href.indexOf('?') !== -1 ? '&' : '?') +
-        parameter + '=' + response;
-    });
-  }
-  attachEvents();
-
-  $('.infinite-scroll-wrapper').appInfiniteScroll();
-
-  /***** Tab hash *****/
-  if (window.location.hash) {
-    var tab = window.location.hash + '-tab';
-    if ($(tab).length) {
-      $(tab).trigger('click');
-    }
-  }
-
-  /********** Specific **********/
-  // Settings - Avatar Image
-  if ($('#settings_image_avatarImage').length) {
-    $('.avatars-selector .single-avatar-image').on('click', function() {
-      var name = $(this).attr('data-name');
-
-      $('.avatars-selector .single-avatar-image').removeClass('selected');
-      $(this).addClass('selected');
-
-      $('#settings_image_avatarImage').val(name);
-    });
-  }
-
-  // Messaging
-  var $messagingThreadMessages = $('#messaging-thread-messages');
-  if ($messagingThreadMessages.length) {
-    var $messagingThreadMessagesInner = $('#messaging-thread-messages-inner');
-    $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
-
-    $messagingThreadMessages.on('scroll', function() {
-      var scrollTop = $(this).scrollTop();
-
-      if (scrollTop === 0) {
-        if ($messagingThreadMessagesInner.attr('data-has-more-prepend-entries') === 'false') {
-          return;
-        }
-
-        loadMessages('prepend');
-      }
-    });
-
-    var $messagingThreadMessagesForm = $('#messaging-thread-messages-wrapper form');
-    $messagingThreadMessagesForm.on('submit', function(e) {
-      e.preventDefault();
-
-      var $messagingThreadMessagesFormSubmitButton = $messagingThreadMessagesForm.find('[type="submit"]');
-
-      $messagingThreadMessagesFormSubmitButton.prop('disabled', true);
-
-      $.ajax({
-        type: 'POST',
-        data: $messagingThreadMessagesForm.serialize(),
-        success: function() {
-          loadMessages('append', function() {
-            $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
-            $messagingThreadMessagesForm.find('textarea').val('');
-            $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
-          });
-        },
-      });
-    });
-
-    setInterval(function() {
-      loadMessages('append');
-    }, 15000);
-  }
+  setupEvents();
+  setupTabHash();
+  setupSettingsAvatarImage();
+  setupMessaging();
 });
 
 /********** Functions **********/
+function setupEvents() {
+  bsCustomFileInput.init();
+  $('select').appSelect();
+  $('.infinite-scroll-wrapper').appInfiniteScroll();
+  $('.autocomplete-input').appAutocomplete();
+  $('.custom-file-input, .custom-file-url-input').appCustomFile();
+  $('.collection').appCollection({
+    onAddCallback: setupEvents,
+  });
+
+  $('.btn-confirm').on('click', function (e) {
+    e.preventDefault();
+
+    var href = $(this).attr('href');
+    var text = $(this).attr('data-confirm-text');
+
+    var response = confirm(text);
+    if (!response) {
+      return;
+    }
+
+    window.location.href = href;
+  });
+
+  $('.btn-prompt-add-query').on('click', function (e) {
+    e.preventDefault();
+
+    var href = $(this).attr('href');
+    var text = $(this).attr('data-promt-add-query-text');
+    var parameter = $(this).attr('data-promt-add-query-parameter');
+    var defaultValue = $(this).attr('data-promt-add-query-default-value');
+
+    var response = prompt(text, defaultValue);
+    if (response === null) {
+      return;
+    }
+
+    window.location.href = href +
+      (href.indexOf('?') !== -1 ? '&' : '?') +
+      parameter + '=' + response;
+  });
+}
+
+function setupSettingsAvatarImage() {
+  if ($('#settings_image_avatarImage').length === 0) {
+    return;
+  }
+
+  $('.avatars-selector .single-avatar-image').on('click', function () {
+    var name = $(this).attr('data-name');
+
+    $('.avatars-selector .single-avatar-image').removeClass('selected');
+    $(this).addClass('selected');
+
+    $('#settings_image_avatarImage').val(name);
+  });
+}
+
+function setupTabHash() {
+  if (!window.location.hash) {
+    return;
+  }
+
+  var tab = window.location.hash + '-tab';
+  if ($(tab).length) {
+    $(tab).trigger('click');
+  }
+}
+
+function setupMessaging() {
+  var $messagingThreadMessages = $('#messaging-thread-messages');
+  if ($messagingThreadMessages.length === 0) {
+    return;
+  }
+
+  var $messagingThreadMessagesInner = $('#messaging-thread-messages-inner');
+  $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+
+  $messagingThreadMessages.on('scroll', function () {
+    var scrollTop = $(this).scrollTop();
+
+    if (scrollTop === 0) {
+      if ($messagingThreadMessagesInner.attr('data-has-more-prepend-entries') === 'false') {
+        return;
+      }
+
+      loadMessages('prepend');
+    }
+  });
+
+  var $messagingThreadMessagesForm = $('#messaging-thread-messages-wrapper form');
+  $messagingThreadMessagesForm.on('submit', function (e) {
+    e.preventDefault();
+
+    var $messagingThreadMessagesFormSubmitButton = $messagingThreadMessagesForm.find('[type="submit"]');
+
+    $messagingThreadMessagesFormSubmitButton.prop('disabled', true);
+
+    $.ajax({
+      type: 'POST',
+      data: $messagingThreadMessagesForm.serialize(),
+      success: function () {
+        loadMessages('append', function () {
+          $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
+          $messagingThreadMessagesForm.find('textarea').val('');
+          $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+        });
+      },
+    });
+  });
+
+  setInterval(function () {
+    loadMessages('append');
+  }, 15000);
+}
+
 function loadMessages(type, callback) {
   var loaderHtml = '<div class="loader text-center">' +
     '<i class="fas fa-spinner fa-spin fa-3x"></i>' +

@@ -4,6 +4,7 @@ import bsCustomFileInput from 'bs-custom-file-input';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './css/index.scss';
 import './helpers';
+import AppWebSocket from './websocket';
 
 $(document).ready(function () {
   setupEvents();
@@ -127,27 +128,13 @@ function setupMessaging() {
 
   setInterval(function () {
     loadMessages('append');
-  }, 15000);
+  }, 30000);
 }
 
 function prepareWebSocket() {
-  var socket = new WebSocket('ws://localhost:8080');
+  var socket = new AppWebSocket('ws://localhost:8080', { debug: true });
 
-  socket.onopen = function (e) {
-    console.log('Socket open.', e);
-  };
-
-  socket.onmessage = function (e) {
-    console.log('Socket message.', e);
-  };
-
-  socket.onclose = function (e) {
-    console.log('Socket close.', e);
-  };
-
-  socket.onerror = function (error) {
-    console.log('Socket error.', error);
-  };
+  // TODO
 }
 
 function loadMessages(type, callback) {

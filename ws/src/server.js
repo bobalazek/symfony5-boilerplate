@@ -18,14 +18,16 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', onConnection);
 wss.on('close', onClose);
 
-const pingInterval = setInterval(ping, 10000);
+const pingInterval = setInterval(ping, 30000);
 
 // Functions
 function onConnection(ws) {
     ws.isAlive = true;
 
     ws.on('message', onMessage);
-    ws.on('pong', onPong);
+    ws.on('pong', () => {
+        ws.isAlive = true;
+    });
 }
 
 function onClose() {
@@ -42,10 +44,6 @@ function onMessage(data) {
     });
 }
 
-function onPong() {
-    this.isAlive = true;
-}
-
 function ping() {
     wss.clients.forEach((ws) => {
         if (!ws.isAlive) {
@@ -53,11 +51,9 @@ function ping() {
         }
 
         ws.isAlive = false;
-        ws.ping(noop);
+        ws.send(noop);
     });
 }
-
-function noop() {}
 
 // Listen
 server.listen(8080, function() {

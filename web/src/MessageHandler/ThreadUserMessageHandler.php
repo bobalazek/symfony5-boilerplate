@@ -5,6 +5,7 @@ namespace App\MessageHandler;
 use App\Entity\ThreadUserMessage;
 use App\Message\ThreadUserMessage as ThreadUserMessageMessage;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 /**
  * Class ThreadUserMessageHandler.

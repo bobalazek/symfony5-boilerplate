@@ -128,7 +128,8 @@ function setupMessaging() {
     });
   });
 
-  socket.on('messaging:new-message', function(data) {
+  var channel = $messagingThreadMessages.attr('data-channel');
+  socket.onChannel(channel, function (data) {
     console.log(data);
   });
 

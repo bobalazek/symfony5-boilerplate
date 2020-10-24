@@ -14,7 +14,8 @@ class WebSocketManager
      */
     private $params;
 
-    public function __construct(ParameterBagInterface $params) {
+    public function __construct(ParameterBagInterface $params)
+    {
         $this->params = $params;
     }
 

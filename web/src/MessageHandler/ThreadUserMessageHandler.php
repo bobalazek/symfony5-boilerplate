@@ -16,16 +16,18 @@ class ThreadUserMessageHandler implements MessageHandlerInterface
      */
     private $em;
 
-    public function __construct(EntityManagerInterface $em) {
+    public function __construct(EntityManagerInterface $em)
+    {
         $this->em = $em;
     }
 
     public function __invoke(ThreadUserMessageMessage $threadUserMessageMessage)
     {
         $threadUserMessage = $this->em
-            ->getRepository(UserExport::class)
-            ->findOneById($threadUserMessageMessage->getThreadUserMessageId());
+            ->getRepository(ThreadUserMessage::class)
+            ->findOneById($threadUserMessageMessage->getThreadUserMessageId())
         ;
+
         if (!$threadUserMessage) {
             throw new UnrecoverableMessageHandlingException();
         }

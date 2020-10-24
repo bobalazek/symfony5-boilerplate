@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 //const https = require('https');
+const { v4: uuidv4 } = require('uuid');
 const WebSocket = require('ws');
 
 const server = http.createServer();
@@ -14,45 +15,67 @@ const server = https.createServer({
 
 const wss = new WebSocket.Server({ server });
 
-// Listeners
-wss.on('connection', onConnection);
-wss.on('close', onClose);
+let clientChannelsMap = {};
+let channelClientMap = {};
 
-const pingInterval = setInterval(ping, 30000);
+// Listeners
+wss.on('connection', (client) => {
+    client.id = uuidv4();
+    client.isAlive = true;
+
+    client.on('message', (data) => {
+        if (data.event === 'channel_subscribe') {
+            clientSubscribeToChannel(client, channel);
+        }
+    });
+
+    client.on('pong', () => {
+        client.isAlive = true;
+    });
+});
+
+wss.on('close', (client) => {
+    clientUnsubscribeFromChannel(client, '*');
+
+    client.close();
+});
 
 // Functions
-function onConnection(ws) {
-    ws.isAlive = true;
+function clientSubscribeToChannel(client, channel) {
+    if (typeof clientChannelsMap[client.id] === 'undefined') {
+        clientChannelsMap[client.id] = [];
+    }
+    clientChannelsMap[client.id].push(data.data.channel);
 
-    ws.on('message', onMessage);
-    ws.on('pong', () => {
-        ws.isAlive = true;
-    });
+    if (typeof channelClientMap[data.data.channel] === 'undefined') {
+        channelClientMap[data.data.channel] = [];
+    }
+    channelClientMap[data.data.channel].push(client.id);
 }
 
-function onClose() {
-    clearInterval(pingInterval);
-}
+function clientUnsubscribeFromChannel(client, channel) {
+    const channels = channel === '*'
+        ? clientChannelsMap[client.id]
+        : [channel];
+    for (let i = 0; i < channels.length; i++) {
+        const channelClients = channelClientMap[channels[i]];
+        for (let j = 0; j < channelClients.length; ++j) {
+            if (channelClients[j] !== client.id) {
+                continue;
+            }
 
-function onMessage(data) {
-    wss.clients.forEach((ws) => {
-        if (ws.readyState !== WebSocket.OPEN) {
-            return;
+            channelClientMap[channels[i]].splice(j, 1);
         }
+    }
 
-        ws.send(data);
-    });
-}
-
-function ping() {
-    wss.clients.forEach((ws) => {
-        if (!ws.isAlive) {
-            return ws.terminate();
+    if (channel === '*') {
+        clientChannelsMap[client.id] = [];
+    } else {
+        const channelIndex = clientChannelsMap[client.id].indexOf(channel);
+        if (channelIndex !== -1) {
+            clientChannelsMap[client.id].splice(channelIndex, 1);
         }
-
-        ws.isAlive = false;
-        ws.send(noop);
-    });
+    }
 }
 
 // Listen

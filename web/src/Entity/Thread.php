@@ -90,6 +90,11 @@ class Thread implements Interfaces\StatusInterface, Interfaces\ArrayInterface, T
         return $this;
     }
 
+    public function getChannel()
+    {
+        return md5(json_encode($this->toArray()));
+    }
+
     public function toArray(): array
     {
         return [

@@ -6,12 +6,14 @@ import './css/index.scss';
 import './helpers';
 import AppWebSocket from './websocket';
 
+var socket;
 $(document).ready(function () {
+  socket = new AppWebSocket('ws://localhost:8080', { debug: true });
+
   setupEvents();
   setupTabHash();
   setupSettingsAvatarImage();
   setupMessaging();
-  prepareWebSocket();
 });
 
 /********** Functions **********/
@@ -126,15 +128,14 @@ function setupMessaging() {
     });
   });
 
+  socket.on('messaging:new-message', function(data) {
+    console.log(data);
+  });
+
+  // TODO: remove once web socket it ready
   setInterval(function () {
     loadMessages('append');
   }, 30000);
-}
-
-function prepareWebSocket() {
-  var socket = new AppWebSocket('ws://localhost:8080', { debug: true });
-
-  // TODO
 }
 
 function loadMessages(type, callback) {

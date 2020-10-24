@@ -3,6 +3,7 @@ class AppWebSocket {
     this.socket = new WebSocket(url);
 
     this.debug = options && options.debug === true;
+    this.handlers = {};
 
     this.socket.onopen = (e) => {
       if (this.debug) {
@@ -48,6 +49,28 @@ class AppWebSocket {
   send(data) {
     this.socket.send(data);
   }
-};
+
+  on(eventName, callback) {
+    this.handlers[eventName].push(callback);
+  }
+
+  off(eventName, callback) {
+    this.handlers[eventName] = this.handlers[eventName].filter(function (item) {
+      if (item !== callback) {
+        return item;
+      }
+    });
+  }
+
+  fire(eventName, data) {
+    if (typeof this.handlers[eventName] === 'undefined') {
+      return;
+    }
+
+    this.handlers[eventName].forEach((item) => {
+      item.call(this, data);
+    })
+  }
+}
 
 module.exports = AppWebSocket;

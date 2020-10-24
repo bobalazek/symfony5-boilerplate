@@ -6,6 +6,7 @@ use App\Entity\Thread;
 use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
 use App\Entity\User;
+use App\Message\ThreadUserMessage as ThreadUserMessageMessage;
 use App\Repository\ThreadRepository;
 use App\Repository\ThreadUserMessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +14,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -130,6 +132,10 @@ class MessagingController extends AbstractController
             $threadUser->addThreadUserMessage($threadUserMessage);
 
             $this->em->flush();
+
+            $this->dispatchMessage(
+                new ThreadUserMessageMessage($threadUserMessage->getId())
+            );
 
             $this->addFlash(
                 'success',

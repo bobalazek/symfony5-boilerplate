@@ -131,22 +131,22 @@ function setupMessaging() {
 }
 
 function prepareWebSocket() {
-  var socket = new WebSocket('ws://ws');
+  var socket = new WebSocket('ws://localhost:8080');
 
   socket.onopen = function (e) {
-    console.log('Socket open: ', e);
+    console.log('Socket open.', e);
   };
 
   socket.onmessage = function (e) {
-    console.log('Socket message: ', e);
+    console.log('Socket message.', e);
   };
 
   socket.onclose = function (e) {
-    console.log('Socket close: ', e);
+    console.log('Socket close.', e);
   };
 
   socket.onerror = function (error) {
-    console.log('Socket error: ', error);
+    console.log('Socket error.', error);
   };
 }
 

@@ -1,27 +1,35 @@
 const fs = require('fs');
 const http = require('http');
-const https = require('https');
+//const https = require('https');
 const WebSocket = require('ws');
 
-const server = http.createServer(); // https.createServer();
+const server = http.createServer();
+
+/*
+const server = https.createServer({
+    cert: fs.readFileSync('/path/to/cert.crt'),
+    key: fs.readFileSync('/path/t/key.key'),
+});
+*/
 
 const wss = new WebSocket.Server({ server });
 
-// Connect
+// Listeners
 wss.on('connection', onConnection);
 wss.on('close', onClose);
 
-const interval = setInterval(ping, 30000);
+const pingInterval = setInterval(ping, 10000);
 
 // Functions
 function onConnection(ws) {
     ws.isAlive = true;
 
     ws.on('message', onMessage);
+    ws.on('pong', onPong);
 }
 
 function onClose() {
-    clearInterval(interval);
+    clearInterval(pingInterval);
 }
 
 function onMessage(data) {
@@ -34,9 +42,13 @@ function onMessage(data) {
     });
 }
 
+function onPong() {
+    this.isAlive = true;
+}
+
 function ping() {
     wss.clients.forEach((ws) => {
-        if (ws.isAlive === false) {
+        if (!ws.isAlive) {
             return ws.terminate();
         }
 
@@ -48,4 +60,6 @@ function ping() {
 function noop() {}
 
 // Listen
-server.listen(80);
+server.listen(8080, function() {
+    console.log(`Listening on port ${server.address().port} ...`);
+});

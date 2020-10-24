@@ -77,7 +77,7 @@ services:
     networks:
       - s5bp-app-network
     ports:
-      - '${WS_PORT_80:-81}:80'
+      - '${WS_PORT_8080:-8080}:8080'
 
   redis:
     container_name: s5bp_redis

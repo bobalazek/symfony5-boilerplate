@@ -9,3 +9,4 @@ framework:
 
         routing:
             'App\Message\UserExportRequest': async
+            'App\Message\ThreadUserMessage': async

@@ -28,11 +28,6 @@ class WebSocketManager
         $this->client = $client;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return boolean
-     */
     public function send(array $data): bool
     {
         $url = $this->params->get('app.ws.url');

@@ -1,18 +1,17 @@
-const fs = require('fs');
 const http = require('http');
-//const https = require('https');
 const { v4: uuidv4 } = require('uuid');
 const WebSocket = require('ws');
+const {
+    WS_EVENT_READY,
+    WS_EVENT_PING,
+    WS_EVENT_PONG,
+    WS_EVENT_CHANNEL_SUBSCRIBE,
+    WS_EVENT_CHANNEL_UNSUBSCRIBE,
+    WS_EVENT_CHANNEL_SUBSCRIBE_SUCCESS,
+    WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
+} = require('./constants');
 
 const server = http.createServer();
-
-/*
-const server = https.createServer({
-    cert: fs.readFileSync('/path/to/cert.crt'),
-    key: fs.readFileSync('/path/t/key.key'),
-});
-*/
-
 const wss = new WebSocket.Server({ server });
 
 let clientChannelsMap = {};
@@ -22,15 +21,31 @@ let channelClientMap = {};
 wss.on('connection', (client) => {
     client.id = uuidv4();
     client.isAlive = true;
+    client.lastActiveAt = Date.now();
+
+    clientReady(client);
 
     client.on('message', (data) => {
-        if (data.event === 'channel_subscribe') {
-            clientSubscribeToChannel(client, channel);
-        }
-    });
+        client.lastActiveAt = Date.now();
 
-    client.on('pong', () => {
-        client.isAlive = true;
+        const parsedData = JSON.parse(data);
+        const messageEvent = parsedData.event;
+        const messageData = parsedData.data;
+
+        switch (messageEvent) {
+            case WS_EVENT_PING:
+                clientPong(client);
+                break;
+            case WS_EVENT_PONG:
+                clientPing(client);
+                break;
+            case WS_EVENT_CHANNEL_SUBSCRIBE:
+                clientSubscribeToChannel(client, messageData.channel);
+                break;
+            case WS_EVENT_CHANNEL_UNSUBSCRIBE:
+                clientUnsubscribeFromChannel(client, messageData.channel);
+                break;
+        }
     });
 });
 
@@ -41,16 +56,39 @@ wss.on('close', (client) => {
 });
 
 // Functions
+function clientReady(client) {
+    client.send(JSON.stringify({
+        event: WS_EVENT_READY,
+    }));
+}
+
+function clientPing(client) {
+    client.send(JSON.stringify({
+        event: WS_EVENT_PING,
+    }));
+}
+
+function clientPong(client) {
+    client.send(JSON.stringify({
+        event: WS_EVENT_PONG,
+    }));
+}
+
 function clientSubscribeToChannel(client, channel) {
     if (typeof clientChannelsMap[client.id] === 'undefined') {
         clientChannelsMap[client.id] = [];
     }
-    clientChannelsMap[client.id].push(data.data.channel);
+    clientChannelsMap[client.id].push(channel);
 
-    if (typeof channelClientMap[data.data.channel] === 'undefined') {
-        channelClientMap[data.data.channel] = [];
+    if (typeof channelClientMap[channel] === 'undefined') {
+        channelClientMap[channel] = [];
     }
-    channelClientMap[data.data.channel].push(client.id);
+    channelClientMap[channel].push(client.id);
+
+    client.send(JSON.stringify({
+        event: WS_EVENT_CHANNEL_SUBSCRIBE_SUCCESS,
+        data: { channel },
+    }));
 }
 
 function clientUnsubscribeFromChannel(client, channel) {
@@ -76,6 +114,11 @@ function clientUnsubscribeFromChannel(client, channel) {
             clientChannelsMap[client.id].splice(channelIndex, 1);
         }
     }
+
+    client.send(JSON.stringify({
+        event: WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
+        data: { channel },
+    }));
 }
 
 // Listen

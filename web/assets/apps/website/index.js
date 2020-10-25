@@ -8,7 +8,10 @@ import AppWebSocket from './websocket';
 
 var socket;
 $(document).ready(function () {
-  socket = new AppWebSocket('ws://localhost:8080', { debug: true });
+  var websocketUrl = $('body').attr('data-websocket-url');
+  if (websocketUrl) {
+    socket = new AppWebSocket(websocketUrl);
+  }
 
   setupEvents();
   setupTabHash();
@@ -128,10 +131,12 @@ function setupMessaging() {
     });
   });
 
-  var channel = $messagingThreadMessages.attr('data-channel');
-  socket.onChannel(channel, function (data) {
-    console.log(data);
-  });
+  if (socket) {
+    var channel = $messagingThreadMessages.attr('data-channel');
+    socket.onChannel(channel, function (data) {
+      console.log(data);
+    });
+  }
 
   // TODO: remove once web socket it ready
   setInterval(function () {

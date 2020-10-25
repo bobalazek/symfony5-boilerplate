@@ -1,3 +1,8 @@
+import {
+  WS_EVENT_CHANNEL_SUBSCRIBE,
+  WS_EVENT_CHANNEL_UNSUBSCRIBE,
+} from '../../../../ws/src/constants';
+
 class AppWebSocket {
   constructor(url, options) {
     this.socket = new WebSocket(url);
@@ -11,7 +16,7 @@ class AppWebSocket {
         console.log('Socket open.', e);
       }
 
-      this.startPingCheck();
+      this.startPingTimeout();
     };
 
     this.socket.onmessage = (e) => {
@@ -19,15 +24,19 @@ class AppWebSocket {
         console.log('Socket message.', e);
       }
 
+      const data = JSON.parse(e.data);
+
+      console.log(data);
+
       // TODO
+
+      this.startPingTimeout();
     };
 
     this.socket.onerror = (error) => {
       if (this.debug) {
         console.log('Socket error.', error);
       }
-
-      // TODO
     };
 
     this.socket.onclose = (e) => {
@@ -39,7 +48,7 @@ class AppWebSocket {
     };
   }
 
-  startPingCheck() {
+  startPingTimeout() {
     clearTimeout(this.pingTimeout);
 
     this.pingTimeout = setTimeout(() => {
@@ -93,7 +102,7 @@ class AppWebSocket {
     this.channelHandlers[channel].push(callback);
 
     this.send({
-      event: 'channel_subscribe',
+      event: WS_EVENT_CHANNEL_SUBSCRIBE,
       data: {
         channel: channel,
       },
@@ -108,7 +117,7 @@ class AppWebSocket {
     });
 
     this.send({
-      event: 'channel_unsubscribe',
+      event: WS_EVENT_CHANNEL_UNSUBSCRIBE,
       data: {
         channel: channel,
       },

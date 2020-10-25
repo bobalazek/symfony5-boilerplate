@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\ORM;
 
 use App\Entity\UserTfaRecoveryCode;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

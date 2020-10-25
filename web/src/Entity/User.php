@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *   that needs to be serialized, but because we have a File ($imageFile),
  *   that can't be serialized.
  *
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ORM\UserRepository")
  * @ORM\Table(name="users")
  * @Vich\Uploadable()
  * @UniqueEntity(

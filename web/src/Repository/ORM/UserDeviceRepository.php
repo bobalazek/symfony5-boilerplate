@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\ORM;
 
 use App\Entity\UserDevice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

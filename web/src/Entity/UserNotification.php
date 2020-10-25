@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserNotificationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ORM\UserNotificationRepository")
  * @ORM\Table(name="user_notifications")
  */
 class UserNotification implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface

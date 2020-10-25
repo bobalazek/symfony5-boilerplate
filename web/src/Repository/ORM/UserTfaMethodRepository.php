@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\ORM;
 
 use App\Entity\UserTfaMethod;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

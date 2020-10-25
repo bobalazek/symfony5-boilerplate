@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserTfaMethodRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ORM\UserTfaMethodRepository")
  * @ORM\Table(name="user_tfa_methods")
  */
 class UserTfaMethod implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface

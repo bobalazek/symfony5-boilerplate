@@ -4,6 +4,7 @@
 export const WS_EVENT_READY = 'ready';
 export const WS_EVENT_PING = 'ping';
 export const WS_EVENT_PONG = 'pong';
+export const WS_EVENT_MESSAGE = 'message';
 export const WS_EVENT_CHANNEL_SUBSCRIBE = 'channel_subscribe';
 export const WS_EVENT_CHANNEL_UNSUBSCRIBE = 'channel_unsubscribe';
 export const WS_EVENT_CHANNEL_SUBSCRIBE_SUCCESS = 'channel_subscribe:success';

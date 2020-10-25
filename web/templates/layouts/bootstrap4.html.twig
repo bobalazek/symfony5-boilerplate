@@ -34,7 +34,7 @@
     <meta name="twitter:image" content="{{ meta.image }}" />
     <meta name="twitter:card" content="summary" />
   </head>
-  <body class="{% block body_class %}{% endblock %}" {% block body_attr %}{% endblock %}>
+  <body class="{% block body_class %}{% endblock %}"{% block body_attr %}{% endblock %}>
     {% block body %}
       {% block header %}
         {% include 'layouts/bootstrap4/header.html.twig' %}

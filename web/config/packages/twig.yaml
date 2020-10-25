@@ -18,3 +18,4 @@ twig:
         app_locales_full: '%app.locales.full%'
         app_oauth_providers: '%app.oauth_providers%'
         app_google_recaptcha_site_key: '%app.google.recaptcha.site_key%'
+        app_ws_url: '%app.ws.url%'

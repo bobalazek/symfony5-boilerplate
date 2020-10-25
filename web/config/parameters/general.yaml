@@ -13,6 +13,9 @@ parameters:
         ROLE_ADMIN: Admin
         ROLE_SUPER_ADMIN: Super Admin
 
+    # WS
+    app.ws.url: 'ws://localhost:%env(WS_PORT_8080)%'
+
     # Credentials
     app.oauth.facebook:
         id: '%env(OAUTH_FACEBOOK_ID)%'

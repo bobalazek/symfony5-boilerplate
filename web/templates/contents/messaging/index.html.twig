@@ -4,7 +4,7 @@
 
 {% block body_class %}messaging-page{% endblock %}
 
-{% block body_attr %}data-websocket-url="ws://localhost:8080"{% endblock %}
+{% block body_attr %} data-websocket-url="{{ app_ws_url }}"{% endblock %}
 
 {% block content %}
   <div class="container">

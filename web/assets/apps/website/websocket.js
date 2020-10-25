@@ -1,6 +1,7 @@
 import {
   WS_EVENT_CHANNEL_SUBSCRIBE,
   WS_EVENT_CHANNEL_UNSUBSCRIBE,
+  WS_EVENT_MESSAGE,
 } from './websocket-constants';
 
 export default class AppWebSocket {
@@ -16,7 +17,7 @@ export default class AppWebSocket {
         console.log('Socket open.', e);
       }
 
-      this.startPingTimeout();
+      this.resetConnectionTimeout();
     };
 
     this.socket.onmessage = (e) => {
@@ -24,13 +25,17 @@ export default class AppWebSocket {
         console.log('Socket message.', e);
       }
 
-      const data = JSON.parse(e.data);
+      const parsedData = JSON.parse(e.data);
+      const messageEvent = parsedData.event;
+      const messageData = parsedData.data;
 
-      console.log(data);
+      switch (messageEvent) {
+        case WS_EVENT_MESSAGE:
+          this.onMessage(messageData);
+          break;
+      }
 
-      // TODO
-
-      this.startPingTimeout();
+      this.resetConnectionTimeout();
     };
 
     this.socket.onerror = (error) => {
@@ -44,16 +49,27 @@ export default class AppWebSocket {
         console.log('Socket close.', e);
       }
 
-      clearTimeout(this.pingTimeout);
+      clearTimeout(this.connectionTimeout);
     };
   }
 
-  startPingTimeout() {
-    clearTimeout(this.pingTimeout);
+  resetConnectionTimeout() {
+    clearTimeout(this.connectionTimeout);
 
-    this.pingTimeout = setTimeout(() => {
+    this.connectionTimeout = setTimeout(() => {
       this.socket.close();
     }, 30000 + 1000);
+  }
+
+  onMessage(data) {
+    if (
+      !data ||
+      !data.channel
+    ) {
+      return;
+    }
+
+    this.triggerChannel(data.channel, data);
   }
 
   send(data) {

@@ -1,9 +1,9 @@
 import {
   WS_EVENT_CHANNEL_SUBSCRIBE,
   WS_EVENT_CHANNEL_UNSUBSCRIBE,
-} from '../../../../ws/src/constants';
+} from './websocket-constants';
 
-class AppWebSocket {
+export default class AppWebSocket {
   constructor(url, options) {
     this.socket = new WebSocket(url);
 
@@ -134,5 +134,3 @@ class AppWebSocket {
     });
   }
 }
-
-module.exports = AppWebSocket;

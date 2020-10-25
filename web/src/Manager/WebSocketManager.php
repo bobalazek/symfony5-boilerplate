@@ -29,7 +29,9 @@ class WebSocketManager
     }
 
     /**
-     * @param $data
+     * @param array $data
+     *
+     * @return boolean
      */
     public function send(array $data): bool
     {

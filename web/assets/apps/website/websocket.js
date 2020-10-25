@@ -26,12 +26,9 @@ export default class AppWebSocket {
       }
 
       const parsedData = JSON.parse(e.data);
-      const messageEvent = parsedData.event;
-      const messageData = parsedData.data;
-
-      switch (messageEvent) {
+      switch (parsedData.event) {
         case WS_EVENT_MESSAGE:
-          this.onMessage(messageData);
+          this.onMessage(parsedData);
           break;
       }
 
@@ -119,9 +116,7 @@ export default class AppWebSocket {
 
     this.send({
       event: WS_EVENT_CHANNEL_SUBSCRIBE,
-      data: {
-        channel: channel,
-      },
+      channel,
     });
   }
 
@@ -134,9 +129,7 @@ export default class AppWebSocket {
 
     this.send({
       event: WS_EVENT_CHANNEL_UNSUBSCRIBE,
-      data: {
-        channel: channel,
-      },
+      channel,
     });
   }
 

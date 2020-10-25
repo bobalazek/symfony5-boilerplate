@@ -15,6 +15,7 @@ parameters:
 
     # WS
     app.ws.url: 'ws://localhost:%env(WS_PORT_8080)%'
+    app.ws.server_token: '%env(WS_SERVER_TOKEN)%'
 
     # Credentials
     app.oauth.facebook:

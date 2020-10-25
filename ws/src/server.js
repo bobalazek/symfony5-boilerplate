@@ -30,7 +30,7 @@ wss.on('connection', (client) => {
 
         const parsedData = JSON.parse(data);
         const messageEvent = parsedData.event;
-        const messageData = parsedData.data;
+        const messageChannel = parsedData.channel;
 
         switch (messageEvent) {
             case WS_EVENT_PING:
@@ -40,10 +40,10 @@ wss.on('connection', (client) => {
                 clientPing(client);
                 break;
             case WS_EVENT_CHANNEL_SUBSCRIBE:
-                clientSubscribeToChannel(client, messageData.channel);
+                clientSubscribeToChannel(client, messageChannel);
                 break;
             case WS_EVENT_CHANNEL_UNSUBSCRIBE:
-                clientUnsubscribeFromChannel(client, messageData.channel);
+                clientUnsubscribeFromChannel(client, messageChannel);
                 break;
         }
     });
@@ -87,7 +87,7 @@ function clientSubscribeToChannel(client, channel) {
 
     client.send(JSON.stringify({
         event: WS_EVENT_CHANNEL_SUBSCRIBE_SUCCESS,
-        data: { channel },
+        channel,
     }));
 }
 
@@ -117,7 +117,7 @@ function clientUnsubscribeFromChannel(client, channel) {
 
     client.send(JSON.stringify({
         event: WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
-        data: { channel },
+        channel,
     }));
 }
 

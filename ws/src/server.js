@@ -1,4 +1,5 @@
 const http = require('http');
+const url = require('url');
 const { v4: uuidv4 } = require('uuid');
 const WebSocket = require('ws');
 const {
@@ -11,14 +12,60 @@ const {
     WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
 } = require('./constants');
 
-const server = http.createServer();
-const wss = new WebSocket.Server({ server });
+const WS_SERVER_TOKEN = process.env.WS_SERVER_TOKEN;
 
+// Prepare data
 let clientChannelsMap = {};
 let channelClientMap = {};
 
-// Listeners
-wss.on('connection', (client) => {
+const server = http.createServer(createServer);
+const wss = new WebSocket.Server({ server });
+
+// WebSocket Server
+wss.on('connection', clientOnConnection);
+
+wss.on('close', (client) => {
+    clientUnsubscribeFromChannel(client, '*');
+
+    client.close();
+});
+
+// TODO: do some kind of garbage collection of disconnected clients
+// from the clientChannelsMap & channelClientMap maps.
+
+// WebSocket Server - Functions
+function createServer(request, response) {
+    const parsedRequest = url.parse(request.url, true);
+    const pathname = parsedRequest.pathname;
+    const query = parsedRequest.pathname;
+
+    let statusCode = 404;
+    let responseBody = {
+        success: false,
+        error: {
+            message: 'Route does not exists',
+        },
+    };
+
+    if (
+        request.method === 'POST' &&
+        pathname === '/messages'
+    ) {
+        console.log(request.body)
+
+        statusCode = 200;
+        responseBody = {
+            success: true,
+        };
+    }
+
+    response.writeHead(statusCode, {
+        'Content-Type': 'application/json',
+    });
+    response.end(JSON.stringify(responseBody));
+}
+
+function clientOnConnection(client) {
     client.id = uuidv4();
     client.isAlive = true;
     client.lastActiveAt = Date.now();
@@ -47,31 +94,24 @@ wss.on('connection', (client) => {
                 break;
         }
     });
-});
+}
 
-wss.on('close', (client) => {
-    clientUnsubscribeFromChannel(client, '*');
-
-    client.close();
-});
-
-// Functions
 function clientReady(client) {
-    client.send(JSON.stringify({
+    sendToClient(client, {
         event: WS_EVENT_READY,
-    }));
+    });
 }
 
 function clientPing(client) {
-    client.send(JSON.stringify({
+    sendToClient(client, {
         event: WS_EVENT_PING,
-    }));
+    });
 }
 
 function clientPong(client) {
-    client.send(JSON.stringify({
+    sendToClient(client, {
         event: WS_EVENT_PONG,
-    }));
+    });
 }
 
 function clientSubscribeToChannel(client, channel) {
@@ -85,10 +125,10 @@ function clientSubscribeToChannel(client, channel) {
     }
     channelClientMap[channel].push(client.id);
 
-    client.send(JSON.stringify({
+    sendToClient(client, {
         event: WS_EVENT_CHANNEL_SUBSCRIBE_SUCCESS,
         channel,
-    }));
+    });
 }
 
 function clientUnsubscribeFromChannel(client, channel) {
@@ -115,13 +155,57 @@ function clientUnsubscribeFromChannel(client, channel) {
         }
     }
 
-    client.send(JSON.stringify({
+    sendToClient(client, {
         event: WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
         channel,
-    }));
+    });
 }
 
-// Listen
+function sendToClient(client, data, retry = 0) {
+    if (client.readyState !== WebSocket.OPEN) {
+        if (retry <= 5) {
+            setTimeout(() => {
+                sendToClient(client, data, retry + 1);
+            }, 200);
+        }
+
+        return;
+    }
+
+    client.send(JSON.stringify(data));
+}
+
+function getClientById(clientId) {
+    for (let i = 0; i < wss.clients.length; i++) {
+        if (clientId === wss.clients[i].id) {
+            return wss.clients[i];
+        }
+    }
+
+    return null;
+}
+
+function dispatchMessageToClientsOnChannel(channel, data) {
+    const channelClients = channelClientMap[channel];
+    if (channelClients) {
+        return;
+    }
+
+    for (let i = 0; i < channelClients.length; ++i) {
+        const client = getClientById(channelClients[i]);
+        if (!client) {
+            continue;
+        }
+
+        sendToClient(client, {
+            event: WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
+            channel,
+            data,
+        });
+    }
+}
+
+// Start server
 server.listen(8080, function() {
     console.log(`Listening on port ${server.address().port} ...`);
 });

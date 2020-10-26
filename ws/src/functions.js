@@ -16,10 +16,11 @@ const WS_SERVER_TOKEN = process.env.WS_SERVER_TOKEN;
 let clientChannelsMap = {};
 let channelClientMap = {};
 
-function createServer(request, response) {
+async function createServer(request, response) {
     const parsedRequest = url.parse(request.url, true);
     const pathname = parsedRequest.pathname;
     const query = parsedRequest.pathname;
+    const body = await getRequestBody(request);
 
     let statusCode = 404;
     let responseBody = {
@@ -33,8 +34,6 @@ function createServer(request, response) {
         request.method === 'POST' &&
         pathname === '/messages'
     ) {
-        console.log(request.body)
-
         statusCode = 200;
         responseBody = {
             success: true,
@@ -45,6 +44,21 @@ function createServer(request, response) {
         'Content-Type': 'application/json',
     });
     response.end(JSON.stringify(responseBody));
+}
+
+function getRequestBody(request) {
+    return new Promise((resolve, reject) => {
+        let body = [];
+        request.on('error', (err) => {
+            console.error(err);
+        }).on('data', (chunk) => {
+            body.push(chunk);
+        }).on('end', () => {
+            body = Buffer.concat(body).toString();
+
+            resolve(body);
+        });
+    });
 }
 
 function onConnection(client) {

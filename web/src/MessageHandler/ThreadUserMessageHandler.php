@@ -27,8 +27,7 @@ class ThreadUserMessageHandler implements MessageHandlerInterface
     public function __construct(
         EntityManagerInterface $em,
         WebSocketManager $webSocketManager
-    )
-    {
+    ) {
         $this->em = $em;
         $this->webSocketManager = $webSocketManager;
     }
@@ -39,7 +38,6 @@ class ThreadUserMessageHandler implements MessageHandlerInterface
             ->getRepository(ThreadUserMessage::class)
             ->findOneById($threadUserMessageMessage->getThreadUserMessageId())
         ;
-
         if (!$threadUserMessage) {
             throw new UnrecoverableMessageHandlingException();
         }

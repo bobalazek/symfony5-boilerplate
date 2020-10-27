@@ -134,14 +134,15 @@ function setupMessaging() {
   if (socket) {
     var channel = $messagingThreadMessages.attr('data-channel');
     socket.onChannel(channel, function (data) {
-      console.log(data);
+      loadMessages('append');
     });
   }
 
-  // TODO: remove once web socket it ready
+  /*
   setInterval(function () {
     loadMessages('append');
   }, 30000);
+  */
 }
 
 function loadMessages(type, callback) {
@@ -174,6 +175,11 @@ function loadMessages(type, callback) {
 
     if (type === 'append') {
       $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
+
+      setTimeout(function () {
+        // TODO: maybe only if you are actually scrollted to the bottom?
+        $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+      });
     } else if (type === 'prepend') {
       var messagesCurrentHeight = $messagingThreadMessagesInner.outerHeight();
 

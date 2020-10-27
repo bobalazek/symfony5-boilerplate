@@ -5,6 +5,7 @@ const {
     WS_EVENT_READY,
     WS_EVENT_PING,
     WS_EVENT_PONG,
+    WS_EVENT_MESSAGE,
     WS_EVENT_CHANNEL_SUBSCRIBE,
     WS_EVENT_CHANNEL_UNSUBSCRIBE,
     WS_EVENT_CHANNEL_SUBSCRIBE_SUCCESS,
@@ -209,13 +210,15 @@ function sendToClient(client, data, retry = 0) {
 }
 
 function getClientById(clientId) {
-    for (let i = 0; i < wss.clients.length; i++) {
-        if (clientId === wss.clients[i].id) {
-            return wss.clients[i];
-        }
-    }
+    let client = null;
 
-    return null;
+    global.wss.clients.forEach((singleClient) => {
+        if (clientId === singleClient.id) {
+            client = singleClient;
+        }
+    });
+
+    return client;
 }
 
 function dispatchMessageToClientsOnChannel(channel, data) {
@@ -236,7 +239,7 @@ function dispatchMessageToClientsOnChannel(channel, data) {
         }
 
         sendToClient(client, {
-            event: WS_EVENT_CHANNEL_UNSUBSCRIBE_SUCCESS,
+            event: WS_EVENT_MESSAGE,
             channel,
             data,
         });

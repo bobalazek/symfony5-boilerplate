@@ -10,3 +10,4 @@
 ### PhpMyAdmin
 
 * Go to your browser and open http://localhost:81 (or whichever port you set in `.env` for the `PHPMYADMIN_PORT_80` variable)
+    * Credentials - Username: `root`, password: `password`

@@ -28,10 +28,14 @@ class WebSocketManager
         $this->client = $client;
     }
 
-    public function send(array $data): bool
+    public function send(string $channel, array $data): bool
     {
         $url = $this->params->get('app.ws.url');
         $serverToken = $this->params->get('app.ws.server_token');
+
+        $url = str_replace($url, 'localhost', 'ws'); // TODO: we are currently in our own subnet
+
+        $url .= '?server_token=' . $serverToken . '&channel=' . $channel;
 
         try {
             $response = $this->client->request(

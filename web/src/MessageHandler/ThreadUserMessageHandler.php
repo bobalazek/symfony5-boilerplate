@@ -3,6 +3,7 @@
 namespace App\MessageHandler;
 
 use App\Entity\ThreadUserMessage;
+use App\Manager\WebSocketManager;
 use App\Message\ThreadUserMessage as ThreadUserMessageMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -18,9 +19,18 @@ class ThreadUserMessageHandler implements MessageHandlerInterface
      */
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    /**
+     * @var WebSocketManager
+     */
+    private $webSocketManager;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        WebSocketManager $webSocketManager
+    )
     {
         $this->em = $em;
+        $this->webSocketManager = $webSocketManager;
     }
 
     public function __invoke(ThreadUserMessageMessage $threadUserMessageMessage)
@@ -34,6 +44,9 @@ class ThreadUserMessageHandler implements MessageHandlerInterface
             throw new UnrecoverableMessageHandlingException();
         }
 
-        // TODO: send to WS
+        $this->webSocketManager->send(
+            $threadUserMessage->getThreadUser()->getThread()->getChannel(),
+            $threadUserMessage->toArray()
+        );
     }
 }

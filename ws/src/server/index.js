@@ -7,15 +7,16 @@ const {
     startClientMapsGC,
 } = require('./functions');
 
-const server = http.createServer(createServer);
-const wss = new WebSocket.Server({ server });
+// TODO: find a better solutions for the globals ...
+global.server = http.createServer(createServer);
+global.wss = new WebSocket.Server({ server });
 
-wss.on('connection', onConnection);
-wss.on('close', onClose);
+global.wss.on('connection', onConnection);
+global.wss.on('close', onClose);
 
 module.exports = {
     start: () => {
-        server.listen(8080, function () {
+        global.server.listen(8080, function () {
             console.log(`Listening on port ${server.address().port} ...`);
         });
 

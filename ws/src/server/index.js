@@ -13,8 +13,12 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', onConnection);
 wss.on('close', onClose);
 
-server.listen(8080, function() {
-    console.log(`Listening on port ${server.address().port} ...`);
-});
+module.exports = {
+    start: () => {
+        server.listen(8080, function () {
+            console.log(`Listening on port ${server.address().port} ...`);
+        });
 
-startClientMapsGC();
+        startClientMapsGC();
+    },
+};

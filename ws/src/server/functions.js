@@ -19,7 +19,7 @@ let channelClientMap = {};
 async function createServer(request, response) {
     const parsedRequest = url.parse(request.url, true);
     const pathname = parsedRequest.pathname;
-    const query = parsedRequest.pathname;
+    const query = parsedRequest.query;
     const body = await getRequestBody(request);
 
     let statusCode = 404;
@@ -30,13 +30,44 @@ async function createServer(request, response) {
         },
     };
 
-    if (
-        request.method === 'POST' &&
-        pathname === '/messages'
-    ) {
-        statusCode = 200;
+    // Routes
+    try {
+        if (
+            request.method === 'POST' &&
+            pathname === '/messages'
+        ) {
+            if (query.server_token !== WS_SERVER_TOKEN) {
+                throw new Error('The server_token is invalid.');
+            }
+
+            if (!query.channel) {
+                throw new Error('You need to specify a channel.');
+            }
+
+            let bodyData;
+            try {
+                bodyData = JSON.parse(body);
+            } catch (e) {
+                throw new Error('The request body need to be a valid JSON object.');
+            }
+
+            const result = dispatchMessageToClientsOnChannel(query.channel, bodyData);
+
+            statusCode = 200;
+            responseBody = {
+                success: true,
+                data: {
+                    clients_notified_count: result.clientIds.length,
+                },
+            };
+        }
+    } catch (error) {
+        statusCode = 500;
         responseBody = {
-            success: true,
+            success: false,
+            error: {
+                message: error.message,
+            },
         };
     }
 
@@ -46,7 +77,7 @@ async function createServer(request, response) {
     response.end(JSON.stringify(responseBody));
 }
 
-function getRequestBody(request) {
+async function getRequestBody(request) {
     return new Promise((resolve, reject) => {
         let body = [];
         request.on('error', (err) => {
@@ -189,9 +220,14 @@ function getClientById(clientId) {
 
 function dispatchMessageToClientsOnChannel(channel, data) {
     const channelClients = channelClientMap[channel];
-    if (channelClients) {
-        return;
+    if (!channelClients) {
+        return {
+            channelExists: false,
+            clientIds: [],
+        };
     }
+
+    let clientIds = [];
 
     for (let i = 0; i < channelClients.length; ++i) {
         const client = getClientById(channelClients[i]);
@@ -204,7 +240,14 @@ function dispatchMessageToClientsOnChannel(channel, data) {
             channel,
             data,
         });
+
+        clientIds.push(client.id);
     }
+
+    return {
+        channelExists: true,
+        clientIds,
+    };;
 }
 
 function startClientMapsGC() {
@@ -216,8 +259,8 @@ function startClientMapsGC() {
 }
 
 module.exports = {
-    createServer: createServer,
-    onConnection: onConnection,
-    onClose: onClose,
-    startClientMapsGC: startClientMapsGC,
+    createServer,
+    onConnection,
+    onClose,
+    startClientMapsGC,
 };

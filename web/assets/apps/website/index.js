@@ -133,7 +133,7 @@ function setupMessaging() {
 
   if (socket) {
     var channel = $messagingThreadMessages.attr('data-channel');
-    socket.onChannel(channel, function (data) {
+    socket.onChannel(channel, () => {
       loadMessages('append');
     });
   }

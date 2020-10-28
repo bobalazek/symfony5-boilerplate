@@ -13,6 +13,7 @@
         <div id="messaging-threads-wrapper">
           <h1>{{ 'Messaging' | trans }}</h1>
           {% if threads %}
+            {#
             <form method="POST" class="mb-3">
               <div class="input-group">
                 <input
@@ -31,6 +32,7 @@
               </div>
               <input type="hidden" name="action" value="search" />
             </form>
+            #}
             <div class="list-group">
               {% for threadSingle in threads %}
                 <a
@@ -119,10 +121,10 @@
             </div>
             <form method="POST">
               <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-9">
                   <textarea class="form-control" rows="2" name="text"></textarea>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <button class="btn btn-lg btn-block btn-primary" type="submit">
                     {{ 'Send' | trans }}
                   </button>

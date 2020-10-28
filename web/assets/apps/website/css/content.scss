@@ -52,7 +52,6 @@
 /***** Messaging *****/
 .messaging-page {
   .page-content-wrapper {
-    height: calc(100vh - 71px);
     padding-bottom: 0;
 
     .container,
@@ -64,14 +63,15 @@
     #messaging-threads-wrapper {
       height: 100%;
       overflow-x: hidden;
+      margin-bottom: 20px;
     }
 
     #messaging-thread-messages-wrapper {
       display: flex;
       flex-direction: column;
       height: 100%;
+      min-height: 480px;
       position: relative;
-      border-left: 1px solid #ced4da;
 
       #messaging-thread-messages {
         display: flex;
@@ -99,6 +99,18 @@
 
       form {
         padding: 20px;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .messaging-page {
+    .page-content-wrapper {
+      height: calc(100vh - 71px);
+
+      #messaging-thread-messages-wrapper {
+        border-left: 1px solid #ced4da;
       }
     }
   }

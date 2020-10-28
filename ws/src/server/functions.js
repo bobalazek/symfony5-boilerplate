@@ -103,22 +103,30 @@ function onConnection(client) {
     client.on('message', (data) => {
         client.lastActiveAt = Date.now();
 
-        const parsedData = JSON.parse(data);
-        const messageEvent = parsedData.event;
-        const messageChannel = parsedData.channel;
+        let parsedData;
+        let event;
+        let channel;
 
-        switch (messageEvent) {
+        try {
+            parsedData = JSON.parse(data);
+            event = parsedData.event;
+            channel = parsedData.channel;
+        } catch (e) {
+            return;
+        }
+
+        switch (event) {
             case WS_EVENT_PING:
-                clientPong(client);
+                clientPong(client, parsedData.data);
                 break;
             case WS_EVENT_PONG:
-                clientPing(client);
+                clientPing(client, parsedData.data);
                 break;
             case WS_EVENT_CHANNEL_SUBSCRIBE:
-                clientSubscribeToChannel(client, messageChannel);
+                clientSubscribeToChannel(client, channel);
                 break;
             case WS_EVENT_CHANNEL_UNSUBSCRIBE:
-                clientUnsubscribeFromChannel(client, messageChannel);
+                clientUnsubscribeFromChannel(client, channel);
                 break;
         }
     });
@@ -136,15 +144,17 @@ function clientReady(client) {
     });
 }
 
-function clientPing(client) {
+function clientPing(client, data) {
     sendToClient(client, {
         event: WS_EVENT_PING,
+        data,
     });
 }
 
-function clientPong(client) {
+function clientPong(client, data) {
     sendToClient(client, {
         event: WS_EVENT_PONG,
+        data,
     });
 }
 

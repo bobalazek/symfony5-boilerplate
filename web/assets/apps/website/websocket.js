@@ -1,4 +1,5 @@
 import {
+  WS_EVENT_PING,
   WS_EVENT_CHANNEL_SUBSCRIBE,
   WS_EVENT_CHANNEL_UNSUBSCRIBE,
   WS_EVENT_MESSAGE,
@@ -18,6 +19,7 @@ export default class AppWebSocket {
       }
 
       this.resetConnectionTimeout();
+      this.startPing();
     };
 
     this.socket.onmessage = (e) => {
@@ -46,7 +48,7 @@ export default class AppWebSocket {
         console.log('Socket close.', e);
       }
 
-      clearTimeout(this.connectionTimeout);
+      this.onClose();
     };
   }
 
@@ -58,27 +60,42 @@ export default class AppWebSocket {
     }, 30000 + 1000);
   }
 
+  startPing() {
+    this.pingInterval = setInterval(() => {
+      this.send({
+        event: WS_EVENT_PING,
+        data: {
+          id: Math.random().toString(36).slice(2),
+        },
+      });
+    }, 10000);
+  }
+
   onMessage(data) {
-    if (
-      !data ||
-      !data.channel
-    ) {
-      return;
+    if (data && data.event) {
+      this.trigger(data.event, data);
     }
 
-    this.triggerChannel(data.channel, data);
+    if (data && data.channel) {
+      this.triggerChannel(data.channel, data);
+    }
+  }
+
+  onClose() {
+    clearInterval(this.pingInterval);
+    clearTimeout(this.connectionTimeout);
   }
 
   send(data) {
     if (this.socket.readyState !== WebSocket.OPEN) {
       setTimeout(() => {
-        this.socket.send(JSON.stringify(data));
+        this.send(data);
       }, 100);
 
       return;
     }
 
-    this.socket.send(data);
+    this.socket.send(JSON.stringify(data));
   }
 
   on(eventName, callback) {

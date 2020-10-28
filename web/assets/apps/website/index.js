@@ -10,7 +10,7 @@ var socket;
 $(document).ready(function () {
   var websocketUrl = $('body').attr('data-websocket-url');
   if (websocketUrl) {
-    socket = new AppWebSocket(websocketUrl);
+    socket = new AppWebSocket(websocketUrl, { debug: true });
   }
 
   setupEvents();
@@ -177,7 +177,7 @@ function loadMessages(type, callback) {
       $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
 
       setTimeout(function () {
-        // TODO: maybe only if you are actually scrollted to the bottom?
+        // TODO: maybe only if you are actually scrolled to the bottom?
         $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
       });
     } else if (type === 'prepend') {

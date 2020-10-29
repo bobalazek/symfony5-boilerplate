@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\UserOauthProvider;
+use App\Exception\UserOauthProviderNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -66,7 +67,7 @@ class OauthManager
             return $this->getGoogleUser();
         }
 
-        throw new \Exception('Provider "' . $provider . '" does not exist.');
+        throw new UserOauthProviderNotFoundException($provider);
     }
 
     /**
@@ -113,7 +114,7 @@ class OauthManager
             return $googleClient->createAuthUrl();
         }
 
-        throw new \Exception('Provider "' . $provider . '" does not exist.');
+        throw new UserOauthProviderNotFoundException($provider);
     }
 
     public function cleanup(Request $request)
@@ -122,6 +123,7 @@ class OauthManager
         $request->getSession()->set('_google_access_token', null);
     }
 
+    /* Facebook */
     public function getFacebookClient(): \Facebook\Facebook
     {
         if (!$this->facebookClient) {
@@ -170,6 +172,7 @@ class OauthManager
         return $oauthUser;
     }
 
+    /* Google */
     public function getGoogleClient(): \Google_Client
     {
         if (!$this->googleClient) {

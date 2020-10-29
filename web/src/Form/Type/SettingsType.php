@@ -39,7 +39,9 @@ class SettingsType extends AbstractType
         }
 
         $builder
-            ->add('name')
+            //->add('name')
+            ->add('firstName')
+            ->add('lastName')
             ->add('username')
             ->add('email')
             ->add('locale', LocaleType::class, [

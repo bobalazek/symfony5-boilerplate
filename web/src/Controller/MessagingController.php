@@ -228,7 +228,7 @@ class MessagingController extends AbstractController
                     continue;
                 }
 
-                $userNames[] = $threadUser->getUser()->getName();
+                $userNames[] = $threadUser->getUser()->getFullName();
             }
 
             /** @var ThreadUserMessage|null $threadUserMessage */
@@ -246,7 +246,7 @@ class MessagingController extends AbstractController
                 $lastMessageUser = $threadUserMessage->getThreadUser()->getUser();
                 $lastMessagePrefix = $lastMessageUser === $user
                     ? $this->translator->trans('You')
-                    : $lastMessageUser->getName();
+                    : $lastMessageUser->getFullName();
                 $lastMessage = $lastMessagePrefix . ': ' . $threadUserMessage->getBody();
                 $lastMessageDatetime = $threadUserMessage->getCreatedAt();
             }

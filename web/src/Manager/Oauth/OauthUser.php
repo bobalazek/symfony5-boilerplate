@@ -23,6 +23,16 @@ class OauthUser
     private $name;
 
     /**
+     * @return string
+     */
+    private $firstName;
+
+    /**
+     * @return string
+     */
+    private $lastName;
+
+    /**
      * @return array
      */
     private $rawData;
@@ -59,6 +69,41 @@ class OauthUser
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        $nameExploded = explode(' ', $name);
+        if (count($nameExploded) >= 2) {
+            if (!$this->getFirstName()) {
+                $this->setFirstName($nameExploded[0]);
+            }
+
+            if (!$this->getLastName()) {
+                $this->setLastName(end($nameExploded));
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }

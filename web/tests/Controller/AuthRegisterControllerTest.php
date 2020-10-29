@@ -20,7 +20,9 @@ class AuthRegisterControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Signup')
             ->form([
-                'register[name]' => 'Test User 123',
+                //'register[name]' => 'Test User 123',
+                'register[firstName]' => 'Test',
+                'register[lastName]' => 'User',
                 'register[username]' => 'testuser123',
                 'register[email]' => 'testuser123@test.com',
                 'register[plainPassword][first]' => 'testpassword',
@@ -57,7 +59,9 @@ class AuthRegisterControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Signup')
             ->form([
-                'register[name]' => 'Test User 123',
+                //'register[name]' => 'Test User 123',
+                'register[firstName]' => 'Test',
+                'register[lastName]' => 'User',
                 'register[username]' => 'testuser123',
                 'register[email]' => 'thisisnotacorrectemailaddress',
                 'register[plainPassword][first]' => 'testpassword',

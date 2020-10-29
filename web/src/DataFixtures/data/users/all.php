@@ -5,6 +5,8 @@ use App\Entity\UserTfaMethod;
 return [
     [
         'name' => 'Corcosoft',
+        'first_name' => 'Corco',
+        'last_name' => 'Soft',
         'username' => 'corcosoft',
         'email' => 'corcosoft@corcosoft.com',
         'password' => substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 1, 16),
@@ -12,6 +14,8 @@ return [
     ],
     [
         'name' => 'Borut',
+        'first_name' => 'Borut',
+        'last_name' => 'Balazek',
         'username' => 'bobalazek',
         'email' => 'bobalazek124@gmail.com',
         'password' => 'password',
@@ -19,6 +23,8 @@ return [
     ],
     [
         'name' => 'Ana',
+        'first_name' => 'Ana',
+        'last_name' => 'Kociper',
         'username' => 'ana',
         'email' => 'anakociper124@gmail.com',
         'password' => 'password',
@@ -26,6 +32,8 @@ return [
     ],
     [
         'name' => 'Admin',
+        'first_name' => 'Admin',
+        'last_name' => 'User',
         'username' => 'admin',
         'email' => 'admin@corcosoft.com',
         'password' => 'password',
@@ -33,6 +41,8 @@ return [
     ],
     [
         'name' => 'User moderator',
+        'first_name' => 'User',
+        'last_name' => 'Moderator',
         'username' => 'usermoderator',
         'email' => 'usermoderator@corcosoft.com',
         'password' => 'password',
@@ -40,6 +50,8 @@ return [
     ],
     [
         'name' => 'User',
+        'first_name' => 'User',
+        'last_name' => 'User',
         'username' => 'user',
         'email' => 'user@corcosoft.com',
         'password' => 'password',
@@ -47,6 +59,8 @@ return [
     ],
     [
         'name' => 'User2',
+        'first_name' => 'User2',
+        'last_name' => 'User',
         'username' => 'user2',
         'email' => 'user2@corcosoft.com',
         'password' => 'password',
@@ -54,6 +68,8 @@ return [
     ],
     [
         'name' => 'User with TFA',
+        'first_name' => 'User with TFA',
+        'last_name' => 'User',
         'username' => 'userwithtfaemail',
         'email' => 'userwithtfa@corcosoft.com',
         'password' => 'password',

@@ -65,10 +65,25 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
     private $email;
 
     /**
+     * Prepend the rows below with @, if you want to only use name,
+     * instead of firstName & lastName.
+     *
+     * ORM\Column(type="string", length=255, nullable=true)
+     * Assert\NotBlank(groups={"register", "settings"})
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(groups={"register", "settings"})
      */
-    private $name;
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(groups={"register", "settings"})
+     */
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -350,6 +365,35 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return trim($this->getFirstName() . ' ' . $this->getLastName());
     }
 
     public function getEmailConfirmCode(): ?string

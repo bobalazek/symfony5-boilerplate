@@ -133,7 +133,9 @@ class LoggedUserControllerTest extends WebTestCase
         $form = $crawler
             ->selectButton('Save')
             ->form([
-                'settings[name]' => 'User',
+                //'settings[name]' => 'User',
+                'settings[firstName]' => 'User',
+                'settings[lastName]' => 'User',
                 'settings[username]' => 'user',
                 'settings[email]' => 'user+newemail@corcosoft.com',
             ])

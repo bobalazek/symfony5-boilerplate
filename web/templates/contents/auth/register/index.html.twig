@@ -31,7 +31,15 @@
       </div>
     {% endif %}
     {{ form_start(form) }}
-      {{ form_row(form.name) }}
+      {# form_row(form.name) #}
+      <div class="row">
+        <div class="col-md-6">
+          {{ form_row(form.firstName) }}
+        </div>
+        <div class="col-md-6">
+          {{ form_row(form.lastName) }}
+        </div>
+      </div>
       {{ form_row(form.username) }}
       {{ form_row(form.email) }}
       {{ form_row(form.plainPassword) }}

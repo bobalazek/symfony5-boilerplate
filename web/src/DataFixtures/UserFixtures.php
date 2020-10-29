@@ -48,6 +48,8 @@ class UserFixtures extends Fixture
             $user = new User();
             $user
                 ->setName($userData['name'])
+                ->setFirstName($userData['first_name'])
+                ->setLastName($userData['last_name'])
                 ->setUsername($userData['username'])
                 ->setEmail($userData['email'])
                 ->setRoles($userData['roles'])
@@ -55,12 +57,10 @@ class UserFixtures extends Fixture
                 ->setEmailConfirmCode(md5(random_bytes(32)))
                 ->setEmailConfirmedAt(new \DateTime())
             ;
-            $password = $this->passwordEncoder
-                ->encodePassword(
-                    $user,
-                    $userData['password']
-                )
-            ;
+            $password = $this->passwordEncoder->encodePassword(
+                $user,
+                $userData['password']
+            );
             $user->setPassword($password);
 
             $manager->persist($user);

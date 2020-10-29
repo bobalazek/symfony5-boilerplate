@@ -8,7 +8,7 @@
       <a href="{{ url('users.detail', {
           username: app.user.getUsername(),
         }) }}">
-        {{ app.user.getName() }}
+        {{ app.user.getFullName() }}
         <small>({{ app.user.getUsername() }})</small>
       </a>
     </h1>

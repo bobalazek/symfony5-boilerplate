@@ -155,7 +155,7 @@ class OauthManager
         $request->getSession()->set('_facebook_access_token', $accessTokenString);
 
         $facebookUserResponse = $facebookClient->get(
-            '/me?fields=id,email,name',
+            '/me?fields=id,email,name,first_name,last_name',
             $accessToken
         );
 
@@ -165,6 +165,8 @@ class OauthManager
         $oauthUser
             ->setId($facebookUser->getId())
             ->setEmail($facebookUser->getEmail())
+            ->setFirstName($facebookUser->getFirstName())
+            ->setLastName($facebookUser->getLastName())
             ->setName($facebookUser->getName())
             ->setRawData($facebookUser->asArray())
         ;

@@ -5,9 +5,9 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="8RItOyt" resname="no_threads_yet">
-        <source>no_threads_yet</source>
-        <target>No threads yet</target>
+      <trans-unit id="8RItOyt" resname="no_threads_found">
+        <source>no_threads_found</source>
+        <target>No threads found</target>
       </trans-unit>
       <trans-unit id="RqmyOIe" resname="no_thread_selected">
         <source>no_thread_selected</source>

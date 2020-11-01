@@ -221,8 +221,8 @@ function loadMessages(type, callback) {
       $messagingThreadMessagesInner.removeAttr('data-has-more-prepend-entries');
     }
 
-    $('#messaging-threads-wrapper').html(
-      $responseHtml.find('#messaging-thread-wrapper').html()
+    $('#messaging-threads').html(
+      $responseHtml.find('#messaging-threads').html()
     );
 
     $messagingThreadMessagesInner.find('.loader').remove();

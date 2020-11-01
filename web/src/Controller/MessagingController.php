@@ -53,13 +53,19 @@ class MessagingController extends AbstractController
     /**
      * @Route("/messaging", name="messaging")
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        $search = $request->get('search');
+
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => null,
-            'threads' => $this->_getThreads($this->getUser()),
+            'threads' => $this->_getThreads(
+                $this->getUser(),
+                $search
+            ),
+            'search' => $search,
         ]);
     }
 
@@ -104,15 +110,37 @@ class MessagingController extends AbstractController
 
         $threadUser->setLastSeenAt(new \DateTime());
 
+        // Needs to be set this way, because the the thread search is a GET method,
+        // and it seems that when using $request->get('action'),
+        // it prefers the query, not post data.
+        $action = $request->isMethod('POST')
+            ? $request->request->get('action')
+            : $request->query->get('action');
+
         if (
             $request->isMethod('POST') &&
-            'message' === $request->request->get('action')
+            'message' === $action
         ) {
-            $text = $request->request->get('text');
+            $text = $request->get('text');
             if (!$text) {
+                $error = $this->translator->trans(
+                    'thread.flash.message_text_can_not_be_empty',
+                    [],
+                    'messaging'
+                );
+
+                if ($request->isXmlHttpRequest()) {
+                    return $this->json([
+                        'success' => false,
+                        'error' => [
+                            'message' => $error,
+                        ],
+                    ]);
+                }
+
                 $this->addFlash(
                     'danger',
-                    $this->translator->trans('thread.flash.message_text_can_not_be_empty', [], 'messaging')
+                    $error
                 );
 
                 return $this->redirectToRoute('messaging.threads.detail', [
@@ -194,24 +222,36 @@ class MessagingController extends AbstractController
         $threadUserMessages = array_reverse($threadUserMessages);
         $threadUserMessagesCount = count($threadUserMessages);
 
+        $search = $request->get('search');
+
         return $this->render('contents/messaging/index.html.twig', [
             'thread' => $thread,
             'thread_user_messages' => $threadUserMessages,
             'thread_user_messages_count' => $threadUserMessagesCount,
             'thread_user_messages_has_more' => $threadUserMessagesCount === $limit,
-            'threads' => $this->_getThreads($user),
+            'threads' => $this->_getThreads(
+                $user,
+                $search
+            ),
+            'search' => $search,
         ]);
     }
 
-    private function _getThreads(User $user)
+    private function _getThreads(User $user, ?string $search)
     {
         $threadsArray = [];
+
+        if ($search) {
+            $search = strtolower($search);
+        }
+
+        // TODO: implement pagination
 
         /** @var ThreadUserMessageRepository $threadUserMessageRepository */
         $threadUserMessageRepository = $this->em->getRepository(ThreadUserMessage::class);
 
-        /** @var Thread[] $threads */
-        $threads = $this->em
+        /** @var QueryBuilder $threadsQueryBuilder */
+        $threadsQueryBuilder = $this->em
             ->getRepository(Thread::class)
             ->createQueryBuilder('t')
             ->leftJoin('t.threadUsers', 'tu')
@@ -219,6 +259,25 @@ class MessagingController extends AbstractController
             ->where('tu.user = :user')
             ->orderBy('tum.createdAt', 'DESC')
             ->setParameter('user', $this->getUser())
+        ;
+
+        // TODO: figure why it doesn't work
+        /*
+        if ($search) {
+            $threadsQueryBuilder
+                ->leftJoin('tu.user', 'u')
+                ->andWhere($threadsQueryBuilder->expr()->orX(
+                    //$threadsQueryBuilder->expr()->like('u.name', ':search'),
+                    $threadsQueryBuilder->expr()->like("CONCAT(u.firstName, ' ', u.lastName)", ':search'),
+                    $threadsQueryBuilder->expr()->like('u.username', ':search')
+                ))
+                ->setParameter('search', '%' . $search . '%')
+            ;
+        }
+        */
+
+        /** @var Thread[] $threads */
+        $threads = $threadsQueryBuilder
             ->getQuery()
             ->getResult()
         ;
@@ -226,18 +285,36 @@ class MessagingController extends AbstractController
             $lastMessage = null;
             $lastMessageDatetime = null;
             $userNames = [];
-
-            // TODO: we could probably cache that, since it's not going to change anyway?
+            $matches = !$search; // Temporary solution for search
 
             $threadUsers = $thread->getThreadUsers();
             foreach ($threadUsers as $threadUser) {
-                if ($user === $threadUser->getUser()) {
+                $threadUserUser = $threadUser->getUser();
+                if ($user === $threadUserUser) {
                     continue;
                 }
 
                 $userNames[] = $threadUser->getUser()->getFullName();
+
+                // Just a temporary solution for the search
+                $threadUserUserName = strtolower($threadUserUser->getFullName());
+                $threadUserUserUsername = strtolower($threadUserUser->getUsername()); // yo dawg, I heard you like ...
+
+                if (
+                    $search && (
+                        false !== strpos($threadUserUserName, $search) ||
+                        false !== strpos($threadUserUserUsername, $search)
+                    )
+                ) {
+                    $matches = true;
+                }
             }
 
+            if (!$matches) {
+                continue;
+            }
+
+            // TODO: do that probably outside the loop & map it?
             /** @var ThreadUserMessage|null $threadUserMessage */
             $threadUserMessage = $threadUserMessageRepository
                 ->createQueryBuilder('tum')

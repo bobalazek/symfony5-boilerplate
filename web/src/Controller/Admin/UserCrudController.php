@@ -6,10 +6,10 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\LocaleField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -61,8 +61,8 @@ class UserCrudController extends AbstractCrudController
         $countryCode = CountryField::new('countryCode');
         $city = TextField::new('city');
         $bio = TextareaField::new('bio');
-        $private = Field::new('private');
-        $locked = Field::new('locked');
+        $private = BooleanField::new('private');
+        $locked = BooleanField::new('locked');
         $lockedReason = TextField::new('lockedReason');
         $createdAt = DateTimeField::new('createdAt');
 

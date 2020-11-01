@@ -12,34 +12,35 @@
       <div class="col-md-4">
         <div id="messaging-threads-wrapper">
           <h1>{{ 'Messaging' | trans }}</h1>
-          {% if threads %}
-            {#
-            <form method="POST" class="mb-3">
-              <div class="input-group">
-                <input
-                  type="search"
-                  class="form-control"
-                  placeholder="{{ 'Search threads' | trans }}"
+          <form method="GET" class="mb-3">
+            <div class="input-group">
+              <input
+                type="search"
+                name="search"
+                class="form-control"
+                placeholder="{{ 'Search threads' | trans }}"
+                value="{{ search }}"
+              >
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="submit"
                 >
-                <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="submit"
-                  >
-                    {{ 'Search' | trans }}
-                  </button>
-                </div>
+                  {{ 'Search' | trans }}
+                </button>
               </div>
-              <input type="hidden" name="action" value="search" />
-            </form>
-            #}
-            <div class="list-group">
+            </div>
+            <input type="hidden" name="action" value="search" />
+          </form>
+          {% if threads %}
+            <div id="messaging-threads" class="list-group">
               {% for threadSingle in threads %}
                 <a
                   href="{{ url('messaging.threads.detail', {
                     id: threadSingle.id,
+                    search: search,
                   }) }}"
-                  class="list-group-item list-group-item-action
+                  class="messaging-thread list-group-item list-group-item-action
                     {{ thread and thread.getId() == threadSingle.id ? 'active' : '' }}"
                   data-id="{{ threadSingle.id }}"
                 >
@@ -50,16 +51,17 @@
                     {% endif %}
                   </div>
                   {% if threadSingle.last_message %}
-                    <p class="mt-1 mb-0">{{ threadSingle.last_message }}</p>
+                    <p class="messaging-thread-last-message mt-1 mb-0"
+                      title="{{ threadSingle.last_message }}">
+                      {{ threadSingle.last_message }}
+                    </p>
                   {% endif %}
                 </a>
               {% endfor %}
             </div>
           {% else %}
-            <div class="p-4">
-              <div class="alert alert-info">
-                {{ 'no_threads_yet' | trans({}, 'messaging') }}
-              </div>
+            <div class="alert alert-info">
+              {{ 'no_threads_found' | trans({}, 'messaging') }}
             </div>
           {% endif %}
         </div>

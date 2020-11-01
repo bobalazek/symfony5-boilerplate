@@ -1,0 +1,39 @@
+{% set user_locale = app.request.locale ? app.request.locale : app.request.defaultLocale %}
+{% set meta_defaults = {
+  locale: user_locale,
+  description: app_description,
+  keywords: app_keywords,
+  image: url('home') ~ 'assets/images/logos/default.png',
+} %}
+{% set meta = meta is defined
+  ? meta_defaults | merge(meta | only_with_values)
+  : meta_defaults %}
+<!doctype html>
+<html lang="{{ meta.locale }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <meta name="description" content="{{ meta.description }}" />
+    <meta name="keywords" content="{{ meta.keywords }}" />
+    <link rel="cannonical" href="{{ app.request.uri }}" />
+    <meta property="og:title" content="{{ block('title') }}" />
+    <meta property="og:site_name" content="{{ app_name }}" />
+    <meta property="og:description" content="{{ meta.description }}" />
+    <meta property="og:locale" content="{{ meta.locale }}" />
+    <meta property="og:url" content="{{ app.request.uri }}" />
+    <meta property="og:image" content="{{ meta.image }}" />
+    <meta name="twitter:title" content="{{ block('title') }}" />
+    <meta name="twitter:site" content="@{{ app_twitter_handle }}" />
+    <meta name="twitter:description" content="{{ meta.description }}" />
+    <meta name="twitter:image" content="{{ meta.image }}" />
+    <meta name="twitter:card" content="summary" />
+    {% block head_stylesheets %}{% endblock %}
+  </head>
+  <body class="{% block body_class %}{% endblock %}"{% block body_attr %}{% endblock %}>
+    {% block body %}{% endblock %}
+    {% block body_javascripts %}{% endblock %}
+  </body>
+</html>

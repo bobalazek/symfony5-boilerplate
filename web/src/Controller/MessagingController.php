@@ -136,6 +136,13 @@ class MessagingController extends AbstractController
                 new ThreadUserMessageMessage($threadUserMessage->getId())
             );
 
+            if($request->isXmlHttpRequest()) {
+                return $this->json([
+                    'success' => true,
+                    'data' => $threadUserMessage->toArray(),
+                ]);
+            }
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('thread.flash.message.success', [], 'messaging')

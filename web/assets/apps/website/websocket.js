@@ -10,6 +10,8 @@ export default class AppWebSocket {
     this.socket = new WebSocket(url);
 
     this.debug = options && options.debug === true;
+    this.isAlive = false;
+    this.pingIntervalTime = 15000; // in miliseconds
     this.handlers = {};
     this.channelHandlers = {};
 
@@ -26,6 +28,8 @@ export default class AppWebSocket {
       if (this.debug) {
         console.log('Socket message.', e);
       }
+
+      this.isAlive = true;
 
       const parsedData = JSON.parse(e.data);
       switch (parsedData.event) {
@@ -55,9 +59,12 @@ export default class AppWebSocket {
   resetConnectionTimeout() {
     clearTimeout(this.connectionTimeout);
 
+    // If we didn't get a pong back in 30 (+5 seconds roundtrip tolerance),
+    // then you we should close the connection
     this.connectionTimeout = setTimeout(() => {
+      this.isAlive = false;
       this.socket.close();
-    }, 30000 + 1000);
+    }, this.pingIntervalTime + 5000);
   }
 
   startPing() {
@@ -68,7 +75,7 @@ export default class AppWebSocket {
           id: Math.random().toString(36).slice(2),
         },
       });
-    }, 10000);
+    }, this.pingIntervalTime);
   }
 
   onMessage(data) {

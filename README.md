@@ -2,8 +2,6 @@
 
 ![CI](https://github.com/bobalazek/symfony5-boilerplate/workflows/Development%20Workflow/badge.svg)
 
-The Symfony5 boilerplate template.
-
 ## Features
 
 * User system

@@ -36,7 +36,8 @@ class UsersController extends AbstractUsersController
         if ($search) {
             $queryBuilder
                 ->where($queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->like('u.name', ':search'),
+                    //$queryBuilder->expr()->like('u.name', ':search'),
+                    $queryBuilder->expr()->like("CONCAT(u.firstName, ' ', u.lastName)", ':search'),
                     $queryBuilder->expr()->like('u.username', ':search'),
                     $queryBuilder->expr()->like('u.email', ':search')
                 ))

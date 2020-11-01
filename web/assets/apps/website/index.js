@@ -118,15 +118,23 @@ function setupMessaging() {
 
     $messagingThreadMessagesFormSubmitButton.prop('disabled', true);
 
+    function afterMessagePost() {
+      $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
+      $messagingThreadMessagesForm.find('textarea').val('');
+      $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
+    }
+
     $.ajax({
       type: 'POST',
       data: $messagingThreadMessagesForm.serialize(),
       success: function () {
-        loadMessages('append', function () {
-          $messagingThreadMessagesFormSubmitButton.prop('disabled', false);
-          $messagingThreadMessagesForm.find('textarea').val('');
-          $messagingThreadMessages.scrollTop($messagingThreadMessagesInner.outerHeight());
-        });
+        if (socket && socket.isAlive) {
+          afterMessagePost();
+
+          return;
+        }
+
+        loadMessages('append', afterMessagePost);
       },
     });
   });
@@ -138,11 +146,14 @@ function setupMessaging() {
     });
   }
 
-  /*
   setInterval(function () {
+    // Don't do anything if the socket connection is alove
+    if (socket && socket.isAlive) {
+      return;
+    }
+
     loadMessages('append');
   }, 30000);
-  */
 }
 
 function loadMessages(type, callback) {
@@ -168,13 +179,22 @@ function loadMessages(type, callback) {
   }
 
   $.get(url, function (responseHtml) {
-    var $messagingThreadMessagesInnerResponse = $(responseHtml).find('#messaging-thread-messages-inner');
+    var $responseHtml = $(responseHtml);
+    var $messagingThreadMessagesInnerResponse = $responseHtml.find('#messaging-thread-messages-inner');
     var newMessagingThreadMessagesHtml = $messagingThreadMessagesInnerResponse
       ? $messagingThreadMessagesInnerResponse.html()
       : '';
 
+    if (!$('#messaging-thread-messages-inner').length) {
+      $('#messaging-thread-messages').html(
+        $responseHtml.find('#messaging-thread-messages').html()
+      );
+
+      return;
+    }
+
     if (type === 'append') {
-      $('#messaging-thread-messages-inner').append(newMessagingThreadMessagesHtml);
+      $messagingThreadMessagesInner.append(newMessagingThreadMessagesHtml);
 
       setTimeout(function () {
         // TODO: maybe only if you are actually scrolled to the bottom?
@@ -183,7 +203,7 @@ function loadMessages(type, callback) {
     } else if (type === 'prepend') {
       var messagesCurrentHeight = $messagingThreadMessagesInner.outerHeight();
 
-      $('#messaging-thread-messages-inner').prepend(newMessagingThreadMessagesHtml);
+      $messagingThreadMessagesInner.prepend(newMessagingThreadMessagesHtml);
 
       $messagingThreadMessagesInner.attr(
         'data-has-more-prepend-entries',
@@ -196,12 +216,16 @@ function loadMessages(type, callback) {
         );
       });
     } else {
-      $('#messaging-thread-messages-inner').html(newMessagingThreadMessagesHtml);
+      $messagingThreadMessagesInner.html(newMessagingThreadMessagesHtml);
 
       $messagingThreadMessagesInner.removeAttr('data-has-more-prepend-entries');
     }
 
-    $('#messaging-thread-messages-inner').find('.loader').remove();
+    $('#messaging-threads-wrapper').html(
+      $responseHtml.find('#messaging-thread-wrapper').html()
+    );
+
+    $messagingThreadMessagesInner.find('.loader').remove();
 
     if (callback) {
       callback();

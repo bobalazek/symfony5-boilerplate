@@ -27,9 +27,14 @@ div.avatar-image {
 }
 
 /***** Select2 *****/
-.select2-container--bootstrap4.select2-container--focus {
-  .select2-selection {
-    -webkit-box-shadow: none;
-    box-shadow: none;
+.select2-container {
+    width: 100% !important;
+    max-width: 100%;
+
+  &.select2-container--bootstrap4.select2-container--focus {
+    .select2-selection {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
   }
 }

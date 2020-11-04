@@ -189,6 +189,12 @@ function loadMessages(type, callback) {
       $('#messaging-thread-messages').html(
         $responseHtml.find('#messaging-thread-messages').html()
       );
+      
+      $messagingThreadMessagesInner.find('.loader').remove();
+      
+      if (callback) {
+        callback();
+      }
 
       return;
     }

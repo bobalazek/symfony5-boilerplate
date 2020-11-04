@@ -31,12 +31,12 @@ class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
     private $id;
 
     /**
-     * @ORM\Column(name="status", type="string", length=16)
+     * @ORM\Column(type="string", length=16)
      */
     private $status;
 
     /**
-     * @ORM\Column(name="token", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $token;
 

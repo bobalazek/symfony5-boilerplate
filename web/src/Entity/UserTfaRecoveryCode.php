@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Entity(repositoryClass="App\Repository\ORM\UserTfaRecoveryCodeRepository")
  * @ORM\Table(name="user_tfa_recovery_codes")
  */
-class UserTfaRecoveryCode implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
+class UserTfaRecoveryCode implements Interfaces\ArrayInterface, TimestampableInterface
 {
     use TimestampableTrait;
 

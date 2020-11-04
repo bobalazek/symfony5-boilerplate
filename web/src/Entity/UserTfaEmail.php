@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Entity(repositoryClass="App\Repository\ORM\UserTfaEmailRepository")
  * @ORM\Table(name="user_tfa_emails")
  */
-class UserTfaEmail implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
+class UserTfaEmail implements Interfaces\ArrayInterface, TimestampableInterface
 {
     use TimestampableTrait;
 

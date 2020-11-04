@@ -10,10 +10,13 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Entity(repositoryClass="App\Repository\ORM\UserFollowerRepository")
  * @ORM\Table(name="user_followers")
  */
-class UserFollower implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
+class UserFollower implements Interfaces\ArrayInterface, TimestampableInterface
 {
-    use Traits\StatusTrait;
     use TimestampableTrait;
+
+    const STATUS_PENDING = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_IGNORED = 'ignored';
 
     /**
      * @ORM\Id()
@@ -21,6 +24,11 @@ class UserFollower implements Interfaces\StatusInterface, Interfaces\ArrayInterf
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=16)
+     */
+    private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userFollowers")
@@ -42,6 +50,33 @@ class UserFollower implements Interfaces\StatusInterface, Interfaces\ArrayInterf
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+        public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function isStatusPending(): bool
+    {
+        return self::STATUS_PENDING === $this->getStatus();
+    }
+
+    public function isStatusApproved(): bool
+    {
+        return self::STATUS_APPROVED === $this->getStatus();
+    }
+
+    public function isStatusIgnored(): bool
+    {
+        return self::STATUS_IGNORED === $this->getStatus();
     }
 
     public function getUser(): ?User

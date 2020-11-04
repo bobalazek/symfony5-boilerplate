@@ -12,7 +12,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  * @ORM\Entity(repositoryClass="App\Repository\ORM\ThreadRepository")
  * @ORM\Table(name="threads")
  */
-class Thread implements Interfaces\StatusInterface, Interfaces\ArrayInterface, TimestampableInterface
+class Thread implements Interfaces\ArrayInterface, TimestampableInterface
 {
     use TimestampableTrait;
 

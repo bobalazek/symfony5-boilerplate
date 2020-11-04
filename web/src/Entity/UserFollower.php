@@ -52,7 +52,7 @@ class UserFollower implements Interfaces\ArrayInterface, TimestampableInterface
         return $this->id;
     }
 
-        public function getStatus(): ?string
+    public function getStatus(): ?string
     {
         return $this->status;
     }

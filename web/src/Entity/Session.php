@@ -14,20 +14,20 @@ class Session
      * @ORM\Id()
      * @ORM\Column(name="sess_id", type="string", length=128)
      */
-    protected $sessId;
+    private $sessId;
 
     /**
      * @ORM\Column(name="sess_data", type="blob")
      */
-    protected $sessData;
+    private $sessData;
 
     /**
      * @ORM\Column(name="sess_time", type="integer")
      */
-    protected $sessTime;
+    private $sessTime;
 
     /**
      * @ORM\Column(name="sess_lifetime", type="integer")
      */
-    protected $sessLifetime;
+    private $sessLifetime;
 }

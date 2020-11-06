@@ -113,6 +113,7 @@
             "@auto-scripts"
         ],
         "database-recreate": [
+            "php bin/console doctrine:schema:validate",
             "php bin/console doctrine:schema:drop --force",
             "php bin/console doctrine:schema:update --force",
             "php bin/console doctrine:fixtures:load --no-interaction"

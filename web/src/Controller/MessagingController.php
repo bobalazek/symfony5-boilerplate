@@ -184,8 +184,8 @@ class MessagingController extends AbstractController
         $this->em->flush();
 
         $limit = 20;
-        $untilId = (int) $request->get('until_id');
-        $sinceId = (int) $request->get('since_id');
+        $after = (int) $request->get('after');
+        $before = (int) $request->get('before');
 
         /** @var QueryBuilder $threadUserMessagesQueryBuilder */
         $threadUserMessagesQueryBuilder = $this->em
@@ -199,17 +199,17 @@ class MessagingController extends AbstractController
             ->setFirstResult(0)
         ;
 
-        if ($untilId) {
+        if ($after) {
             $threadUserMessagesQueryBuilder
-                ->andWhere('tum.id < :untilId')
-                ->setParameter('untilId', $untilId)
+                ->andWhere('tum.id > :after')
+                ->setParameter('after', $after)
             ;
         }
 
-        if ($sinceId) {
+        if ($before) {
             $threadUserMessagesQueryBuilder
-                ->andWhere('tum.id > :sinceId')
-                ->setParameter('sinceId', $sinceId)
+                ->andWhere('tum.id < :before')
+                ->setParameter('before', $before)
             ;
         }
 

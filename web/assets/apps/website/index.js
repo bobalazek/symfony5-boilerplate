@@ -165,13 +165,13 @@ function loadMessages(type, callback) {
 
   var url = window.location.href;
   if (type === 'append') {
-    url += '?since_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:last').length
+    url += '?after=' + ($messagingThreadMessagesInner.find('.thread-user-message:last').length
       ? $messagingThreadMessagesInner.find('.thread-user-message:last').attr('data-id')
       : 0);
 
     $messagingThreadMessagesInner.append(loaderHtml);
   } else if (type === 'prepend') {
-    url += '?until_id=' + ($messagingThreadMessagesInner.find('.thread-user-message:first').length
+    url += '?before=' + ($messagingThreadMessagesInner.find('.thread-user-message:first').length
       ? $messagingThreadMessagesInner.find('.thread-user-message:first').attr('data-id')
       : 0);
 
@@ -189,9 +189,9 @@ function loadMessages(type, callback) {
       $('#messaging-thread-messages').html(
         $responseHtml.find('#messaging-thread-messages').html()
       );
-      
+
       $messagingThreadMessagesInner.find('.loader').remove();
-      
+
       if (callback) {
         callback();
       }

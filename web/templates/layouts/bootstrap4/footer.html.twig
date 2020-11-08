@@ -64,7 +64,7 @@
                       alt="{{ locale_data.label }}"
                       width="32"
                       height="16"
-                      src="{{ url('home') }}/assets/images/flags/{{ locale_data.flag }}"
+                      src="{{ asset('assets/images/flags/' ~ locale_data.flag) }}"
                     >
                     {{ locale_data.label }}
                   </a>

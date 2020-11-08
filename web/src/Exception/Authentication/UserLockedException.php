@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace App\Exception\Authentication;
 
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 

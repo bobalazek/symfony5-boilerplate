@@ -3,8 +3,8 @@
 namespace App\Security\User;
 
 use App\Entity\User;
-use App\Exception\UserEmailNotConfirmedException;
-use App\Exception\UserLockedException;
+use App\Exception\Authentication\UserEmailNotConfirmedException;
+use App\Exception\Authentication\UserLockedException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\UserOauthProvider;
-use App\Exception\UserOauthProviderNotFoundException;
+use App\Exception\Authentication\UserOauthProviderNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

@@ -3,7 +3,7 @@
   locale: user_locale,
   description: app_description,
   keywords: app_keywords,
-  image: url('home') ~ 'assets/images/logos/default.png',
+  image: asset('assets/images/logos/default.png'),
 } %}
 {% set meta = meta is defined
   ? meta_defaults | merge(meta | only_with_values)

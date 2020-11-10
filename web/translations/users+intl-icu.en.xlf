@@ -97,8 +97,8 @@
         <source>detail.user_is_deleted</source>
         <target>User is deleted</target>
       </trans-unit>
-      <trans-unit id="7QCKUu." resname="users.detail.blocked_by_user">
-        <source>users.detail.blocked_by_user</source>
+      <trans-unit id="Jcx_uTG" resname="detail.blocked_by_user">
+        <source>detail.blocked_by_user</source>
         <target>You are blocked by this user</target>
       </trans-unit>
       <trans-unit id="3jnoOel" resname="followers.no_users_yet">

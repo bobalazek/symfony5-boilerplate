@@ -24,7 +24,7 @@
           </a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ url('users.detail', {
-              username: 'me',
+              username: app.user.getUsername(),
             }) }}">
               {{ 'Profile' | trans }}
             </a>

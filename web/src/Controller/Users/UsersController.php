@@ -89,16 +89,14 @@ class UsersController extends AbstractUsersController
             $where = 'u.username = :username';
         }
 
-        $user = 'me' === $username
-            ? $userMyself
-            : $this->em
-                ->getRepository(User::class)
-                ->createQueryBuilder('u')
-                ->where($where)
-                ->setMaxResults(1)
-                ->setParameter('username', $username)
-                ->getQuery()
-                ->getOneOrNullResult()
+        $user = $this->em
+            ->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->where($where)
+            ->setParameter('username', $username)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user_not_found', [], 'users'));

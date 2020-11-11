@@ -40,7 +40,7 @@
             <a class="dropdown-item" href="{{ url('settings') }}">
               {{ 'Settings' | trans }}
             </a>
-            {% if is_granted('ROLE_MODERATOR') or is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_MODERATOR') or is_granted('ROLE_ADMIN') or is_granted('IS_IMPERSONATOR') %}
               <div class="dropdown-divider"></div>
             {% endif %}
             {% if is_granted('ROLE_MODERATOR') %}

@@ -45,17 +45,13 @@ class UserActionManager
     }
 
     /**
-     * @param string $key
-     * @param string $message
-     * @param User   $user
-     *
-     * @return bool
+     * @return UserAction
      */
     public function add(
-        $key,
-        $message,
+        string $key,
+        string $message,
         array $data = [],
-        User $user = null
+        ?User $user = null
     ) {
         if (!$user) {
             $user = $this->security->getUser();
@@ -77,6 +73,6 @@ class UserActionManager
         $this->em->persist($userAction);
         $this->em->flush();
 
-        return true;
+        return $userAction;
     }
 }

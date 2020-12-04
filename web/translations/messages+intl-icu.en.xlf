@@ -569,6 +569,22 @@
         <source>Completed</source>
         <target>Completed</target>
       </trans-unit>
+      <trans-unit id="94V33HR" resname="Impersonate">
+        <source>Impersonate</source>
+        <target>Impersonate</target>
+      </trans-unit>
+      <trans-unit id="x4._GVc" resname="Platform">
+        <source>Platform</source>
+        <target>Platform</target>
+      </trans-unit>
+      <trans-unit id="h6d.eyB" resname="Platform version">
+        <source>Platform version</source>
+        <target>Platform version</target>
+      </trans-unit>
+      <trans-unit id="NFx0I1Z" resname="Back to Admin">
+        <source>Back to Admin</source>
+        <target>Back to Admin</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

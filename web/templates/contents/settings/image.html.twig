@@ -1,14 +1,48 @@
 {% extends 'contents/settings/_layout.html.twig' %}
 
-{% set image_url = vich_uploader_asset(app.user, 'imageFile') %}
+{% set user_image_url = vich_uploader_asset(app.user, 'imageFile') %}
+{% set user_avatar_image = app.user.getAvatarImage() %}
 
 {% block title %}{{ 'Image' | trans }} | {{ parent() }}{% endblock %}
 
 {% block main %}
   <h2>{{ 'Image' | trans }}</h2>
   {{ form_start(form) }}
+    <div>
+      <div class="avatars-selector row">
+        {% if user_image_url %}
+          <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
+            <div
+              class="single-avatar-image {{ user_avatar_image == null ? 'selected' : '' }}"
+              data-name=""
+            >
+              <img
+                class="img-fluid"
+                src="{{ user_image_url }}"
+              />
+            </div>
+          </div>
+        {% endif %}
+        {% for avatar_image in avatar_images %}
+          {% set is_selected = user_avatar_image == avatar_image or
+            (user_avatar_image == null and user_image_url == null and avatar_image == '00.png') %}
+          <div class="col-lg-2 col-md-3 col-sm-6 mb-4">
+            <div
+              class="single-avatar-image {{ is_selected ? 'selected' : '' }}"
+              data-name="{{ avatar_image }}"
+            >
+              <img
+                class="img-fluid"
+                src="{{ asset('assets/images/avatars/' ~ avatar_image) }}"
+              />
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="text-center or-text">{{ 'image.or_upload_custom_one_below' | trans({}, 'settings') }}</p>
     <div class="custom-file-wrapper">
-      {% if image_url %}
+      {% if user_image_url %}
         <div class="text-center">
           {% include 'contents/_shared/user/user_avatar.html.twig' with {
             user: app.user,
@@ -21,42 +55,10 @@
           }) }}">
           {{ 'Clear image' | trans }}
         </a>
-        <p class="text-center or-text">{{ 'image.or_select_a_new_one_below' | trans({}, 'settings') }}</p>
       {% else %}
         <img src="" class="img-fluid" />
       {% endif %}
       {{ form_row(form.imageFile) }}
-    </div>
-    <div>
-      <p class="text-center">{{ 'image.or_select_an_existing_avatar_below' | trans({}, 'settings') }}</p>
-      <div class="avatars-selector row">
-        {% if image_url %}
-          <div class="col-md-2 mb-4">
-            <div
-              class="single-avatar-image {{ app.user.getAvatarImage() == null ? 'selected' : '' }}"
-              data-name=""
-            >
-              <img
-                class="img-fluid"
-                src="{{ image_url }}"
-              />
-            </div>
-          </div>
-        {% endif %}
-        {% for avatar_image in avatar_images %}
-          <div class="col-md-2 mb-4">
-            <div
-              class="single-avatar-image {{ app.user.getAvatarImage() == avatar_image ? 'selected' : '' }}"
-              data-name="{{ avatar_image }}"
-            >
-              <img
-                class="img-fluid"
-                src="{{ asset('assets/images/avatars/' ~ avatar_image) }}"
-              />
-            </div>
-          </div>
-        {% endfor %}
-      </div>
     </div>
     <button class="btn btn-lg btn-block btn-primary" type="submit">
       {{ 'Save' | trans }}

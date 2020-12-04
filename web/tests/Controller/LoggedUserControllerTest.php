@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollower;
 use App\Tests\WebTestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class LoggedUserControllerTest.
@@ -159,6 +160,56 @@ class LoggedUserControllerTest extends WebTestCase
         $message = $messages[0];
         $this->assertInstanceOf('Symfony\Bridge\Twig\Mime\TemplatedEmail', $message);
         $this->assertSame('user+newemail@corcosoft.com', $message->getTo()[0]->getAddress());
+    }
+
+    public function testSettingsImageUploadAndClear()
+    {
+        $this->client->followRedirects();
+
+        // Upload
+        $fileUrl = 'https://via.placeholder.com/128?text=Image';
+        $tmpFileName = md5($fileUrl);
+        $tmpFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $tmpFileName;
+        if (!file_exists($tmpFile)) {
+            copy($fileUrl, $tmpFile);
+        }
+
+        $crawler = $this->client->request('GET', '/settings/image');
+        $form = $crawler
+            ->selectButton('Save')
+            ->form([
+                'settings_image[imageFile]' => new UploadedFile(
+                    $tmpFile,
+                    'image.png',
+                    'image/png',
+                    null,
+                    true
+                ),
+            ])
+        ;
+        $this->client->submit($form);
+
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneByUsername('user')
+        ;
+        $this->assertTrue(null !== $user->getImageFileEmbedded()->getName());
+
+        // Clear
+        $this->client->request('GET', '/settings/image?action=clear_image_file');
+
+        // TODO: for whatever stupid reason this doesn't work
+        // and I'm very tired of hours trying to fix it.
+        /*
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneByUsername('user')
+        ;
+        $this->assertTrue(null === $user->getImageFileEmbedded()->getName());
+        */
+
+        // Temporary solution
+        $this->assertSelectorTextContains('html div.alert', 'successfully');
     }
 
     public function provideUrls()

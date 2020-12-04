@@ -7,6 +7,9 @@ use App\Entity\UserBlock;
 use App\Entity\UserFollower;
 use App\Entity\UserPoint;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Handler\UploadHandler;
 
 /**
  * Class UserManager.
@@ -18,9 +21,24 @@ class UserManager
      */
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
-    {
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
+     * @var UploadHandler
+     */
+    private $uploadHandler;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        Security $security,
+        UploadHandler $uploadHandler
+    ) {
         $this->em = $em;
+        $this->security = $security;
+        $this->uploadHandler = $uploadHandler;
     }
 
     /**
@@ -123,5 +141,36 @@ class UserManager
             ->getQuery()
             ->getSingleScalarResult() ?? 0
         ;
+    }
+
+    /**
+     * @return bool
+     */
+    public function removeUploadedImage()
+    {
+        $userMyself = $this->getUser();
+        if (!$userMyself) {
+            return false;
+        }
+
+        if ($userMyself->getImageFileEmbedded()) {
+            $this->uploadHandler->remove($userMyself, 'imageFile');
+        }
+
+        return true;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser()
+    {
+        /** @var string|\Stringable|User $user */
+        $user = $this->security->getUser();
+        if (!($user instanceof UserInterface)) {
+            return null;
+        }
+
+        return $user;
     }
 }

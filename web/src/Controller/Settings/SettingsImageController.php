@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\Type\SettingsImageType;
 use App\Manager\AvatarManager;
 use App\Manager\UserActionManager;
+use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -35,6 +36,11 @@ class SettingsImageController extends AbstractController
     private $em;
 
     /**
+     * @var UserManager
+     */
+    private $userManager;
+
+    /**
      * @var UserActionManager
      */
     private $userActionManager;
@@ -43,11 +49,13 @@ class SettingsImageController extends AbstractController
         TranslatorInterface $translator,
         ParameterBagInterface $params,
         EntityManagerInterface $em,
+        UserManager $userManager,
         UserActionManager $userActionManager
     ) {
         $this->translator = $translator;
         $this->params = $params;
         $this->em = $em;
+        $this->userManager = $userManager;
         $this->userActionManager = $userActionManager;
     }
 
@@ -63,10 +71,7 @@ class SettingsImageController extends AbstractController
 
         $action = $request->query->get('action');
         if ('clear_image_file' === $action) {
-            $user
-                ->setImageFile(null)
-                ->setImageFileEmbedded(null)
-            ;
+            $this->userManager->removeUploadedImage();
 
             $this->em->persist($user);
             $this->em->flush();
@@ -92,6 +97,12 @@ class SettingsImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // We must force that, else the image upload subscriber won't kick in
             $user->setUpdatedAt(new \DateTime());
+
+            $imageFile = $user->getImageFile();
+            if ($imageFile) {
+                $this->userManager->removeUploadedImage();
+                $user->setAvatarImage(null);
+            }
 
             $this->em->persist($user);
             $this->em->flush();

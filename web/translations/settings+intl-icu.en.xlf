@@ -181,6 +181,10 @@
         <source>flash.new_email_already_in_use_by_another_user</source>
         <target>The new email is already in use by another user. Please select another email or if that other user is you, change the email there first to another one, before changing it for this user</target>
       </trans-unit>
+      <trans-unit id="7GzW8vY" resname="image.or_upload_custom_one_below">
+        <source>image.or_upload_custom_one_below</source>
+        <target>or upload a custom one below</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

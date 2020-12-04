@@ -22,7 +22,7 @@ class UserExportCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields(['id', 'status', 'token', 'failedMessage', 'embeddedFile.name', 'embeddedFile.originalName', 'embeddedFile.mimeType', 'embeddedFile.size', 'embeddedFile.dimensions'])
+            ->setSearchFields(['id', 'status', 'token', 'failedMessage', 'imageFileEmbedded.name', 'imageFileEmbedded.originalName', 'imageFileEmbedded.mimeType', 'imageFileEmbedded.size', 'imageFileEmbedded.dimensions'])
         ;
     }
 

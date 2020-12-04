@@ -48,11 +48,11 @@ class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
     /**
      * @Vich\UploadableField(
      *   mapping="user_export",
-     *   fileNameProperty="embeddedFile.name",
-     *   size="embeddedFile.size",
-     *   mimeType="embeddedFile.mimeType",
-     *   originalName="embeddedFile.originalName",
-     *   dimensions="embeddedFile.dimensions"
+     *   fileNameProperty="fileEmbedded.name",
+     *   size="fileEmbedded.size",
+     *   mimeType="fileEmbedded.mimeType",
+     *   originalName="fileEmbedded.originalName",
+     *   dimensions="fileEmbedded.dimensions"
      * )
      */
     private $file;
@@ -62,7 +62,7 @@ class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
      *
      * @var EmbeddedFile
      */
-    private $embeddedFile;
+    private $fileEmbedded;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -92,7 +92,7 @@ class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
 
     public function __construct()
     {
-        $this->embeddedFile = new EmbeddedFile();
+        $this->fileEmbedded = new EmbeddedFile();
     }
 
     public function __toString()
@@ -153,14 +153,14 @@ class UserExport implements Interfaces\ArrayInterface, TimestampableInterface
         return $this;
     }
 
-    public function getEmbeddedFile(): ?EmbeddedFile
+    public function getFileEmbedded(): ?EmbeddedFile
     {
-        return $this->embeddedFile;
+        return $this->fileEmbedded;
     }
 
-    public function setEmbeddedFile(?EmbeddedFile $embeddedFile): self
+    public function setFileEmbedded(?EmbeddedFile $fileEmbedded): self
     {
-        $this->embeddedFile = $embeddedFile;
+        $this->fileEmbedded = $fileEmbedded;
 
         return $this;
     }

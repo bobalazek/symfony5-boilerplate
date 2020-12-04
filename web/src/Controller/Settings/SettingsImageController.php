@@ -65,7 +65,7 @@ class SettingsImageController extends AbstractController
         if ('clear_image_file' === $action) {
             $user
                 ->setImageFile(null)
-                ->setEmbeddedFile(null)
+                ->setImageFileEmbedded(null)
             ;
 
             $this->em->persist($user);

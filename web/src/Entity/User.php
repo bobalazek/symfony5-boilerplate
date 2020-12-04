@@ -144,11 +144,11 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
     /**
      * @Vich\UploadableField(
      *   mapping="user_image",
-     *   fileNameProperty="embeddedFile.name",
-     *   size="embeddedFile.size",
-     *   mimeType="embeddedFile.mimeType",
-     *   originalName="embeddedFile.originalName",
-     *   dimensions="embeddedFile.dimensions"
+     *   fileNameProperty="imageFileEmbedded.name",
+     *   size="imageFileEmbedded.size",
+     *   mimeType="imageFileEmbedded.mimeType",
+     *   originalName="imageFileEmbedded.originalName",
+     *   dimensions="imageFileEmbedded.dimensions"
      * )
      * @Assert\Image(
      *     maxSize="4M",
@@ -166,7 +166,7 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
      *
      * @var EmbeddedFile
      */
-    private $embeddedFile;
+    private $imageFileEmbedded;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -305,7 +305,7 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
 
     public function __construct()
     {
-        $this->embeddedFile = new EmbeddedFile();
+        $this->imageFileEmbedded = new EmbeddedFile();
         $this->userActions = new ArrayCollection();
         $this->userExports = new ArrayCollection();
         $this->userBlocks = new ArrayCollection();
@@ -548,14 +548,14 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
         return $this;
     }
 
-    public function getEmbeddedFile(): ?EmbeddedFile
+    public function getImageFileEmbedded(): ?EmbeddedFile
     {
-        return $this->embeddedFile;
+        return $this->imageFileEmbedded;
     }
 
-    public function setEmbeddedFile(?EmbeddedFile $embeddedFile): self
+    public function setImageFileEmbedded(?EmbeddedFile $imageFileEmbedded): self
     {
-        $this->embeddedFile = $embeddedFile;
+        $this->imageFileEmbedded = $imageFileEmbedded;
 
         return $this;
     }

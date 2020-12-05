@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class UserDeviceListener
 {
     /**
-     * @param EntityManagerInterface $em
+     * @var EntityManagerInterface
      */
     private $em;
 

@@ -66,9 +66,6 @@ class SettingsImageController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        /** @var User $user */
-        $user = $this->getUser();
-
         $action = $request->query->get('action');
         if ('clear_image_file' === $action) {
             $this->userManager->removeUploadedImage();

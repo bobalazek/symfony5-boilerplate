@@ -188,28 +188,11 @@ class LoggedUserControllerTest extends WebTestCase
             ])
         ;
         $this->client->submit($form);
-
-        $user = $this->em
-            ->getRepository(User::class)
-            ->findOneByUsername('user')
-        ;
-        $this->assertTrue(null !== $user->getImageFileEmbedded()->getName());
+        $this->assertSelectorTextContains('html div.alert.alert-success', 'successfully');
 
         // Clear
         $this->client->request('GET', '/settings/image?action=clear_image_file');
-
-        // TODO: for whatever stupid reason this doesn't work
-        // and I'm very tired of hours trying to fix it.
-        /*
-        $user = $this->em
-            ->getRepository(User::class)
-            ->findOneByUsername('user')
-        ;
-        $this->assertTrue(null === $user->getImageFileEmbedded()->getName());
-        */
-
-        // Temporary solution
-        $this->assertSelectorTextContains('html div.alert', 'successfully');
+        $this->assertSelectorTextContains('html div.alert.alert-success', 'successfully');
     }
 
     public function provideUrls()

@@ -188,11 +188,11 @@ class LoggedUserControllerTest extends WebTestCase
             ])
         ;
         $this->client->submit($form);
-        $this->assertSelectorTextContains('html div.alert.alert-success', 'successfully');
+        $this->assertSelectorTextContains('html div.alert-success', 'successfully');
 
         // Clear
         $this->client->request('GET', '/settings/image?action=clear_image_file');
-        $this->assertSelectorTextContains('html div.alert.alert-success', 'successfully');
+        $this->assertSelectorTextContains('html div.alert-success', 'successfully');
     }
 
     public function provideUrls()

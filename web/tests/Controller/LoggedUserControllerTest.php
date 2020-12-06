@@ -168,7 +168,7 @@ class LoggedUserControllerTest extends WebTestCase
 
         // Upload
         $fileUrl = 'https://via.placeholder.com/128?text=Image';
-        $tmpFileName = md5($fileUrl);
+        $tmpFileName = md5($fileUrl) . '.png';
         $tmpFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $tmpFileName;
         if (!file_exists($tmpFile)) {
             copy($fileUrl, $tmpFile);

@@ -65,6 +65,9 @@ class SettingsImageController extends AbstractController
     public function index(Request $request, AvatarManager $avatarManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+        
+        /** @var User $user */	
+        $user = $this->getUser();
 
         $action = $request->query->get('action');
         if ('clear_image_file' === $action) {

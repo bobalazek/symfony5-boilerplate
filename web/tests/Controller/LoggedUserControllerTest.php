@@ -166,6 +166,7 @@ class LoggedUserControllerTest extends WebTestCase
     {
         $this->markTestIncomplete('This test is not working correctly yet.');
 
+        /*
         $this->client->followRedirects();
 
         // Upload
@@ -195,6 +196,7 @@ class LoggedUserControllerTest extends WebTestCase
         // Clear
         $this->client->request('GET', '/settings/image?action=clear_image_file');
         $this->assertSelectorTextContains('html div.alert-success', 'successfully');
+        */
     }
 
     public function provideUrls()

@@ -13,6 +13,13 @@ return PhpCsFixer\Config::create()
     '@Symfony' => true,
     'array_syntax' => ['syntax' => 'short'],
     'concat_space' => ['spacing' => 'one'],
+    'operator_linebreak' => [
+      'only_booleans' => true,
+      'position' => 'end',
+    ],
+    // For some strange reason that strips the additional "*"
+    // in comments like /** @var Post $post */ so we need to disable it
+    'phpdoc_to_comment' => false,
   ])
   ->setFinder($finder)
 ;

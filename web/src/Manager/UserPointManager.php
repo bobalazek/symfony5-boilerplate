@@ -31,7 +31,7 @@ class UserPointManager
     }
 
     /**
-     * @return bool
+     * @return UserPoint
      */
     public function add(
         string $key,
@@ -54,6 +54,6 @@ class UserPointManager
         $this->em->persist($userPoint);
         $this->em->flush();
 
-        return true;
+        return $userPoint;
     }
 }

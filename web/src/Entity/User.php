@@ -39,8 +39,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class User implements UserInterface, EquatableInterface, \Serializable, Interfaces\ArrayInterface, TimestampableInterface, SoftDeletableInterface
 {
-    use TimestampableTrait;
     use SoftDeletableTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id()

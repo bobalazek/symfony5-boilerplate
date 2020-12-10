@@ -121,7 +121,7 @@
             "php bin/console lint:twig templates/",
             "php bin/console lint:yaml config/",
             "php bin/console lint:xliff translations/",
-            "php-cs-fixer fix --dry-run",
+            "php-cs-fixer fix --dry-run --diff",
             "vendor/bin/phpstan analyse -c phpstan.neon"
         ],
         "test": [

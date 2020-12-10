@@ -31,7 +31,7 @@ class UserNotificationManager
     }
 
     /**
-     * @return bool
+     * @return UserNotification
      */
     public function add(
         string $type,
@@ -52,6 +52,6 @@ class UserNotificationManager
         $this->em->persist($userNotification);
         $this->em->flush();
 
-        return true;
+        return $userNotification;
     }
 }

@@ -50,5 +50,7 @@ jobs:
       # App Backend - Lint PHP files (with PHP Stan)
       # This one needs to be at the end, because the tests above
       # will create the autoload.php file in /bin/.phpunit/.../vendor
+      - name: App Backend - Prepare to Lint PHP files (with PHPStan)
+        run: cp -b web/phpstan.neon.ci web/phpstan.neon
       - name: App Backend - Lint PHP files (with PHPStan)
-        run: docker exec -i s5bp_php vendor/bin/phpstan analyse -c phpstan.neon
+        run: docker exec -i mnc_php vendor/bin/phpstan analyse

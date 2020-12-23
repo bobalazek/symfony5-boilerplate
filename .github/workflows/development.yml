@@ -53,4 +53,4 @@ jobs:
       - name: App Backend - Prepare to Lint PHP files (with PHPStan)
         run: cp -b web/phpstan.neon.ci web/phpstan.neon
       - name: App Backend - Lint PHP files (with PHPStan)
-        run: docker exec -i mnc_php vendor/bin/phpstan analyse
+        run: docker exec -i s5bp_php vendor/bin/phpstan analyse

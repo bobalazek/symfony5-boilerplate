@@ -1,4 +1,5 @@
 .php_cs.cache
+phpstan.neon
 /public/uploads/
 /src/.preload.php
 

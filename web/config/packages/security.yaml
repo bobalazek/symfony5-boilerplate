@@ -17,6 +17,9 @@ security:
             pattern: ^/
             user_checker: App\Security\User\UserChecker
             switch_user: true
+            form_login:
+                login_path: auth.login
+                use_referer: true
             guard:
                 authenticators:
                     - App\Security\Guard\Authenticator\LoginFormAuthenticator

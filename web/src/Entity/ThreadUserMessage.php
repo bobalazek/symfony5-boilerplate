@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ORM\ThreadUserMessageRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ThreadUserMessageRepository")
  * @ORM\Table(name="thread_user_messages")
  */
 class ThreadUserMessage implements Interfaces\ArrayInterface, TimestampableInterface

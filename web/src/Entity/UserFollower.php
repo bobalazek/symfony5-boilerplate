@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ORM\UserFollowerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserFollowerRepository")
  * @ORM\Table(name="user_followers")
  */
 class UserFollower implements Interfaces\ArrayInterface, TimestampableInterface

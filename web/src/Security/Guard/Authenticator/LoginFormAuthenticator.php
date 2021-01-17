@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Manager\UserActionManager;
 use App\Manager\UserDeviceManager;
 use App\Manager\UserTfaManager;
-use App\Repository\ORM\UserRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

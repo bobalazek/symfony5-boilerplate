@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ORM\UserTfaRecoveryCodeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserTfaRecoveryCodeRepository")
  * @ORM\Table(name="user_tfa_recovery_codes")
  */
 class UserTfaRecoveryCode implements Interfaces\ArrayInterface, TimestampableInterface

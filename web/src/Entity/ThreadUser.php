@@ -9,7 +9,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ORM\ThreadUserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ThreadUserRepository")
  * @ORM\Table(name="thread_users")
  */
 class ThreadUser implements Interfaces\ArrayInterface, TimestampableInterface

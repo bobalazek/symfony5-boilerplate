@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ORM\UserOauthProviderRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserOauthProviderRepository")
  * @ORM\Table(name="user_oauth_providers")
  */
 class UserOauthProvider implements Interfaces\ArrayInterface, TimestampableInterface

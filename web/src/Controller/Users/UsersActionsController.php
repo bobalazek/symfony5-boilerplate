@@ -9,7 +9,7 @@ use App\Entity\UserBlock;
 use App\Entity\UserFollower;
 use App\Entity\UserNotification;
 use App\Manager\UserNotificationManager;
-use App\Repository\ORM\ThreadRepository;
+use App\Repository\ThreadRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

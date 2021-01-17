@@ -7,7 +7,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ORM\UserBlockRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserBlockRepository")
  * @ORM\Table(name="user_blocks")
  */
 class UserBlock implements Interfaces\ArrayInterface, TimestampableInterface

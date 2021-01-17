@@ -9,13 +9,10 @@
   * Create a `docker-compose.override.yml` file and set your custom volumes there - just copy the contents from `docker-compose.override.example.yml`
 * Build the app
   * Docker (compose):
-    * Run: `docker-compose pull` (pulls down the latest images)
-    * Run: `docker-compose build` (builds the images)
     * Run: `docker-compose up -d` (boots up all the images)
   * App - Backend:
     * Run: `docker exec -ti s5bp_php composer install` (installs dependencies)
-    * Run: `docker exec -ti s5bp_php php bin/console doctrine:schema:update --force` (sets up the database schema)
-    * Run: `docker exec -ti s5bp_php php bin/console doctrine:fixtures:load --no-interaction` (loads the fixtures)
+    * Run: `docker exec -ti s5bp_php composer run-script database-recreate` (drops the schema, updates the schema and loads the fixtures)
   * App - Frontend:
     * Run: `docker exec -ti s5bp_node yarn install` (installs dependencies)
     * Run: `docker exec -ti s5bp_node yarn run build` (build the frontend app)

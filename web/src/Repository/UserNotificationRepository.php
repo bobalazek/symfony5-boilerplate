@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\ORM;
+namespace App\Repository;
 
 use App\Entity\UserNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

@@ -1,0 +1,71 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_php composer run-script database-recreate",
+			"group": "build",
+			"label": "PHP: Recreate the database",
+			"detail": "Drops the schema, updates the schema & loads the fixtures"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_php composer run-script lint",
+			"group": "build",
+			"label": "PHP: Lint",
+			"detail": "Lints YAML config files, XLIFF translations files & PHP files"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_php composer run-script test",
+			"group": "build",
+			"label": "PHP: Test",
+			"detail": "Runs PHPUnit tests"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_php composer run-script php-cs-fix",
+			"group": "build",
+			"label": "PHP: PHP-CS-Fix",
+			"detail": "Runs PHP-CS-Fixer"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_php composer run-script translations-generate",
+			"group": "build",
+			"label": "PHP: Generate translations",
+			"detail": "Generates the translations"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_php php bin/console messenger:stop-workers",
+			"group": "build",
+			"label": "PHP: Stop workers",
+			"detail": "Stops the messenger workers"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_node yarn run build",
+			"group": "build",
+			"label": "Node: Build",
+			"detail": "Build static assets (CSS & JS) for production"
+		},
+		{
+			"type": "shell",
+			"command": "docker exec -ti s5bp_node yarn run lint-fix",
+			"group": "build",
+			"label": "Node: ESLint fix",
+			"detail": "Lints & fixes JS files"
+		},
+		{
+			"type": "shell",
+			"command": "./scripts/git-pre-push.sh",
+			"windows": {
+				"command": "./scripts/git-pre-push.bat"
+			},
+			"group": "build",
+			"label": "General: GIT Pre Push",
+			"detail": "Runs the GIT pre push commands like CS lint, PHP lint & PHP tests"
+		}
+	]
+}

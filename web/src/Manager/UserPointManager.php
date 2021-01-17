@@ -37,7 +37,8 @@ class UserPointManager
         string $key,
         int $amount,
         array $data = [],
-        User $user = null
+        User $user = null,
+        bool $flush = true
     ) {
         if (!$user) {
             $user = $this->security->getUser();
@@ -52,7 +53,10 @@ class UserPointManager
         ;
 
         $this->em->persist($userPoint);
-        $this->em->flush();
+
+        if ($flush) {
+            $this->em->flush();
+        }
 
         return $userPoint;
     }

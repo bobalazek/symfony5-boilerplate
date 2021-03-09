@@ -1,6 +1,12 @@
 {
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
+    },
     "google/apiclient-services": {
         "version": "v0.156"
+    },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.1.10"

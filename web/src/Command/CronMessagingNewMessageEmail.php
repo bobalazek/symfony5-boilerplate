@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\Thread;
-use App\Entity\ThreadUser;
 use App\Entity\ThreadUserMessage;
 use App\Manager\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;

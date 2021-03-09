@@ -1,5 +1,6 @@
 parameters:
     # General
+    app.version: '0.1.0'
     app.name: 'S5BP'
     app.twitter_handle: 'corcosoft'
     app.description: 'Just your usual web platform'

@@ -15,68 +15,57 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
     /**
+     * @var array
+     */
+    private $entries;
+
+    /**
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
-
-    /**
-     * @var array
-     */
-    private $users;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
 
-        $users = [];
-
-        $finder = new Finder();
-        $finder->files()->name('*.php')->in(__DIR__ . '/data/users');
-        foreach ($finder as $file) {
-            $data = include $file;
-            foreach ($data as $entry) {
-                $users[] = $entry;
-            }
-        }
-
-        $this->users = $users;
+        $this->entries = include __DIR__ . '/data/users.php';
     }
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->users as $userData) {
-            $user = new User();
-            $user
-                ->setName($userData['name'])
-                ->setFirstName($userData['first_name'])
-                ->setLastName($userData['last_name'])
-                ->setUsername($userData['username'])
-                ->setEmail($userData['email'])
-                ->setRoles($userData['roles'])
-                ->setTfaEnabled(isset($userData['tfa_enabled']) && $userData['tfa_enabled'])
+        foreach ($this->entries as $entry) {
+            $entity = new User();
+            $entity
+                ->setName($entry['name'])
+                ->setFirstName($entry['first_name'])
+                ->setLastName($entry['last_name'])
+                ->setUsername($entry['username'])
+                ->setEmail($entry['email'])
+                ->setRoles($entry['roles'])
+                ->setTfaEnabled(isset($entry['tfa_enabled']) && $entry['tfa_enabled'])
                 ->setEmailConfirmCode(md5(random_bytes(32)))
                 ->setEmailConfirmedAt(new \DateTime())
             ;
             $password = $this->passwordEncoder->encodePassword(
-                $user,
-                $userData['password']
+                $entity,
+                $entry['password']
             );
-            $user->setPassword($password);
+            $entity->setPassword($password);
 
-            $manager->persist($user);
+            $manager->persist($entity);
 
             if (
-                isset($userData['tfa_methods']) &&
-                is_array($userData['tfa_methods'])
+                isset($entry['tfa_methods']) &&
+                is_array($entry['tfa_methods'])
             ) {
-                foreach ($userData['tfa_methods'] as $tfaMethod) {
+                foreach ($entry['tfa_methods'] as $tfaMethod) {
                     $userTfaMethod = new UserTfaMethod();
                     $userTfaMethod
                         ->setEnabled(true)
                         ->setMethod($tfaMethod)
                     ;
 
-                    $user->addUserTfaMethod($userTfaMethod);
+                    $entity->addUserTfaMethod($userTfaMethod);
                 }
             }
         }

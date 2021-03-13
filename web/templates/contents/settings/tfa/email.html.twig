@@ -13,6 +13,7 @@
   </h2>
   {{ form_start(form) }}
     {{ form_row(form.enabled) }}
+    {{ form_errors(form) }}
     <button class="btn btn-lg btn-block btn-primary" type="submit">
       {{ 'Save' | trans }}
     </button>

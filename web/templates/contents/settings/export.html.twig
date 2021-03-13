@@ -13,6 +13,7 @@
       <div class="alert alert-info">
         {{ 'export.alert.text' | trans({}, 'settings') }}
       </div>
+      {{ form_errors(form) }}
       <button class="btn btn-lg btn-block btn-primary" type="submit">
         {{ 'Request export' | trans }}
       </button>

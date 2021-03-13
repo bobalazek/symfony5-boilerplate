@@ -60,6 +60,7 @@
       {% endif %}
       {{ form_row(form.imageFile) }}
     </div>
+    {{ form_errors(form) }}
     <button class="btn btn-lg btn-block btn-primary" type="submit">
       {{ 'Save' | trans }}
     </button>

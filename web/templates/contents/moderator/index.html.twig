@@ -3,7 +3,7 @@
 {% block title %}{{ 'Moderator' | trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-  <div class="container pt-4 pb-4">
+  <div class="container my-4">
     <h1>{{ 'Moderator' | trans }}</h1>
     <div class="row">
       {% if is_granted('ROLE_USER_MODERATOR') %}

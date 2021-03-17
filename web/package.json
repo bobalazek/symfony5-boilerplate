@@ -21,7 +21,7 @@
     "scripts": {
         "dev-server": "encore dev-server",
         "dev": "encore dev",
-        "watch": "encore dev --watch",
+        "watch": "encore dev --watch --progress",
         "build": "encore production --progress",
         "lint": "npx eslint assets/apps/**/*.js",
         "lint-fix": "npx eslint --fix assets/apps/**/*.js"

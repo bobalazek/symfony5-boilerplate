@@ -115,8 +115,8 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
 
     /**
      * @SecurityAssert\UserPassword(
-     *     message="Wrong value for your current password",
-     *     groups={"settings.password"}
+     *   message="Wrong value for your current password",
+     *   groups={"settings.password"}
      * )
      */
     private $oldPlainPassword;
@@ -151,12 +151,12 @@ class User implements UserInterface, EquatableInterface, \Serializable, Interfac
      *   dimensions="imageFileEmbedded.dimensions"
      * )
      * @Assert\Image(
-     *     maxSize="4M",
-     *     allowLandscape=false,
-     *     allowLandscapeMessage="Only squared images are allowed",
-     *     allowPortrait=false,
-     *     allowPortraitMessage="Only squared images are allowed",
-     *     groups={"settings.image"}
+     *   maxSize="4M",
+     *   allowLandscape=false,
+     *   allowLandscapeMessage="Only squared images are allowed",
+     *   allowPortrait=false,
+     *   allowPortraitMessage="Only squared images are allowed",
+     *   groups={"settings.image"}
      * )
      */
     private $imageFile;

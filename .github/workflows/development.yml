@@ -47,13 +47,9 @@ jobs:
       - name: App Backend - Run tests
         run: docker exec -i s5bp_php php bin/phpunit
 
-      # CURL test
-      - name: CURL test - localhost
-        run: curl -v http://localhost
-      - name: CURL test - nginx
-        run: curl -v http://nginx
-
       # Cypress
+      - name: Cypress - Prepare
+        run: rm e2e/cypress.json && cp -b e2e/cypress.ci.json e2e/cypress.json
       - name: Cypress - Install dependencies
         run: docker exec -i s5bp_cypress yarn install --frozen-lockfile
       - name: Cypress - Run tests

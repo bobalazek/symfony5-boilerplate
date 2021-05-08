@@ -67,6 +67,20 @@ services:
     networks:
       - s5bp-app-network
 
+  cypress:
+    container_name: s5bp_cypress
+    image: cypress/included:7.2.0
+    working_dir: /e2e
+    entrypoint: tail -f /dev/null
+    env_file:
+      - .env
+    volumes:
+      - ./web:/e2e
+    depends_on:
+      - nginx
+    networks:
+      - s5bp-app-network
+
   ws:
     container_name: s5bp_ws
     build: ./docker/ws

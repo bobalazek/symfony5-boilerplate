@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  cypress:
+    entrypoint: cypress open --project .
+    environment:
+      - DISPLAY=:0
+      - CYPRESS_VIDEO=false
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix

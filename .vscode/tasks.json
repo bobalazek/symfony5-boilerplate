@@ -24,6 +24,13 @@
 		},
 		{
 			"type": "shell",
+			"command": "docker exec -ti s5bp_cypress yarn test",
+			"group": "build",
+			"label": "Cypress: Test",
+			"detail": "Runs Cypress tests"
+		},
+		{
+			"type": "shell",
 			"command": "docker exec -ti s5bp_php composer run-script php-cs-fix",
 			"group": "build",
 			"label": "PHP: PHP-CS-Fix",

@@ -8,3 +8,6 @@ docker exec -ti mnc_php composer run-script lint
 
 echo -e "========== Start running PHP tests ... =========="
 docker exec -ti mnc_php composer run-script test
+
+echo -e "========== Start running Cypress tests ... =========="
+docker exec -ti s5bp_cypress yarn test"

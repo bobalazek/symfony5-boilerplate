@@ -1,4 +1,7 @@
 {
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },

@@ -57,7 +57,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN composer global require symfony/flex --prefer-dist --no-progress --no-suggest --classmap-authoritative
 
 ## Install PHP CS Fixer
-RUN composer global require friendsofphp/php-cs-fixer --prefer-dist --no-progress --no-suggest --classmap-authoritative
+RUN composer global require friendsofphp/php-cs-fixer "2.19.0" --prefer-dist --no-progress --no-suggest --classmap-authoritative
 
 # Add composer global dependencies path to $PATH
 ENV PATH="${PATH}:/root/.composer/vendor/bin"

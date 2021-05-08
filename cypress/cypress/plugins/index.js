@@ -8,11 +8,13 @@ const axios = require('axios');
 module.exports = (on, config) => {
   on('task', {
     async 'database:recreate'() {
-      const response = await axios.get(`${config.baseUrl}/dev?action=database_recreate`);
-
-      console.log(response);
-
-      return true;
+      try {
+        await axios.get(`${config.baseUrl}/dev?action=database_recreate`);
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
     },
   });
 

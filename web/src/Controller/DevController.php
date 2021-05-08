@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class DevController extends AbstractController
     public function index(Request $request, KernelInterface $kernel)
     {
         $environment = $kernel->getEnvironment();
-        if ($environment !== 'dev') {
+        if ('dev' !== $environment) {
             throw $this->createAccessDeniedException();
         }
 
@@ -31,7 +31,7 @@ class DevController extends AbstractController
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
-        if ($action === 'database_recreate') {
+        if ('database_recreate' === $action) {
             $input = new ArrayInput([
                 'command' => 'app:database:recreate',
             ]);

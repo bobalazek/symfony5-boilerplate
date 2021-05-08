@@ -121,14 +121,14 @@
             "php bin/console lint:twig templates/",
             "php bin/console lint:yaml config/",
             "php bin/console lint:xliff translations/",
-            "php-cs-fixer fix --dry-run --diff",
+            "php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff",
             "vendor/bin/phpstan analyse -c phpstan.neon"
         ],
         "test": [
             "php bin/phpunit"
         ],
         "php-cs-fix": [
-              "php-cs-fixer fix"
+              "php-cs-fixer fix --config=.php-cs-fixer.dist.php"
         ],
         "translations-generate": [
               "php bin/console translation:update --dump-messages en --force"

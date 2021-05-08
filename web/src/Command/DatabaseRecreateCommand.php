@@ -2,10 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\Thread;
-use App\Entity\ThreadUserMessage;
-use App\Manager\EmailManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;

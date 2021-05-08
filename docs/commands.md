@@ -16,9 +16,9 @@
 * Lint twig template files: `docker exec -ti s5bp_php php bin/console lint:twig templates/`
 * Lint YAML config files: `docker exec -ti s5bp_php php bin/console lint:yaml config/`
 * Lint XLIFF translation files: `docker exec -ti s5bp_php php bin/console lint:xliff translations/`
-* Lint PHP files: `docker exec -i s5bp_php php-cs-fixer fix --dry-run --diff`
+* Lint PHP files: `docker exec -i s5bp_php php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff`
 * Lint PHP files with PHPStan: `docker exec -ti s5bp_php vendor/bin/phpstan analyse -c phpstan.neon`
-* Run PHP-CS-Fixer: `docker exec -ti s5bp_php php-cs-fixer fix`
+* Run PHP-CS-Fixer: `docker exec -ti s5bp_php php-cs-fixer fix --config=.php-cs-fixer.dist.php`
 * Run PHPUnit tests: `docker exec -ti s5bp_php php bin/phpunit`
 * Messenger queue consume: `docker exec -ti s5bp_php php bin/console messenger:consume async -vvv --time-limit=3600`
 * Messenger queue stop workers: `docker exec -ti s5bp_php php bin/console messenger:stop-workers`

@@ -6,6 +6,9 @@ Cypress.Commands.add('login', (username = 'user', password = 'password') => {
   cy.get('#password-input').type(password);
 
   cy.get('button[type="submit"]').click();
+})
 
-  cy.visit('/');
+
+Cypress.Commands.add('logout', () => {
+  cy.visit('/auth/logout');
 })

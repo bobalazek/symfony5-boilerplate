@@ -49,7 +49,7 @@ jobs:
 
       # Cypress
       - name: Cypress - Install dependencies
-        run: docker exec -ti s5bp_cypress yarn install
+        run: docker exec -ti s5bp_cypress yarn install --frozen-lockfile
       - name: Cypress - Run tests
         run: docker exec -ti s5bp_cypress yarn test
 

@@ -10,8 +10,8 @@ describe('Login', () => {
 
     cy.get('h1').contains('Login');
 
-    cy.get('#username-input').type('user');
-    cy.get('#password-input').type('password');
+    cy.get('input[name="username"]').type('user');
+    cy.get('input[name="password"]').type('password');
 
     cy.get('button[type="submit"]').click();
 
@@ -23,12 +23,12 @@ describe('Login', () => {
 
     cy.get('h1').contains('Login');
 
-    cy.get('#username-input').type('user');
-    cy.get('#password-input').type('definetlythewrongpassword');
+    cy.get('input[name="username"]').type('user');
+    cy.get('input[name="password"]').type('definetlythewrongpassword');
 
     cy.get('button[type="submit"]').click();
 
-    cy.get('.alert.alert-danger').contains('Invalid credentials');
+    cy.get('.alert.alert-danger').should('exist');
   });
 
   it('Checking if a invalid login returns an error for non-existing user', () => {
@@ -36,11 +36,11 @@ describe('Login', () => {
 
     cy.get('h1').contains('Login');
 
-    cy.get('#username-input').type('non-existing-user');
-    cy.get('#password-input').type('definetlythewrongpassword');
+    cy.get('input[name="username"]').type('non-existing-user');
+    cy.get('input[name="password"]').type('definetlythewrongpassword');
 
     cy.get('button[type="submit"]').click();
 
-    cy.get('.alert.alert-danger').contains('could not be found');
+    cy.get('.alert.alert-danger').should('exist');
   });
 });

@@ -75,7 +75,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./web:/e2e
+      - ./cypress:/e2e
     depends_on:
       - nginx
     networks:

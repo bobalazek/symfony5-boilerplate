@@ -3,11 +3,9 @@
         "@fortawesome/fontawesome-free": "^5.11.2",
         "@symfony/webpack-encore": "^0.33.0",
         "@ttskch/select2-bootstrap4-theme": "^1.3.2",
-        "axios": "^0.21.1",
         "bootstrap": "^4.5.0",
         "bs-custom-file-input": "^1.3.2",
         "core-js": "^3.0.0",
-        "cypress": "^7.2.0",
         "eslint": "^7.2.0",
         "jquery": "^3.4.1",
         "node-sass": "^4.13.0",
@@ -25,7 +23,6 @@
         "dev": "encore dev",
         "watch": "encore dev --watch --progress",
         "build": "encore production --progress",
-        "test": "npx cypress run --headless",
         "lint": "npx eslint assets/apps/**/*.js",
         "lint-fix": "npx eslint --fix assets/apps/**/*.js"
     }

@@ -48,8 +48,7 @@
 
 ### Cypress
 
+* Install cypress dependencies: `docker exec -ti s5bp_cypress yarn install`
 * Run tests: `docker exec -ti s5bp_cypress yarn test`
 * Open cypress: `docker-compose -f docker-compose.yml -f docker-compose-cypress-open.yml up --exit-code-from cypress`
-  * Since that does not yet work on windows (TBD), will need to:
-    1. Navigate into: `cd /web`
-    2. Run: `$env:CYPRESS_BASE_URL='http://localhost:83'; npx cypress open --project .`
+  * Since that does not yet work on windows (TBD), will need to run: `$env:CYPRESS_BASE_URL='http://localhost:83'; npx cypress open --project .`

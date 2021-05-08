@@ -22,21 +22,22 @@ class DevController extends AbstractController
     public function index(Request $request, KernelInterface $kernel)
     {
         $environment = $kernel->getEnvironment();
-        if ('dev' !== $environment) {
+        if (!in_array($environment, ['dev', 'test'])) {
             throw $this->createAccessDeniedException();
         }
-
-        $action = $request->query->get('action');
 
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
-        if ('database_recreate' === $action) {
-            $input = new ArrayInput([
-                'command' => 'app:database:recreate',
-            ]);
-        } else {
-            throw $this->createNotFoundException();
+        $action = $request->query->get('action');
+        switch ($action) {
+            case 'database_recreate':
+                $input = new ArrayInput([
+                    'command' => 'app:database:recreate',
+                ]);
+                break;
+            default:
+                throw $this->createNotFoundException();
         }
 
         $output = new BufferedOutput();

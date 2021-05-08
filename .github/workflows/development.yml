@@ -49,9 +49,9 @@ jobs:
 
       # CURL test
       - name: CURL test - localhost
-        run: curl http://localhost
+        run: curl -v http://localhost
       - name: CURL test - nginx
-        run: curl http://nginx
+        run: curl -v http://nginx
 
       # Cypress
       - name: Cypress - Install dependencies

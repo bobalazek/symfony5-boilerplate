@@ -61,6 +61,13 @@ jobs:
       - name: App Backend - Lint PHP files (with PHPStan)
         run: docker exec -i s5bp_php vendor/bin/phpstan analyse
 
-      - name: Artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-artifacts
+          path: |
+            e2e/cypress/screenshots
+
+      - name: Download Artifacts
         uses: actions/download-artifact@v2
-        if: always()
+        if: ${{ always() }}

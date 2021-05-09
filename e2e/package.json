@@ -5,6 +5,6 @@
     },
     "private": true,
     "scripts": {
-        "test": "DEBUG=cypress:* npx cypress run --headless --config video=false"
+        "test": "npx cypress run --headless --config video=false"
     }
 }

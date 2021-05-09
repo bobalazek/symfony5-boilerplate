@@ -6,7 +6,7 @@ describe('Login', () => {
   });
 
   it('Checking if a valid login works', () => {
-    cy.visit('/auth/login');
+    cy.debug().visit('/auth/login').debug();
 
     cy.get('h1').contains('Login');
 

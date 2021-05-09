@@ -60,3 +60,7 @@ jobs:
         run: cp -b web/phpstan.neon.ci web/phpstan.neon
       - name: App Backend - Lint PHP files (with PHPStan)
         run: docker exec -i s5bp_php vendor/bin/phpstan analyse
+
+      - name: Artifacts
+        uses: actions/download-artifact@v2
+        if: always()

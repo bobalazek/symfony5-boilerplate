@@ -21,6 +21,7 @@ services:
     build: ./docker/nginx
     volumes:
       - ./web:/var/www/web
+      - ./logs:/var/log/nginx # TODO: REMOVE AFTER DEBUG
     links:
       - php
     depends_on:

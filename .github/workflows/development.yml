@@ -46,17 +46,20 @@ jobs:
         run: docker exec -i s5bp_php php bin/phpunit
 
       # Cypress
-      - name: Cypress - Change environment to production
-        run: sed -i 's/APP_ENV=test/APP_ENV=prod/g' .env
-      - name: Cypress - Rebuild Docker containers
-        run: docker-compose up -d
-      - name: Cypress - Cache clear and warmup
-        run: docker exec -i s5bp_php php bin/console cache:clear
-      - name: Cypress - Premission fixes
-        run: sudo chmod -R 777 web/var
-      # We need to recreate the database here, because in the APP_ENV=test, the sessions table is never created
-      - name: App Backend - Database recreate
-        run: docker exec -i s5bp_php composer run-script database-recreate
+      # We need to recreate the database here, because in the APP_ENV=test,
+      # the sessions table is never created.
+      # We also first replace the DoctrineFixturesBundle to be available in production,
+      # so we can actually load the fixtures. Not sure why we need to require it again.
+      - name: Cypress - Prepare
+        run: |
+          sed -i 's|APP_ENV=..*|APP_ENV=prod|g' .env
+          docker-compose up -d
+          docker exec -i s5bp_php php bin/console cache:clear
+          docker exec -i s5bp_php composer require doctrine/doctrine-fixtures-bundle
+          sudo chmod -R 777 web/var
+          sed -i "s|Doctrine\\\Bundle\\\FixturesBundle\\\DoctrineFixturesBundle::class..*|Doctrine\\\Bundle\\\FixturesBundle\\\DoctrineFixturesBundle::class => ['all' => true],|g" web/config/bundles.php
+          docker exec -i s5bp_php php bin/console doctrine:schema:update --force
+          docker exec -i s5bp_php php bin/console doctrine:fixtures:load --no-interaction --env=dev
       - name: Cypress - Install dependencies
         run: docker exec -i s5bp_cypress yarn install --frozen-lockfile
       - name: Cypress - Run tests
@@ -80,6 +83,8 @@ jobs:
             e2e/cypress/screenshots
             e2e/cypress/videos
             web/var/log
+            web/config/bundles.php
+            web/vendor/composer
 
       - name: Download Artifacts
         uses: actions/download-artifact@v2

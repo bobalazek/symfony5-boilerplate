@@ -51,7 +51,6 @@ jobs:
           sed -i 's|APP_ENV=..*|APP_ENV=dev|g' .env
           docker-compose up -d
           docker exec -i s5bp_php php bin/console cache:clear
-          docker exec -i s5bp_php composer require doctrine/doctrine-fixtures-bundle
           sudo chmod -R 777 web/var
           docker exec -i s5bp_php php bin/console doctrine:schema:update --force
           docker exec -i s5bp_php php bin/console doctrine:fixtures:load --no-interaction

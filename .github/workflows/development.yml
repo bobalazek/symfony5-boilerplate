@@ -52,9 +52,8 @@ jobs:
         run: docker exec -i s5bp_php php bin/console cache:clear
       - name: Cypress - Install dependencies
         run: docker exec -i s5bp_cypress yarn install --frozen-lockfile
-# TODO: Not yet working. It seems as if the session isn't persisted between requests ...
-#      - name: Cypress - Run tests
-#        run: docker exec -i s5bp_cypress yarn test --config video=true # Override the default behaviour where we disable the video
+      - name: Cypress - Run tests
+        run: docker exec -i s5bp_cypress yarn test --config video=true # Override the default behaviour where we disable the video
 
       # App Backend - Lint PHP files (with PHP Stan)
       # This one needs to be at the end, because the tests above

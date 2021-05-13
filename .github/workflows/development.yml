@@ -54,6 +54,9 @@ jobs:
         run: docker-compose up -d
       - name: Cypress - Cache clear and warmup
         run: docker exec -i s5bp_php php bin/console cache:clear
+      # We need to re-run the database schema here, because in the APP_ENV=test, the sessions table is never created
+      - name: App Backend - Database schema fix
+        run: docker exec -i s5bp_php php bin/console doctrine:schema:update --force
       - name: Cypress - Install dependencies
         run: docker exec -i s5bp_cypress yarn install --frozen-lockfile
       - name: Cypress - Run tests

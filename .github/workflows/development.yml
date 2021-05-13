@@ -48,12 +48,12 @@ jobs:
         run: docker exec -i s5bp_php php bin/phpunit
 
       # Cypress
-      - name: Cypress - Cache clear
-        run: docker exec -i s5bp_php php bin/console cache:clear
       - name: Cypress - Change environment to production
         run: sed -i 's/APP_ENV=test/APP_ENV=prod/g' .env
       - name: Cypress - Rebuild Docker containers
         run: docker-compose up -d
+      - name: Cypress - Cache clear and warmup
+        run: docker exec -i s5bp_php php bin/console cache:clear
       - name: Cypress - Install dependencies
         run: docker exec -i s5bp_cypress yarn install --frozen-lockfile
       - name: Cypress - Run tests

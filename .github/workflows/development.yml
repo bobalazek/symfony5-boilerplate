@@ -28,10 +28,8 @@ jobs:
       - name: App Backend - Lint PHP files
         run: docker exec -i s5bp_php php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff
 
-      - name: App Backend - Update database schema
-        run: docker exec -i s5bp_php php bin/console doctrine:schema:update --force
-      - name: App Backend - Load database fixtures
-        run: docker exec -i s5bp_php php bin/console doctrine:fixtures:load --no-interaction
+      - name: App Backend - Database recreate
+        run: docker exec -i s5bp_php composer run-script database-recreate
 
       # App Frontend - Install dependencies, lint files & build the app
       - name: App Frontend - Install dependencies
@@ -55,10 +53,10 @@ jobs:
       - name: Cypress - Cache clear and warmup
         run: docker exec -i s5bp_php php bin/console cache:clear
       - name: Cypress - Premission fixes
-        run: chmod -R 777 web/var
-      # We need to re-run the database schema here, because in the APP_ENV=test, the sessions table is never created
-      - name: App Backend - Database schema fix
-        run: docker exec -i s5bp_php php bin/console doctrine:schema:update --force
+        run: sudo chmod -R 777 web/var
+      # We need to recreate the database here, because in the APP_ENV=test, the sessions table is never created
+      - name: App Backend - Database recreate
+        run: docker exec -i s5bp_php composer run-script database-recreate
       - name: Cypress - Install dependencies
         run: docker exec -i s5bp_cypress yarn install --frozen-lockfile
       - name: Cypress - Run tests

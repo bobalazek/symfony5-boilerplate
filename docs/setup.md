@@ -16,4 +16,6 @@
   * App - Frontend:
     * Run: `docker exec -ti s5bp_node yarn install` (installs dependencies)
     * Run: `docker exec -ti s5bp_node yarn run build` (build the frontend app)
+  * App - E2E Testing:
+    * Run: `docker exec -ti s5bp_cypress yarn install` (installs dependencies)
 * You are ready to go to the next step - [Development](development.md)!

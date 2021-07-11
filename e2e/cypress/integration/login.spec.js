@@ -43,4 +43,14 @@ describe('Login', () => {
 
     cy.get('.alert.alert-danger').should('exist');
   });
+
+  it('Checking if you get redirected if you are already logged in', () => {
+    cy.login();
+
+    cy.visit('/auth/login');
+
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/');
+    });
+  });
 });

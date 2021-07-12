@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Users', () => {
+describe('Messaging', () => {
     before(() => {
         cy.task('database:recreate');
     });

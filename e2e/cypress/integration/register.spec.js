@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Signup', () => {
+describe('Register', () => {
   before(() => {
     cy.task('database:recreate');
   });

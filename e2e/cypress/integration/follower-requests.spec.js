@@ -32,7 +32,7 @@ describe('FollowerRequests', () => {
     cy.get('.card .card-body small').contains('(ana)');
   };
 
-  before(() => {
+  beforeEach(() => {
     cy.task('database:recreate');
   });
 

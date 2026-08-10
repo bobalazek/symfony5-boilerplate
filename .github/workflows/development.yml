@@ -77,6 +77,7 @@ jobs:
             e2e/cypress/screenshots
             e2e/cypress/videos
             web/var/log
+          retention-days: 7 # otherwise cypress videos sit in the account storage quota for 90 days
 
       - name: Download Artifacts
         uses: actions/download-artifact@v2

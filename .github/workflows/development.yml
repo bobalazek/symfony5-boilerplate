@@ -13,7 +13,7 @@ jobs:
       - name: Docker compose - Prepare .env file
         run: cp -b .env.ci .env
       - name: Docker compose - Build & start the containers
-        run: docker-compose up -d
+        run: docker compose up -d
 
       # App Backend - Install dependencies, lint files & prepare database
       - name: App Backend - Install dependencies
@@ -49,7 +49,7 @@ jobs:
       - name: Cypress - Prepare
         run: |
           sed -i 's|APP_ENV=..*|APP_ENV=dev|g' .env
-          docker-compose up -d
+          docker compose up -d
           docker exec -i s5bp_php php bin/console cache:clear
           sudo chmod -R 777 web/var
           docker exec -i s5bp_php php bin/console doctrine:schema:update --force

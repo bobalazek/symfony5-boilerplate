@@ -7,7 +7,7 @@ jobs:
     name: CI Pipeline
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # Docker compose - Prepare containers
       - name: Docker compose - Prepare .env file
@@ -69,7 +69,7 @@ jobs:
 
       # Artifacts
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: artifacts
@@ -80,5 +80,5 @@ jobs:
           retention-days: 7 # otherwise cypress videos sit in the account storage quota for 90 days
 
       - name: Download Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         if: ${{ always() }}
